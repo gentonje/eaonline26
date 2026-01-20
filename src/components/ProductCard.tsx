@@ -31,11 +31,11 @@ export default function ProductCard({ product, showPrice = true, actions, onPres
                     />
                 </View>
                 <View className="p-3">
-                    <Text className="font-semibold text-gray-900 mb-1" numberOfLines={1}>
+                    <Text className="font-bold text-gray-900 mb-1" numberOfLines={1}>
                         {product.title}
                     </Text>
                     {showPrice && (
-                        <Text className="text-blue-600 font-bold">
+                        <Text className="text-accent font-black">
                             {product.currency || '$'} {product.price}
                         </Text>
                     )}

@@ -51,9 +51,15 @@ function AppTabs() {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: '#2563eb',
+                tabBarActiveTintColor: '#00A082',
                 tabBarInactiveTintColor: '#64748b',
                 headerShown: false,
+                tabBarStyle: {
+                    borderTopWidth: 1,
+                    borderTopColor: '#f1f5f9',
+                    height: 60,
+                    paddingBottom: 8,
+                }
             }}
         >
             <Tab.Screen
@@ -120,15 +126,15 @@ function AppDrawer() {
     const { isAdmin, isSuperAdmin } = useAuth();
 
     return (
-        <Drawer.Navigator
-            initialRouteName="BrowseProducts"
-            screenOptions={{
-                headerShown: true,
-                headerTintColor: '#2563eb',
-                drawerActiveTintColor: '#2563eb',
-                drawerInactiveTintColor: '#64748b',
-            }}
-        >
+            <Drawer.Navigator
+                initialRouteName="BrowseProducts"
+                screenOptions={{
+                    headerShown: true,
+                    headerTintColor: '#00A082',
+                    drawerActiveTintColor: '#00A082',
+                    drawerInactiveTintColor: '#64748b',
+                }}
+            >
             <Drawer.Screen
                 name="Dashboard"
                 component={DashboardScreen}

@@ -43,16 +43,19 @@ export default function BrowseProductsScreen() {
     if (loading) {
         return (
             <View className="flex-1 justify-center items-center">
-                <ActivityIndicator size="large" color="#2563eb" />
+                <ActivityIndicator size="large" color="#00A082" />
             </View>
         );
     }
 
     return (
-        <View style={{ flex: 1 }} className="bg-gray-50">
+        <View style={{ flex: 1 }} className="bg-white">
+            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px]">
+                <Text className="text-2xl font-black text-black">Browse Products</Text>
+            </View>
             <ScrollView
                 style={{ flex: 1 }}
-                contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: 100, paddingHorizontal: 16, paddingTop: 16 }}
                 showsVerticalScrollIndicator={true}
             >
                 <ProductGrid
