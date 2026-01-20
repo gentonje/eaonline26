@@ -198,7 +198,13 @@ export default function AddProductScreen() {
             </KeyboardAvoidingView>
 
             <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className="p-6 bg-white border-t border-gray-50">
-                <TouchableOpacity onPress={handleSubmit} disabled={loading} className="bg-black py-5 rounded-2xl items-center">{loading ? <ActivityIndicator color="white" /> : <Text className="text-white font-black text-xl uppercase">List Product</Text>}</TouchableOpacity>
+                <TouchableOpacity onPress={handleSubmit} disabled={loading} className="bg-black py-5 rounded-2xl items-center">
+                    {loading ? (
+                        <ActivityIndicator color="white" />
+                    ) : (
+                        <Text className="text-white font-black text-xl uppercase tracking-widest">List Product</Text>
+                    )}
+                </TouchableOpacity>
             </View>
         </View>
     );
