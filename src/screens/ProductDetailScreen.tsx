@@ -17,7 +17,7 @@ export default function ProductDetailScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
     const { width, height: windowHeight } = useWindowDimensions();
-    const GALLERY_HEIGHT = Math.min(width, windowHeight * 0.5);
+    const GALLERY_HEIGHT = Math.min(width, windowHeight * 0.35);
 
     const { productId } = route.params as { productId: string };
 
