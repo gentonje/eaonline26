@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, useWindowDimensions } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, useWindowDimensions, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { supabase } from '../lib/supabase';
@@ -27,6 +27,9 @@ export default function ProductDetailScreen() {
     const [similarProducts, setSimilarProducts] = useState<any[]>([]);
     const [selectedCarouselImage, setSelectedCarouselImage] = useState<string | null>(null);
 
+    const [reviews, setReviews] = useState<any[]>([]);
+    const [commentText, setCommentText] = useState('');
+
     const { addToCart, toggleWishlist } = useShopping();
 
     const cartScale = useSharedValue(1);
@@ -42,7 +45,56 @@ export default function ProductDetailScreen() {
 
     useEffect(() => {
         fetchProductDetails();
+        fetchReviews();
     }, [productId]);
+
+    async function fetchReviews() {
+        try {
+            // Check if reviews table exists first by a simple query
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*, profiles(username)')
+                .eq('product_id', productId)
+                .order('created_at', { ascending: false });
+            
+            if (error) {
+                if (error.code === 'PGRST116' || error.message.includes('not found')) {
+                    console.log('Reviews table might not exist yet');
+                    return;
+                }
+                throw error;
+            }
+            setReviews(data || []);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    }
+
+    async function submitReview(rating: number, text: string) {
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                Alert.alert('Login Required', 'Please login to leave a review');
+                return;
+            }
+
+            const { error } = await supabase
+                .from('reviews')
+                .insert([{
+                    user_id: user.id,
+                    product_id: productId,
+                    rating,
+                    comment: text
+                }]);
+
+            if (error) throw error;
+            fetchReviews();
+            setCommentText('');
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            Alert.alert('Error', 'Failed to submit review');
+        }
+    }
 
     async function fetchProductDetails() {
         try {
@@ -311,7 +363,60 @@ export default function ProductDetailScreen() {
                             </View>
                         </View>
 
-                        {/* Similar Products Section */}
+                        {/* Reviews Section */}
+                    <View className="mt-8 border-t border-gray-100 pt-8">
+                        <Text className="text-xl font-bold text-gray-900 mb-4 px-1">Reviews & Comments</Text>
+                        
+                        {/* Quick Review Input */}
+                        <View className="bg-gray-50 p-4 rounded-xl mb-6">
+                            <Text className="text-sm font-semibold text-gray-700 mb-2">Leave a review</Text>
+                            <View className="flex-row mb-3">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <TouchableOpacity key={star} onPress={() => submitReview(star, commentText)}>
+                                        <Heart size={24} color="#2563eb" fill={star <= 0 ? "#2563eb" : "none"} className="mr-2" />
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View className="flex-row items-center bg-white rounded-lg border border-gray-200 px-3 py-1">
+                                <TextInput
+                                    className="flex-1 py-2 text-gray-800"
+                                    placeholder="Write a comment..."
+                                    value={commentText}
+                                    onChangeText={setCommentText}
+                                    multiline
+                                />
+                                <TouchableOpacity 
+                                    onPress={() => submitReview(5, commentText)}
+                                    className="ml-2 bg-blue-600 p-2 rounded-full"
+                                >
+                                    <Text className="text-white text-xs font-bold px-2">Post</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        {reviews.length > 0 ? (
+                            reviews.map((review) => (
+                                <View key={review.id} className="mb-6 pb-6 border-b border-gray-50">
+                                    <View className="flex-row justify-between items-center mb-2">
+                                        <Text className="font-bold text-gray-900">{review.profiles?.username || 'User'}</Text>
+                                        <View className="flex-row">
+                                            {[...Array(review.rating)].map((_, i) => (
+                                                <Heart key={i} size={14} color="#2563eb" fill="#2563eb" />
+                                            ))}
+                                        </View>
+                                    </View>
+                                    <Text className="text-gray-600 mb-2">{review.comment}</Text>
+                                    <Text className="text-xs text-gray-400">
+                                        {new Date(review.created_at).toLocaleDateString()}
+                                    </Text>
+                                </View>
+                            ))
+                        ) : (
+                            <Text className="text-gray-500 italic px-1">No reviews yet. Be the first to review!</Text>
+                        )}
+                    </View>
+
+                    {/* Similar Products Section */}
                         {similarProducts.length > 0 && (
                             <View className="mt-8 border-t border-gray-100 pt-8">
                                 <View className="flex-row justify-between items-center mb-4 px-1">
