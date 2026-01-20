@@ -177,7 +177,7 @@ export default function ProductDetailScreen() {
                 style={{ flex: 1 }}
                 contentContainerStyle={{
                     flexGrow: 1,
-                    paddingBottom: insets.bottom + 120
+                    paddingBottom: insets.bottom + 100
                 }}
                 showsVerticalScrollIndicator={true}
                 keyboardShouldPersistTaps="handled"
