@@ -309,18 +309,23 @@ export default function ProductDetailScreen() {
                         </View>
                     </View>
 
-                    {/* Similar Products Carousel */}
+                    {/* Similar Products Section */}
                     {similarProducts.length > 0 && (
-                        <View className="mt-8 mb-4">
-                            <Text className="text-xl font-bold text-gray-900 mb-4 px-1">Similar Products</Text>
+                        <View className="mt-8 border-t border-gray-100 pt-8">
+                            <View className="flex-row justify-between items-center mb-4 px-1">
+                                <Text className="text-xl font-bold text-gray-900">Similar Products</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Browse', { category: product.category })}>
+                                    <Text className="text-blue-600 font-semibold">See All</Text>
+                                </TouchableOpacity>
+                            </View>
                             <ScrollView
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                className="flex-row"
                                 contentContainerStyle={{ paddingRight: 20 }}
+                                className="flex-row"
                             >
                                 {similarProducts.map((p) => (
-                                    <View key={p.id} className="w-48 mr-4">
+                                    <View key={p.id} style={{ width: 200 }} className="mr-4">
                                         <ProductCard
                                             product={p}
                                             onPress={() => {
