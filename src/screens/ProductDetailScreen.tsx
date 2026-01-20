@@ -173,68 +173,40 @@ export default function ProductDetailScreen() {
                 </AnimatedPressable>
             </View>
 
-            <ScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={{
-                    flexGrow: 1,
-                    paddingBottom: insets.bottom + 100
-                }}
-                showsVerticalScrollIndicator={true}
-                keyboardShouldPersistTaps="handled"
-            >
-                {/* Main Image */}
-                <View style={{ height: GALLERY_HEIGHT }} className="bg-gray-50">
-                    <Image
-                        source={{ uri: selectedCarouselImage || mainImageUrl }}
-                        style={{ width: '100%', height: GALLERY_HEIGHT }}
-                        resizeMode="contain"
-                    />
-                </View>
+            <View style={{ flex: 1 }}>
+                <ScrollView
+                    style={{ flex: 1 }}
+                    contentContainerStyle={{
+                        paddingBottom: insets.bottom + 100
+                    }}
+                    showsVerticalScrollIndicator={true}
+                    keyboardShouldPersistTaps="handled"
+                    scrollEnabled={true}
+                >
+                    {/* Main Image */}
+                    <View style={{ height: GALLERY_HEIGHT }} className="bg-gray-50">
+                        <Image
+                            source={{ uri: selectedCarouselImage || mainImageUrl }}
+                            style={{ width: '100%', height: GALLERY_HEIGHT }}
+                            resizeMode="contain"
+                        />
+                    </View>
 
-                {/* Additional Images Carousel */}
-                {additionalImageUrls.length > 0 && (
-                    <View className="bg-white border-b border-gray-100 pb-4">
-                        <Text className="text-sm font-semibold text-gray-700 px-5 py-3 uppercase tracking-wide">
-                            More Photos ({additionalImageUrls.length})
-                        </Text>
-                        <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 8 }}
-                            className="flex-row"
-                        >
-                            {/* Show main image as first option in carousel */}
-                            <TouchableOpacity
-                                onPress={() => setSelectedCarouselImage(null)}
-                                className="mr-3"
-                                activeOpacity={0.8}
+                    {/* Additional Images Carousel */}
+                    {additionalImageUrls.length > 0 && (
+                        <View className="bg-white border-b border-gray-100 pb-4">
+                            <Text className="text-sm font-semibold text-gray-700 px-5 py-3 uppercase tracking-wide">
+                                More Photos ({additionalImageUrls.length})
+                            </Text>
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 8 }}
+                                className="flex-row"
                             >
-                                <View
-                                    style={{
-                                        width: 100,
-                                        height: 100,
-                                        borderRadius: 12,
-                                        borderWidth: selectedCarouselImage === null ? 3 : 1,
-                                        borderColor: selectedCarouselImage === null ? '#f97316' : '#e5e7eb',
-                                        overflow: 'hidden'
-                                    }}
-                                >
-                                    <Image
-                                        source={{ uri: mainImageUrl }}
-                                        style={{ width: '100%', height: '100%' }}
-                                        resizeMode="cover"
-                                    />
-                                    {selectedCarouselImage === null && (
-                                        <View style={{ position: 'absolute', top: 4, left: 4, backgroundColor: '#f97316', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 2 }}>
-                                            <Text className="text-white font-bold text-xs">Main</Text>
-                                        </View>
-                                    )}
-                                </View>
-                            </TouchableOpacity>
-                            {additionalImageUrls.map((img: string, index: number) => (
+                                {/* Show main image as first option in carousel */}
                                 <TouchableOpacity
-                                    key={`additional-image-${index}`}
-                                    onPress={() => setSelectedCarouselImage(img)}
+                                    onPress={() => setSelectedCarouselImage(null)}
                                     className="mr-3"
                                     activeOpacity={0.8}
                                 >
@@ -243,107 +215,137 @@ export default function ProductDetailScreen() {
                                             width: 100,
                                             height: 100,
                                             borderRadius: 12,
-                                            borderWidth: selectedCarouselImage === img ? 3 : 1,
-                                            borderColor: selectedCarouselImage === img ? '#f97316' : '#e5e7eb',
+                                            borderWidth: selectedCarouselImage === null ? 3 : 1,
+                                            borderColor: selectedCarouselImage === null ? '#f97316' : '#e5e7eb',
                                             overflow: 'hidden'
                                         }}
                                     >
                                         <Image
-                                            source={{ uri: img }}
+                                            source={{ uri: mainImageUrl }}
                                             style={{ width: '100%', height: '100%' }}
                                             resizeMode="cover"
                                         />
+                                        {selectedCarouselImage === null && (
+                                            <View style={{ position: 'absolute', top: 4, left: 4, backgroundColor: '#f97316', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 2 }}>
+                                                <Text className="text-white font-bold text-xs">Main</Text>
+                                            </View>
+                                        )}
                                     </View>
                                 </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-                )}
-
-                {/* Product Info */}
-                <View className="p-5">
-                    <View className="flex-row justify-between items-start mb-4">
-                        <View className="flex-1 mr-4">
-                            <Text className="text-sm text-blue-600 font-semibold mb-1 uppercase tracking-wider">
-                                {product.category || 'General'}
-                            </Text>
-                            <Text className="text-2xl font-bold text-gray-900 leading-tight">
-                                {product.title}
-                            </Text>
-                        </View>
-                        <Text className="text-xl font-bold text-blue-600">
-                            {product.currency} {product.price}
-                        </Text>
-                    </View>
-
-                    {/* Seller Info */}
-                    <View className="flex-row items-center p-3 border-y border-gray-100 mb-4 space-x-3">
-                        <View className="w-10 h-10 bg-gray-200 rounded-full justify-center items-center">
-                            <Text className="text-lg font-bold text-gray-500">
-                                {product.profiles?.username?.[0]?.toUpperCase() || 'S'}
-                            </Text>
-                        </View>
-                        <View>
-                            <Text className="font-semibold text-gray-900">
-                                {product.profiles?.username || 'Seller'}
-                            </Text>
-                            <Text className="text-xs text-gray-500">Verified Seller</Text>
-                        </View>
-                    </View>
-
-                    {/* Description */}
-                    <View className="mb-6">
-                        <Text className="text-lg font-semibold text-gray-900 mb-2">Description</Text>
-                        <Text className="text-gray-600 leading-6">
-                            {product.description || 'No description available.'}
-                        </Text>
-                    </View>
-
-                    {/* Additional Details */}
-                    <View className="flex-row flex-wrap gap-2 mt-2">
-                        <View className="bg-gray-100 px-3 py-1 rounded-full">
-                            <Text className="text-xs text-gray-600">Stock: {product.in_stock ? 'In Stock' : 'Out of Stock'}</Text>
-                        </View>
-                        <View className="bg-gray-100 px-3 py-1 rounded-full">
-                            <Text className="text-xs text-gray-600">Views: {product.views || 0}</Text>
-                        </View>
-                    </View>
-
-                    {/* Similar Products Section */}
-                    {similarProducts.length > 0 && (
-                        <View className="mt-8 border-t border-gray-100 pt-8">
-                            <View className="flex-row justify-between items-center mb-4 px-1">
-                                <Text className="text-xl font-bold text-gray-900">Similar Products</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('Browse', { category: product.category })}>
-                                    <Text className="text-blue-600 font-semibold">See All</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <ScrollView
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                contentContainerStyle={{ paddingRight: 20 }}
-                                className="flex-row"
-                            >
-                                {similarProducts.map((p) => (
-                                    <View key={p.id} style={{ width: 200 }} className="mr-4">
-                                        <ProductCard
-                                            product={p}
-                                            onPress={() => {
-                                                navigation.push('ProductDetail', { productId: p.id });
+                                {additionalImageUrls.map((img: string, index: number) => (
+                                    <TouchableOpacity
+                                        key={`additional-image-${index}`}
+                                        onPress={() => setSelectedCarouselImage(img)}
+                                        className="mr-3"
+                                        activeOpacity={0.8}
+                                    >
+                                        <View
+                                            style={{
+                                                width: 100,
+                                                height: 100,
+                                                borderRadius: 12,
+                                                borderWidth: selectedCarouselImage === img ? 3 : 1,
+                                                borderColor: selectedCarouselImage === img ? '#f97316' : '#e5e7eb',
+                                                overflow: 'hidden'
                                             }}
-                                        />
-                                    </View>
+                                        >
+                                            <Image
+                                                source={{ uri: img }}
+                                                style={{ width: '100%', height: '100%' }}
+                                                resizeMode="cover"
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
                                 ))}
                             </ScrollView>
                         </View>
                     )}
-                </View>
-            </ScrollView>
+
+                    {/* Product Info */}
+                    <View className="p-5">
+                        <View className="flex-row justify-between items-start mb-4">
+                            <View className="flex-1 mr-4">
+                                <Text className="text-sm text-blue-600 font-semibold mb-1 uppercase tracking-wider">
+                                    {product.category || 'General'}
+                                </Text>
+                                <Text className="text-2xl font-bold text-gray-900 leading-tight">
+                                    {product.title}
+                                </Text>
+                            </View>
+                            <Text className="text-xl font-bold text-blue-600">
+                                {product.currency} {product.price}
+                            </Text>
+                        </View>
+
+                        {/* Seller Info */}
+                        <View className="flex-row items-center p-3 border-y border-gray-100 mb-4 space-x-3">
+                            <View className="w-10 h-10 bg-gray-200 rounded-full justify-center items-center">
+                                <Text className="text-lg font-bold text-gray-500">
+                                    {product.profiles?.username?.[0]?.toUpperCase() || 'S'}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text className="font-semibold text-gray-900">
+                                    {product.profiles?.username || 'Seller'}
+                                </Text>
+                                <Text className="text-xs text-gray-500">Verified Seller</Text>
+                            </View>
+                        </View>
+
+                        {/* Description */}
+                        <View className="mb-6">
+                            <Text className="text-lg font-semibold text-gray-900 mb-2">Description</Text>
+                            <Text className="text-gray-600 leading-6">
+                                {product.description || 'No description available.'}
+                            </Text>
+                        </View>
+
+                        {/* Additional Details */}
+                        <View className="flex-row flex-wrap gap-2 mt-2">
+                            <View className="bg-gray-100 px-3 py-1 rounded-full">
+                                <Text className="text-xs text-gray-600">Stock: {product.in_stock ? 'In Stock' : 'Out of Stock'}</Text>
+                            </View>
+                            <View className="bg-gray-100 px-3 py-1 rounded-full">
+                                <Text className="text-xs text-gray-600">Views: {product.views || 0}</Text>
+                            </View>
+                        </View>
+
+                        {/* Similar Products Section */}
+                        {similarProducts.length > 0 && (
+                            <View className="mt-8 border-t border-gray-100 pt-8">
+                                <View className="flex-row justify-between items-center mb-4 px-1">
+                                    <Text className="text-xl font-bold text-gray-900">Similar Products</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Browse', { category: product.category })}>
+                                        <Text className="text-blue-600 font-semibold">See All</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    contentContainerStyle={{ paddingRight: 20 }}
+                                    className="flex-row"
+                                >
+                                    {similarProducts.map((p) => (
+                                        <View key={p.id} style={{ width: 200 }} className="mr-4">
+                                            <ProductCard
+                                                product={p}
+                                                onPress={() => {
+                                                    navigation.push('ProductDetail', { productId: p.id });
+                                                }}
+                                            />
+                                        </View>
+                                    ))}
+                                </ScrollView>
+                            </View>
+                        )}
+                    </View>
+                </ScrollView>
+            </View>
 
             {/* Bottom Action Bar */}
             <View
                 style={{ paddingBottom: Math.max(insets.bottom, 16) }}
-                className="p-4 bg-white border-t border-gray-100 absolute bottom-0 left-0 right-0 z-20"
+                className="p-4 bg-white border-t border-gray-100"
             >
                 <AnimatedPressable
                     style={[{ width: '100%' }, cartAnimatedStyle]}
