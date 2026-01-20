@@ -9,6 +9,7 @@ config.server = {
   enhanceMiddleware: (middleware) => {
     return (req, res, next) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('X-Forwarded-Host', '*');
       return middleware(req, res, next);
     };
   },
