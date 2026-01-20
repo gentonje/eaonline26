@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Ale
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { supabase } from '../lib/supabase';
-import { ArrowLeft, ShoppingCart, Heart } from 'lucide-react-native';
+import { ArrowLeft, ShoppingCart, Heart, ShoppingBag } from 'lucide-react-native';
 import { useShopping } from '../hooks/useShopping';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { getImageUrl } from '../lib/image-utils';
@@ -50,7 +50,6 @@ export default function ProductDetailScreen() {
 
     async function fetchReviews() {
         try {
-            // Check if reviews table exists first by a simple query
             const { data, error } = await supabase
                 .from('reviews')
                 .select('*, profiles(username)')
@@ -58,10 +57,7 @@ export default function ProductDetailScreen() {
                 .order('created_at', { ascending: false });
             
             if (error) {
-                if (error.code === 'PGRST116' || error.message.includes('not found')) {
-                    console.log('Reviews table might not exist yet');
-                    return;
-                }
+                if (error.code === 'PGRST116' || error.message.includes('not found')) return;
                 throw error;
             }
             setReviews(data || []);
@@ -179,24 +175,21 @@ export default function ProductDetailScreen() {
     if (loading) {
         return (
             <View className="flex-1 justify-center items-center bg-white">
-                <ActivityIndicator size="large" color="#2563eb" />
+                <ActivityIndicator size="large" color="#00A082" />
             </View>
         );
     }
 
     if (!product) return null;
 
-    // Get all product images sorted by display_order
     let allImages = product.product_images?.sort((a: any, b: any) => 
         (a.display_order || 0) - (b.display_order || 0)
     ) || [];
 
-    // Fallback to storage_path if no product_images
     if (allImages.length === 0 && product.storage_path) {
         allImages = [{ storage_path: product.storage_path, is_main: true, display_order: 0 }];
     }
 
-    // Separate main image and additional images
     const mainImage = allImages.find((img: any) => img.is_main) || allImages[0];
     const additionalImages = allImages.filter((img: any) => img !== mainImage);
 
@@ -204,182 +197,124 @@ export default function ProductDetailScreen() {
     const additionalImageUrls = additionalImages.map((img: any) => getImageUrl(img.storage_path));
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            {/* Header */}
-            <View
-                style={{ paddingTop: Math.max(insets.top, 20) }}
-                className="absolute top-0 left-0 right-0 z-10 flex-row justify-between items-center p-4"
-            >
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    className="w-10 h-10 bg-white/80 rounded-full justify-center items-center shadow-sm"
-                >
-                    <ArrowLeft color="#000" size={24} />
-                </TouchableOpacity>
-                <AnimatedPressable
-                    onPress={handleAddToWishlist}
-                    style={wishlistAnimatedStyle}
-                    className="w-10 h-10 bg-white/80 rounded-full justify-center items-center shadow-sm"
-                >
-                    <Heart color={isWishlisted ? "#FFD700" : "#000"} fill={isWishlisted ? "#FFD700" : "none"} size={24} />
-                </AnimatedPressable>
+        <View style={{ flex: 1 }} className="bg-white">
+            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px] z-20">
+                <View className="flex-row items-center justify-between">
+                    <View className="flex-row items-center">
+                        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
+                            <ArrowLeft size={24} color="black" />
+                        </TouchableOpacity>
+                        <Text className="text-2xl font-black text-black">Details</Text>
+                    </View>
+                    <AnimatedPressable
+                        onPress={handleAddToWishlist}
+                        style={wishlistAnimatedStyle}
+                        className="w-10 h-10 bg-white/50 rounded-full justify-center items-center"
+                    >
+                        <Heart color={isWishlisted ? "#00A082" : "black"} fill={isWishlisted ? "#00A082" : "none"} size={24} />
+                    </AnimatedPressable>
+                </View>
             </View>
 
-            <View style={{ flex: 1 }}>
-                <ScrollView
-                    style={{ flex: 1 }}
-                    contentContainerStyle={{
-                        paddingBottom: insets.bottom + 100
-                    }}
-                    showsVerticalScrollIndicator={true}
-                    persistentScrollbar={true}
-                    keyboardShouldPersistTaps="handled"
-                    scrollEnabled={true}
-                >
-                    {/* Main Image */}
-                    <View style={{ height: GALLERY_HEIGHT }} className="bg-gray-50">
-                        <Image
-                            source={{ uri: selectedCarouselImage || mainImageUrl }}
-                            style={{ width: '100%', height: GALLERY_HEIGHT }}
-                            resizeMode="contain"
-                        />
-                    </View>
+            <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom + 120 }}
+                showsVerticalScrollIndicator={true}
+                persistentScrollbar={true}
+                keyboardShouldPersistTaps="handled"
+            >
+                <View style={{ height: GALLERY_HEIGHT }} className="bg-primary/5">
+                    <Image
+                        source={{ uri: selectedCarouselImage || mainImageUrl }}
+                        style={{ width: '100%', height: GALLERY_HEIGHT }}
+                        resizeMode="contain"
+                    />
+                </View>
 
-                    {/* Additional Images Carousel */}
-                    {additionalImageUrls.length > 0 && (
-                        <View className="bg-white border-b border-gray-100 pb-4">
-                            <Text className="text-sm font-semibold text-gray-700 px-5 py-3 uppercase tracking-wide">
-                                More Photos ({additionalImageUrls.length})
-                            </Text>
-                            <ScrollView
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 8 }}
-                                className="flex-row"
+                {additionalImageUrls.length > 0 && (
+                    <View className="bg-white border-b border-gray-100 pb-4">
+                        <Text className="text-xs font-black text-gray-400 px-5 py-3 uppercase tracking-widest">
+                            More Photos ({additionalImageUrls.length})
+                        </Text>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 8 }}
+                            className="flex-row"
+                        >
+                            <TouchableOpacity
+                                onPress={() => setSelectedCarouselImage(null)}
+                                className="mr-3"
                             >
-                                {/* Show main image as first option in carousel */}
-                                <TouchableOpacity
-                                    onPress={() => setSelectedCarouselImage(null)}
-                                    className="mr-3"
-                                    activeOpacity={0.8}
+                                <View
+                                    style={{
+                                        width: 80, height: 80, borderRadius: 20,
+                                        borderWidth: selectedCarouselImage === null ? 3 : 1,
+                                        borderColor: selectedCarouselImage === null ? '#00A082' : '#f1f5f9',
+                                        overflow: 'hidden'
+                                    }}
                                 >
+                                    <Image source={{ uri: mainImageUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+                                </View>
+                            </TouchableOpacity>
+                            {additionalImageUrls.map((img: string, index: number) => (
+                                <TouchableOpacity key={index} onPress={() => setSelectedCarouselImage(img)} className="mr-3">
                                     <View
                                         style={{
-                                            width: 100,
-                                            height: 100,
-                                            borderRadius: 12,
-                                            borderWidth: selectedCarouselImage === null ? 3 : 1,
-                                            borderColor: selectedCarouselImage === null ? '#f97316' : '#e5e7eb',
+                                            width: 80, height: 80, borderRadius: 20,
+                                            borderWidth: selectedCarouselImage === img ? 3 : 1,
+                                            borderColor: selectedCarouselImage === img ? '#00A082' : '#f1f5f9',
                                             overflow: 'hidden'
                                         }}
                                     >
-                                        <Image
-                                            source={{ uri: mainImageUrl }}
-                                            style={{ width: '100%', height: '100%' }}
-                                            resizeMode="cover"
-                                        />
-                                        {selectedCarouselImage === null && (
-                                            <View style={{ position: 'absolute', top: 4, left: 4, backgroundColor: '#f97316', borderRadius: 4, paddingHorizontal: 4, paddingVertical: 2 }}>
-                                                <Text className="text-white font-bold text-xs">Main</Text>
-                                            </View>
-                                        )}
+                                        <Image source={{ uri: img }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                                     </View>
                                 </TouchableOpacity>
-                                {additionalImageUrls.map((img: string, index: number) => (
-                                    <TouchableOpacity
-                                        key={`additional-image-${index}`}
-                                        onPress={() => setSelectedCarouselImage(img)}
-                                        className="mr-3"
-                                        activeOpacity={0.8}
-                                    >
-                                        <View
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                borderRadius: 12,
-                                                borderWidth: selectedCarouselImage === img ? 3 : 1,
-                                                borderColor: selectedCarouselImage === img ? '#f97316' : '#e5e7eb',
-                                                overflow: 'hidden'
-                                            }}
-                                        >
-                                            <Image
-                                                source={{ uri: img }}
-                                                style={{ width: '100%', height: '100%' }}
-                                                resizeMode="cover"
-                                            />
-                                        </View>
-                                    </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                        </View>
-                    )}
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
 
-                    {/* Product Info */}
-                    <View className="p-5">
-                        <View className="flex-row justify-between items-start mb-4">
-                            <View className="flex-1 mr-4">
-                                <Text className="text-sm text-blue-600 font-semibold mb-1 uppercase tracking-wider">
-                                    {product.category || 'General'}
-                                </Text>
-                                <Text className="text-2xl font-bold text-gray-900 leading-tight">
-                                    {product.title}
-                                </Text>
+                <View className="p-6">
+                    <View className="flex-row justify-between items-start mb-6">
+                        <View className="flex-1 mr-4">
+                            <View className="bg-primary/20 self-start px-3 py-1 rounded-full mb-2">
+                                <Text className="text-[10px] text-black font-black uppercase tracking-widest">{product.category}</Text>
                             </View>
-                            <Text className="text-xl font-bold text-blue-600">
-                                {product.currency} {product.price}
-                            </Text>
+                            <Text className="text-3xl font-black text-black leading-tight">{product.title}</Text>
                         </View>
+                        <Text className="text-2xl font-black text-accent">{product.currency} {product.price}</Text>
+                    </View>
 
-                        {/* Seller Info */}
-                        <View className="flex-row items-center p-3 border-y border-gray-100 mb-4 space-x-3">
-                            <View className="w-10 h-10 bg-gray-200 rounded-full justify-center items-center">
-                                <Text className="text-lg font-bold text-gray-500">
-                                    {product.profiles?.username?.[0]?.toUpperCase() || 'S'}
-                                </Text>
-                            </View>
-                            <View>
-                                <Text className="font-semibold text-gray-900">
-                                    {product.profiles?.username || 'Seller'}
-                                </Text>
-                                <Text className="text-xs text-gray-500">Verified Seller</Text>
-                            </View>
+                    <View className="flex-row items-center p-4 bg-surface rounded-3xl mb-8 border border-secondary/10">
+                        <View className="w-12 h-12 bg-primary rounded-full justify-center items-center">
+                            <Text className="text-xl font-black text-black">{product.profiles?.username?.[0]?.toUpperCase()}</Text>
                         </View>
-
-                        {/* Description */}
-                        <View className="mb-6">
-                            <Text className="text-lg font-semibold text-gray-900 mb-2">Description</Text>
-                            <Text className="text-gray-600 leading-6">
-                                {product.description || 'No description available.'}
-                            </Text>
+                        <View className="ml-3">
+                            <Text className="font-black text-black text-lg">{product.profiles?.username}</Text>
+                            <Text className="text-xs text-black/40 font-bold">Verified Seller</Text>
                         </View>
+                    </View>
 
-                        {/* Additional Details */}
-                        <View className="flex-row flex-wrap gap-2 mt-2">
-                            <View className="bg-gray-100 px-3 py-1 rounded-full">
-                                <Text className="text-xs text-gray-600">Stock: {product.in_stock ? 'In Stock' : 'Out of Stock'}</Text>
-                            </View>
-                            <View className="bg-gray-100 px-3 py-1 rounded-full">
-                                <Text className="text-xs text-gray-600">Views: {product.views || 0}</Text>
-                            </View>
-                        </View>
+                    <View className="mb-8">
+                        <Text className="text-xl font-black text-black mb-3">Description</Text>
+                        <Text className="text-black/60 leading-7 font-bold">{product.description || 'No description available.'}</Text>
+                    </View>
 
-                        {/* Reviews Section */}
-                    <View className="mt-8 border-t border-gray-100 pt-8">
-                        <Text className="text-xl font-bold text-gray-900 mb-4 px-1">Reviews & Comments</Text>
-                        
-                        {/* Quick Review Input */}
-                        <View className="bg-gray-50 p-4 rounded-xl mb-6">
-                            <Text className="text-sm font-semibold text-gray-700 mb-2">Leave a review</Text>
-                            <View className="flex-row mb-3">
+                    <View className="mt-4 border-t border-gray-100 pt-8">
+                        <Text className="text-2xl font-black text-black mb-6">Reviews & Comments</Text>
+                        <View className="bg-surface p-6 rounded-[30px] mb-8 border border-secondary/10">
+                            <Text className="text-sm font-black text-black mb-4">Leave a review</Text>
+                            <View className="flex-row mb-6">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <TouchableOpacity key={star} onPress={() => submitReview(star, commentText)}>
-                                        <Heart size={24} color="#2563eb" fill={star <= 0 ? "#2563eb" : "none"} className="mr-2" />
+                                        <Heart size={28} color="#00A082" fill={star <= 0 ? "#00A082" : "none"} className="mr-3" />
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                            <View className="flex-row items-center bg-white rounded-lg border border-gray-200 px-3 py-1">
+                            <View className="flex-row items-center bg-white rounded-2xl border border-secondary/20 px-4 py-2">
                                 <TextInput
-                                    className="flex-1 py-2 text-gray-800"
+                                    className="flex-1 py-3 text-black font-bold"
                                     placeholder="Write a comment..."
                                     value={commentText}
                                     onChangeText={setCommentText}
@@ -387,79 +322,40 @@ export default function ProductDetailScreen() {
                                 />
                                 <TouchableOpacity 
                                     onPress={() => submitReview(5, commentText)}
-                                    className="ml-2 bg-blue-600 p-2 rounded-full"
+                                    className="ml-2 bg-black px-5 py-3 rounded-xl"
                                 >
-                                    <Text className="text-white text-xs font-bold px-2">Post</Text>
+                                    <Text className="text-white text-xs font-black">POST</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-
                         {reviews.length > 0 ? (
                             reviews.map((review) => (
-                                <View key={review.id} className="mb-6 pb-6 border-b border-gray-50">
-                                    <View className="flex-row justify-between items-center mb-2">
-                                        <Text className="font-bold text-gray-900">{review.profiles?.username || 'User'}</Text>
+                                <View key={review.id} className="mb-8 pb-8 border-b border-gray-50">
+                                    <View className="flex-row justify-between items-center mb-3">
+                                        <Text className="font-black text-black text-lg">{review.profiles?.username}</Text>
                                         <View className="flex-row">
-                                            {[...Array(review.rating)].map((_, i) => (
-                                                <Heart key={i} size={14} color="#2563eb" fill="#2563eb" />
-                                            ))}
+                                            {[...Array(review.rating)].map((_, i) => <Heart key={i} size={16} color="#00A082" fill="#00A082" />)}
                                         </View>
                                     </View>
-                                    <Text className="text-gray-600 mb-2">{review.comment}</Text>
-                                    <Text className="text-xs text-gray-400">
-                                        {new Date(review.created_at).toLocaleDateString()}
-                                    </Text>
+                                    <Text className="text-black/60 font-bold mb-3">{review.comment}</Text>
+                                    <Text className="text-[10px] text-black/30 font-black uppercase">{new Date(review.created_at).toLocaleDateString()}</Text>
                                 </View>
                             ))
                         ) : (
-                            <Text className="text-gray-500 italic px-1">No reviews yet. Be the first to review!</Text>
+                            <Text className="text-black/30 font-black italic text-center mb-8">No reviews yet.</Text>
                         )}
                     </View>
+                </View>
+            </ScrollView>
 
-                    {/* Similar Products Section */}
-                        {similarProducts.length > 0 && (
-                            <View className="mt-8 border-t border-gray-100 pt-8">
-                                <View className="flex-row justify-between items-center mb-4 px-1">
-                                    <Text className="text-xl font-bold text-gray-900">Similar Products</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('App', { screen: 'BrowseProducts', params: { category: product.category } })}>
-                                        <Text className="text-blue-600 font-semibold">See All</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <ScrollView
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    contentContainerStyle={{ paddingRight: 20 }}
-                                    className="flex-row"
-                                >
-                                    {similarProducts.map((p) => (
-                                        <View key={p.id} style={{ width: 200 }} className="mr-4">
-                                            <ProductCard
-                                                product={p}
-                                                onPress={() => {
-                                                    navigation.push('ProductDetail', { productId: p.id });
-                                                }}
-                                            />
-                                        </View>
-                                    ))}
-                                </ScrollView>
-                            </View>
-                        )}
-                    </View>
-                </ScrollView>
-            </View>
-
-            {/* Bottom Action Bar */}
-            <View
-                style={{ paddingBottom: Math.max(insets.bottom, 16) }}
-                className="p-4 bg-white border-t border-gray-100"
-            >
+            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: Math.max(insets.bottom, 16) }} className="p-6 bg-white border-t border-gray-50">
                 <AnimatedPressable
                     style={[{ width: '100%' }, cartAnimatedStyle]}
-                    className="bg-blue-600 py-4 rounded-xl flex-row justify-center items-center space-x-2 shadow-lg shadow-blue-200"
+                    className="bg-black py-5 rounded-2xl flex-row justify-center items-center space-x-3 shadow-xl"
                     onPress={handleAddToCart}
                 >
-                    <ShoppingCart color="white" size={20} />
-                    <Text className="text-white font-bold text-lg">Add to Cart</Text>
+                    <ShoppingCart color="white" size={24} />
+                    <Text className="text-white font-black text-xl uppercase tracking-widest">Add to Cart</Text>
                 </AnimatedPressable>
             </View>
         </View>

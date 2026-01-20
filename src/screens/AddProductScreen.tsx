@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { Camera, Package, MapPin, Globe, Tag, ArrowLeft, DollarSign, Hash, Check, X, Image as ImageIcon } from 'lucide-react-native';
+import { Camera, ArrowLeft, Image as ImageIcon, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,7 +24,6 @@ export default function AddProductScreen() {
     });
     const [images, setImages] = useState<Array<{ uri: string; isMain: boolean }>>([]);
     const [countries, setCountries] = useState<any[]>([]);
-    const [districts, setDistricts] = useState<any[]>([]);
 
     useEffect(() => {
         fetchInitialData();
@@ -32,56 +31,32 @@ export default function AddProductScreen() {
 
     const fetchInitialData = async () => {
         try {
-            const { data: countriesData } = await supabase.from('countries').select('*').order('name');
-            setCountries(countriesData || []);
-            if (countriesData?.length) {
-                setFormData(prev => ({ ...prev, country_id: countriesData[0].id.toString() }));
-                fetchDistricts(countriesData[0].id);
+            const { data } = await supabase.from('countries').select('*').order('name');
+            setCountries(data || []);
+            if (data?.length) {
+                setFormData(prev => ({ ...prev, country_id: data[0].id.toString(), county: 'Central' }));
             }
         } catch (error) {
             console.error('Error fetching countries:', error);
         }
     };
 
-    const fetchDistricts = async (countryId: number) => {
-        try {
-            const { data } = await supabase.from('districts').select('*').eq('country_id', countryId).order('name');
-            setDistricts(data || []);
-            if (data?.length) {
-                setFormData(prev => ({ ...prev, county: data[0].name }));
-            }
-        } catch (error) {
-            console.error('Error fetching districts:', error);
-        }
-    };
-
     const pickImage = async (isMain: boolean = false) => {
-        // Check if we can add more images
         if (images.length >= 5) {
-            Alert.alert('Limit Reached', 'You can add up to 5 images (1 main + 4 additional)');
+            Alert.alert('Limit Reached', 'Up to 5 images allowed');
             return;
         }
-
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 0.8,
-            allowsMultipleSelection: false,
         });
-
         if (!result.canceled && result.assets[0]) {
             const newImage = { uri: result.assets[0].uri, isMain };
-            
             if (isMain) {
-                // If setting as main, mark all others as not main
-                setImages(prev => {
-                    const updated = prev.map(img => ({ ...img, isMain: false }));
-                    updated.unshift(newImage); // Add main image at the beginning
-                    return updated;
-                });
+                setImages(prev => [{ ...newImage, isMain: true }, ...prev.map(img => ({ ...img, isMain: false }))]);
             } else {
-                // Add as additional image
                 setImages(prev => [...prev, newImage]);
             }
         }
@@ -93,443 +68,138 @@ export default function AddProductScreen() {
 
     const setAsMain = (index: number) => {
         setImages(prev => {
-            const updated = [...prev];
-            // Mark all as not main
-            updated.forEach(img => img.isMain = false);
-            // Set selected as main and move to first position
-            const selected = updated[index];
-            selected.isMain = true;
-            updated.splice(index, 1);
-            updated.unshift(selected);
-            return updated;
+            const updated = prev.map((img, i) => ({ ...img, isMain: i === index }));
+            const selected = updated.splice(index, 1)[0];
+            return [selected, ...updated];
         });
     };
 
     const handleSubmit = async () => {
-        if (!formData.title || !formData.price || images.length === 0 || !formData.country_id || !formData.county) {
-            Alert.alert('Validation Error', 'Please fill in all required fields and add at least one image');
+        if (!formData.title || !formData.price || images.length === 0) {
+            Alert.alert('Error', 'Please fill required fields and add an image');
             return;
         }
-
-        // Ensure at least one main image
-        const hasMainImage = images.some(img => img.isMain);
-        if (!hasMainImage) {
-            Alert.alert('Validation Error', 'Please set at least one image as the main image');
-            return;
-        }
-
         try {
             setLoading(true);
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error('User not authenticated');
+            if (!user) throw new Error('Not authenticated');
 
-            // 1. Upload all images to Storage
-            const uploadedImages: Array<{ path: string; isMain: boolean; order: number }> = [];
-            
+            const uploadedImages = [];
             for (let i = 0; i < images.length; i++) {
-                const image = images[i];
-                const response = await fetch(image.uri);
-                const blob = await response.blob();
-                const fileName = `${Date.now()}-${i}-${Math.random().toString(36).substring(7)}.jpg`;
-                const filePath = `${formData.country_id}/${formData.category}/${fileName}`;
-
-                const { error: uploadError } = await supabase.storage
-                    .from('images')
-                    .upload(filePath, blob);
-
-                if (uploadError) throw uploadError;
-
-                uploadedImages.push({
-                    path: filePath,
-                    isMain: image.isMain,
-                    order: i
-                });
+                const img = images[i];
+                const res = await fetch(img.uri);
+                const blob = await res.blob();
+                const path = `${user.id}/${Date.now()}-${i}.jpg`;
+                const { error: upErr } = await supabase.storage.from('images').upload(path, blob);
+                if (upErr) throw upErr;
+                uploadedImages.push({ path, isMain: img.isMain });
             }
 
-            // Get main image path for product storage_path
-            const mainImagePath = uploadedImages.find(img => img.isMain)?.path || uploadedImages[0].path;
+            const mainPath = uploadedImages.find(i => i.isMain)?.path || uploadedImages[0].path;
+            const { data: product, error: prErr } = await supabase.from('products').insert({
+                title: formData.title,
+                description: formData.description,
+                price: parseFloat(formData.price),
+                category: formData.category,
+                available_quantity: parseInt(formData.available_quantity),
+                user_id: user.id,
+                storage_path: mainPath,
+                country_id: parseInt(formData.country_id),
+                county: formData.county
+            }).select().single();
 
-            // 2. Insert Product
-            const { data: product, error: productError } = await supabase
-                .from('products')
-                .insert({
-                    title: formData.title,
-                    description: formData.description,
-                    price: parseFloat(formData.price),
-                    category: formData.category,
-                    available_quantity: parseInt(formData.available_quantity),
-                    user_id: user.id,
-                    county: formData.county,
-                    country_id: parseInt(formData.country_id),
-                    storage_path: mainImagePath,
-                    validity_period: formData.validity_period
-                })
-                .select()
-                .single();
+            if (prErr) throw prErr;
 
-            if (productError) throw productError;
-
-            // 3. Insert all Product Image Records
-            const imageRecords = uploadedImages.map((img, index) => ({
+            await supabase.from('product_images').insert(uploadedImages.map((img, i) => ({
                 product_id: product.id,
                 storage_path: img.path,
                 is_main: img.isMain,
-                display_order: index
-            }));
+                display_order: i
+            })));
 
-            const { error: imageError } = await supabase
-                .from('product_images')
-                .insert(imageRecords);
-
-            if (imageError) throw imageError;
-
-            Alert.alert('Success', 'Product listed successfully!');
+            Alert.alert('Success', 'Product listed!');
             navigation.goBack();
         } catch (error: any) {
-            console.error('Error adding product:', error);
-            Alert.alert('Error', error.message || 'Failed to list product');
+            Alert.alert('Error', error.message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <View style={{ flex: 1 }} className="bg-gray-50">
-            {/* Header */}
-            <View 
-                className="bg-white border-b border-gray-100 flex-row items-center px-4"
-                style={{ paddingTop: insets.top }}
-            >
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    className="p-2 -ml-2"
-                >
-                    <ArrowLeft size={24} color="#1f2937" />
+        <View style={{ flex: 1 }} className="bg-white">
+            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px] flex-row items-center">
+                <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
+                    <ArrowLeft size={24} color="black" />
                 </TouchableOpacity>
-                <View className="flex-1 ml-2">
-                    <Text className="text-xl font-bold text-gray-900">List New Product</Text>
-                    <Text className="text-xs text-gray-500">Fill in the details below</Text>
-                </View>
+                <Text className="text-2xl font-black text-black ml-2">List Product</Text>
             </View>
 
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-            >
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ 
-                        padding: 20, 
-                        paddingBottom: Math.max(insets.bottom, 20) + 200
-                    }}
-                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={{ padding: 20, paddingBottom: insets.bottom + 120 }}
                     showsVerticalScrollIndicator={true}
-                    scrollEnabled={true}
-                    nestedScrollEnabled={true}
-                    bounces={true}
+                    persistentScrollbar={true}
+                    keyboardShouldPersistTaps="handled"
                 >
-                {/* Image Picker Section */}
-                <View className="mb-6">
-                    <View className="flex-row justify-between items-center mb-3">
-                        <Text className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                            Product Photos ({images.length}/5)
-                        </Text>
-                        {images.length < 5 && (
-                            <TouchableOpacity
-                                onPress={() => pickImage(false)}
-                                className="flex-row items-center bg-orange-100 px-3 py-1.5 rounded-full"
-                            >
-                                <ImageIcon size={14} color="#f97316" />
-                                <Text className="text-orange-600 font-semibold text-xs ml-1">Add More</Text>
-                            </TouchableOpacity>
-                        )}
-                    </View>
-
-                    {/* Main Image */}
-                    <View className="mb-4">
-                        <Text className="text-xs text-gray-500 mb-2">Main Image *</Text>
+                    <View className="mb-8">
+                        <View className="flex-row justify-between items-center mb-4">
+                            <Text className="text-lg font-black text-black uppercase tracking-widest">Photos ({images.length}/5)</Text>
+                            {images.length < 5 && (
+                                <TouchableOpacity onPress={() => pickImage(false)} className="flex-row items-center bg-accent/10 px-4 py-2 rounded-full">
+                                    <ImageIcon size={16} color="#00A082" /><Text className="text-accent font-black text-xs ml-2">Add More</Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
                         <TouchableOpacity
                             onPress={() => pickImage(true)}
-                            className="w-full aspect-[4/3] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 justify-center items-center overflow-hidden shadow-sm"
-                            activeOpacity={0.8}
-                            disabled={images.length >= 5}
+                            className="w-full aspect-[4/3] bg-surface rounded-[30px] border-2 border-dashed border-secondary/30 justify-center items-center overflow-hidden mb-4"
                         >
                             {images.find(img => img.isMain) ? (
-                                <View style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                    <Image 
-                                        source={{ uri: images.find(img => img.isMain)!.uri }} 
-                                        className="w-full h-full" 
-                                        resizeMode="cover" 
-                                    />
-                                    <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.1)' }} />
-                                    <View style={{ position: 'absolute', top: 12, left: 12, backgroundColor: 'rgba(249, 115, 22, 0.9)', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 4 }}>
-                                        <Text className="text-white font-bold text-xs">MAIN</Text>
-                                    </View>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            const mainIndex = images.findIndex(img => img.isMain);
-                                            if (mainIndex !== -1) removeImage(mainIndex);
-                                        }}
-                                        style={{ position: 'absolute', top: 12, right: 12, backgroundColor: 'rgba(239, 68, 68, 0.9)', borderRadius: 999, padding: 8 }}
-                                    >
-                                        <X size={16} color="white" />
-                                    </TouchableOpacity>
+                                <View className="w-full h-full">
+                                    <Image source={{ uri: images.find(img => img.isMain)!.uri }} className="w-full h-full" resizeMode="cover" />
+                                    <View className="absolute top-4 left-4 bg-secondary px-3 py-1 rounded-full"><Text className="text-white font-black text-[10px]">MAIN</Text></View>
+                                    <TouchableOpacity onPress={() => removeImage(images.findIndex(i => i.isMain))} className="absolute top-4 right-4 bg-red-500 p-2 rounded-full"><X size={16} color="white" /></TouchableOpacity>
                                 </View>
                             ) : (
-                                <View className="items-center">
-                                    <View className="bg-orange-100 rounded-full p-4 mb-3">
-                                        <Camera size={32} color="#f97316" />
-                                    </View>
-                                    <Text className="text-gray-600 font-semibold text-base">Tap to Add Main Photo</Text>
-                                    <Text className="text-gray-400 text-xs mt-1">Recommended: 4:3 ratio</Text>
-                                </View>
+                                <View className="items-center"><View className="bg-primary/20 rounded-full p-5 mb-3"><Camera size={32} color="black" /></View><Text className="text-black font-black text-lg">Add Main Photo</Text></View>
                             )}
                         </TouchableOpacity>
-                    </View>
-
-                    {/* Additional Images Grid */}
-                    {images.filter(img => !img.isMain).length > 0 && (
-                        <View>
-                            <Text className="text-xs text-gray-500 mb-2">Additional Images ({images.filter(img => !img.isMain).length}/4)</Text>
-                            <View className="flex-row flex-wrap gap-3">
-                                {images.filter(img => !img.isMain).map((image, index) => {
-                                    const actualIndex = images.findIndex(img => img === image);
-                                    return (
-                                        <View key={index} className="w-[48%] aspect-square relative">
-                                            <Image 
-                                                source={{ uri: image.uri }} 
-                                                className="w-full h-full rounded-xl" 
-                                                resizeMode="cover" 
-                                            />
-                                            <TouchableOpacity
-                                                onPress={() => setAsMain(actualIndex)}
-                                                style={{ position: 'absolute', top: 8, left: 8, backgroundColor: 'rgba(249, 115, 22, 0.9)', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 3 }}
-                                            >
-                                                <Text className="text-white font-bold text-xs">Set Main</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => removeImage(actualIndex)}
-                                                style={{ position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(239, 68, 68, 0.9)', borderRadius: 999, padding: 6 }}
-                                            >
-                                                <X size={14} color="white" />
-                                            </TouchableOpacity>
-                                        </View>
-                                    );
-                                })}
-                                {images.filter(img => !img.isMain).length < 4 && images.length < 5 && (
-                                    <TouchableOpacity
-                                        onPress={() => pickImage(false)}
-                                        className="w-[48%] aspect-square bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 justify-center items-center"
-                                        activeOpacity={0.8}
-                                    >
-                                        <Camera size={24} color="#94a3b8" />
-                                        <Text className="text-gray-400 text-xs mt-1">Add</Text>
-                                    </TouchableOpacity>
-                                )}
-                            </View>
-                        </View>
-                    )}
-                </View>
-
-                {/* Basic Information Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <Package size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Basic Information</Text>
-                    </View>
-
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Product Title *</Text>
-                        <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                            <TextInput
-                                className="flex-1 py-4 text-base text-gray-900"
-                                placeholder="What are you selling?"
-                                placeholderTextColor="#9ca3af"
-                                value={formData.title}
-                                onChangeText={(text) => setFormData(p => ({ ...p, title: text }))}
-                            />
+                        <View className="flex-row flex-wrap gap-4">
+                            {images.filter(img => !img.isMain).map((img, i) => {
+                                const idx = images.findIndex(x => x === img);
+                                return (
+                                    <View key={i} className="w-[47%] aspect-square relative rounded-3xl overflow-hidden shadow-sm">
+                                        <Image source={{ uri: img.uri }} className="w-full h-full" resizeMode="cover" />
+                                        <TouchableOpacity onPress={() => setAsMain(idx)} className="absolute top-2 left-2 bg-secondary/90 px-2 py-1 rounded-lg"><Text className="text-white font-black text-[8px]">Set Main</Text></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => removeImage(idx)} className="absolute top-2 right-2 bg-red-500 p-1.5 rounded-full"><X size={12} color="white" /></TouchableOpacity>
+                                    </View>
+                                );
+                            })}
                         </View>
                     </View>
 
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Category *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {CATEGORIES.map(cat => (
-                                <TouchableOpacity
-                                    key={cat}
-                                    onPress={() => setFormData(p => ({ ...p, category: cat }))}
-                                    className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                        formData.category === cat 
-                                            ? 'bg-orange-500 border-orange-500' 
-                                            : 'bg-gray-50 border-gray-200'
-                                    }`}
-                                >
-                                    {formData.category === cat && (
-                                        <Check size={16} color="white" style={{ marginRight: 4 }} />
-                                    )}
-                                    <Text className={`font-semibold text-sm ${
-                                        formData.category === cat ? 'text-white' : 'text-gray-700'
-                                    }`}>
-                                        {cat}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
+                    <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
+                        <Text className="text-xl font-black text-black mb-6">Info</Text>
+                        <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Title</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" placeholder="Title" value={formData.title} onChangeText={t => setFormData(p => ({ ...p, title: t }))} /></View>
+                        <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Category</Text><ScrollView horizontal showsHorizontalScrollIndicator={false}>{CATEGORIES.map(c => <TouchableOpacity key={c} onPress={() => setFormData(p => ({ ...p, category: c }))} className={`px-5 py-3 rounded-full border mr-3 ${formData.category === c ? 'bg-black' : 'bg-white'}`}><Text className={`font-black text-xs ${formData.category === c ? 'text-white' : 'text-black'}`}>{c}</Text></TouchableOpacity>)}</ScrollView></View>
+                        <View><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Description</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold min-h-[120]" multiline placeholder="Description" value={formData.description} onChangeText={t => setFormData(p => ({ ...p, description: t }))} /></View>
                     </View>
 
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Description</Text>
-                        <View className="bg-gray-50 rounded-xl border border-gray-200 px-4 py-3">
-                            <TextInput
-                                className="text-base text-gray-900 min-h-[100]"
-                                style={{ textAlignVertical: 'top' }}
-                                placeholder="Tell buyers more about your product..."
-                                placeholderTextColor="#9ca3af"
-                                multiline
-                                numberOfLines={4}
-                                value={formData.description}
-                                onChangeText={(text) => setFormData(p => ({ ...p, description: text }))}
-                            />
+                    <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
+                        <Text className="text-xl font-black text-black mb-6">Price & Stock</Text>
+                        <View className="flex-row space-x-4">
+                            <View className="flex-1"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Price</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" keyboardType="decimal-pad" value={formData.price} onChangeText={t => setFormData(p => ({ ...p, price: t }))} /></View>
+                            <View className="flex-1"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Qty</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" keyboardType="number-pad" value={formData.available_quantity} onChangeText={t => setFormData(p => ({ ...p, available_quantity: t }))} /></View>
                         </View>
                     </View>
-                </View>
-
-                {/* Pricing & Quantity Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <DollarSign size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Pricing & Stock</Text>
-                    </View>
-
-                    <View className="flex-row gap-4">
-                        <View className="flex-1">
-                            <Text className="text-sm font-semibold text-gray-700 mb-2">Price ($) *</Text>
-                            <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                                <DollarSign size={18} color="#6b7280" />
-                                <TextInput
-                                    className="flex-1 py-4 text-base text-gray-900 ml-2"
-                                    placeholder="0.00"
-                                    placeholderTextColor="#9ca3af"
-                                    keyboardType="decimal-pad"
-                                    value={formData.price}
-                                    onChangeText={(text) => setFormData(p => ({ ...p, price: text }))}
-                                />
-                            </View>
-                        </View>
-                        <View className="flex-1">
-                            <Text className="text-sm font-semibold text-gray-700 mb-2">Quantity *</Text>
-                            <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                                <Hash size={18} color="#6b7280" />
-                                <TextInput
-                                    className="flex-1 py-4 text-base text-gray-900 ml-2"
-                                    placeholder="1"
-                                    placeholderTextColor="#9ca3af"
-                                    keyboardType="number-pad"
-                                    value={formData.available_quantity}
-                                    onChangeText={(text) => setFormData(p => ({ ...p, available_quantity: text }))}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-                {/* Location Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <MapPin size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Location</Text>
-                    </View>
-
-                    <View className="mb-4">
-                        <Text className="text-sm font-semibold text-gray-700 mb-3">Country *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {countries.map(c => (
-                                <TouchableOpacity
-                                    key={c.id}
-                                    onPress={() => {
-                                        setFormData(p => ({ ...p, country_id: c.id.toString() }));
-                                        fetchDistricts(c.id);
-                                    }}
-                                    className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                        formData.country_id === c.id.toString() 
-                                            ? 'bg-orange-500 border-orange-500' 
-                                            : 'bg-gray-50 border-gray-200'
-                                    }`}
-                                >
-                                    {formData.country_id === c.id.toString() && (
-                                        <Globe size={14} color="white" style={{ marginRight: 6 }} />
-                                    )}
-                                    <Text className={`font-semibold text-sm ${
-                                        formData.country_id === c.id.toString() ? 'text-white' : 'text-gray-700'
-                                    }`}>
-                                        {c.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-
-                    <View>
-                        <Text className="text-sm font-semibold text-gray-700 mb-3">District / Location *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {districts.length > 0 ? (
-                                districts.map(d => (
-                                    <TouchableOpacity
-                                        key={d.id}
-                                        onPress={() => setFormData(p => ({ ...p, county: d.name }))}
-                                        className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                            formData.county === d.name 
-                                                ? 'bg-orange-500 border-orange-500' 
-                                                : 'bg-gray-50 border-gray-200'
-                                        }`}
-                                    >
-                                        {formData.county === d.name && (
-                                            <MapPin size={14} color="white" style={{ marginRight: 6 }} />
-                                        )}
-                                        <Text className={`font-semibold text-sm ${
-                                            formData.county === d.name ? 'text-white' : 'text-gray-700'
-                                        }`}>
-                                            {d.name}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))
-                            ) : (
-                                <Text className="text-gray-400 text-sm italic">Select a country first</Text>
-                            )}
-                        </ScrollView>
-                    </View>
-                </View>
-
-                {/* Submit Button */}
-                <View className="mt-6 mb-4">
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        disabled={loading}
-                        className={`bg-orange-500 p-5 rounded-2xl items-center flex-row justify-center shadow-lg ${
-                            loading ? 'opacity-70' : ''
-                        }`}
-                        activeOpacity={0.8}
-                    >
-                        {loading ? (
-                            <>
-                                <ActivityIndicator color="white" size="small" />
-                                <Text className="text-white font-bold text-lg ml-3">Listing Product...</Text>
-                            </>
-                        ) : (
-                            <>
-                                <Tag color="white" size={22} />
-                                <Text className="text-white font-bold text-lg ml-2">List Product</Text>
-                            </>
-                        )}
-                    </TouchableOpacity>
-
-                    <Text className="text-center text-xs text-gray-400 mt-4 mb-2">
-                        * Required fields
-                    </Text>
-                </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
+            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 6 }} className="p-6 bg-white border-t border-gray-50">
+                <TouchableOpacity onPress={handleSubmit} disabled={loading} className="bg-black py-5 rounded-2xl items-center">{loading ? <ActivityIndicator color="white" /> : <Text className="text-white font-black text-xl uppercase">List Product</Text>}</TouchableOpacity>
+            </View>
         </View>
     );
 }
