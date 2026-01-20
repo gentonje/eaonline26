@@ -421,7 +421,7 @@ export default function ProductDetailScreen() {
                             <View className="mt-8 border-t border-gray-100 pt-8">
                                 <View className="flex-row justify-between items-center mb-4 px-1">
                                     <Text className="text-xl font-bold text-gray-900">Similar Products</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Browse', { category: product.category })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('App', { screen: 'BrowseProducts', params: { category: product.category } })}>
                                         <Text className="text-blue-600 font-semibold">See All</Text>
                                     </TouchableOpacity>
                                 </View>
