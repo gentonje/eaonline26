@@ -180,6 +180,7 @@ export default function ProductDetailScreen() {
                         paddingBottom: insets.bottom + 100
                     }}
                     showsVerticalScrollIndicator={true}
+                    persistentScrollbar={true}
                     keyboardShouldPersistTaps="handled"
                     scrollEnabled={true}
                 >
