@@ -128,7 +128,7 @@ export default function AddProductScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-10 pb-3 px-4 rounded-b-[20px] flex-row items-center">
+            <View className="bg-primary pt-4 pb-3 px-4 rounded-b-[20px] flex-row items-center">
                 <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
                     <ArrowLeft size={20} color="black" />
                 </TouchableOpacity>

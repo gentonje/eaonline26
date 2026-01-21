@@ -198,7 +198,7 @@ export default function ProductDetailScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-10 pb-3 px-4 rounded-b-[20px] z-20">
+            <View className="bg-primary pt-4 pb-3 px-4 rounded-b-[20px] z-20">
                 <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
                         <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">

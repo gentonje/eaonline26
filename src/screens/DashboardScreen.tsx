@@ -11,7 +11,7 @@ export default function DashboardScreen() {
             className="flex-1 bg-white"
             contentContainerStyle={{ paddingBottom: 100 }}
         >
-            <View className="bg-primary pt-10 pb-16 px-6 rounded-b-[30px]">
+            <View className="bg-primary pt-4 pb-16 px-6 rounded-b-[30px]">
                 <View className="flex-row justify-between items-center mb-4">
                     <View className="bg-white/30 px-3 py-1 rounded-full flex-row items-center">
                         <MapPin size={14} color="black" />

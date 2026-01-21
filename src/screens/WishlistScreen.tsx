@@ -74,7 +74,7 @@ export default function WishlistScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="p-4 bg-primary border-b border-secondary/10 flex-row items-center pt-10 pb-3 rounded-b-[20px]">
+            <View className="p-4 bg-primary border-b border-secondary/10 flex-row items-center pt-4 pb-3 rounded-b-[20px]">
                 <TouchableOpacity onPress={() => navigation.goBack()} className="mr-4">
                     <ChevronLeft color="black" size={24} />
                 </TouchableOpacity>
