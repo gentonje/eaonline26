@@ -50,8 +50,8 @@ export default function BrowseProductsScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px]">
-                <Text className="text-2xl font-black text-black">Browse Products</Text>
+            <View className="bg-primary pt-10 pb-3 px-4 rounded-b-[20px]">
+                <Text className="text-xl font-black text-black">Browse Products</Text>
             </View>
             <ScrollView
                 style={{ flex: 1 }}

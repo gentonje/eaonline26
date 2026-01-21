@@ -117,15 +117,15 @@ export default function CartScreen() {
 
 
     return (
-        <View className="flex-1 bg-gray-50">
-            <View className="p-4 bg-white border-b border-gray-100 flex-row items-center pt-12">
+        <View style={{ flex: 1 }} className="bg-white">
+            <View className="p-4 bg-primary border-b border-secondary/10 flex-row items-center pt-10 pb-3 rounded-b-[20px]">
                 <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
-                    <ChevronLeft color="#1e293b" size={28} />
+                    <ChevronLeft color="black" size={24} />
                 </TouchableOpacity>
                 <View className="flex-1 flex-row justify-between items-center">
-                    <Text className="text-2xl font-bold text-gray-900">Your Cart</Text>
-                    <View className="bg-blue-100 px-3 py-1 rounded-full">
-                        <Text className="text-blue-700 font-bold">{cartItems.length} Items</Text>
+                    <Text className="text-xl font-black text-black">Your Cart</Text>
+                    <View className="bg-white/30 px-3 py-1 rounded-full">
+                        <Text className="text-black font-bold text-xs">{cartItems.length} Items</Text>
                     </View>
                 </View>
             </View>

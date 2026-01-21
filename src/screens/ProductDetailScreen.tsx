@@ -198,13 +198,13 @@ export default function ProductDetailScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px] z-20">
+            <View className="bg-primary pt-10 pb-3 px-4 rounded-b-[20px] z-20">
                 <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
                         <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
-                            <ArrowLeft size={24} color="black" />
+                            <ArrowLeft size={20} color="black" />
                         </TouchableOpacity>
-                        <Text className="text-2xl font-black text-black">Details</Text>
+                        <Text className="text-xl font-black text-black">Details</Text>
                     </View>
                     <AnimatedPressable
                         onPress={handleAddToWishlist}

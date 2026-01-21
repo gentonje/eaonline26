@@ -128,11 +128,11 @@ export default function AddProductScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-12 pb-4 px-4 rounded-b-[30px] flex-row items-center">
+            <View className="bg-primary pt-10 pb-3 px-4 rounded-b-[20px] flex-row items-center">
                 <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-                    <ArrowLeft size={24} color="black" />
+                    <ArrowLeft size={20} color="black" />
                 </TouchableOpacity>
-                <Text className="text-2xl font-black text-black ml-2">List Product</Text>
+                <Text className="text-xl font-black text-black ml-2">List Product</Text>
             </View>
 
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>

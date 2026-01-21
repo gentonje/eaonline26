@@ -11,15 +11,15 @@ export default function DashboardScreen() {
             className="flex-1 bg-white"
             contentContainerStyle={{ paddingBottom: 100 }}
         >
-            <View className="bg-primary pt-12 pb-20 px-6 rounded-b-[40px]">
-                <View className="flex-row justify-between items-center mb-6">
-                    <View className="bg-white/30 px-4 py-2 rounded-full flex-row items-center">
-                        <MapPin size={16} color="black" />
-                        <Text className="ml-2 font-bold text-black">Nairobi, Kenya</Text>
+            <View className="bg-primary pt-10 pb-16 px-6 rounded-b-[30px]">
+                <View className="flex-row justify-between items-center mb-4">
+                    <View className="bg-white/30 px-3 py-1 rounded-full flex-row items-center">
+                        <MapPin size={14} color="black" />
+                        <Text className="ml-2 font-bold text-black text-xs">Nairobi, Kenya</Text>
                     </View>
                 </View>
-                <Text className="text-3xl font-black text-black mb-1">These are for you</Text>
-                <Text className="text-black/70">Discover amazing products curated for you</Text>
+                <Text className="text-2xl font-black text-black mb-1">These are for you</Text>
+                <Text className="text-black/70 text-sm">Discover amazing products curated for you</Text>
             </View>
 
             <View className="px-6 -mt-12">
