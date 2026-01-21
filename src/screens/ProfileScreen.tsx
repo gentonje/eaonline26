@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { User, Mail, Phone, MapPin, Store, Save, LogOut } from 'lucide-react-native';
+import ScreenHeader from '../components/ScreenHeader';
 
 export default function ProfileScreen() {
     const { user, signOut } = useAuth();
@@ -109,8 +110,9 @@ export default function ProfileScreen() {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            className="flex-1 bg-gray-50"
+            className="flex-1 bg-white"
         >
+            <ScreenHeader title="Profile" subtitle={user?.email || ''} />
             <ScrollView
                 className="flex-1 p-4"
                 contentContainerStyle={{ paddingBottom: 100 }}
