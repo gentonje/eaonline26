@@ -23,9 +23,9 @@ export default function DashboardScreen() {
                 className="flex-1 bg-white"
                 contentContainerStyle={{ paddingBottom: 100 }}
             >
-                <View className="px-6 mt-6">
+                <View className="px-6 mt-2">
                     {/* Categories */}
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-8">
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-6">
                         {[
                             { name: 'Food', icon: <ShoppingBag color="#00A082" size={24} /> },
                             { name: 'Shops', icon: <TrendingUp color="#00A082" size={24} /> },

@@ -7,6 +7,7 @@ import { Package, Trash2, Plus, Edit } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import ProductGrid from '../components/ProductGrid';
 import ProductCard from '../components/ProductCard';
+import ScreenHeader from '../components/ScreenHeader';
 
 export default function MyProductsScreen() {
     const { user } = useAuth();
@@ -80,20 +81,20 @@ export default function MyProductsScreen() {
     };
 
     return (
-        <View style={{ flex: 1 }} className="bg-gray-50">
-            <View className="p-4 bg-white border-b border-gray-100 flex-row justify-between items-center pt-12">
-                <View>
-                    <Text className="text-2xl font-bold text-gray-900">My Store</Text>
-                    <Text className="text-gray-500 text-xs">Manage your listings</Text>
-                </View>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('AddProduct')}
-                    className="bg-orange-500 flex-row items-center px-4 py-2 rounded-xl"
-                >
-                    <Plus color="white" size={20} />
-                    <Text className="text-white font-bold ml-1">Add New</Text>
-                </TouchableOpacity>
-            </View>
+        <View style={{ flex: 1 }} className="bg-white">
+            <ScreenHeader 
+                title="My Store" 
+                subtitle="Manage your listings" 
+                rightElement={
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('AddProduct')}
+                        className="bg-black flex-row items-center px-4 py-2 rounded-xl"
+                    >
+                        <Plus color="white" size={16} />
+                        <Text className="text-white font-black ml-1 text-xs">ADD NEW</Text>
+                    </TouchableOpacity>
+                }
+            />
 
             {loading && !refreshing ? (
                 <View className="flex-1 justify-center items-center">

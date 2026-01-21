@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getImageUrl } from '../lib/image-utils';
+import ScreenHeader from '../components/ScreenHeader';
 
 const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Other'];
 
@@ -37,7 +38,6 @@ export default function EditProductScreen() {
     });
     const [images, setImages] = useState<ImageItem[]>([]);
     const [countries, setCountries] = useState<any[]>([]);
-    const [districts, setDistricts] = useState<any[]>([]);
 
     useEffect(() => {
         fetchInitialData();
@@ -46,24 +46,17 @@ export default function EditProductScreen() {
     const fetchInitialData = async () => {
         try {
             setLoading(true);
-            
-            // Fetch countries
             const { data: countriesData } = await supabase.from('countries').select('*').order('name');
             setCountries(countriesData || []);
 
-            // Fetch product data
             const { data: product, error: productError } = await supabase
                 .from('products')
-                .select(`
-                    *,
-                    product_images(*)
-                `)
+                .select(`*, product_images(*)`)
                 .eq('id', productId)
                 .single();
 
             if (productError) throw productError;
 
-            // Set form data
             setFormData({
                 title: product.title || '',
                 description: product.description || '',
@@ -75,28 +68,18 @@ export default function EditProductScreen() {
                 validity_period: product.validity_period || 'day'
             });
 
-            // Load districts for the product's country
-            if (product.country_id) {
-                fetchDistricts(product.country_id);
-            }
-
-            // Load existing images
             if (product.product_images && product.product_images.length > 0) {
                 const sortedImages = product.product_images.sort((a: any, b: any) => 
                     (a.display_order || 0) - (b.display_order || 0)
                 );
-                
-                const imageItems: ImageItem[] = sortedImages.map((img: any) => ({
+                setImages(sortedImages.map((img: any) => ({
                     uri: getImageUrl(img.storage_path),
                     isMain: img.is_main || false,
                     isExisting: true,
                     existingId: img.id,
                     existingPath: img.storage_path
-                }));
-                
-                setImages(imageItems);
+                })));
             } else if (product.storage_path) {
-                // Fallback to storage_path
                 setImages([{
                     uri: getImageUrl(product.storage_path),
                     isMain: true,
@@ -113,38 +96,21 @@ export default function EditProductScreen() {
         }
     };
 
-    const fetchDistricts = async (countryId: number) => {
-        try {
-            const { data } = await supabase.from('districts').select('*').eq('country_id', countryId).order('name');
-            setDistricts(data || []);
-        } catch (error) {
-            console.error('Error fetching districts:', error);
-        }
-    };
-
     const pickImage = async (isMain: boolean = false) => {
         if (images.length >= 5) {
-            Alert.alert('Limit Reached', 'You can add up to 5 images (1 main + 4 additional)');
+            Alert.alert('Limit Reached', 'Up to 5 images allowed');
             return;
         }
-
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 0.8,
-            allowsMultipleSelection: false,
         });
-
         if (!result.canceled && result.assets[0]) {
             const newImage: ImageItem = { uri: result.assets[0].uri, isMain, isExisting: false };
-            
             if (isMain) {
-                setImages(prev => {
-                    const updated = prev.map(img => ({ ...img, isMain: false }));
-                    updated.unshift(newImage);
-                    return updated;
-                });
+                setImages(prev => [{ ...newImage, isMain: true }, ...prev.map(img => ({ ...img, isMain: false }))]);
             } else {
                 setImages(prev => [...prev, newImage]);
             }
@@ -157,161 +123,61 @@ export default function EditProductScreen() {
 
     const setAsMain = (index: number) => {
         setImages(prev => {
-            const updated = [...prev];
-            updated.forEach(img => img.isMain = false);
-            const selected = updated[index];
-            selected.isMain = true;
-            updated.splice(index, 1);
-            updated.unshift(selected);
-            return updated;
+            const updated = prev.map((img, i) => ({ ...img, isMain: i === index }));
+            const selected = updated.splice(index, 1)[0];
+            return [selected, ...updated];
         });
     };
 
     const handleSubmit = async () => {
-        if (!formData.title || !formData.price || images.length === 0 || !formData.country_id || !formData.county) {
-            Alert.alert('Validation Error', 'Please fill in all required fields and add at least one image');
+        if (!formData.title || !formData.price || images.length === 0) {
+            Alert.alert('Error', 'Please fill required fields');
             return;
         }
-
-        const hasMainImage = images.some(img => img.isMain);
-        if (!hasMainImage) {
-            Alert.alert('Validation Error', 'Please set at least one image as the main image');
-            return;
-        }
-
         try {
             setSaving(true);
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error('User not authenticated');
+            if (!user) throw new Error('Not authenticated');
 
-            // Get existing image IDs to track what to delete
-            const existingImageIds = images
-                .filter(img => img.isExisting && img.existingId)
-                .map(img => img.existingId!);
-            
-            // Fetch current product images to find ones to delete
-            const { data: currentImages } = await supabase
-                .from('product_images')
-                .select('id')
-                .eq('product_id', productId);
-            
-            const imagesToDelete = currentImages
-                ?.filter((img: any) => !existingImageIds.includes(img.id))
-                .map((img: any) => img.id) || [];
-
-            // Upload new images (non-existing ones)
-            const newImages = images.filter(img => !img.isExisting);
-            const uploadedImages: Array<{ path: string; isMain: boolean; order: number }> = [];
-
-            for (let i = 0; i < newImages.length; i++) {
-                const image = newImages[i];
-                // Check if it's a local file (starts with file://) or a URL
-                if (image.uri.startsWith('file://') || image.uri.startsWith('http://') || image.uri.startsWith('https://')) {
-                    const response = await fetch(image.uri);
-                    const blob = await response.blob();
-                    const fileName = `${Date.now()}-${i}-${Math.random().toString(36).substring(7)}.jpg`;
-                    const filePath = `${formData.country_id}/${formData.category}/${fileName}`;
-
-                    const { error: uploadError } = await supabase.storage
-                        .from('images')
-                        .upload(filePath, blob);
-
-                    if (uploadError) throw uploadError;
-
-                    const imageIndex = images.findIndex(img => img === image);
-                    uploadedImages.push({
-                        path: filePath,
-                        isMain: image.isMain,
-                        order: imageIndex
-                    });
-                }
-            }
-
-            // Prepare all images with their paths
-            const allImagePaths = images.map((img, index) => {
+            const uploadedImages = [];
+            for (let i = 0; i < images.length; i++) {
+                const img = images[i];
                 if (img.isExisting) {
-                    return {
-                        path: img.existingPath!,
-                        isMain: img.isMain,
-                        order: index,
-                        existingId: img.existingId
-                    };
+                    uploadedImages.push({ path: img.existingPath!, isMain: img.isMain });
                 } else {
-                    const uploaded = uploadedImages.find(u => {
-                        const imgIndex = images.findIndex(i => i === img);
-                        return u.order === imgIndex;
-                    });
-                    return {
-                        path: uploaded?.path || '',
-                        isMain: img.isMain,
-                        order: index,
-                        existingId: undefined
-                    };
+                    const res = await fetch(img.uri);
+                    const blob = await res.blob();
+                    const path = `${user.id}/${Date.now()}-${i}.jpg`;
+                    const { error: upErr } = await supabase.storage.from('images').upload(path, blob);
+                    if (upErr) throw upErr;
+                    uploadedImages.push({ path, isMain: img.isMain });
                 }
-            });
-
-            const mainImagePath = allImagePaths.find(img => img.isMain)?.path || allImagePaths[0].path;
-
-            // Update product
-            const { error: productError } = await supabase
-                .from('products')
-                .update({
-                    title: formData.title,
-                    description: formData.description,
-                    price: parseFloat(formData.price),
-                    category: formData.category,
-                    available_quantity: parseInt(formData.available_quantity),
-                    county: formData.county,
-                    country_id: parseInt(formData.country_id),
-                    storage_path: mainImagePath,
-                    validity_period: formData.validity_period
-                })
-                .eq('id', productId);
-
-            if (productError) throw productError;
-
-            // Delete removed images
-            if (imagesToDelete.length > 0) {
-                await supabase
-                    .from('product_images')
-                    .delete()
-                    .in('id', imagesToDelete);
             }
 
-            // Update existing images
-            for (const img of allImagePaths.filter(i => i.existingId)) {
-                await supabase
-                    .from('product_images')
-                    .update({
-                        is_main: img.isMain,
-                        display_order: img.order
-                    })
-                    .eq('id', img.existingId);
-            }
+            const mainPath = uploadedImages.find(i => i.isMain)?.path || uploadedImages[0].path;
+            const { error: prErr } = await supabase.from('products').update({
+                title: formData.title,
+                description: formData.description,
+                price: parseFloat(formData.price),
+                category: formData.category,
+                available_quantity: parseInt(formData.available_quantity),
+                storage_path: mainPath,
+            }).eq('id', productId);
 
-            // Insert new images
-            const newImageRecords = allImagePaths
-                .filter(img => !img.existingId)
-                .map(img => ({
-                    product_id: productId,
-                    storage_path: img.path,
-                    is_main: img.isMain,
-                    display_order: img.order
-                }));
+            if (prErr) throw prErr;
 
-            if (newImageRecords.length > 0) {
-                const { error: imageError } = await supabase
-                    .from('product_images')
-                    .insert(newImageRecords);
+            await supabase.from('product_images').delete().eq('product_id', productId);
+            await supabase.from('product_images').insert(uploadedImages.map((img, i) => ({
+                product_id: productId,
+                storage_path: img.path,
+                is_main: img.isMain,
+                display_order: i
+            })));
 
-                if (imageError) throw imageError;
-            }
-
-            Alert.alert('Success', 'Product updated successfully!');
+            Alert.alert('Success', 'Product updated!');
             navigation.goBack();
         } catch (error: any) {
-            console.error('Error updating product:', error);
-            Alert.alert('Error', error.message || 'Failed to update product');
+            Alert.alert('Error', error.message);
         } finally {
             setSaving(false);
         }
@@ -319,350 +185,53 @@ export default function EditProductScreen() {
 
     if (loading) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f8fafc' }}>
-                <ActivityIndicator size="large" color="#f97316" />
-                <Text className="text-gray-600 mt-4">Loading product...</Text>
+            <View className="flex-1 justify-center items-center bg-white">
+                <ActivityIndicator size="large" color="#00A082" />
+                <Text className="text-black font-black mt-4">Loading product...</Text>
             </View>
         );
     }
 
     return (
-        <View style={{ flex: 1 }} className="bg-gray-50">
-            {/* Header */}
-            <View 
-                className="bg-white border-b border-gray-100 flex-row items-center px-4"
-                style={{ paddingTop: insets.top }}
-            >
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    className="p-2 -ml-2"
-                >
-                    <ArrowLeft size={24} color="#1f2937" />
-                </TouchableOpacity>
-                <View className="flex-1 ml-2">
-                    <Text className="text-xl font-bold text-gray-900">Edit Product</Text>
-                    <Text className="text-xs text-gray-500">Update product details</Text>
-                </View>
-            </View>
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-            >
-                <ScrollView
-                    style={{ flex: 1 }}
-                    contentContainerStyle={{ 
-                        padding: 20, 
-                        paddingBottom: Math.max(insets.bottom, 20) + 200
-                    }}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={true}
-                    scrollEnabled={true}
-                    nestedScrollEnabled={true}
-                    bounces={true}
-                >
-                {/* Image Picker Section */}
-                <View className="mb-6">
-                    <View className="flex-row justify-between items-center mb-3">
-                        <Text className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                            Product Photos ({images.length}/5)
-                        </Text>
-                        {images.length < 5 && (
-                            <TouchableOpacity
-                                onPress={() => pickImage(false)}
-                                className="flex-row items-center bg-orange-100 px-3 py-1.5 rounded-full"
-                            >
-                                <ImageIcon size={14} color="#f97316" />
-                                <Text className="text-orange-600 font-semibold text-xs ml-1">Add More</Text>
-                            </TouchableOpacity>
-                        )}
-                    </View>
-
-                    {/* Main Image */}
-                    <View className="mb-4">
-                        <Text className="text-xs text-gray-500 mb-2">Main Image *</Text>
-                        <TouchableOpacity
-                            onPress={() => pickImage(true)}
-                            className="w-full aspect-[4/3] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 justify-center items-center overflow-hidden shadow-sm"
-                            activeOpacity={0.8}
-                            disabled={images.length >= 5}
-                        >
+        <View style={{ flex: 1 }} className="bg-white">
+            <ScreenHeader title="Edit Product" showBackButton={true} />
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
+                    <View className="mb-8">
+                        <TouchableOpacity onPress={() => pickImage(true)} className="w-full aspect-[4/3] bg-surface rounded-[30px] border-2 border-dashed border-secondary/30 justify-center items-center overflow-hidden mb-4">
                             {images.find(img => img.isMain) ? (
-                                <View style={{ position: 'relative', width: '100%', height: '100%' }}>
-                                    <Image 
-                                        source={{ uri: images.find(img => img.isMain)!.uri }} 
-                                        className="w-full h-full" 
-                                        resizeMode="cover" 
-                                    />
-                                    <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.1)' }} />
-                                    <View style={{ position: 'absolute', top: 12, left: 12, backgroundColor: 'rgba(249, 115, 22, 0.9)', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 4 }}>
-                                        <Text className="text-white font-bold text-xs">MAIN</Text>
-                                    </View>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            const mainIndex = images.findIndex(img => img.isMain);
-                                            if (mainIndex !== -1) removeImage(mainIndex);
-                                        }}
-                                        style={{ position: 'absolute', top: 12, right: 12, backgroundColor: 'rgba(239, 68, 68, 0.9)', borderRadius: 999, padding: 8 }}
-                                    >
-                                        <X size={16} color="white" />
-                                    </TouchableOpacity>
+                                <View className="w-full h-full">
+                                    <Image source={{ uri: images.find(img => img.isMain)!.uri }} className="w-full h-full" resizeMode="cover" />
+                                    <View className="absolute top-4 left-4 bg-secondary px-3 py-1 rounded-full"><Text className="text-white font-black text-[10px]">MAIN</Text></View>
                                 </View>
                             ) : (
-                                <View className="items-center">
-                                    <View className="bg-orange-100 rounded-full p-4 mb-3">
-                                        <Camera size={32} color="#f97316" />
-                                    </View>
-                                    <Text className="text-gray-600 font-semibold text-base">Tap to Add Main Photo</Text>
-                                    <Text className="text-gray-400 text-xs mt-1">Recommended: 4:3 ratio</Text>
-                                </View>
+                                <View className="items-center"><View className="bg-primary/20 rounded-full p-5 mb-3"><Camera size={32} color="black" /></View><Text className="text-black font-black text-lg">Change Main Photo</Text></View>
                             )}
                         </TouchableOpacity>
                     </View>
 
-                    {/* Additional Images Grid */}
-                    {images.filter(img => !img.isMain).length > 0 && (
-                        <View>
-                            <Text className="text-xs text-gray-500 mb-2">Additional Images ({images.filter(img => !img.isMain).length}/4)</Text>
-                            <View className="flex-row flex-wrap gap-3">
-                                {images.filter(img => !img.isMain).map((image, index) => {
-                                    const actualIndex = images.findIndex(img => img === image);
-                                    return (
-                                        <View key={index} className="w-[48%] aspect-square relative">
-                                            <Image 
-                                                source={{ uri: image.uri }} 
-                                                className="w-full h-full rounded-xl" 
-                                                resizeMode="cover" 
-                                            />
-                                            <TouchableOpacity
-                                                onPress={() => setAsMain(actualIndex)}
-                                                style={{ position: 'absolute', top: 8, left: 8, backgroundColor: 'rgba(249, 115, 22, 0.9)', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 3 }}
-                                            >
-                                                <Text className="text-white font-bold text-xs">Set Main</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => removeImage(actualIndex)}
-                                                style={{ position: 'absolute', top: 8, right: 8, backgroundColor: 'rgba(239, 68, 68, 0.9)', borderRadius: 999, padding: 6 }}
-                                            >
-                                                <X size={14} color="white" />
-                                            </TouchableOpacity>
-                                        </View>
-                                    );
-                                })}
-                                {images.filter(img => !img.isMain).length < 4 && images.length < 5 && (
-                                    <TouchableOpacity
-                                        onPress={() => pickImage(false)}
-                                        className="w-[48%] aspect-square bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 justify-center items-center"
-                                        activeOpacity={0.8}
-                                    >
-                                        <Camera size={24} color="#94a3b8" />
-                                        <Text className="text-gray-400 text-xs mt-1">Add</Text>
-                                    </TouchableOpacity>
-                                )}
-                            </View>
-                        </View>
-                    )}
-                </View>
-
-                {/* Basic Information Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <Package size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Basic Information</Text>
+                    <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
+                        <Text className="text-xl font-black text-black mb-6">Info</Text>
+                        <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Title</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" placeholder="Title" value={formData.title} onChangeText={t => setFormData(p => ({ ...p, title: t }))} /></View>
+                        <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Category</Text><ScrollView horizontal showsHorizontalScrollIndicator={false}>{CATEGORIES.map(c => <TouchableOpacity key={c} onPress={() => setFormData(p => ({ ...p, category: c }))} className={`px-5 py-3 rounded-full border mr-3 ${formData.category === c ? 'bg-black' : 'bg-white'}`}><Text className={`font-black text-xs ${formData.category === c ? 'text-white' : 'text-black'}`}>{c}</Text></TouchableOpacity>)}</ScrollView></View>
+                        <View><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Description</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold min-h-[120]" multiline placeholder="Description" value={formData.description} onChangeText={t => setFormData(p => ({ ...p, description: t }))} /></View>
                     </View>
 
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Product Title *</Text>
-                        <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                            <TextInput
-                                className="flex-1 py-4 text-base text-gray-900"
-                                placeholder="What are you selling?"
-                                placeholderTextColor="#9ca3af"
-                                value={formData.title}
-                                onChangeText={(text) => setFormData(p => ({ ...p, title: text }))}
-                            />
+                    <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
+                        <Text className="text-xl font-black text-black mb-6">Price & Stock</Text>
+                        <View className="flex-row space-x-4">
+                            <View className="flex-1"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Price</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" keyboardType="decimal-pad" value={formData.price} onChangeText={t => setFormData(p => ({ ...p, price: t }))} /></View>
+                            <View className="flex-1"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Qty</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" keyboardType="number-pad" value={formData.available_quantity} onChangeText={t => setFormData(p => ({ ...p, available_quantity: t }))} /></View>
                         </View>
                     </View>
-
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Category *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {CATEGORIES.map(cat => (
-                                <TouchableOpacity
-                                    key={cat}
-                                    onPress={() => setFormData(p => ({ ...p, category: cat }))}
-                                    className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                        formData.category === cat 
-                                            ? 'bg-orange-500 border-orange-500' 
-                                            : 'bg-gray-50 border-gray-200'
-                                    }`}
-                                >
-                                    {formData.category === cat && (
-                                        <Check size={16} color="white" style={{ marginRight: 4 }} />
-                                    )}
-                                    <Text className={`font-semibold text-sm ${
-                                        formData.category === cat ? 'text-white' : 'text-gray-700'
-                                    }`}>
-                                        {cat}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-
-                    <View className="mb-5">
-                        <Text className="text-sm font-semibold text-gray-700 mb-2">Description</Text>
-                        <View className="bg-gray-50 rounded-xl border border-gray-200 px-4 py-3">
-                            <TextInput
-                                className="text-base text-gray-900 min-h-[100]"
-                                style={{ textAlignVertical: 'top' }}
-                                placeholder="Tell buyers more about your product..."
-                                placeholderTextColor="#9ca3af"
-                                multiline
-                                numberOfLines={4}
-                                value={formData.description}
-                                onChangeText={(text) => setFormData(p => ({ ...p, description: text }))}
-                            />
-                        </View>
-                    </View>
-                </View>
-
-                {/* Pricing & Quantity Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <DollarSign size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Pricing & Stock</Text>
-                    </View>
-
-                    <View className="flex-row gap-4">
-                        <View className="flex-1">
-                            <Text className="text-sm font-semibold text-gray-700 mb-2">Price ($) *</Text>
-                            <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                                <DollarSign size={18} color="#6b7280" />
-                                <TextInput
-                                    className="flex-1 py-4 text-base text-gray-900 ml-2"
-                                    placeholder="0.00"
-                                    placeholderTextColor="#9ca3af"
-                                    keyboardType="decimal-pad"
-                                    value={formData.price}
-                                    onChangeText={(text) => setFormData(p => ({ ...p, price: text }))}
-                                />
-                            </View>
-                        </View>
-                        <View className="flex-1">
-                            <Text className="text-sm font-semibold text-gray-700 mb-2">Quantity *</Text>
-                            <View className="flex-row items-center bg-gray-50 rounded-xl border border-gray-200 px-4">
-                                <Hash size={18} color="#6b7280" />
-                                <TextInput
-                                    className="flex-1 py-4 text-base text-gray-900 ml-2"
-                                    placeholder="1"
-                                    placeholderTextColor="#9ca3af"
-                                    keyboardType="number-pad"
-                                    value={formData.available_quantity}
-                                    onChangeText={(text) => setFormData(p => ({ ...p, available_quantity: text }))}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-                {/* Location Card */}
-                <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-gray-100">
-                    <View className="flex-row items-center mb-4">
-                        <MapPin size={20} color="#f97316" />
-                        <Text className="text-lg font-bold text-gray-900 ml-2">Location</Text>
-                    </View>
-
-                    <View className="mb-4">
-                        <Text className="text-sm font-semibold text-gray-700 mb-3">Country *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {countries.map(c => (
-                                <TouchableOpacity
-                                    key={c.id}
-                                    onPress={() => {
-                                        setFormData(p => ({ ...p, country_id: c.id.toString() }));
-                                        fetchDistricts(c.id);
-                                    }}
-                                    className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                        formData.country_id === c.id.toString() 
-                                            ? 'bg-orange-500 border-orange-500' 
-                                            : 'bg-gray-50 border-gray-200'
-                                    }`}
-                                >
-                                    {formData.country_id === c.id.toString() && (
-                                        <Globe size={14} color="white" style={{ marginRight: 6 }} />
-                                    )}
-                                    <Text className={`font-semibold text-sm ${
-                                        formData.country_id === c.id.toString() ? 'text-white' : 'text-gray-700'
-                                    }`}>
-                                        {c.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-
-                    <View>
-                        <Text className="text-sm font-semibold text-gray-700 mb-3">District / Location *</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                            {districts.length > 0 ? (
-                                districts.map(d => (
-                                    <TouchableOpacity
-                                        key={d.id}
-                                        onPress={() => setFormData(p => ({ ...p, county: d.name }))}
-                                        className={`px-4 py-2.5 rounded-full border mr-2 flex-row items-center ${
-                                            formData.county === d.name 
-                                                ? 'bg-orange-500 border-orange-500' 
-                                                : 'bg-gray-50 border-gray-200'
-                                        }`}
-                                    >
-                                        {formData.county === d.name && (
-                                            <MapPin size={14} color="white" style={{ marginRight: 6 }} />
-                                        )}
-                                        <Text className={`font-semibold text-sm ${
-                                            formData.county === d.name ? 'text-white' : 'text-gray-700'
-                                        }`}>
-                                            {d.name}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))
-                            ) : (
-                                <Text className="text-gray-400 text-sm italic">Select a country first</Text>
-                            )}
-                        </ScrollView>
-                    </View>
-                </View>
-
-                {/* Submit Button */}
-                <View className="mt-6 mb-4">
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        disabled={saving}
-                        className={`bg-orange-500 p-5 rounded-2xl items-center flex-row justify-center shadow-lg ${
-                            saving ? 'opacity-70' : ''
-                        }`}
-                        activeOpacity={0.8}
-                    >
-                        {saving ? (
-                            <>
-                                <ActivityIndicator color="white" size="small" />
-                                <Text className="text-white font-bold text-lg ml-3">Updating Product...</Text>
-                            </>
-                        ) : (
-                            <>
-                                <Edit color="white" size={22} />
-                                <Text className="text-white font-bold text-lg ml-2">Update Product</Text>
-                            </>
-                        )}
-                    </TouchableOpacity>
-
-                    <Text className="text-center text-xs text-gray-400 mt-4 mb-2">
-                        * Required fields
-                    </Text>
-                </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
+            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className="p-6 bg-white border-t border-gray-50">
+                <TouchableOpacity onPress={handleSubmit} disabled={saving} className="bg-black py-5 rounded-2xl items-center">
+                    {saving ? <ActivityIndicator color="white" /> : <Text className="text-white font-black text-xl uppercase tracking-widest">Update Product</Text>}
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
