@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { ShoppingCart, Trash2, Plus, Minus, Package, ChevronLeft } from 'lucide-react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useFeedback } from '../contexts/FeedbackContext';
+import ScreenHeader from '../components/ScreenHeader';
 
 export default function CartScreen() {
     const [cartItems, setCartItems] = useState<any[]>([]);
@@ -118,17 +119,16 @@ export default function CartScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="p-4 bg-primary border-b border-secondary/10 flex-row items-center pt-4 pb-3 rounded-b-[20px]">
-                <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
-                    <ChevronLeft color="black" size={24} />
-                </TouchableOpacity>
-                <View className="flex-1 flex-row justify-between items-center">
-                    <Text className="text-xl font-black text-black">Your Cart</Text>
+            <ScreenHeader 
+                title="Your Cart" 
+                showBackButton={true} 
+                backIconType="chevron"
+                rightElement={
                     <View className="bg-white/30 px-3 py-1 rounded-full">
                         <Text className="text-black font-bold text-xs">{cartItems.length} Items</Text>
                     </View>
-                </View>
-            </View>
+                }
+            />
 
 
             {loading ? (

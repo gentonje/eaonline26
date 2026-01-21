@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ProductGrid from '../components/ProductGrid';
 import ProductCard from '../components/ProductCard';
+import ScreenHeader from '../components/ScreenHeader';
 
 type RootStackParamList = {
     Dashboard: undefined;
@@ -50,9 +51,7 @@ export default function BrowseProductsScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-4 pb-3 px-4 rounded-b-[20px]">
-                <Text className="text-xl font-black text-black">Browse Products</Text>
-            </View>
+            <ScreenHeader title="Browse Products" />
             <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={{ flexGrow: 1, paddingBottom: 100, paddingHorizontal: 16, paddingTop: 16 }}

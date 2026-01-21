@@ -5,6 +5,7 @@ import { Camera, ArrowLeft, Image as ImageIcon, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ScreenHeader from '../components/ScreenHeader';
 
 const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Other'];
 
@@ -128,12 +129,7 @@ export default function AddProductScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-4 pb-3 px-4 rounded-b-[20px] flex-row items-center">
-                <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-                    <ArrowLeft size={20} color="black" />
-                </TouchableOpacity>
-                <Text className="text-xl font-black text-black ml-2">List Product</Text>
-            </View>
+            <ScreenHeader title="List Product" showBackButton={true} />
 
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView

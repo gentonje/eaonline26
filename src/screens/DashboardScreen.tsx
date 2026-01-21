@@ -2,29 +2,30 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ShoppingBag, Star, TrendingUp, Heart, Zap, MapPin } from 'lucide-react-native';
+import ScreenHeader from '../components/ScreenHeader';
 
 export default function DashboardScreen() {
     const navigation = useNavigation<any>();
 
     return (
-        <ScrollView
-            className="flex-1 bg-white"
-            contentContainerStyle={{ paddingBottom: 100 }}
-        >
-            <View className="bg-primary pt-4 pb-16 px-6 rounded-b-[30px]">
-                <View className="flex-row justify-between items-center mb-4">
+        <View className="flex-1 bg-white">
+            <ScreenHeader 
+                title="These are for you" 
+                subtitle="Discover amazing products curated for you"
+                rightElement={
                     <View className="bg-white/30 px-3 py-1 rounded-full flex-row items-center">
-                        <MapPin size={14} color="black" />
-                        <Text className="ml-2 font-bold text-black text-xs">Nairobi, Kenya</Text>
+                        <MapPin size={12} color="black" />
+                        <Text className="ml-1 font-bold text-black text-[10px]">Nairobi, Kenya</Text>
                     </View>
-                </View>
-                <Text className="text-2xl font-black text-black mb-1">These are for you</Text>
-                <Text className="text-black/70 text-sm">Discover amazing products curated for you</Text>
-            </View>
-
-            <View className="px-6 -mt-12">
-                {/* Categories */}
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-8">
+                }
+            />
+            <ScrollView
+                className="flex-1 bg-white"
+                contentContainerStyle={{ paddingBottom: 100 }}
+            >
+                <View className="px-6 mt-6">
+                    {/* Categories */}
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-8">
                     {[
                         { name: 'Food', icon: <ShoppingBag color="#00A082" size={24} /> },
                         { name: 'Shops', icon: <TrendingUp color="#00A082" size={24} /> },

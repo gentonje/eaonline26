@@ -10,6 +10,7 @@ import { useFeedback } from '../contexts/FeedbackContext';
 import Animated from 'react-native-reanimated';
 import ProductGrid from '../components/ProductGrid';
 import ProductCard from '../components/ProductCard';
+import ScreenHeader from '../components/ScreenHeader';
 
 const AnimatedPressable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -74,15 +75,12 @@ export default function WishlistScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="p-4 bg-primary border-b border-secondary/10 flex-row items-center pt-4 pb-3 rounded-b-[20px]">
-                <TouchableOpacity onPress={() => navigation.goBack()} className="mr-4">
-                    <ChevronLeft color="black" size={24} />
-                </TouchableOpacity>
-                <View>
-                    <Text className="text-xl font-black text-black">Wishlist</Text>
-                    <Text className="text-black/50 text-[10px] font-bold">Items saved for later</Text>
-                </View>
-            </View>
+            <ScreenHeader 
+                title="Wishlist" 
+                subtitle="Items saved for later" 
+                showBackButton={true} 
+                backIconType="chevron" 
+            />
 
 
             {loading ? (

@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, useWindowDimensions, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import ScreenHeader from '../components/ScreenHeader';
 import { supabase } from '../lib/supabase';
-import { ArrowLeft, ShoppingCart, Heart, ShoppingBag } from 'lucide-react-native';
+import { ArrowLeft, ShoppingCart, Heart, ShoppingBag, Star, MessageSquare, ChevronRight, Share2 } from 'lucide-react-native';
 import { useShopping } from '../hooks/useShopping';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { getImageUrl } from '../lib/image-utils';
@@ -198,14 +199,10 @@ export default function ProductDetailScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <View className="bg-primary pt-4 pb-3 px-4 rounded-b-[20px] z-20">
-                <View className="flex-row items-center justify-between">
-                    <View className="flex-row items-center">
-                        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
-                            <ArrowLeft size={20} color="black" />
-                        </TouchableOpacity>
-                        <Text className="text-xl font-black text-black">Details</Text>
-                    </View>
+            <ScreenHeader 
+                title="Details" 
+                showBackButton={true}
+                rightElement={
                     <AnimatedPressable
                         onPress={handleAddToWishlist}
                         style={wishlistAnimatedStyle}
@@ -213,8 +210,8 @@ export default function ProductDetailScreen() {
                     >
                         <Heart color={isWishlisted ? "#00A082" : "black"} fill={isWishlisted ? "#00A082" : "none"} size={24} />
                     </AnimatedPressable>
-                </View>
-            </View>
+                }
+            />
 
             <ScrollView
                 style={{ flex: 1 }}
