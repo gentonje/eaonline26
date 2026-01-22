@@ -197,7 +197,7 @@ export default function AddProductScreen() {
                     category: formData.category,
                     available_quantity: parseInt(formData.available_quantity) || 1,
                     storage_path: mainImagePath,
-                    product_status: 'unpublished',
+                    product_status: 'draft',
                     country_id: parseInt(formData.country_id),
                     county: formData.county || null,
                 })

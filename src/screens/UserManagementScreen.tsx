@@ -91,7 +91,7 @@ export default function UserManagementScreen() {
     };
 
     const toggleProductStatus = async (productId: string, currentStatus: string) => {
-        const newStatus = currentStatus === 'published' ? 'unpublished' : 'published';
+        const newStatus = currentStatus === 'published' ? 'draft' : 'published';
         
         try {
             setUpdatingProduct(productId);
@@ -202,7 +202,7 @@ export default function UserManagementScreen() {
                                                 {getPendingCount(user.products) > 0 && (
                                                     <View className="bg-primary px-3 py-1 rounded-full">
                                                         <Text className="text-black font-black text-[10px]">
-                                                            {getPendingCount(user.products)} UNPUBLISHED
+                                                            {getPendingCount(user.products)} DRAFT
                                                         </Text>
                                                     </View>
                                                 )}
@@ -264,7 +264,7 @@ export default function UserManagementScreen() {
                                                                     <X size={14} color="white" />
                                                                 )}
                                                                 <Text className="text-white font-black text-[10px] ml-1 uppercase">
-                                                                    {product.product_status === 'published' ? 'Published' : 'Unpublished'}
+                                                                    {product.product_status === 'published' ? 'Published' : 'Draft'}
                                                                 </Text>
                                                             </>
                                                         )}
