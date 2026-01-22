@@ -9,7 +9,6 @@ import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
 
 const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Food', 'Other'];
-const CURRENCIES = ['SSP', 'USD', 'KES', 'UGX'];
 
 interface ImageItem {
     uri: string;
@@ -25,7 +24,6 @@ export default function AddProductScreen() {
         title: '',
         description: '',
         price: '',
-        currency: 'SSP',
         category: 'Electronics',
         available_quantity: '1',
     });
@@ -123,7 +121,6 @@ export default function AddProductScreen() {
                     title: formData.title.trim(),
                     description: formData.description.trim(),
                     price: parseFloat(formData.price),
-                    currency: formData.currency,
                     category: formData.category,
                     available_quantity: parseInt(formData.available_quantity) || 1,
                     storage_path: mainImagePath,
@@ -284,23 +281,6 @@ export default function AddProductScreen() {
 
                     <View className="bg-surface rounded-[32px] p-6 mb-6 border border-secondary/10">
                         <Text className="text-xl font-black text-black mb-6">Pricing & Stock</Text>
-                        
-                        <View className="mb-5">
-                            <Text className="text-xs font-black text-black/40 uppercase mb-3 ml-1 tracking-widest">Currency</Text>
-                            <View style={{ flexDirection: 'row', gap: 8 }}>
-                                {CURRENCIES.map((curr) => (
-                                    <TouchableOpacity 
-                                        key={curr}
-                                        onPress={() => setFormData(prev => ({ ...prev, currency: curr }))}
-                                        className={`px-5 py-3 rounded-full border ${formData.currency === curr ? 'bg-accent border-accent' : 'bg-white border-secondary/20'}`}
-                                    >
-                                        <Text className={`font-black text-sm ${formData.currency === curr ? 'text-white' : 'text-black'}`}>
-                                            {curr}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </View>
 
                         <View style={{ flexDirection: 'row', gap: 16 }}>
                             <View style={{ flex: 1 }}>
