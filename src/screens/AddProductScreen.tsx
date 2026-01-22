@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, ScrollView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, ScrollView, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { Camera, Plus, X, MapPin, Globe, ChevronDown } from 'lucide-react-native';
+import { Camera, Plus, X, MapPin, Globe, ChevronDown, CheckCircle } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Food', 'Other'];
 
@@ -31,8 +32,10 @@ interface District {
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
+    const confettiRef = useRef<any>(null);
     
     const [saving, setSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -216,13 +219,19 @@ export default function AddProductScreen() {
 
             if (imagesError) throw imagesError;
 
-            Alert.alert('Success', 'Your product has been listed!', [
-                { text: 'OK', onPress: () => navigation.goBack() }
-            ]);
+            setShowSuccess(true);
+            setSaving(false);
+            
+            if (confettiRef.current) {
+                confettiRef.current.start();
+            }
+            
+            setTimeout(() => {
+                navigation.goBack();
+            }, 2500);
         } catch (error: any) {
             console.error('Error creating product:', error);
             Alert.alert('Error', error.message || 'Failed to create product');
-        } finally {
             setSaving(false);
         }
     };
@@ -454,6 +463,42 @@ export default function AddProductScreen() {
                     </TouchableOpacity>
                 </WebScrollView>
             </View>
+            
+            {showSuccess && (
+                <>
+                    <View 
+                        style={{ 
+                            position: 'absolute', 
+                            top: 0, 
+                            left: 0, 
+                            right: 0, 
+                            bottom: 0, 
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 100
+                        }}
+                    >
+                        <View className="bg-white rounded-[32px] p-8 items-center mx-6">
+                            <View className="bg-accent/20 rounded-full p-5 mb-4">
+                                <CheckCircle size={48} color="#00A082" />
+                            </View>
+                            <Text className="text-2xl font-black text-black mb-2">Listed!</Text>
+                            <Text className="text-black/60 font-bold text-center">Your product is now live</Text>
+                        </View>
+                    </View>
+                    <ConfettiCannon
+                        ref={confettiRef}
+                        count={200}
+                        origin={{ x: Platform.OS === 'web' ? 200 : -10, y: 0 }}
+                        autoStart={true}
+                        fadeOut={true}
+                        fallSpeed={3000}
+                        explosionSpeed={350}
+                        colors={['#FFD147', '#FDB913', '#00A082', '#ffffff', '#000000']}
+                    />
+                </>
+            )}
         </View>
     );
 }
