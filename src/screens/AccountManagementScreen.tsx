@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Alert, TextInput } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { Shield, ShieldCheck, User } from 'lucide-react-native';
+import ScreenHeader from '../components/ScreenHeader';
 
 interface Profile {
     id: string;
@@ -57,55 +58,55 @@ export default function AccountManagementScreen() {
     );
 
     return (
-        <View className="flex-1 bg-gray-50 p-4">
-            <View className="mb-4">
-                <Text className="text-xl font-bold text-gray-900">Account Type Management</Text>
-                <Text className="text-gray-500">Manage user account types and permissions</Text>
-            </View>
+        <View className="flex-1 bg-white">
+            <ScreenHeader title="Account Management" showDrawerButton={true} />
+            <View className="flex-1 p-4">
+                <TextInput
+                    placeholder="Search usernames..."
+                    value={search}
+                    onChangeText={setSearch}
+                    className="bg-surface p-5 rounded-[32px] border border-secondary/10 mb-6 font-bold"
+                />
 
-            <TextInput
-                placeholder="Search usernames..."
-                value={search}
-                onChangeText={setSearch}
-                className="bg-white p-3 rounded-xl border border-gray-200 mb-4"
-            />
-
-            {loading ? (
-                <ActivityIndicator size="large" color="#2563eb" />
-            ) : (
-                <ScrollView className="flex-1">
-                    {filteredProfiles.map((profile) => (
-                        <View key={profile.id} className="bg-white p-4 rounded-xl border border-gray-100 mb-3 shadow-sm">
-                            <View className="flex-row justify-between items-center">
-                                <View>
-                                    <Text className="text-lg font-bold text-gray-900">{profile.username || 'Anonymous'}</Text>
-                                    <Text className="text-gray-500">Current: {profile.user_type}</Text>
-                                </View>
-                                <View className="flex-row gap-2">
-                                    <TouchableOpacity
-                                        onPress={() => handleUpdateType(profile.id, 'user')}
-                                        className={`p-2 rounded-full ${profile.user_type === 'user' ? 'bg-blue-100' : 'bg-gray-100'}`}
-                                    >
-                                        <User size={20} color={profile.user_type === 'user' ? '#2563eb' : '#94a3b8'} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => handleUpdateType(profile.id, 'admin')}
-                                        className={`p-2 rounded-full ${profile.user_type === 'admin' ? 'bg-purple-100' : 'bg-gray-100'}`}
-                                    >
-                                        <Shield size={20} color={profile.user_type === 'admin' ? '#9333ea' : '#94a3b8'} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => handleUpdateType(profile.id, 'super_admin')}
-                                        className={`p-2 rounded-full ${profile.user_type === 'super_admin' ? 'bg-orange-100' : 'bg-gray-100'}`}
-                                    >
-                                        <ShieldCheck size={20} color={profile.user_type === 'super_admin' ? '#ea580c' : '#94a3b8'} />
-                                    </TouchableOpacity>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#FDB913" />
+                ) : (
+                    <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+                        {filteredProfiles.map((profile) => (
+                            <View key={profile.id} className="bg-surface p-5 rounded-[40px] border border-secondary/5 mb-4">
+                                <View className="flex-row justify-between items-center">
+                                    <View>
+                                        <Text className="text-xl font-black text-black">{profile.username || 'Anonymous'}</Text>
+                                        <View className="bg-primary/20 px-3 py-1 rounded-full self-start mt-2">
+                                            <Text className="text-[10px] font-black uppercase">{profile.user_type}</Text>
+                                        </View>
+                                    </View>
+                                    <View className="flex-row gap-3">
+                                        <TouchableOpacity
+                                            onPress={() => handleUpdateType(profile.id, 'user')}
+                                            className={`p-4 rounded-3xl ${profile.user_type === 'user' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                        >
+                                            <User size={24} color={profile.user_type === 'user' ? 'white' : '#94a3b8'} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => handleUpdateType(profile.id, 'admin')}
+                                            className={`p-4 rounded-3xl ${profile.user_type === 'admin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                        >
+                                            <Shield size={24} color={profile.user_type === 'admin' ? 'white' : '#94a3b8'} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => handleUpdateType(profile.id, 'super_admin')}
+                                            className={`p-4 rounded-3xl ${profile.user_type === 'super_admin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                        >
+                                            <ShieldCheck size={24} color={profile.user_type === 'super_admin' ? 'white' : '#94a3b8'} />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    ))}
-                </ScrollView>
-            )}
+                        ))}
+                    </ScrollView>
+                )}
+            </View>
         </View>
     );
 }

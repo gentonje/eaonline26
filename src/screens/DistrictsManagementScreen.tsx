@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { confirmAction } from '../lib/alerts';
 import { Plus, Trash2, Edit2, MapPin, Globe } from 'lucide-react-native';
+import ScreenHeader from '../components/ScreenHeader';
 
 interface District {
     id: number;
@@ -64,19 +65,16 @@ export default function DistrictsManagementScreen() {
         try {
             let result;
             if (editingDistrict) {
-                console.log('Updating district:', editingDistrict.id, { name: newName, country_id: selectedCountryId });
                 result = await supabase
                     .from('districts')
                     .update({ name: newName, country_id: selectedCountryId })
                     .eq('id', editingDistrict.id);
             } else {
-                console.log('Inserting district:', { name: newName, country_id: selectedCountryId });
                 result = await supabase
                     .from('districts')
                     .insert({ name: newName, country_id: selectedCountryId });
             }
 
-            console.log('District operation result:', result);
             if (result.error) throw result.error;
 
             setModalVisible(false);
@@ -92,7 +90,6 @@ export default function DistrictsManagementScreen() {
     };
 
     const handleDelete = async (id: number) => {
-        console.log('Delete button clicked for district ID:', id);
         confirmAction({
             title: "Delete District",
             message: "Are you sure you want to delete this district?",
@@ -100,10 +97,7 @@ export default function DistrictsManagementScreen() {
             style: "destructive",
             onConfirm: async () => {
                 try {
-                    console.log('Attempting to delete district with ID:', id);
                     const result = await supabase.from('districts').delete().eq('id', id);
-                    console.log('Delete result:', result);
-
                     if (result.error) throw result.error;
                     fetchData();
                     Alert.alert('Success', 'District deleted successfully');
@@ -116,110 +110,116 @@ export default function DistrictsManagementScreen() {
     };
 
     return (
-        <View className="flex-1 bg-gray-50 p-4">
-            <View className="flex-row justify-between items-center mb-4">
-                <View>
-                    <Text className="text-xl font-bold text-gray-900">Districts Management</Text>
-                    <Text className="text-gray-500">Manage locations and boundaries</Text>
+        <View className="flex-1 bg-white">
+            <ScreenHeader title="Districts" showDrawerButton={true} />
+            <View className="flex-1 p-4">
+                <View className="flex-row justify-between items-center mb-6">
+                    <View>
+                        <Text className="text-black/50 font-black uppercase text-[10px] tracking-widest">Manage locations</Text>
+                    </View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setEditingDistrict(null);
+                            setNewName('');
+                            setSelectedCountryId(countries[0]?.id || null);
+                            setModalVisible(true);
+                        }}
+                        className="bg-black p-4 rounded-[24px]"
+                    >
+                        <Plus color="white" size={24} />
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                    onPress={() => {
-                        setEditingDistrict(null);
-                        setNewName('');
-                        setSelectedCountryId(countries[0]?.id || null);
-                        setModalVisible(true);
-                    }}
-                    className="bg-blue-600 p-2 rounded-full"
-                >
-                    <Plus color="white" size={24} />
-                </TouchableOpacity>
-            </View>
 
-            {loading ? (
-                <ActivityIndicator size="large" color="#2563eb" />
-            ) : (
-                <ScrollView className="flex-1">
-                    {districts.map((district) => (
-                        <View key={district.id} className="bg-white p-4 rounded-xl border border-gray-100 mb-3 shadow-sm flex-row justify-between items-center">
-                            <View>
-                                <Text className="text-lg font-bold text-gray-900">{district.name}</Text>
-                                <View className="flex-row items-center">
-                                    <Globe size={14} color="#64748b" />
-                                    <Text className="text-gray-500 ml-1">{district.country_name}</Text>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#FDB913" />
+                ) : (
+                    <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+                        {districts.map((district) => (
+                            <View key={district.id} className="bg-surface p-5 rounded-[40px] border border-secondary/5 mb-4 flex-row justify-between items-center">
+                                <View>
+                                    <Text className="text-xl font-black text-black">{district.name}</Text>
+                                    <View className="flex-row items-center mt-1">
+                                        <Globe size={14} color="#00A082" />
+                                        <Text className="text-accent font-black text-[10px] ml-1 uppercase">{district.country_name}</Text>
+                                    </View>
+                                </View>
+                                <View className="flex-row gap-3">
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            setEditingDistrict(district);
+                                            setNewName(district.name);
+                                            setSelectedCountryId(district.country_id);
+                                            setModalVisible(true);
+                                        }}
+                                        className="p-4 bg-primary/10 rounded-3xl"
+                                    >
+                                        <Edit2 size={20} color="#FDB913" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => isAdmin ? handleDelete(district.id) : Alert.alert('Permission Denied', 'Only admins can delete districts')}
+                                        className={`p-4 rounded-3xl ${isAdmin ? 'bg-red-50' : 'bg-gray-50 opacity-50'}`}
+                                    >
+                                        <Trash2 size={20} color={isAdmin ? "#ef4444" : "#94a3b8"} />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <View className="flex-row gap-2">
+                        ))}
+                    </ScrollView>
+                )}
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View className="flex-1 justify-end bg-black/60">
+                        <View className="bg-white p-8 rounded-t-[50px] h-[70%] shadow-2xl">
+                            <Text className="text-3xl font-black text-black mb-8">{editingDistrict ? 'Edit District' : 'Add District'}</Text>
+
+                            <View className="mb-6">
+                                <Text className="text-[10px] font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">District Name</Text>
+                                <TextInput
+                                    value={newName}
+                                    onChangeText={setNewName}
+                                    placeholder="Enter name"
+                                    className="bg-surface p-5 rounded-[24px] text-lg font-bold border border-secondary/10"
+                                />
+                            </View>
+
+                            <View className="flex-1 mb-8">
+                                <Text className="text-[10px] font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">Country</Text>
+                                <ScrollView showsVerticalScrollIndicator={false}>
+                                    {countries.map(c => (
+                                        <TouchableOpacity
+                                            key={c.id}
+                                            onPress={() => setSelectedCountryId(c.id)}
+                                            className={`p-5 rounded-[24px] mb-3 border ${selectedCountryId === c.id ? 'bg-primary border-primary' : 'bg-surface border-secondary/10'}`}
+                                        >
+                                            <Text className={`font-black uppercase text-xs tracking-wider ${selectedCountryId === c.id ? 'text-black' : 'text-gray-400'}`}>{c.name}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </View>
+
+                            <View className="flex-row gap-4">
                                 <TouchableOpacity
-                                    onPress={() => {
-                                        setEditingDistrict(district);
-                                        setNewName(district.name);
-                                        setSelectedCountryId(district.country_id);
-                                        setModalVisible(true);
-                                    }}
-                                    className="p-2 bg-gray-100 rounded-lg"
+                                    onPress={() => setModalVisible(false)}
+                                    className="flex-1 bg-surface py-5 rounded-[24px] items-center border border-secondary/10"
                                 >
-                                    <Edit2 size={18} color="#2563eb" />
+                                    <Text className="font-black text-black/40 uppercase tracking-widest">Cancel</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => isAdmin ? handleDelete(district.id) : Alert.alert('Permission Denied', 'Only admins can delete districts')}
-                                    className={`p-2 rounded-lg ${isAdmin ? 'bg-red-100' : 'bg-gray-100 opacity-50'}`}
+                                    onPress={handleAddOrEdit}
+                                    className="flex-1 bg-black py-5 rounded-[24px] items-center"
                                 >
-                                    <Trash2 size={18} color={isAdmin ? "#ef4444" : "#94a3b8"} />
+                                    <Text className="font-black text-white uppercase tracking-widest">Save</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    ))}
-                </ScrollView>
-            )}
-
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View className="flex-1 justify-end bg-black/50">
-                    <View className="bg-white p-6 rounded-t-3xl h-[60%]">
-                        <Text className="text-xl font-bold mb-4">{editingDistrict ? 'Edit District' : 'Add District'}</Text>
-
-                        <Text className="text-gray-700 mb-2">District Name</Text>
-                        <TextInput
-                            value={newName}
-                            onChangeText={setNewName}
-                            placeholder="Enter name"
-                            className="bg-gray-100 p-3 rounded-xl mb-4 text-base"
-                        />
-
-                        <Text className="text-gray-700 mb-2">Country</Text>
-                        <ScrollView className="mb-4">
-                            {countries.map(c => (
-                                <TouchableOpacity
-                                    key={c.id}
-                                    onPress={() => setSelectedCountryId(c.id)}
-                                    className={`p-3 rounded-lg mb-2 border ${selectedCountryId === c.id ? 'bg-blue-50 border-blue-500' : 'bg-white border-gray-200'}`}
-                                >
-                                    <Text className={selectedCountryId === c.id ? 'text-blue-600 font-bold' : 'text-gray-700'}>{c.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-
-                        <View className="flex-row gap-3">
-                            <TouchableOpacity
-                                onPress={() => setModalVisible(false)}
-                                className="flex-1 bg-gray-200 py-3 rounded-xl items-center"
-                            >
-                                <Text className="font-bold text-gray-700">Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={handleAddOrEdit}
-                                className="flex-1 bg-blue-600 py-3 rounded-xl items-center"
-                            >
-                                <Text className="font-bold text-white">Save</Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
+            </View>
         </View>
     );
 }
