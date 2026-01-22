@@ -4,6 +4,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Ale
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import ScreenHeader from '../components/ScreenHeader';
+import WebScrollView from '../components/WebScrollView';
 import { supabase } from '../lib/supabase';
 import { ArrowLeft, ShoppingCart, Heart, ShoppingBag, Star, MessageSquare, ChevronRight, Share2 } from 'lucide-react-native';
 import { useShopping } from '../hooks/useShopping';
@@ -192,13 +193,13 @@ export default function ProductDetailScreen() {
     }
 
     const mainImage = allImages.find((img: any) => img.is_main) || allImages[0];
-    const additionalImages = allImages.filter((img: any) => img !== mainImage);
+    const additionalImages = allImages.filter((img: any) => img !== mainImage).slice(0, 4);
 
     const mainImageUrl = mainImage ? getImageUrl(mainImage.storage_path) : getImageUrl(null);
     const additionalImageUrls = additionalImages.map((img: any) => getImageUrl(img.storage_path));
 
     return (
-        <View style={{ flex: 1 }} className="bg-white">
+        <View style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="bg-white">
             <ScreenHeader 
                 title="Details" 
                 showBackButton={true}
@@ -213,15 +214,8 @@ export default function ProductDetailScreen() {
                 }
             />
 
-            <ScrollView
-                style={[
-                    { flex: 1 },
-                    Platform.OS === 'web' && { overflow: 'scroll' as any }
-                ]}
-                contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 32) + 100 }}
-                showsVerticalScrollIndicator={true}
-                keyboardShouldPersistTaps="handled"
-            >
+            <View style={{ flex: 1, position: 'relative' }}>
+                <WebScrollView contentPadding={0}>
                     <View style={{ height: GALLERY_HEIGHT }} className="bg-primary/5">
                         <Image
                             source={{ uri: selectedCarouselImage || mainImageUrl }}
@@ -230,47 +224,48 @@ export default function ProductDetailScreen() {
                         />
                     </View>
 
-                    {additionalImageUrls.length > 0 && (
-                        <View className="bg-white border-b border-gray-100 pb-4">
-                            <Text className="text-xs font-black text-gray-400 px-5 py-3 uppercase tracking-widest">
-                                More Photos ({additionalImageUrls.length})
+                    {(additionalImageUrls.length > 0 || mainImage) && (
+                        <View className="bg-white border-b border-gray-100 py-4">
+                            <Text className="text-xs font-black text-gray-400 px-5 pb-3 uppercase tracking-widest">
+                                Product Images ({allImages.length})
                             </Text>
-                            <ScrollView
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 8 }}
-                                className="flex-row"
-                            >
+                            <View style={{ flexDirection: 'row', paddingHorizontal: 20, flexWrap: 'wrap', gap: 12 }}>
                                 <TouchableOpacity
                                     onPress={() => setSelectedCarouselImage(null)}
-                                    className="mr-3"
                                 >
                                     <View
                                         style={{
-                                            width: 80, height: 80, borderRadius: 20,
+                                            width: 70, height: 70, borderRadius: 16,
                                             borderWidth: selectedCarouselImage === null ? 3 : 1,
-                                            borderColor: selectedCarouselImage === null ? '#00A082' : '#f1f5f9',
-                                            overflow: 'hidden'
+                                            borderColor: selectedCarouselImage === null ? '#00A082' : '#e2e8f0',
+                                            overflow: 'hidden',
+                                            backgroundColor: '#f8fafc'
                                         }}
                                     >
                                         <Image source={{ uri: mainImageUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                                     </View>
+                                    {selectedCarouselImage === null && (
+                                        <View className="absolute -bottom-1 left-1/2 -ml-3 bg-accent px-2 py-0.5 rounded-full">
+                                            <Text className="text-[8px] text-white font-black">MAIN</Text>
+                                        </View>
+                                    )}
                                 </TouchableOpacity>
                                 {additionalImageUrls.map((img: string, index: number) => (
-                                    <TouchableOpacity key={index} onPress={() => setSelectedCarouselImage(img)} className="mr-3">
+                                    <TouchableOpacity key={index} onPress={() => setSelectedCarouselImage(img)}>
                                         <View
                                             style={{
-                                                width: 80, height: 80, borderRadius: 20,
+                                                width: 70, height: 70, borderRadius: 16,
                                                 borderWidth: selectedCarouselImage === img ? 3 : 1,
-                                                borderColor: selectedCarouselImage === img ? '#00A082' : '#f1f5f9',
-                                                overflow: 'hidden'
+                                                borderColor: selectedCarouselImage === img ? '#00A082' : '#e2e8f0',
+                                                overflow: 'hidden',
+                                                backgroundColor: '#f8fafc'
                                             }}
                                         >
                                             <Image source={{ uri: img }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                                         </View>
                                     </TouchableOpacity>
                                 ))}
-                            </ScrollView>
+                            </View>
                         </View>
                     )}
 
@@ -346,7 +341,6 @@ export default function ProductDetailScreen() {
                         </View>
                     </View>
 
-                    {/* Add to Cart Button - inside ScrollView */}
                     <View style={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: Math.max(insets.bottom, 32) + 40 }}>
                         <AnimatedPressable
                             style={[{ width: '100%' }, cartAnimatedStyle]}
@@ -357,7 +351,8 @@ export default function ProductDetailScreen() {
                             <Text className="text-white font-black text-xl uppercase tracking-widest">Add to Cart</Text>
                         </AnimatedPressable>
                     </View>
-                </ScrollView>
+                </WebScrollView>
+            </View>
         </View>
     );
 }
