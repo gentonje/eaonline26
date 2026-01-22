@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, Alert, Image } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { confirmAction } from '../lib/alerts';
-import { Search, Trash2, Package, Users, Edit } from 'lucide-react-native';
+import { Search, Trash2, Package, Users, Edit, X } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import ScreenHeader from '../components/ScreenHeader';
 
@@ -21,6 +21,7 @@ export default function UserManagementScreen() {
     const [search, setSearch] = useState('');
     const [activeTab, setActiveTab] = useState<'users' | 'products'>('users');
     const [products, setProducts] = useState<any[]>([]);
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
     useEffect(() => {
         if (activeTab === 'users') {
@@ -111,10 +112,17 @@ export default function UserManagementScreen() {
         (user.username?.toLowerCase() || '').includes(search.toLowerCase())
     );
 
-    const filteredProducts = products.filter(product =>
-        (product.title?.toLowerCase() || '').includes(search.toLowerCase()) ||
-        (product.profiles?.username?.toLowerCase() || '').includes(search.toLowerCase())
-    );
+    const filteredProducts = products.filter(product => {
+        const matchesSearch = (product.title?.toLowerCase() || '').includes(search.toLowerCase()) ||
+                            (product.profiles?.username?.toLowerCase() || '').includes(search.toLowerCase());
+        const matchesUser = selectedUserId ? product.user_id === selectedUserId : true;
+        return matchesSearch && matchesUser;
+    });
+
+    const handleUserClick = (userId: string) => {
+        setSelectedUserId(userId);
+        setActiveTab('products');
+    };
 
     return (
         <View className="flex-1 bg-white">
@@ -130,6 +138,17 @@ export default function UserManagementScreen() {
                     />
                 </View>
 
+                {selectedUserId && (
+                    <View className="flex-row items-center bg-accent/10 px-4 py-2 rounded-full mb-4 self-start">
+                        <Text className="text-accent font-black text-[10px] uppercase mr-2">
+                            Filtering by User
+                        </Text>
+                        <TouchableOpacity onPress={() => setSelectedUserId(null)}>
+                            <X size={14} color="#00A082" />
+                        </TouchableOpacity>
+                    </View>
+                )}
+
                 <View className="flex-row bg-surface rounded-2xl p-2 mb-6 border border-secondary/5">
                     <TouchableOpacity
                         onPress={() => setActiveTab('users')}
@@ -138,7 +157,11 @@ export default function UserManagementScreen() {
                         <Text className={`font-black uppercase text-xs tracking-wider ${activeTab === 'users' ? 'text-black' : 'text-gray-400'}`}>Users</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => setActiveTab('products')}
+                        onPress={() => {
+                            setActiveTab('products');
+                            // Clear user filter when manually clicking products tab? 
+                            // Or keep it? Let's keep it but show the filter badge.
+                        }}
                         className={`flex-1 py-3 rounded-xl items-center ${activeTab === 'products' ? 'bg-primary shadow-sm' : ''}`}
                     >
                         <Text className={`font-black uppercase text-xs tracking-wider ${activeTab === 'products' ? 'text-black' : 'text-gray-400'}`}>Products</Text>
@@ -153,7 +176,11 @@ export default function UserManagementScreen() {
                     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
                         {activeTab === 'users' ? (
                             filteredUsers.map((user) => (
-                                <View key={user.id} className="bg-surface p-5 rounded-[32px] border border-secondary/5 mb-4">
+                                <TouchableOpacity 
+                                    key={user.id} 
+                                    onPress={() => handleUserClick(user.id)}
+                                    className="bg-surface p-5 rounded-[32px] border border-secondary/5 mb-4"
+                                >
                                     <View className="flex-row justify-between items-center">
                                         <View>
                                             <Text className="text-xl font-black text-black">{user.username || 'Anonymous'}</Text>
@@ -165,7 +192,7 @@ export default function UserManagementScreen() {
                                             </Text>
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             ))
                         ) : (
                             filteredProducts.map((product) => (
