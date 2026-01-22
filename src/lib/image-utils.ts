@@ -3,11 +3,16 @@ import { supabase } from './supabase';
 export const getImageUrl = (path: string | null | undefined) => {
     if (!path) return 'https://via.placeholder.com/400';
 
-    const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-    if (!supabaseUrl) return 'https://via.placeholder.com/400';
-
     // If it's already a full URL, return it
     if (path.startsWith('http')) return path;
+
+    // Handle local seed images
+    if (path.startsWith('seed/')) {
+        return `/${path}`;
+    }
+
+    const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+    if (!supabaseUrl) return 'https://via.placeholder.com/400';
 
     return `${supabaseUrl}/storage/v1/object/public/images/${path}`;
 };
