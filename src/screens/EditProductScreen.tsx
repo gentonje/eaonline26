@@ -196,7 +196,14 @@ export default function EditProductScreen() {
         <View style={{ flex: 1 }} className="bg-white">
             <ScreenHeader title="Edit Product" showBackButton={true} />
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-                <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
+                <ScrollView 
+                    style={{ flex: 1 }} 
+                    contentContainerStyle={{ padding: 20, paddingBottom: 200 }}
+                    showsVerticalScrollIndicator={true}
+                    persistentScrollbar={true}
+                    keyboardShouldPersistTaps="handled"
+                    scrollEnabled={true}
+                >
                     <View className="mb-8">
                         <TouchableOpacity onPress={() => pickImage(true)} className="w-full aspect-[4/3] bg-surface rounded-[30px] border-2 border-dashed border-secondary/30 justify-center items-center overflow-hidden mb-4">
                             {images.find(img => img.isMain) ? (
