@@ -91,7 +91,7 @@ export default function UserManagementScreen() {
     };
 
     const toggleProductStatus = async (productId: string, currentStatus: string) => {
-        const newStatus = currentStatus === 'published' ? 'pending' : 'published';
+        const newStatus = currentStatus === 'published' ? 'unpublished' : 'published';
         
         try {
             setUpdatingProduct(productId);
@@ -150,7 +150,7 @@ export default function UserManagementScreen() {
     );
 
     const getPendingCount = (products: Product[]) => 
-        products.filter(p => p.product_status === 'pending').length;
+        products.filter(p => p.product_status !== 'published').length;
     
     const getPublishedCount = (products: Product[]) => 
         products.filter(p => p.product_status === 'published').length;
@@ -202,7 +202,7 @@ export default function UserManagementScreen() {
                                                 {getPendingCount(user.products) > 0 && (
                                                     <View className="bg-primary px-3 py-1 rounded-full">
                                                         <Text className="text-black font-black text-[10px]">
-                                                            {getPendingCount(user.products)} PENDING
+                                                            {getPendingCount(user.products)} UNPUBLISHED
                                                         </Text>
                                                     </View>
                                                 )}
@@ -264,7 +264,7 @@ export default function UserManagementScreen() {
                                                                     <X size={14} color="white" />
                                                                 )}
                                                                 <Text className="text-white font-black text-[10px] ml-1 uppercase">
-                                                                    {product.product_status === 'published' ? 'Published' : 'Pending'}
+                                                                    {product.product_status === 'published' ? 'Published' : 'Unpublished'}
                                                                 </Text>
                                                             </>
                                                         )}
