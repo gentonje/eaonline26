@@ -131,10 +131,10 @@ export default function AddProductScreen() {
         <View style={{ flex: 1 }} className="bg-white">
             <ScreenHeader title="List Product" showBackButton={true} showDrawerButton={false} />
 
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
                 <ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ padding: 20, paddingBottom: 200 }}
+                    contentContainerStyle={{ padding: 20, paddingBottom: 250 }}
                     showsVerticalScrollIndicator={true}
                     persistentScrollbar={true}
                     keyboardShouldPersistTaps="handled"
@@ -192,7 +192,7 @@ export default function AddProductScreen() {
                         </View>
                     </View>
                 </ScrollView>
-            </KeyboardAvoidingView>
+            </View>
 
             <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className="p-6 bg-white border-t border-gray-50">
                 <TouchableOpacity onPress={handleSubmit} disabled={loading} className="bg-black py-5 rounded-2xl items-center">
