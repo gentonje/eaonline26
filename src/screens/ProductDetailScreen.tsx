@@ -216,11 +216,13 @@ export default function ProductDetailScreen() {
             <View style={{ flex: 1 }}>
                 <ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ flexGrow: 1, paddingBottom: 250 }}
+                    contentContainerStyle={{ paddingBottom: 0 }}
                     showsVerticalScrollIndicator={true}
                     persistentScrollbar={true}
                     keyboardShouldPersistTaps="handled"
                     scrollEnabled={true}
+                    nestedScrollEnabled={true}
+                    bounces={true}
                 >
                     <View style={{ height: GALLERY_HEIGHT }} className="bg-primary/5">
                         <Image
@@ -345,18 +347,19 @@ export default function ProductDetailScreen() {
                             )}
                         </View>
                     </View>
-                </ScrollView>
-            </View>
 
-            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: Math.max(insets.bottom, 16) }} className="p-6 bg-white border-t border-gray-50">
-                <AnimatedPressable
-                    style={[{ width: '100%' }, cartAnimatedStyle]}
-                    className="bg-black py-5 rounded-2xl flex-row justify-center items-center space-x-3 shadow-xl"
-                    onPress={handleAddToCart}
-                >
-                    <ShoppingCart color="white" size={24} />
-                    <Text className="text-white font-black text-xl uppercase tracking-widest">Add to Cart</Text>
-                </AnimatedPressable>
+                    {/* Add to Cart Button - inside ScrollView */}
+                    <View style={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: Math.max(insets.bottom, 32) + 40 }}>
+                        <AnimatedPressable
+                            style={[{ width: '100%' }, cartAnimatedStyle]}
+                            className="bg-black py-5 rounded-2xl flex-row justify-center items-center space-x-3 shadow-xl"
+                            onPress={handleAddToCart}
+                        >
+                            <ShoppingCart color="white" size={24} />
+                            <Text className="text-white font-black text-xl uppercase tracking-widest">Add to Cart</Text>
+                        </AnimatedPressable>
+                    </View>
+                </ScrollView>
             </View>
         </View>
     );

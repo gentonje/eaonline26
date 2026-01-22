@@ -205,13 +205,16 @@ export default function AddProductScreen() {
                 style={{ flex: 1 }}
                 contentContainerStyle={{
                     padding: 20,
-                    paddingBottom: insets.bottom + 180,
+                    paddingBottom: 0,
                 }}
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={true}
-                indicatorStyle="black" // Makes scrollbar darker / more visible (iOS)
-                scrollIndicatorInsets={{ right: 4 }} // Helps on iOS
-                persistentScrollbar={true} // Android: keeps scrollbar visible longer
+                indicatorStyle="black"
+                scrollIndicatorInsets={{ right: 4 }}
+                persistentScrollbar={true}
+                scrollEnabled={true}
+                nestedScrollEnabled={true}
+                bounces={true}
             >
                 {/* PHOTOS */}
                 <View style={{ marginBottom: 32 }}>
@@ -670,70 +673,41 @@ export default function AddProductScreen() {
                     </View>
                 </View>
 
-                {/* Debug helper – remove later */}
+                {/* Submit Button - inside ScrollView */}
                 <View
                     style={{
-                        height: 400,
-                        backgroundColor: "#ffebee",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: 16,
-                        marginBottom: 40,
+                        paddingTop: 24,
+                        paddingBottom: Math.max(insets.bottom, 32) + 40,
                     }}
                 >
-                    <Text
+                    <TouchableOpacity
+                        onPress={handleSubmit}
+                        disabled={loading}
                         style={{
-                            fontSize: 24,
-                            fontWeight: "bold",
-                            color: "#c62828",
+                            backgroundColor: "#000000",
+                            paddingVertical: 20,
+                            borderRadius: 16,
+                            alignItems: "center",
                         }}
                     >
-                        ← Scroll should work – scrollbar should appear when
-                        dragging
-                    </Text>
+                        {loading ? (
+                            <ActivityIndicator color="#ffffff" />
+                        ) : (
+                            <Text
+                                style={{
+                                    color: "#ffffff",
+                                    fontWeight: "900",
+                                    fontSize: 20,
+                                    textTransform: "uppercase",
+                                    letterSpacing: 1.5,
+                                }}
+                            >
+                                List Product
+                            </Text>
+                        )}
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
-
-            {/* Bottom fixed button */}
-            <View
-                style={{
-                    position: "absolute",
-                    bottom: insets.bottom,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: "#ffffff",
-                    borderTopWidth: 1,
-                    borderTopColor: "#f0f0f0",
-                    padding: 24,
-                }}
-            >
-                <TouchableOpacity
-                    onPress={handleSubmit}
-                    disabled={loading}
-                    style={{
-                        backgroundColor: "#000000",
-                        paddingVertical: 20,
-                        borderRadius: 16,
-                        alignItems: "center",
-                    }}
-                >
-                    {loading ? (
-                        <ActivityIndicator color="#ffffff" />
-                    ) : (
-                        <Text
-                            style={{
-                                color: "#ffffff",
-                                fontWeight: "900",
-                                fontSize: 20,
-                                textTransform: "uppercase",
-                                letterSpacing: 1.5,
-                            }}
-                        >
-                            List Product
-                        </Text>
-                    )}
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }
