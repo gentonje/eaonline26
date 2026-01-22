@@ -21,8 +21,6 @@ interface UserWithProducts {
     username: string | null;
     full_name: string | null;
     contact_email: string | null;
-    is_active: boolean;
-    role: string;
     products: Product[];
     expanded: boolean;
 }
@@ -43,7 +41,7 @@ export default function UserManagementScreen() {
             setLoading(true);
             const { data: profiles, error: profilesError } = await supabase
                 .from('profiles')
-                .select('id, username, full_name, contact_email, role, is_active')
+                .select('id, username, full_name, contact_email')
                 .order('username');
 
             if (profilesError) throw profilesError;
@@ -195,11 +193,6 @@ export default function UserManagementScreen() {
                                             </View>
                                         </View>
                                         <View className="flex-row items-center">
-                                            <View className={`px-3 py-1.5 rounded-full mr-3 ${user.is_active ? 'bg-accent/10' : 'bg-red-100'}`}>
-                                                <Text className={`text-[10px] font-black ${user.is_active ? 'text-accent' : 'text-red-700'}`}>
-                                                    {user.is_active ? 'ACTIVE' : 'INACTIVE'}
-                                                </Text>
-                                            </View>
                                             {user.products.length > 0 && (
                                                 user.expanded ? 
                                                     <ChevronUp size={20} color="#64748b" /> : 
