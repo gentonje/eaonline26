@@ -273,7 +273,7 @@ export default function RootNavigator() {
                         <Stack.Screen
                             name="AddProduct"
                             component={AddProductScreen}
-                            options={{ title: 'List New Product' }}
+                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="EditProduct"

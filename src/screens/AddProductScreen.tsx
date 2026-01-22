@@ -134,10 +134,11 @@ export default function AddProductScreen() {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ padding: 20, paddingBottom: insets.bottom + 120 }}
+                    contentContainerStyle={{ padding: 20, paddingBottom: 200 }}
                     showsVerticalScrollIndicator={true}
                     persistentScrollbar={true}
                     keyboardShouldPersistTaps="handled"
+                    scrollEnabled={true}
                 >
                     <View className="mb-8">
                         <View className="flex-row justify-between items-center mb-4">
