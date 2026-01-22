@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, ScrollView } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { Camera, Plus, X, Star } from 'lucide-react-native';
+import { Camera, Plus, X, MapPin, Globe, ChevronDown } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +15,19 @@ interface ImageItem {
     isMain: boolean;
 }
 
+interface Country {
+    id: number;
+    name: string;
+    code: string;
+    currency: string;
+}
+
+interface District {
+    id: number;
+    name: string;
+    country_id: number;
+}
+
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
@@ -26,8 +39,61 @@ export default function AddProductScreen() {
         price: '',
         category: 'Electronics',
         available_quantity: '1',
+        country_id: '',
+        county: '',
     });
     const [images, setImages] = useState<ImageItem[]>([]);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [districts, setDistricts] = useState<District[]>([]);
+    const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
+    const [selectedCurrency, setSelectedCurrency] = useState('USD');
+
+    useEffect(() => {
+        fetchLocations();
+    }, []);
+
+    useEffect(() => {
+        if (formData.country_id) {
+            const filtered = districts.filter(d => d.country_id === parseInt(formData.country_id));
+            setFilteredDistricts(filtered);
+            const country = countries.find(c => c.id === parseInt(formData.country_id));
+            if (country) {
+                setSelectedCurrency(country.currency);
+            }
+            if (formData.county && !filtered.some(d => d.name === formData.county)) {
+                setFormData(prev => ({ ...prev, county: '' }));
+            }
+        } else {
+            setFilteredDistricts([]);
+            setSelectedCurrency('USD');
+        }
+    }, [formData.country_id, districts]);
+
+    const fetchLocations = async () => {
+        try {
+            const { data: countriesData } = await supabase
+                .from('countries')
+                .select('*')
+                .order('name');
+            
+            const { data: districtsData } = await supabase
+                .from('districts')
+                .select('*')
+                .order('name');
+            
+            setCountries(countriesData || []);
+            setDistricts(districtsData || []);
+            
+            if (countriesData && countriesData.length > 0) {
+                const southSudan = countriesData.find((c: Country) => c.name === 'South Sudan');
+                if (southSudan) {
+                    setFormData(prev => ({ ...prev, country_id: southSudan.id.toString() }));
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+        }
+    };
 
     const pickImage = async (isMain: boolean = false) => {
         if (images.length >= 5) {
@@ -87,6 +153,10 @@ export default function AddProductScreen() {
             Alert.alert('Required', 'Please add at least one product image');
             return;
         }
+        if (!formData.country_id) {
+            Alert.alert('Required', 'Please select a country');
+            return;
+        }
 
         try {
             setSaving(true);
@@ -125,6 +195,8 @@ export default function AddProductScreen() {
                     available_quantity: parseInt(formData.available_quantity) || 1,
                     storage_path: mainImagePath,
                     product_status: 'published',
+                    country_id: parseInt(formData.country_id),
+                    county: formData.county || null,
                 })
                 .select()
                 .single();
@@ -157,6 +229,7 @@ export default function AddProductScreen() {
 
     const mainImage = images.find(img => img.isMain);
     const additionalImages = images.filter(img => !img.isMain);
+    const selectedCountry = countries.find(c => c.id === parseInt(formData.country_id));
 
     return (
         <View style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="bg-white">
@@ -234,6 +307,54 @@ export default function AddProductScreen() {
                     </View>
 
                     <View className="bg-surface rounded-[32px] p-6 mb-6 border border-secondary/10">
+                        <View className="flex-row items-center mb-6">
+                            <Globe size={20} color="#00A082" />
+                            <Text className="text-xl font-black text-black ml-2">Location</Text>
+                        </View>
+                        
+                        <View className="mb-5">
+                            <Text className="text-xs font-black text-black/40 uppercase mb-3 ml-1 tracking-widest">Country *</Text>
+                            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                <View style={{ flexDirection: 'row', gap: 8 }}>
+                                    {countries.map((country) => (
+                                        <TouchableOpacity 
+                                            key={country.id}
+                                            onPress={() => setFormData(prev => ({ ...prev, country_id: country.id.toString(), county: '' }))}
+                                            className={`px-4 py-3 rounded-2xl border ${formData.country_id === country.id.toString() ? 'bg-accent border-accent' : 'bg-white border-secondary/20'}`}
+                                        >
+                                            <Text className={`font-black text-sm ${formData.country_id === country.id.toString() ? 'text-white' : 'text-black'}`}>
+                                                {country.name}
+                                            </Text>
+                                            <Text className={`text-[10px] font-bold mt-0.5 ${formData.country_id === country.id.toString() ? 'text-white/70' : 'text-black/40'}`}>
+                                                {country.currency}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                            </ScrollView>
+                        </View>
+
+                        {filteredDistricts.length > 0 && (
+                            <View>
+                                <Text className="text-xs font-black text-black/40 uppercase mb-3 ml-1 tracking-widest">District</Text>
+                                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                                    {filteredDistricts.map((district) => (
+                                        <TouchableOpacity 
+                                            key={district.id}
+                                            onPress={() => setFormData(prev => ({ ...prev, county: district.name }))}
+                                            className={`px-4 py-2 rounded-full border ${formData.county === district.name ? 'bg-black border-black' : 'bg-white border-secondary/20'}`}
+                                        >
+                                            <Text className={`font-black text-xs ${formData.county === district.name ? 'text-white' : 'text-black'}`}>
+                                                {district.name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                            </View>
+                        )}
+                    </View>
+
+                    <View className="bg-surface rounded-[32px] p-6 mb-6 border border-secondary/10">
                         <Text className="text-xl font-black text-black mb-6">Product Info</Text>
                         
                         <View className="mb-5">
@@ -282,9 +403,17 @@ export default function AddProductScreen() {
                     <View className="bg-surface rounded-[32px] p-6 mb-6 border border-secondary/10">
                         <Text className="text-xl font-black text-black mb-6">Pricing & Stock</Text>
 
+                        {selectedCountry && (
+                            <View className="bg-primary/20 rounded-2xl p-4 mb-5 flex-row items-center">
+                                <Text className="text-black font-bold">Currency: </Text>
+                                <Text className="text-black font-black text-lg">{selectedCountry.currency}</Text>
+                                <Text className="text-black/50 font-bold ml-2">({selectedCountry.name})</Text>
+                            </View>
+                        )}
+
                         <View style={{ flexDirection: 'row', gap: 16 }}>
                             <View style={{ flex: 1 }}>
-                                <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">Price *</Text>
+                                <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">Price ({selectedCurrency}) *</Text>
                                 <TextInput 
                                     className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black"
                                     placeholder="0.00"
