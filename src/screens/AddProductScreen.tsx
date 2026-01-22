@@ -19,7 +19,7 @@ export default function AddProductScreen() {
     return (
         <View style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="bg-white">
             <ScreenHeader title="List Product" showBackButton={true} />
-            <View style={{ flex: 1, minHeight: 0 }}>
+            <View style={{ flex: 1, position: 'relative' }}>
                 <WebScrollView>
                     <View className="bg-surface p-6 rounded-[32px] mb-6 border border-secondary/10">
                         <Text className="text-xl font-black text-black mb-4">Photos Section</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, ScrollView } from 'react-native';
 
 interface WebScrollViewProps {
     children: React.ReactNode;
@@ -12,11 +12,14 @@ export default function WebScrollView({ children, className = '', contentPadding
         return (
             <div
                 style={{
-                    flex: 1,
-                    overflowY: 'auto',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    overflowY: 'scroll',
                     overflowX: 'hidden',
                     WebkitOverflowScrolling: 'touch',
-                    height: '100%',
                     padding: contentPadding,
                     paddingBottom: 100,
                 }}
@@ -27,8 +30,12 @@ export default function WebScrollView({ children, className = '', contentPadding
     }
 
     return (
-        <View className={`flex-1 p-4 pb-24 ${className}`}>
+        <ScrollView 
+            className={`flex-1 ${className}`}
+            contentContainerStyle={{ padding: contentPadding, paddingBottom: 100 }}
+            showsVerticalScrollIndicator={true}
+        >
             {children}
-        </View>
+        </ScrollView>
     );
 }
