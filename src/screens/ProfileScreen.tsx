@@ -112,7 +112,11 @@ export default function ProfileScreen() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             className="flex-1 bg-white"
         >
-            <ScreenHeader title="Profile" subtitle={user?.email || ''} />
+            <ScreenHeader 
+                title="Profile" 
+                subtitle={user?.email || ''} 
+                showDrawerButton={true}
+            />
             <ScrollView
                 className="flex-1 p-4"
                 contentContainerStyle={{ paddingBottom: 100 }}

@@ -78,8 +78,8 @@ export default function WishlistScreen() {
             <ScreenHeader 
                 title="Wishlist" 
                 subtitle="Items saved for later" 
-                showBackButton={true} 
-                backIconType="chevron" 
+                showBackButton={false}
+                showDrawerButton={true}
             />
 
 

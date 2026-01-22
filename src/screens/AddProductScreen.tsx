@@ -129,7 +129,7 @@ export default function AddProductScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <ScreenHeader title="List Product" showBackButton={true} />
+            <ScreenHeader title="List Product" showBackButton={true} showDrawerButton={false} />
 
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView

@@ -121,8 +121,8 @@ export default function CartScreen() {
         <View style={{ flex: 1 }} className="bg-white">
             <ScreenHeader 
                 title="Your Cart" 
-                showBackButton={true} 
-                backIconType="chevron"
+                showBackButton={false}
+                showDrawerButton={true}
                 rightElement={
                     <View className="bg-white/30 px-3 py-1 rounded-full">
                         <Text className="text-black font-bold text-xs">{cartItems.length} Items</Text>

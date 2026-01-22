@@ -129,8 +129,7 @@ function AppDrawer() {
             <Drawer.Navigator
                 initialRouteName="BrowseProducts"
                 screenOptions={{
-                    headerShown: true,
-                    headerTintColor: '#00A082',
+                    headerShown: false,
                     drawerActiveTintColor: '#00A082',
                     drawerInactiveTintColor: '#64748b',
                 }}

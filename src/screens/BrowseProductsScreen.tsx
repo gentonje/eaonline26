@@ -51,7 +51,7 @@ export default function BrowseProductsScreen() {
 
     return (
         <View style={{ flex: 1 }} className="bg-white">
-            <ScreenHeader title="Browse Products" />
+            <ScreenHeader title="Browse Products" showDrawerButton={true} />
             <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={{ flexGrow: 1, paddingBottom: 100, paddingHorizontal: 16, paddingTop: 16 }}

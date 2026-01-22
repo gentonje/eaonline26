@@ -85,6 +85,7 @@ export default function MyProductsScreen() {
             <ScreenHeader 
                 title="My Store" 
                 subtitle="Manage your listings" 
+                showDrawerButton={true}
                 rightElement={
                     <TouchableOpacity
                         onPress={() => navigation.navigate('AddProduct')}

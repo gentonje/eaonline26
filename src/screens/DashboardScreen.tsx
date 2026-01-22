@@ -10,8 +10,9 @@ export default function DashboardScreen() {
     return (
         <View className="flex-1 bg-white">
             <ScreenHeader 
-                title="These are for you" 
-                subtitle="Discover amazing products curated for you"
+                title="South Sudan" 
+                subtitle="Explore products near you"
+                showDrawerButton={true}
                 rightElement={
                     <View className="bg-white/30 px-3 py-1 rounded-full flex-row items-center">
                         <MapPin size={12} color="black" />

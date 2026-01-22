@@ -6,7 +6,7 @@ import ScreenHeader from '../components/ScreenHeader';
 export default function SettingsScreen() {
     return (
         <View className="flex-1 bg-white">
-            <ScreenHeader title="Settings" />
+            <ScreenHeader title="Settings" showDrawerButton={true} />
             <ScrollView
                 className="flex-1 bg-white"
                 contentContainerStyle={{ paddingBottom: 60 }}
