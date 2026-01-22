@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, useWindowDimensions, TextInput } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, useWindowDimensions, TextInput, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import ScreenHeader from '../components/ScreenHeader';
@@ -213,17 +213,15 @@ export default function ProductDetailScreen() {
                 }
             />
 
-            <View style={{ flex: 1 }}>
-                <ScrollView
-                    style={{ flex: 1 }}
-                    contentContainerStyle={{ paddingBottom: 0 }}
-                    showsVerticalScrollIndicator={true}
-                    persistentScrollbar={true}
-                    keyboardShouldPersistTaps="handled"
-                    scrollEnabled={true}
-                    nestedScrollEnabled={true}
-                    bounces={true}
-                >
+            <ScrollView
+                style={[
+                    { flex: 1 },
+                    Platform.OS === 'web' && { overflow: 'scroll' as any }
+                ]}
+                contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 32) + 100 }}
+                showsVerticalScrollIndicator={true}
+                keyboardShouldPersistTaps="handled"
+            >
                     <View style={{ height: GALLERY_HEIGHT }} className="bg-primary/5">
                         <Image
                             source={{ uri: selectedCarouselImage || mainImageUrl }}
@@ -360,7 +358,6 @@ export default function ProductDetailScreen() {
                         </AnimatedPressable>
                     </View>
                 </ScrollView>
-            </View>
         </View>
     );
 }

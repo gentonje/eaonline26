@@ -8,6 +8,7 @@ import {
     Alert,
     TextInput,
     Image,
+    Platform,
 } from "react-native";
 import { supabase } from "../lib/supabase";
 import { Camera, Image as ImageIcon, X } from "lucide-react-native";
@@ -202,19 +203,16 @@ export default function AddProductScreen() {
 
             <ScrollView
                 ref={scrollRef}
-                style={{ flex: 1 }}
+                style={[
+                    { flex: 1 },
+                    Platform.OS === 'web' && { overflow: 'scroll' as any }
+                ]}
                 contentContainerStyle={{
                     padding: 20,
-                    paddingBottom: 0,
+                    paddingBottom: Math.max(insets.bottom, 32) + 100,
                 }}
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={true}
-                indicatorStyle="black"
-                scrollIndicatorInsets={{ right: 4 }}
-                persistentScrollbar={true}
-                scrollEnabled={true}
-                nestedScrollEnabled={true}
-                bounces={true}
             >
                 {/* PHOTOS */}
                 <View style={{ marginBottom: 32 }}>
