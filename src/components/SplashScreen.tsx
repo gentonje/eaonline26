@@ -4,135 +4,70 @@ import Animated, {
     useSharedValue,
     useAnimatedStyle,
     withTiming,
-    withRepeat,
+    withSpring,
     withSequence,
     withDelay,
+    withRepeat,
     Easing,
     interpolate,
-    Extrapolate,
 } from 'react-native-reanimated';
-import { ShoppingBag, ShoppingCart, Package, Star } from 'lucide-react-native';
+import { ShoppingBag } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SplashScreen() {
     const insets = useSafeAreaInsets();
     
-    // Animation values
-    const bagScale = useSharedValue(0);
-    const bagRotation = useSharedValue(0);
-    const cartTranslateX = useSharedValue(-100);
-    const cartOpacity = useSharedValue(0);
-    const packageScale = useSharedValue(0);
-    const packageRotation = useSharedValue(0);
-    const sparkleOpacity = useSharedValue(0);
-    const sparkleScale = useSharedValue(0);
+    const logoScale = useSharedValue(0);
+    const logoOpacity = useSharedValue(0);
+    const ringScale = useSharedValue(0.8);
+    const ringOpacity = useSharedValue(0);
+    const ring2Scale = useSharedValue(0.8);
+    const ring2Opacity = useSharedValue(0);
     const textOpacity = useSharedValue(0);
-    const textTranslateY = useSharedValue(20);
-    const progressBar = useSharedValue(0);
+    const textTranslateY = useSharedValue(30);
+    const taglineOpacity = useSharedValue(0);
+    const dotsOpacity = useSharedValue(0);
 
     useEffect(() => {
-        // Start animations
-        // Shopping bag entrance
-        bagScale.value = withDelay(200, withTiming(1, {
-            duration: 600,
-            easing: Easing.out(Easing.back(1.5)),
-        }));
+        logoOpacity.value = withTiming(1, { duration: 600 });
+        logoScale.value = withSequence(
+            withSpring(1.15, { damping: 8, stiffness: 100 }),
+            withSpring(1, { damping: 12, stiffness: 120 })
+        );
 
-        bagRotation.value = withDelay(200, withSequence(
-            withTiming(-15, { duration: 300 }),
-            withTiming(15, { duration: 300 }),
-            withTiming(0, { duration: 300 }),
+        ringScale.value = withDelay(300, withTiming(1.8, { duration: 1200, easing: Easing.out(Easing.cubic) }));
+        ringOpacity.value = withDelay(300, withSequence(
+            withTiming(0.4, { duration: 400 }),
+            withTiming(0, { duration: 800 })
         ));
 
-        // Shopping cart entrance
-        cartTranslateX.value = withDelay(600, withTiming(0, {
-            duration: 500,
-            easing: Easing.out(Easing.cubic),
-        }));
-        cartOpacity.value = withDelay(600, withTiming(1, { duration: 500 }));
-
-        // Package entrance
-        packageScale.value = withDelay(1000, withTiming(1, {
-            duration: 500,
-            easing: Easing.out(Easing.back(1.2)),
-        }));
-        packageRotation.value = withDelay(1000, withSequence(
-            withTiming(-10, { duration: 250 }),
-            withTiming(10, { duration: 250 }),
-            withTiming(0, { duration: 250 }),
+        ring2Scale.value = withDelay(500, withTiming(2.2, { duration: 1400, easing: Easing.out(Easing.cubic) }));
+        ring2Opacity.value = withDelay(500, withSequence(
+            withTiming(0.3, { duration: 400 }),
+            withTiming(0, { duration: 1000 })
         ));
 
-        // Sparkles animation
-        sparkleOpacity.value = withDelay(1200, withTiming(1, { duration: 400 }));
-        sparkleScale.value = withDelay(1200, withSequence(
-            withTiming(1.2, { duration: 300 }),
-            withTiming(1, { duration: 300 }),
-        ));
-        sparkleOpacity.value = withDelay(1200, withRepeat(
-            withSequence(
-                withTiming(1, { duration: 800 }),
-                withTiming(0.3, { duration: 800 }),
-            ),
-            -1,
-            false
-        ));
+        textOpacity.value = withDelay(600, withTiming(1, { duration: 500 }));
+        textTranslateY.value = withDelay(600, withSpring(0, { damping: 15, stiffness: 120 }));
 
-        // Text animation
-        textOpacity.value = withDelay(1500, withTiming(1, { duration: 500 }));
-        textTranslateY.value = withDelay(1500, withTiming(0, {
-            duration: 500,
-            easing: Easing.out(Easing.cubic),
-        }));
+        taglineOpacity.value = withDelay(900, withTiming(1, { duration: 500 }));
 
-        // Progress bar
-        progressBar.value = withDelay(1800, withTiming(1, {
-            duration: 1200,
-            easing: Easing.inOut(Easing.ease),
-        }));
-
-        // Continuous animations
-        bagRotation.value = withDelay(2000, withRepeat(
-            withSequence(
-                withTiming(-8, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
-                withTiming(8, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
-            ),
-            -1,
-            true
-        ));
-
-        cartTranslateX.value = withDelay(2000, withRepeat(
-            withSequence(
-                withTiming(-10, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
-                withTiming(10, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
-            ),
-            -1,
-            true
-        ));
+        dotsOpacity.value = withDelay(1200, withTiming(1, { duration: 300 }));
     }, []);
 
-    // Animated styles
-    const bagAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [
-            { scale: bagScale.value },
-            { rotate: `${bagRotation.value}deg` },
-        ],
+    const logoAnimatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: logoScale.value }],
+        opacity: logoOpacity.value,
     }));
 
-    const cartAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: cartTranslateX.value }],
-        opacity: cartOpacity.value,
+    const ringAnimatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: ringScale.value }],
+        opacity: ringOpacity.value,
     }));
 
-    const packageAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [
-            { scale: packageScale.value },
-            { rotate: `${packageRotation.value}deg` },
-        ],
-    }));
-
-    const sparkleAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: sparkleOpacity.value,
-        transform: [{ scale: sparkleScale.value }],
+    const ring2AnimatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: ring2Scale.value }],
+        opacity: ring2Opacity.value,
     }));
 
     const textAnimatedStyle = useAnimatedStyle(() => ({
@@ -140,61 +75,97 @@ export default function SplashScreen() {
         transform: [{ translateY: textTranslateY.value }],
     }));
 
-    const progressBarStyle = useAnimatedStyle(() => ({
-        width: `${interpolate(
-            progressBar.value,
-            [0, 1],
-            [0, 100],
-            Extrapolate.CLAMP
-        )}%`,
+    const taglineAnimatedStyle = useAnimatedStyle(() => ({
+        opacity: taglineOpacity.value,
+    }));
+
+    const dotsAnimatedStyle = useAnimatedStyle(() => ({
+        opacity: dotsOpacity.value,
     }));
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            {/* Background gradient effect */}
-            <View style={styles.backgroundGradient} />
-
-            {/* Main icon container */}
-            <View style={styles.iconContainer}>
-                {/* Shopping Bag - Main */}
-                <Animated.View style={[styles.bagContainer, bagAnimatedStyle]}>
-                    <ShoppingBag size={80} color="#f97316" strokeWidth={2.5} />
-                </Animated.View>
-
-                {/* Shopping Cart - Left */}
-                <Animated.View style={[styles.cartContainer, cartAnimatedStyle]}>
-                    <ShoppingCart size={50} color="#3b82f6" strokeWidth={2} />
-                </Animated.View>
-
-                {/* Package - Right */}
-                <Animated.View style={[styles.packageContainer, packageAnimatedStyle]}>
-                    <Package size={50} color="#10b981" strokeWidth={2} />
-                </Animated.View>
-
-                {/* Sparkles/Stars */}
-                <Animated.View style={[styles.sparkle1, sparkleAnimatedStyle]}>
-                    <Star size={20} color="#fbbf24" fill="#fbbf24" />
-                </Animated.View>
-                <Animated.View style={[styles.sparkle2, sparkleAnimatedStyle]}>
-                    <Star size={16} color="#f97316" fill="#f97316" />
-                </Animated.View>
-                <Animated.View style={[styles.sparkle3, sparkleAnimatedStyle]}>
-                    <Star size={18} color="#3b82f6" fill="#3b82f6" />
+            <View style={styles.logoContainer}>
+                <Animated.View style={[styles.ring, ringAnimatedStyle]} />
+                <Animated.View style={[styles.ring2, ring2AnimatedStyle]} />
+                
+                <Animated.View style={[styles.logoCircle, logoAnimatedStyle]}>
+                    <ShoppingBag size={48} color="#FFFFFF" strokeWidth={2.5} />
                 </Animated.View>
             </View>
 
-            {/* App Name */}
             <Animated.View style={textAnimatedStyle}>
                 <Text style={styles.appName}>Online Store</Text>
-                <Text style={styles.tagline}>Shop Smart, Live Better</Text>
             </Animated.View>
 
-            {/* Progress Bar */}
-            <View style={styles.progressContainer}>
-                <View style={styles.progressBarBackground}>
-                    <Animated.View style={[styles.progressBarFill, progressBarStyle]} />
-                </View>
-            </View>
+            <Animated.View style={taglineAnimatedStyle}>
+                <Text style={styles.tagline}>Shopping made easy</Text>
+            </Animated.View>
+
+            <Animated.View style={[styles.loadingDots, dotsAnimatedStyle]}>
+                <LoadingDots />
+            </Animated.View>
+        </View>
+    );
+}
+
+function LoadingDots() {
+    const dot1 = useSharedValue(0);
+    const dot2 = useSharedValue(0);
+    const dot3 = useSharedValue(0);
+
+    useEffect(() => {
+        dot1.value = withRepeat(
+            withSequence(
+                withTiming(1, { duration: 300 }),
+                withTiming(0, { duration: 300 }),
+                withDelay(300, withTiming(0, { duration: 0 }))
+            ),
+            -1,
+            false
+        );
+        
+        dot2.value = withDelay(150, withRepeat(
+            withSequence(
+                withTiming(1, { duration: 300 }),
+                withTiming(0, { duration: 300 }),
+                withDelay(300, withTiming(0, { duration: 0 }))
+            ),
+            -1,
+            false
+        ));
+        
+        dot3.value = withDelay(300, withRepeat(
+            withSequence(
+                withTiming(1, { duration: 300 }),
+                withTiming(0, { duration: 300 }),
+                withDelay(300, withTiming(0, { duration: 0 }))
+            ),
+            -1,
+            false
+        ));
+    }, []);
+
+    const dot1Style = useAnimatedStyle(() => ({
+        opacity: interpolate(dot1.value, [0, 1], [0.3, 1]),
+        transform: [{ scale: interpolate(dot1.value, [0, 1], [1, 1.3]) }],
+    }));
+
+    const dot2Style = useAnimatedStyle(() => ({
+        opacity: interpolate(dot2.value, [0, 1], [0.3, 1]),
+        transform: [{ scale: interpolate(dot2.value, [0, 1], [1, 1.3]) }],
+    }));
+
+    const dot3Style = useAnimatedStyle(() => ({
+        opacity: interpolate(dot3.value, [0, 1], [0.3, 1]),
+        transform: [{ scale: interpolate(dot3.value, [0, 1], [1, 1.3]) }],
+    }));
+
+    return (
+        <View style={styles.dotsContainer}>
+            <Animated.View style={[styles.dot, dot1Style]} />
+            <Animated.View style={[styles.dot, dot2Style]} />
+            <Animated.View style={[styles.dot, dot3Style]} />
         </View>
     );
 }
@@ -204,86 +175,70 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#FFD147',
     },
-    backgroundGradient: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: '#f8fafc',
-    },
-    iconContainer: {
-        width: 300,
-        height: 300,
+    logoContainer: {
+        width: 160,
+        height: 160,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 40,
-        position: 'relative',
+        marginBottom: 32,
     },
-    bagContainer: {
-        position: 'absolute',
-        zIndex: 3,
+    logoCircle: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: '#00A082',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.15,
+        shadowRadius: 16,
+        elevation: 8,
     },
-    cartContainer: {
+    ring: {
         position: 'absolute',
-        left: 20,
-        top: 120,
-        zIndex: 2,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderWidth: 3,
+        borderColor: '#00A082',
     },
-    packageContainer: {
+    ring2: {
         position: 'absolute',
-        right: 20,
-        top: 120,
-        zIndex: 2,
-    },
-    sparkle1: {
-        position: 'absolute',
-        top: 40,
-        left: 60,
-        zIndex: 4,
-    },
-    sparkle2: {
-        position: 'absolute',
-        top: 180,
-        right: 50,
-        zIndex: 4,
-    },
-    sparkle3: {
-        position: 'absolute',
-        bottom: 60,
-        left: 80,
-        zIndex: 4,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: '#00A082',
     },
     appName: {
         fontSize: 32,
-        fontWeight: 'bold',
-        color: '#1f2937',
+        fontWeight: '800',
+        color: '#1a1a1a',
         marginBottom: 8,
         textAlign: 'center',
+        letterSpacing: -0.5,
     },
     tagline: {
         fontSize: 16,
-        color: '#6b7280',
+        color: '#4a4a4a',
         textAlign: 'center',
         fontWeight: '500',
     },
-    progressContainer: {
+    loadingDots: {
         position: 'absolute',
-        bottom: 60,
-        left: 40,
-        right: 40,
+        bottom: 80,
     },
-    progressBarBackground: {
-        height: 4,
-        backgroundColor: '#e5e7eb',
-        borderRadius: 2,
-        overflow: 'hidden',
+    dotsContainer: {
+        flexDirection: 'row',
+        gap: 8,
     },
-    progressBarFill: {
-        height: '100%',
-        backgroundColor: '#f97316',
-        borderRadius: 2,
+    dot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#00A082',
     },
 });

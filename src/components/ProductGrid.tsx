@@ -8,7 +8,7 @@ interface ProductGridProps<T> {
 
 export default function ProductGrid<T extends { id: string | number }>({ items, renderItem }: ProductGridProps<T>) {
     return (
-        <View className="flex-row flex-wrap p-2">
+        <View className="flex-row flex-wrap">
             {items.map((item) => (
                 <View
                     key={item.id}
