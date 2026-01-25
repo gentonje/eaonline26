@@ -36,7 +36,10 @@ export function useShopping() {
                 .eq('user_id', user.id)
                 .maybeSingle();
 
-            if (cartFetchError) throw cartFetchError;
+            if (cartFetchError) {
+                console.error('Cart fetch error:', cartFetchError);
+                throw new Error('Unable to access cart. Please try again.');
+            }
 
             if (!cart) {
                 const { data: newCart, error: cartCreateError } = await supabase
@@ -45,7 +48,10 @@ export function useShopping() {
                     .select('id')
                     .single();
 
-                if (cartCreateError) throw cartCreateError;
+                if (cartCreateError) {
+                    console.error('Cart create error:', cartCreateError);
+                    throw new Error('Unable to create cart. Please try again.');
+                }
                 cart = newCart;
             }
 
