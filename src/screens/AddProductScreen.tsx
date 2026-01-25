@@ -205,9 +205,11 @@ export default function AddProductScreen() {
 
             if (productError) throw productError;
 
+            const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
             const imageRecords = uploadedImages.map((img, index) => ({
                 product_id: product.id,
                 storage_path: img.path,
+                image_url: supabaseUrl ? `${supabaseUrl}/storage/v1/object/public/images/${img.path}` : img.path,
                 is_main: img.isMain,
                 display_order: index,
             }));
