@@ -45,5 +45,8 @@
     "sharp": "^0.34.5",
     "typescript": "~5.3.3"
   },
+  "overrides": {
+    "react-native-worklets": "npm:empty-npm-package@1.0.0"
+  },
   "private": true
 }
