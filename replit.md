@@ -31,8 +31,21 @@ Preferred communication style: Simple, everyday language.
 - **Products**: Items for sale with images, pricing, categories, and location data
 - **Cart/Cart Items**: Shopping cart functionality per user
 - **Wishlist**: User favorites
-- **Profiles**: Extended user data including roles (user, admin, superadmin)
+- **Profiles**: Extended user data including roles (user, admin, superadmin) and account_type (basic, starter, premium)
 - **Countries/Districts**: Location hierarchy for product filtering
+- **Account Type Limits**: Configurable limits for product posting by account type (basic: 3, starter: 10, premium: 30 by default)
+
+### Account Type System
+- **Basic**: Default account type, can post up to 3 products
+- **Starter**: Can post up to 10 products
+- **Premium**: Can post up to 30 products
+- Limits are configurable by superadmins in the Admin Panel
+- Account types can be changed by admins/superadmins
+
+### Product Approval Workflow
+- New products start with status "draft"
+- Admin approval required to change status to "published"
+- Only published products are visible to regular users browsing the marketplace
 
 ### Navigation Structure
 ```
