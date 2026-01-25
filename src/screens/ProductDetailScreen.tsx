@@ -216,11 +216,11 @@ export default function ProductDetailScreen() {
 
             <View style={{ flex: 1, position: 'relative' }}>
                 <WebScrollView contentPadding={0}>
-                    <View style={{ height: GALLERY_HEIGHT }} className="bg-primary/5">
+                    <View style={{ height: GALLERY_HEIGHT + 16, paddingTop: 16, paddingHorizontal: 0 }} className="bg-gray-50">
                         <Image
                             source={{ uri: selectedCarouselImage || mainImageUrl }}
                             style={{ width: '100%', height: GALLERY_HEIGHT }}
-                            resizeMode="contain"
+                            resizeMode="cover"
                         />
                     </View>
 
