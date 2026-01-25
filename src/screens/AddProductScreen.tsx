@@ -43,7 +43,7 @@ export default function AddProductScreen() {
         category: 'Electronics',
         available_quantity: '1',
         country_id: '',
-        county: '',
+        district_id: '',
     });
     const [images, setImages] = useState<ImageItem[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
@@ -63,8 +63,8 @@ export default function AddProductScreen() {
             if (country) {
                 setSelectedCurrency(country.currency);
             }
-            if (formData.county && !filtered.some(d => d.name === formData.county)) {
-                setFormData(prev => ({ ...prev, county: '' }));
+            if (formData.district_id && !filtered.some(d => d.id.toString() === formData.district_id)) {
+                setFormData(prev => ({ ...prev, district_id: '' }));
             }
         } else {
             setFilteredDistricts([]);
@@ -169,6 +169,36 @@ export default function AddProductScreen() {
                 return;
             }
 
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('account_type')
+                .eq('id', user.id)
+                .single();
+
+            const accountType = profile?.account_type || 'basic';
+
+            const { data: limitData } = await supabase
+                .from('account_type_limits')
+                .select('max_products')
+                .eq('account_type', accountType)
+                .single();
+
+            const maxProducts = limitData?.max_products || 3;
+
+            const { count: currentProducts } = await supabase
+                .from('products')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_id', user.id);
+
+            if ((currentProducts || 0) >= maxProducts) {
+                Alert.alert(
+                    'Limit Reached',
+                    `Your ${accountType} account can only post ${maxProducts} products. Upgrade your account to post more.`
+                );
+                setSaving(false);
+                return;
+            }
+
             const uploadedImages: { path: string; isMain: boolean }[] = [];
             
             for (let i = 0; i < images.length; i++) {
@@ -187,6 +217,8 @@ export default function AddProductScreen() {
 
             const mainImagePath = uploadedImages.find(img => img.isMain)?.path || uploadedImages[0].path;
 
+            const selectedDistrict = districts.find(d => d.id.toString() === formData.district_id);
+            
             const { data: product, error: productError } = await supabase
                 .from('products')
                 .insert({
@@ -199,6 +231,7 @@ export default function AddProductScreen() {
                     storage_path: mainImagePath,
                     product_status: 'draft',
                     country_id: parseInt(formData.country_id),
+                    county: selectedDistrict?.name || null,
                 })
                 .select()
                 .single();
@@ -329,7 +362,7 @@ export default function AddProductScreen() {
                                     {countries.map((country) => (
                                         <TouchableOpacity 
                                             key={country.id}
-                                            onPress={() => setFormData(prev => ({ ...prev, country_id: country.id.toString(), county: '' }))}
+                                            onPress={() => setFormData(prev => ({ ...prev, country_id: country.id.toString(), district_id: '' }))}
                                             className={`px-4 py-3 rounded-2xl border ${formData.country_id === country.id.toString() ? 'bg-accent border-accent' : 'bg-white border-secondary/20'}`}
                                         >
                                             <Text className={`font-black text-sm ${formData.country_id === country.id.toString() ? 'text-white' : 'text-black'}`}>
@@ -351,10 +384,10 @@ export default function AddProductScreen() {
                                     {filteredDistricts.map((district) => (
                                         <TouchableOpacity 
                                             key={district.id}
-                                            onPress={() => setFormData(prev => ({ ...prev, county: district.name }))}
-                                            className={`px-4 py-2 rounded-full border ${formData.county === district.name ? 'bg-black border-black' : 'bg-white border-secondary/20'}`}
+                                            onPress={() => setFormData(prev => ({ ...prev, district_id: district.id.toString() }))}
+                                            className={`px-4 py-2 rounded-full border ${formData.district_id === district.id.toString() ? 'bg-black border-black' : 'bg-white border-secondary/20'}`}
                                         >
-                                            <Text className={`font-black text-xs ${formData.county === district.name ? 'text-white' : 'text-black'}`}>
+                                            <Text className={`font-black text-xs ${formData.district_id === district.id.toString() ? 'text-white' : 'text-black'}`}>
                                                 {district.name}
                                             </Text>
                                         </TouchableOpacity>
