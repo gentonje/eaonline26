@@ -246,6 +246,8 @@ export default function BrowseProductsScreen() {
 
             if (selectedCountry !== null) query = query.eq('country_id', selectedCountry);
             if (selectedDistrict !== null) query = query.eq('county', selectedDistrict);
+            const combinedFilters: string[] = [];
+
             if (selectedCategory !== null) {
                 const taxonomyIds = getCategoryNodeIds(selectedCategory);
                 const legacyCategories = Array.from(new Set([
@@ -258,18 +260,20 @@ export default function BrowseProductsScreen() {
                     const quoted = legacyCategories.map(value => `"${value.replace(/"/g, '\\"')}"`).join(',');
                     categoryClauses.push(`category.in.(${quoted})`);
                 }
-                if (categoryClauses.length) query = query.or(categoryClauses.join(','));
+                if (categoryClauses.length) combinedFilters.push(`or(${categoryClauses.join(',')})`);
             }
 
-            // Product search uses keywords, not the complete phrase. Every
-            // keyword must occur in either title or description, in any order.
+            // Every search keyword must match the title or description.
             const keywords = getSearchKeywords(debouncedRef.current);
             if (keywords.length > 0) {
                 const keywordGroups = keywords.map(word =>
                     `or(title.ilike.%${word}%,description.ilike.%${word}%)`
                 );
-                query = query.or(`and(${keywordGroups.join(',')})`);
+                combinedFilters.push(`and(${keywordGroups.join(',')})`);
             }
+
+            // Apply category and keyword conditions together in one filter.
+            if (combinedFilters.length) query = query.or(`and(${combinedFilters.join(',')})`);
 
             const { data, error } = await query;
             if (error) throw error;
@@ -344,8 +348,8 @@ export default function BrowseProductsScreen() {
                         </TouchableOpacity>
                         {taxonomyNodes.filter(node => node.node_kind === 'main_category').map(cat => (
                             <TouchableOpacity
-                                key={cat}
-                                onPress={() => handleSelectCategory(cat)}
+                                key={cat.id}
+                                onPress={() => handleSelectCategory(cat.label)}
                                 className={`px-4 py-2.5 rounded-2xl border ${
                                     selectedCategory === cat.label ? 'bg-accent border-accent' : 'bg-white border-gray-200'
                                 }`}
