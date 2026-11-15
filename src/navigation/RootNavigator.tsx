@@ -30,6 +30,9 @@ import LoginScreen from '../screens/LoginScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import BrowseProductsScreen from '../screens/BrowseProductsScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import ProductComparisonScreen from '../screens/ProductComparisonScreen';
+import { CompareProvider } from '../contexts/CompareContext';
+import CompareTray from '../components/CompareTray';
 import MyProductsScreen from '../screens/MyProductsScreen';
 import AddProductScreen from '../screens/AddProductScreen';
 import EditProductScreen from '../screens/EditProductScreen';
@@ -90,6 +93,7 @@ const linking = {
                 },
             },
             ProductDetail: 'product/:productId',
+            ProductComparison: 'compare',
             AddProduct: 'sell',
             EditProduct: 'edit-product/:productId',
             Cart: 'cart',
@@ -354,6 +358,7 @@ export default function RootNavigator() {
     }
 
     return (
+        <CompareProvider>
         <AssistantProvider>
         <NavigationContainer linking={linking}>
             <Stack.Navigator>
@@ -367,6 +372,11 @@ export default function RootNavigator() {
                         <Stack.Screen
                             name="ProductDetail"
                             component={ProductDetailScreen}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="ProductComparison"
+                            component={ProductComparisonScreen}
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen
@@ -432,8 +442,10 @@ export default function RootNavigator() {
 
             </Stack.Navigator>
             {session ? <FloatingAssistant /> : null}
+            {session ? <CompareTray /> : null}
         </NavigationContainer>
         </AssistantProvider>
+        </CompareProvider>
     );
 }
 
