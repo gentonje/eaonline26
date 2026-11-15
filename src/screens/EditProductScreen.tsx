@@ -31,6 +31,18 @@ interface ImageItem {
     existingPath?: string;
 }
 
+
+function parseProductAttributes(input: string): Record<string, string> {
+    return Object.fromEntries(input.split(/\\r?\\n/).map(line => {
+        const separator = line.indexOf(':');
+        return separator > 0 ? [line.slice(0, separator).trim(), line.slice(separator + 1).trim()] : ['', ''];
+    }).filter(([key, value]) => key && value));
+}
+
+function formatProductAttributes(attributes: Record<string, unknown> | null | undefined): string {
+    return Object.entries(attributes || {}).map(([key, value]) => `${key}: ${String(value)}`).join('\\n');
+}
+
 export default function EditProductScreen() {
     const navigation = useNavigation();
     const route = useRoute();
@@ -48,7 +60,11 @@ export default function EditProductScreen() {
         available_quantity: '1',
         county: '',
         country_id: '',
-        validity_period: 'day'
+        validity_period: 'day',
+        condition: 'New',
+        warranty: '',
+        delivery_terms: '',
+        attributesText: '',
     });
     const [images, setImages] = useState<ImageItem[]>([]);
     const [countries, setCountries] = useState<any[]>([]);
@@ -79,7 +95,11 @@ export default function EditProductScreen() {
                 available_quantity: product.available_quantity?.toString() || '1',
                 county: product.county || '',
                 country_id: product.country_id?.toString() || '',
-                validity_period: product.validity_period || 'day'
+                validity_period: product.validity_period || 'day',
+                condition: product.condition || '',
+                warranty: product.warranty || '',
+                delivery_terms: product.delivery_terms || '',
+                attributesText: formatProductAttributes(product.attributes),
             });
 
             if (product.product_images && product.product_images.length > 0) {
@@ -186,6 +206,10 @@ export default function EditProductScreen() {
                 category: formData.category,
                 available_quantity: parseInt(formData.available_quantity),
                 storage_path: mainPath,
+                condition: formData.condition || null,
+                warranty: formData.warranty.trim() || null,
+                delivery_terms: formData.delivery_terms.trim() || null,
+                attributes: parseProductAttributes(formData.attributesText),
             }).eq('id', productId);
 
             if (prErr) throw prErr;
