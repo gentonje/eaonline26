@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 
 type Node = { id: string; parent_id: string | null; label: string; node_kind: string; is_active: boolean; sort_order: number };
 type Definition = { code: string; label: string; data_type: string; tier: string; config: Record<string, any> };
-type Selection = { nodeId: string | null; listingKind: string; attributes: Record<string, string> };
+type Selection = { nodeId: string | null; listingKind: string; category: string; attributes: Record<string, string> };
 type Props = { initialNodeId?: string | null; initialListingKind?: string; initialAttributes?: Record<string, any>; onChange: (value: Selection) => void };
 
 const kinds = [
@@ -86,7 +86,7 @@ export default function TaxonomyListingFields({ initialNodeId = null, initialLis
     return () => { alive = false; };
   }, [typeId, listingKind]);
 
-  useEffect(() => { onChange({ nodeId: typeId, listingKind, attributes }); }, [typeId, listingKind, attributes]);
+  useEffect(() => { onChange({ nodeId: typeId, listingKind, category: nodes.find(n => n.id === mainId)?.label || '', attributes }); }, [typeId, listingKind, attributes]);
 
   const updateAttribute = (code: string, value: string) => setAttributes(prev => ({ ...prev, [code]: value }));
   const chips = (items: Node[], selected: string | null, onSelect: (id: string) => void) => (
