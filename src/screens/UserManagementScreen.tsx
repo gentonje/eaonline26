@@ -241,7 +241,7 @@ export default function UserManagementScreen() {
                                                         {product.title}
                                                     </Text>
                                                     <Text className="text-accent font-black text-sm">
-                                                        ${product.price}
+                                                        KES {product.price?.toLocaleString()}
                                                     </Text>
                                                 </View>
                                                 <View className="flex-row items-center" style={{ gap: 8 }}>

@@ -77,7 +77,7 @@ export default function ProductCard({ product, showPrice = true, actions, onPres
                     </Text>
                     {showPrice && (
                         <Text className="text-accent font-black text-sm mt-0.5">
-                            {product.currency || 'SSP'} {product.price?.toLocaleString()}
+                            {product.countries?.currency || product.currency || 'KES'} {product.price?.toLocaleString()}
                         </Text>
                     )}
                 </View>

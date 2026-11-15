@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, useWindowDimensions } from 'react-native';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
@@ -11,100 +11,175 @@ import Animated, {
     Easing,
     interpolate,
 } from 'react-native-reanimated';
-import { ShoppingBag } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Zap } from 'lucide-react-native';
+
+const mascotImage = require('../../assets/splash-mascot.png');
+
+const BRAND = 'East Africa Online';
+const TAGLINE = 'Where Africa shops together';
+
+const TEAL = '#00A082';
+const YELLOW = '#FDB913';
+const INK = '#111827';
+const MUTED = '#64748b';
 
 export default function SplashScreen() {
     const insets = useSafeAreaInsets();
-    
-    const logoScale = useSharedValue(0);
+    const { width } = useWindowDimensions();
+
+    // Mascot entrance
     const logoOpacity = useSharedValue(0);
-    const ringScale = useSharedValue(0.8);
-    const ringOpacity = useSharedValue(0);
-    const ring2Scale = useSharedValue(0.8);
-    const ring2Opacity = useSharedValue(0);
-    const textOpacity = useSharedValue(0);
-    const textTranslateY = useSharedValue(30);
+    const logoScale = useSharedValue(0.7);
+
+    // Self-writing brand text
+    const [typedCount, setTypedCount] = useState(0);
+
+    // Tagline
     const taglineOpacity = useSharedValue(0);
+    const taglineTranslateY = useSharedValue(12);
+
+    // Underline
+    const underlineWidth = useSharedValue(0);
+
+    // Loading dots
     const dotsOpacity = useSharedValue(0);
 
+    // Promo chip
+    const chipOpacity = useSharedValue(0);
+    const chipTranslateY = useSharedValue(8);
+
     useEffect(() => {
-        logoOpacity.value = withTiming(1, { duration: 600 });
+        // Mascot entrance
+        logoOpacity.value = withTiming(1, { duration: 500, easing: Easing.out(Easing.cubic) });
         logoScale.value = withSequence(
-            withSpring(1.15, { damping: 8, stiffness: 100 }),
-            withSpring(1, { damping: 12, stiffness: 120 })
+            withSpring(1.06, { damping: 10, stiffness: 110 }),
+            withSpring(1, { damping: 14, stiffness: 120 })
         );
 
-        ringScale.value = withDelay(300, withTiming(1.8, { duration: 1200, easing: Easing.out(Easing.cubic) }));
-        ringOpacity.value = withDelay(300, withSequence(
-            withTiming(0.4, { duration: 400 }),
-            withTiming(0, { duration: 800 })
-        ));
+        // Self-writing brand text — type one char every ~70ms after a 600ms delay
+        const startDelay = 600;
+        const perChar = 70;
+        const timeouts: ReturnType<typeof setTimeout>[] = [];
+        for (let i = 1; i <= BRAND.length; i++) {
+            timeouts.push(
+                setTimeout(() => setTypedCount(i), startDelay + i * perChar)
+            );
+        }
 
-        ring2Scale.value = withDelay(500, withTiming(2.2, { duration: 1400, easing: Easing.out(Easing.cubic) }));
-        ring2Opacity.value = withDelay(500, withSequence(
-            withTiming(0.3, { duration: 400 }),
-            withTiming(0, { duration: 1000 })
-        ));
+        // Underline grows after typing completes
+        const underlineDelay = startDelay + BRAND.length * perChar + 100;
+        underlineWidth.value = withDelay(
+            underlineDelay,
+            withTiming(1, { duration: 600, easing: Easing.out(Easing.cubic) })
+        );
 
-        textOpacity.value = withDelay(600, withTiming(1, { duration: 500 }));
-        textTranslateY.value = withDelay(600, withSpring(0, { damping: 15, stiffness: 120 }));
+        // Tagline fades in after underline
+        taglineOpacity.value = withDelay(
+            underlineDelay + 350,
+            withTiming(1, { duration: 500 })
+        );
+        taglineTranslateY.value = withDelay(
+            underlineDelay + 350,
+            withSpring(0, { damping: 14, stiffness: 110 })
+        );
 
-        taglineOpacity.value = withDelay(900, withTiming(1, { duration: 500 }));
+        // Promo chip
+        chipOpacity.value = withDelay(
+            underlineDelay + 600,
+            withTiming(1, { duration: 400 })
+        );
+        chipTranslateY.value = withDelay(
+            underlineDelay + 600,
+            withSpring(0, { damping: 14, stiffness: 110 })
+        );
 
-        dotsOpacity.value = withDelay(1200, withTiming(1, { duration: 300 }));
+        // Loading dots
+        dotsOpacity.value = withDelay(
+            underlineDelay + 700,
+            withTiming(1, { duration: 300 })
+        );
+
+        return () => timeouts.forEach(clearTimeout);
     }, []);
 
-    const logoAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: logoScale.value }],
+    const logoStyle = useAnimatedStyle(() => ({
         opacity: logoOpacity.value,
+        transform: [{ scale: logoScale.value }],
     }));
 
-    const ringAnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: ringScale.value }],
-        opacity: ringOpacity.value,
-    }));
-
-    const ring2AnimatedStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: ring2Scale.value }],
-        opacity: ring2Opacity.value,
-    }));
-
-    const textAnimatedStyle = useAnimatedStyle(() => ({
-        opacity: textOpacity.value,
-        transform: [{ translateY: textTranslateY.value }],
-    }));
-
-    const taglineAnimatedStyle = useAnimatedStyle(() => ({
+    const taglineStyle = useAnimatedStyle(() => ({
         opacity: taglineOpacity.value,
+        transform: [{ translateY: taglineTranslateY.value }],
     }));
 
-    const dotsAnimatedStyle = useAnimatedStyle(() => ({
+    const chipStyle = useAnimatedStyle(() => ({
+        opacity: chipOpacity.value,
+        transform: [{ translateY: chipTranslateY.value }],
+    }));
+
+    const dotsStyle = useAnimatedStyle(() => ({
         opacity: dotsOpacity.value,
     }));
 
+    // Underline grows from 0 to brand text width (~ measured visually)
+    const maxUnderline = Math.min(width * 0.7, 360);
+    const underlineStyle = useAnimatedStyle(() => ({
+        width: interpolate(underlineWidth.value, [0, 1], [0, maxUnderline]),
+    }));
+
+    const typedText = BRAND.slice(0, typedCount);
+    const showCaret = typedCount < BRAND.length;
+
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <View style={styles.logoContainer}>
-                <Animated.View style={[styles.ring, ringAnimatedStyle]} />
-                <Animated.View style={[styles.ring2, ring2AnimatedStyle]} />
-                
-                <Animated.View style={[styles.logoCircle, logoAnimatedStyle]}>
-                    <ShoppingBag size={48} color="#FFFFFF" strokeWidth={2.5} />
+            <View style={styles.content}>
+                {/* Mascot inside a soft yellow halo (matches dashboard promo card) */}
+                <View style={styles.logoArea}>
+                    <View style={styles.haloOuter} />
+                    <View style={styles.haloInner} />
+                    <Animated.View style={[styles.mascotWrap, logoStyle]}>
+                        <Image
+                            source={mascotImage}
+                            style={styles.mascot}
+                            resizeMode="contain"
+                        />
+                    </Animated.View>
+                </View>
+
+                {/* Self-writing brand name */}
+                <View style={styles.brandRow}>
+                    <Text style={styles.brand}>
+                        {typedText}
+                        {showCaret ? <Text style={styles.caret}>|</Text> : null}
+                    </Text>
+                </View>
+
+                {/* Animated yellow underline */}
+                <Animated.View style={[styles.underline, underlineStyle]} />
+
+                {/* Tagline */}
+                <Animated.View style={taglineStyle}>
+                    <Text style={styles.tagline}>{TAGLINE}</Text>
+                </Animated.View>
+
+                {/* Promo chip echoing the dashboard banner */}
+                <Animated.View style={[styles.chip, chipStyle]}>
+                    <View style={styles.chipIcon}>
+                        <Zap size={14} color={YELLOW} fill={YELLOW} />
+                    </View>
+                    <Text style={styles.chipText}>Free delivery across East Africa</Text>
                 </Animated.View>
             </View>
 
-            <Animated.View style={textAnimatedStyle}>
-                <Text style={styles.appName}>Online Store</Text>
-            </Animated.View>
-
-            <Animated.View style={taglineAnimatedStyle}>
-                <Text style={styles.tagline}>Shopping made easy</Text>
-            </Animated.View>
-
-            <Animated.View style={[styles.loadingDots, dotsAnimatedStyle]}>
+            {/* Loading dots */}
+            <Animated.View style={[styles.loadingDots, dotsStyle]}>
                 <LoadingDots />
             </Animated.View>
+
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>eastafricaonline.com</Text>
+            </View>
         </View>
     );
 }
@@ -115,49 +190,35 @@ function LoadingDots() {
     const dot3 = useSharedValue(0);
 
     useEffect(() => {
-        dot1.value = withRepeat(
-            withSequence(
-                withTiming(1, { duration: 300 }),
-                withTiming(0, { duration: 300 }),
-                withDelay(300, withTiming(0, { duration: 0 }))
-            ),
-            -1,
-            false
-        );
-        
-        dot2.value = withDelay(150, withRepeat(
-            withSequence(
-                withTiming(1, { duration: 300 }),
-                withTiming(0, { duration: 300 }),
-                withDelay(300, withTiming(0, { duration: 0 }))
-            ),
-            -1,
-            false
-        ));
-        
-        dot3.value = withDelay(300, withRepeat(
-            withSequence(
-                withTiming(1, { duration: 300 }),
-                withTiming(0, { duration: 300 }),
-                withDelay(300, withTiming(0, { duration: 0 }))
-            ),
-            -1,
-            false
-        ));
+        const cfg = (sv: typeof dot1, delay: number) => {
+            sv.value = withDelay(
+                delay,
+                withRepeat(
+                    withSequence(
+                        withTiming(1, { duration: 400 }),
+                        withTiming(0, { duration: 400 }),
+                        withDelay(200, withTiming(0, { duration: 0 }))
+                    ),
+                    -1,
+                    false
+                )
+            );
+        };
+        cfg(dot1, 0);
+        cfg(dot2, 200);
+        cfg(dot3, 400);
     }, []);
 
     const dot1Style = useAnimatedStyle(() => ({
-        opacity: interpolate(dot1.value, [0, 1], [0.3, 1]),
+        opacity: interpolate(dot1.value, [0, 1], [0.25, 1]),
         transform: [{ scale: interpolate(dot1.value, [0, 1], [1, 1.3]) }],
     }));
-
     const dot2Style = useAnimatedStyle(() => ({
-        opacity: interpolate(dot2.value, [0, 1], [0.3, 1]),
+        opacity: interpolate(dot2.value, [0, 1], [0.25, 1]),
         transform: [{ scale: interpolate(dot2.value, [0, 1], [1, 1.3]) }],
     }));
-
     const dot3Style = useAnimatedStyle(() => ({
-        opacity: interpolate(dot3.value, [0, 1], [0.3, 1]),
+        opacity: interpolate(dot3.value, [0, 1], [0.25, 1]),
         transform: [{ scale: interpolate(dot3.value, [0, 1], [1, 1.3]) }],
     }));
 
@@ -173,72 +234,123 @@ function LoadingDots() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFFFFF',
+    },
+    content: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FFD147',
+        paddingHorizontal: 24,
     },
-    logoContainer: {
-        width: 160,
-        height: 160,
-        justifyContent: 'center',
+    logoArea: {
+        width: 260,
+        height: 260,
         alignItems: 'center',
-        marginBottom: 32,
-    },
-    logoCircle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        backgroundColor: '#00A082',
         justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.15,
-        shadowRadius: 16,
-        elevation: 8,
+        marginBottom: 28,
     },
-    ring: {
+    haloOuter: {
         position: 'absolute',
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        borderWidth: 3,
-        borderColor: '#00A082',
+        width: 260,
+        height: 260,
+        borderRadius: 130,
+        backgroundColor: 'rgba(253, 185, 19, 0.10)',
     },
-    ring2: {
+    haloInner: {
         position: 'absolute',
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: '#00A082',
+        width: 210,
+        height: 210,
+        borderRadius: 105,
+        backgroundColor: 'rgba(253, 185, 19, 0.18)',
     },
-    appName: {
+    mascotWrap: {
+        width: 220,
+        height: 220,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mascot: {
+        width: 220,
+        height: 220,
+    },
+    brandRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        minHeight: 44,
+    },
+    brand: {
         fontSize: 32,
-        fontWeight: '800',
-        color: '#1a1a1a',
-        marginBottom: 8,
+        fontWeight: '900',
+        color: INK,
         textAlign: 'center',
         letterSpacing: -0.5,
     },
+    caret: {
+        fontSize: 32,
+        fontWeight: '300',
+        color: TEAL,
+    },
+    underline: {
+        height: 4,
+        backgroundColor: YELLOW,
+        borderRadius: 2,
+        marginTop: 10,
+    },
     tagline: {
-        fontSize: 16,
-        color: '#4a4a4a',
+        fontSize: 15,
+        color: MUTED,
         textAlign: 'center',
-        fontWeight: '500',
+        fontWeight: '600',
+        marginTop: 16,
+    },
+    chip: {
+        marginTop: 22,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFFBEB',
+        borderColor: '#FDE68A',
+        borderWidth: 1,
+        paddingHorizontal: 14,
+        paddingVertical: 8,
+        borderRadius: 999,
+    },
+    chipIcon: {
+        width: 22,
+        height: 22,
+        borderRadius: 11,
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 8,
+    },
+    chipText: {
+        fontSize: 12,
+        fontWeight: '800',
+        color: INK,
+        letterSpacing: 0.2,
     },
     loadingDots: {
-        position: 'absolute',
-        bottom: 80,
+        alignItems: 'center',
+        paddingBottom: 28,
     },
     dotsContainer: {
         flexDirection: 'row',
-        gap: 8,
+        gap: 10,
     },
     dot: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#00A082',
+        width: 9,
+        height: 9,
+        borderRadius: 5,
+        backgroundColor: TEAL,
+    },
+    footer: {
+        alignItems: 'center',
+        paddingBottom: 20,
+    },
+    footerText: {
+        fontSize: 12,
+        color: '#9ca3af',
+        fontWeight: '600',
+        letterSpacing: 0.5,
     },
 });

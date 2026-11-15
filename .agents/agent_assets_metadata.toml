@@ -1,0 +1,211 @@
+uploads = []
+
+[[generated]]
+id = "YQ7suJdqRw2kZ28Sj6hJh"
+uri = "file://src/assets/splash-hero.png"
+type = "image"
+title = "east african family shopping"
+
+[[generated]]
+id = "KsC38k8bc0aWCo858QvWN"
+uri = "file://src/assets/landing-bg.png"
+type = "image"
+title = "african marketplace background"
+
+[[generated]]
+id = "RASvcpdi2igleHNx48CTa"
+uri = "file://assets/splash-mascot.png"
+type = "image"
+title = "lady cart visible baby"
+
+[[generated]]
+id = "6Yd94emFRFefQ6lcNq_VP"
+uri = "file://attached_assets/generated_images/generated_image.png"
+type = "image"
+title = "generated_image"
+
+[[outputs]]
+id = "ZozQoMXZsBMz0NdIO1f1U"
+uri = "file://attached_assets/stock_images/electronics_phone_1.jpg"
+type = "image"
+title = "modern smartphone mobile phone product flat lay"
+
+[[outputs]]
+id = "8BWMd-H0_fN1Z4waWjVCV"
+uri = "file://attached_assets/stock_images/electronics_phone_2.jpg"
+type = "image"
+title = "modern smartphone mobile phone product flat lay"
+
+[[outputs]]
+id = "2L2MGFuIWdfExedvtFHhO"
+uri = "file://attached_assets/stock_images/electronics_laptop.jpg"
+type = "image"
+title = "laptop computer product photography white background"
+
+[[outputs]]
+id = "C34mSTojnZQvKIPMvSmTO"
+uri = "file://attached_assets/stock_images/electronics_tv.jpg"
+type = "image"
+title = "flat screen television TV product white background"
+
+[[outputs]]
+id = "gnEwcUxOGD8XG-d1zPg6Q"
+uri = "file://attached_assets/stock_images/fashion_dress_1.jpg"
+type = "image"
+title = "African print kitenge dress fashion product photography"
+
+[[outputs]]
+id = "VHfHn_xs0MtcOx8NPeTLM"
+uri = "file://attached_assets/stock_images/fashion_dress_2.jpg"
+type = "image"
+title = "African print kitenge dress fashion product photography"
+
+[[outputs]]
+id = "FE9ADxbCwc0bn_ZqXHZqL"
+uri = "file://attached_assets/stock_images/fashion_shoes_1.jpg"
+type = "image"
+title = "leather shoes product photography white background"
+
+[[outputs]]
+id = "NriivYW0_ybwLJaYmTb2k"
+uri = "file://attached_assets/stock_images/fashion_shoes_2.jpg"
+type = "image"
+title = "leather shoes product photography white background"
+
+[[outputs]]
+id = "cML-lfpjYyZiesrzDBGQS"
+uri = "file://attached_assets/stock_images/fashion_bag.jpg"
+type = "image"
+title = "handbag leather bag product photography"
+
+[[outputs]]
+id = "EncLEsZD4-YTSlvA8lybQ"
+uri = "file://attached_assets/stock_images/food_coffee_1.jpg"
+type = "image"
+title = "Ethiopian Kenya coffee beans bag product photography"
+
+[[outputs]]
+id = "_Rhrq8Fs3geJkjaef0N1E"
+uri = "file://attached_assets/stock_images/food_coffee_2.jpg"
+type = "image"
+title = "Ethiopian Kenya coffee beans bag product photography"
+
+[[outputs]]
+id = "Yt9bR74jrTXn-kQwfQdT4"
+uri = "file://attached_assets/stock_images/food_spices.jpg"
+type = "image"
+title = "African spices herbs market product photography"
+
+[[outputs]]
+id = "kdX_6qvxsVZ5EGEKGgKeg"
+uri = "file://attached_assets/stock_images/food_honey.jpg"
+type = "image"
+title = "natural organic honey jar product photography"
+
+[[outputs]]
+id = "kH-fiUxC4sZwBY4i1_TO3"
+uri = "file://attached_assets/stock_images/food_tea.jpg"
+type = "image"
+title = "loose leaf tea Kenya tea product packaging"
+
+[[outputs]]
+id = "ioty-Q6AEDZlis8erFvhL"
+uri = "file://attached_assets/stock_images/furniture_chair.jpg"
+type = "image"
+title = "wooden chair furniture product photography"
+
+[[outputs]]
+id = "PUDwzjTIEKy2HBAwl-6PE"
+uri = "file://attached_assets/stock_images/furniture_table.jpg"
+type = "image"
+title = "wooden dining table furniture product"
+
+[[outputs]]
+id = "rW6O_zmSbwk0fMlBiNGZi"
+uri = "file://attached_assets/stock_images/beauty_skincare_1.jpg"
+type = "image"
+title = "natural skincare beauty products African shea butter"
+
+[[outputs]]
+id = "iCX72OAQicETXFC2N2Wie"
+uri = "file://attached_assets/stock_images/beauty_skincare_2.jpg"
+type = "image"
+title = "natural skincare beauty products African shea butter"
+
+[[outputs]]
+id = "1IO-UqvtEVH6mLPlvJZHn"
+uri = "file://attached_assets/stock_images/beauty_cosmetics.jpg"
+type = "image"
+title = "makeup cosmetics beauty product photography"
+
+[[outputs]]
+id = "gKRcYs0QcNDniclHessRZ"
+uri = "file://attached_assets/stock_images/sports_equipment.jpg"
+type = "image"
+title = "sports fitness equipment product photography"
+
+[[outputs]]
+id = "VF-y4T5m4H2-RiA_-7VlH"
+uri = "file://attached_assets/stock_images/sports_jersey.jpg"
+type = "image"
+title = "football soccer jersey sports clothing product"
+
+[[outputs]]
+id = "6H-MGBh7PS6JcxFvd81ln"
+uri = "file://attached_assets/stock_images/agriculture_seeds.jpg"
+type = "image"
+title = "vegetable seeds agriculture farming product"
+
+[[outputs]]
+id = "wGFFeUjFfN24GboKk-UcO"
+uri = "file://attached_assets/stock_images/agriculture_tools.jpg"
+type = "image"
+title = "farming garden tools hoe jembe product photography"
+
+[[outputs]]
+id = "Z8CIjDDJuyhCyIsULDp7n"
+uri = "file://attached_assets/stock_images/handicrafts_basket_1.jpg"
+type = "image"
+title = "handwoven African basket handicraft product"
+
+[[outputs]]
+id = "C3Ju-6SRkmr3_B_XDan0m"
+uri = "file://attached_assets/stock_images/handicrafts_basket_2.jpg"
+type = "image"
+title = "handwoven African basket handicraft product"
+
+[[outputs]]
+id = "9fo3HcSKOfoMZPfIfpUkt"
+uri = "file://attached_assets/stock_images/handicrafts_jewelry_1.jpg"
+type = "image"
+title = "African beaded jewelry necklace bracelet product"
+
+[[outputs]]
+id = "HabKrKZYCj5-y0bGXO19i"
+uri = "file://attached_assets/stock_images/handicrafts_jewelry_2.jpg"
+type = "image"
+title = "African beaded jewelry necklace bracelet product"
+
+[[outputs]]
+id = "bcaqw0cleJCBKvfblW_Co"
+uri = "file://attached_assets/stock_images/kitchen_cookware.jpg"
+type = "image"
+title = "cooking pot cookware kitchen product photography"
+
+[[outputs]]
+id = "hfxaDtOy4LnjFCIAHzPNt"
+uri = "file://attached_assets/stock_images/kitchen_utensils.jpg"
+type = "image"
+title = "wooden kitchen utensils spoon product photography"
+
+[[outputs]]
+id = "r6CsxtaQRxl-NR2O2oish"
+uri = "file://attached_assets/stock_images/books_education.jpg"
+type = "image"
+title = "books textbooks education product photography"
+
+[[outputs]]
+id = "MKaMvHqeRW5N9_CmFJUOO"
+uri = "file://attached_assets/stock_images/solar_panel.jpg"
+type = "image"
+title = "solar panel energy product photography"

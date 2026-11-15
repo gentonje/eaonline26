@@ -1,19 +1,23 @@
 {
   "expo": {
-    "name": "online",
+    "name": "East Africa Online",
     "slug": "online",
+    "scheme": "eastafricaonline",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "description": "East Africa's marketplace — buy and sell electronics, fashion, home, beauty, food and more across Kenya, Uganda, Ethiopia, Rwanda and South Sudan. Pay securely with M-Pesa or wallet.",
+    "primaryColor": "#00A082",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gentonje.online"
     },
     "android": {
       "package": "com.gentonje.online",
@@ -23,6 +27,12 @@
       }
     },
     "web": {
+      "name": "East Africa Online",
+      "shortName": "EA Online",
+      "description": "Shop, sell and pay with M-Pesa across Kenya, Uganda, Ethiopia, Rwanda and South Sudan.",
+      "themeColor": "#00A082",
+      "backgroundColor": "#FFFFFF",
+      "lang": "en",
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },

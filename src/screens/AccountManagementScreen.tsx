@@ -7,7 +7,7 @@ import ScreenHeader from '../components/ScreenHeader';
 interface Profile {
     id: string;
     username: string | null;
-    user_type: string;
+    role: string;
 }
 
 export default function AccountManagementScreen() {
@@ -24,7 +24,7 @@ export default function AccountManagementScreen() {
             setLoading(true);
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, username, user_type')
+                .select('id, username, role')
                 .order('username');
 
             if (error) throw error;
@@ -37,19 +37,19 @@ export default function AccountManagementScreen() {
         }
     };
 
-    const handleUpdateType = async (userId: string, newType: string) => {
+    const handleUpdateRole = async (userId: string, newRole: string) => {
         try {
             const { error } = await supabase
                 .from('profiles')
-                .update({ user_type: newType })
+                .update({ role: newRole })
                 .eq('id', userId);
 
             if (error) throw error;
-            setProfiles(prev => prev.map(p => p.id === userId ? { ...p, user_type: newType } : p));
-            Alert.alert('Success', `Account type updated to ${newType}`);
+            setProfiles(prev => prev.map(p => p.id === userId ? { ...p, role: newRole } : p));
+            Alert.alert('Success', `Role updated to ${newRole}`);
         } catch (error: any) {
-            console.error('Error updating type:', error);
-            Alert.alert('Error', 'Failed to update account type');
+            console.error('Error updating role:', error);
+            Alert.alert('Error', 'Failed to update role');
         }
     };
 
@@ -78,27 +78,27 @@ export default function AccountManagementScreen() {
                                     <View>
                                         <Text className="text-xl font-black text-black">{profile.username || 'Anonymous'}</Text>
                                         <View className="bg-primary/20 px-3 py-1 rounded-full self-start mt-2">
-                                            <Text className="text-[10px] font-black uppercase">{profile.user_type}</Text>
+                                            <Text className="text-[10px] font-black uppercase">{profile.role}</Text>
                                         </View>
                                     </View>
                                     <View className="flex-row gap-3">
                                         <TouchableOpacity
-                                            onPress={() => handleUpdateType(profile.id, 'user')}
-                                            className={`p-4 rounded-3xl ${profile.user_type === 'user' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                            onPress={() => handleUpdateRole(profile.id, 'user')}
+                                            className={`p-4 rounded-3xl ${profile.role === 'user' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
                                         >
-                                            <User size={24} color={profile.user_type === 'user' ? 'white' : '#94a3b8'} />
+                                            <User size={24} color={profile.role === 'user' ? 'white' : '#94a3b8'} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() => handleUpdateType(profile.id, 'admin')}
-                                            className={`p-4 rounded-3xl ${profile.user_type === 'admin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                            onPress={() => handleUpdateRole(profile.id, 'admin')}
+                                            className={`p-4 rounded-3xl ${profile.role === 'admin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
                                         >
-                                            <Shield size={24} color={profile.user_type === 'admin' ? 'white' : '#94a3b8'} />
+                                            <Shield size={24} color={profile.role === 'admin' ? 'white' : '#94a3b8'} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() => handleUpdateType(profile.id, 'super_admin')}
-                                            className={`p-4 rounded-3xl ${profile.user_type === 'super_admin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
+                                            onPress={() => handleUpdateRole(profile.id, 'superadmin')}
+                                            className={`p-4 rounded-3xl ${profile.role === 'superadmin' ? 'bg-black' : 'bg-white border border-secondary/10'}`}
                                         >
-                                            <ShieldCheck size={24} color={profile.user_type === 'super_admin' ? 'white' : '#94a3b8'} />
+                                            <ShieldCheck size={24} color={profile.role === 'superadmin' ? 'white' : '#94a3b8'} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>

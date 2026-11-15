@@ -34,6 +34,9 @@ Preferred communication style: Simple, everyday language.
 - **Profiles**: Extended user data including roles (user, admin, superadmin) and account_type (basic, starter, premium)
 - **Countries/Districts**: Location hierarchy for product filtering
 - **Account Type Limits**: Configurable limits for product posting by account type (basic: 3, starter: 10, premium: 30 by default)
+- **Wallets**: User wallet with balance (KES currency), status (active/frozen/closed)
+- **Wallet Transactions**: Ledger of deposits, debits, refunds, discounts with status tracking
+- **Payments**: Payment records tracking M-Pesa and wallet payments with checkout IDs, receipts, and callback data
 
 ### Account Type System
 - **Basic**: Default account type, can post up to 3 products
@@ -47,6 +50,22 @@ Preferred communication style: Simple, everyday language.
 - Admin approval required to change status to "published"
 - Only published products are visible to regular users browsing the marketplace
 
+### M-Pesa Payment Integration
+- **Express Backend Server** (`server/index.js`): Runs on port 3000 (dev) / 5000 (production) alongside Expo frontend
+- **Safaricom Daraja API**: STK Push for payments and wallet deposits
+- **Authentication**: All API endpoints require valid Supabase auth token
+- **Payment Flow**: STK Push → Phone prompt → PIN entry → Callback → Order confirmed
+- **Wallet System**: Users can deposit via M-Pesa, pay from wallet with 5% discount, price lock protection
+- **Demo Mode**: Works in simulation mode when M-Pesa credentials are not configured
+- **API Client**: `src/lib/api.ts` handles all backend communication with auth headers — auto-detects dev vs production (port 5000 = dev, else same-origin)
+- **Environment Variables needed**: `MPESA_CONSUMER_KEY`, `MPESA_CONSUMER_SECRET`, `MPESA_SHORTCODE`, `MPESA_PASSKEY`, `MPESA_CALLBACK_URL`
+
+### Deployment
+- **Target**: Autoscale
+- **Build**: `npm run build:web` (Expo export → `dist/`)
+- **Run**: `NODE_ENV=production node server/index.js` (Express serves static files + API on port 5000)
+- **Metro Config**: `.local` directory excluded from watcher to prevent ENOENT crashes
+
 ### Navigation Structure
 ```
 RootNavigator
@@ -54,17 +73,38 @@ RootNavigator
 └── Drawer Navigator (authenticated)
     ├── Bottom Tabs
     │   ├── Dashboard
-    │   ├── Browse Products
+    │   ├── Browse Products (with country/district filters)
     │   ├── Cart
     │   ├── Wishlist
     │   └── Profile
     └── Stack Screens
         ├── Product Detail
         ├── Add/Edit Product
-        ├── Checkout
+        ├── Checkout (with M-Pesa/Wallet payment options)
         ├── Order Success
+        ├── My Wallet (deposit, balance, transaction history)
+        ├── Payment Dashboard (payment history, delivery tracking)
         └── Admin Screens (role-gated)
+            ├── Product Approvals (approve/reject workflow)
+            ├── Admin Panel (account type limits)
+            ├── User Management
+            ├── Account Management (superadmin)
+            └── Districts Management (superadmin)
 ```
+
+### Location-Based Filtering
+- Browse Products screen has country filter chips (South Sudan, Kenya, Uganda, Ethiopia, Rwanda) with flag emojis
+- When a country is selected, district/city filter appears below
+- Products table uses `country_id` (FK to countries) and `county` (text field for city/district name)
+- Filters reset pagination and refetch products from Supabase
+
+### Product Approval Workflow
+- Dedicated ProductApprovalScreen at `src/screens/ProductApprovalScreen.tsx`
+- Shows pending/published/total counts as stat cards
+- Admin can approve (draft -> published) or reject/unpublish products
+- Searchable by product name or seller name
+- Filterable by status (pending, published, all)
+- Registered in drawer navigator for admin/superadmin roles
 
 ### Animation & UX
 - **React Native Reanimated**: Powers smooth animations for splash screen, product interactions, and transitions

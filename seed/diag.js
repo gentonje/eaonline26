@@ -1,0 +1,21 @@
+const { createClient } = require('@supabase/supabase-js');
+const sb = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+(async () => {
+  await sb.auth.signInWithPassword({ email: 'superadmin@store.com', password: 'super2026' });
+  const { data: products } = await sb.from('products').select('id, title, category, country_id, storage_path, countries(name)').eq('product_status','published');
+  console.log('Total published:', products.length);
+  const byImg = {};
+  products.forEach(p => { (byImg[p.storage_path] = byImg[p.storage_path] || []).push(p); });
+  console.log('Unique image paths:', Object.keys(byImg).length);
+  const dupImgs = Object.entries(byImg).filter(([_,v]) => v.length > 1);
+  console.log('Image paths reused (>1):', dupImgs.length);
+  const byTitle = {};
+  products.forEach(p => { (byTitle[p.title] = byTitle[p.title] || []).push(p); });
+  console.log('Duplicate titles:', Object.entries(byTitle).filter(([_,v])=>v.length>1).length);
+  const cats = {};
+  products.forEach(p => cats[p.category] = (cats[p.category]||0)+1);
+  console.log('By category:', JSON.stringify(cats));
+  const ctry = {};
+  products.forEach(p => ctry[p.countries?.name||'?'] = (ctry[p.countries?.name||'?']||0)+1);
+  console.log('By country:', JSON.stringify(ctry));
+})();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Heart, ShoppingBag, ChevronLeft } from 'lucide-react-native';
@@ -7,16 +7,15 @@ import { Heart, ShoppingBag, ChevronLeft } from 'lucide-react-native';
 import { useShopping } from '../hooks/useShopping';
 import { useFeedback } from '../contexts/FeedbackContext';
 
-import Animated from 'react-native-reanimated';
 import ProductGrid from '../components/ProductGrid';
 import ProductCard from '../components/ProductCard';
 import ScreenHeader from '../components/ScreenHeader';
-
-const AnimatedPressable = Animated.createAnimatedComponent(TouchableOpacity);
+import { WishlistSkeleton } from '../components/Skeleton';
 
 export default function WishlistScreen() {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
     const navigation = useNavigation<any>();
     const { addToCart, removeFromWishlist } = useShopping();
     const { showToast } = useFeedback();
@@ -34,6 +33,7 @@ export default function WishlistScreen() {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) return;
+            setCurrentUserId(user.id);
 
             const { data, error } = await supabase
                 .from('wishlist')
@@ -45,7 +45,13 @@ export default function WishlistScreen() {
                         price,
                         storage_path,
                         description,
-                        currency
+                        category,
+                        user_id,
+                        countries (
+                            id,
+                            name,
+                            currency
+                        )
                     )
                 `)
                 .eq('user_id', user.id);
@@ -84,7 +90,7 @@ export default function WishlistScreen() {
 
 
             {loading ? (
-                <ActivityIndicator size="large" color="#2563eb" />
+                <WishlistSkeleton />
             ) : (
                 <ScrollView
                     className="flex-1"
@@ -107,24 +113,49 @@ export default function WishlistScreen() {
                             renderItem={(item) => (
                                 <ProductCard
                                     product={item.products}
-                                    actions={
-                                        <View className="space-y-2">
-                                            <AnimatedPressable
-                                                onPress={() => handleAddToCart(item.products.id)}
-                                                className="bg-blue-600 py-2 rounded-lg items-center flex-row justify-center active:scale-95"
-                                            >
-                                                <ShoppingBag color="white" size={14} />
-                                                <Text className="text-white text-xs font-bold ml-1">To Cart</Text>
-                                            </AnimatedPressable>
-                                            <TouchableOpacity
-                                                onPress={() => handleRemoveFromWishlist(item.id)}
-                                                className="bg-gray-100 py-2 rounded-lg items-center flex-row justify-center"
-                                            >
-                                                <Heart size={14} color="#ef4444" fill="#ef4444" />
-                                                <Text className="text-gray-600 text-xs font-bold ml-1">Remove</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    }
+                                    actions={(() => {
+                                        const isOwner = !!currentUserId && item.products?.user_id === currentUserId;
+                                        return (
+                                            <View className="space-y-2">
+                                                {isOwner ? (
+                                                    <View
+                                                        style={{
+                                                            backgroundColor: '#e2e8f0',
+                                                            paddingVertical: 8,
+                                                            borderRadius: 8,
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <Text style={{ color: '#64748b', fontSize: 11, fontWeight: '800' }}>Your listing</Text>
+                                                    </View>
+                                                ) : (
+                                                    <Pressable
+                                                        onPress={() => handleAddToCart(item.products.id)}
+                                                        style={({ pressed }) => ({
+                                                            backgroundColor: '#00A082',
+                                                            paddingVertical: 8,
+                                                            borderRadius: 8,
+                                                            flexDirection: 'row',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            opacity: pressed ? 0.85 : 1,
+                                                        })}
+                                                    >
+                                                        <ShoppingBag color="white" size={14} />
+                                                        <Text style={{ color: 'white', fontSize: 12, fontWeight: '700', marginLeft: 4 }}>To Cart</Text>
+                                                    </Pressable>
+                                                )}
+                                                <TouchableOpacity
+                                                    onPress={() => handleRemoveFromWishlist(item.id)}
+                                                    className="bg-gray-100 py-2 rounded-lg items-center flex-row justify-center"
+                                                >
+                                                    <Heart size={14} color="#ef4444" fill="#ef4444" />
+                                                    <Text className="text-gray-600 text-xs font-bold ml-1">Remove</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        );
+                                    })()}
                                 />
                             )}
                         />

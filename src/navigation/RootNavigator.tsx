@@ -19,7 +19,10 @@ import {
     Users,
     ShieldCheck,
     MapPin,
-    ShoppingBag
+    ShoppingBag,
+    Wallet,
+    CreditCard,
+    Info as InfoIcon
 } from 'lucide-react-native';
 
 import { useAuth } from '../contexts/AuthContext';
@@ -33,6 +36,7 @@ import EditProductScreen from '../screens/EditProductScreen';
 import AdminPanelScreen from '../screens/AdminPanelScreen';
 import UserManagementScreen from '../screens/UserManagementScreen';
 import AccountManagementScreen from '../screens/AccountManagementScreen';
+import ProductApprovalScreen from '../screens/ProductApprovalScreen';
 import DistrictsManagementScreen from '../screens/DistrictsManagementScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AboutScreen from '../screens/AboutScreen';
@@ -41,11 +45,64 @@ import WishlistScreen from '../screens/WishlistScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
+import WalletScreen from '../screens/WalletScreen';
+import PaymentDashboardScreen from '../screens/PaymentDashboardScreen';
+import BulkImportScreen from '../screens/BulkImportScreen';
+import StoreScreen from '../screens/StoreScreen';
+import FloatingAssistant from '../components/FloatingAssistant';
+import { AssistantProvider } from '../contexts/AssistantContext';
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+// Linking config — wires React Navigation into the browser's History API
+// so the device/browser Back button moves through the in-app stack instead
+// of leaving the site. Each navigate() pushes a real history entry.
+const linking = {
+    prefixes: [
+        typeof window !== 'undefined' && window.location?.origin
+            ? window.location.origin
+            : 'https://eastafricaonline.com',
+    ],
+    config: {
+        screens: {
+            Auth: 'login',
+            App: {
+                path: '',
+                screens: {
+                    Dashboard: 'dashboard',
+                    BrowseProducts: 'browse',
+                    MyProducts: 'my-products',
+                    Cart: 'cart-drawer',
+                    Wishlist: 'wishlist-drawer',
+                    MyWallet: 'wallet-drawer',
+                    PaymentDashboard: 'payments-drawer',
+                    Settings: 'settings',
+                    About: 'about',
+                    ProductApproval: 'admin/approvals',
+                    AdminPanel: 'admin/panel',
+                    UserManagement: 'admin/users',
+                    AccountManagement: 'admin/accounts',
+                    DistrictsManagement: 'admin/districts',
+                    Profile: 'profile',
+                },
+            },
+            ProductDetail: 'product/:productId',
+            AddProduct: 'sell',
+            EditProduct: 'edit-product/:productId',
+            Cart: 'cart',
+            Wishlist: 'wishlist',
+            Checkout: 'checkout',
+            OrderSuccess: 'order-success',
+            MyWallet: 'my-wallet',
+            PaymentDashboard: 'my-payments',
+            BulkImport: 'bulk-import',
+            Store: 'store/:storeId',
+        },
+    },
+};
 
 function AppTabs() {
     return (
@@ -184,6 +241,24 @@ function AppDrawer() {
 
 
             <Drawer.Screen
+                name="MyWallet"
+                component={WalletScreen}
+                options={{
+                    title: 'My Wallet',
+                    drawerIcon: ({ color, size }) => <Wallet color={color} size={size} />
+                }}
+            />
+
+            <Drawer.Screen
+                name="PaymentDashboard"
+                component={PaymentDashboardScreen}
+                options={{
+                    title: 'Payments',
+                    drawerIcon: ({ color, size }) => <CreditCard color={color} size={size} />
+                }}
+            />
+
+            <Drawer.Screen
                 name="Settings"
                 component={SettingsScreen}
                 options={{
@@ -192,8 +267,25 @@ function AppDrawer() {
                 }}
             />
 
+            <Drawer.Screen
+                name="About"
+                component={AboutScreen}
+                options={{
+                    title: 'About',
+                    drawerIcon: ({ color, size }) => <InfoIcon color={color} size={size} />
+                }}
+            />
+
             {(isAdmin || isSuperAdmin) && (
                 <>
+                    <Drawer.Screen
+                        name="ProductApproval"
+                        component={ProductApprovalScreen}
+                        options={{
+                            title: 'Product Approvals',
+                            drawerIcon: ({ color, size }) => <ShieldCheck color={color} size={size} />
+                        }}
+                    />
                     <Drawer.Screen
                         name="AdminPanel"
                         component={AdminPanelScreen}
@@ -250,13 +342,20 @@ function AppDrawer() {
 
 export default function RootNavigator() {
     const { session, isLoading } = useAuth();
+    const [minSplashElapsed, setMinSplashElapsed] = React.useState(false);
 
-    if (isLoading) {
+    React.useEffect(() => {
+        const t = setTimeout(() => setMinSplashElapsed(true), 4000);
+        return () => clearTimeout(t);
+    }, []);
+
+    if (isLoading || !minSplashElapsed) {
         return <SplashScreen />;
     }
 
     return (
-        <NavigationContainer>
+        <AssistantProvider>
+        <NavigationContainer linking={linking}>
             <Stack.Navigator>
                 {session ? (
                     <>
@@ -292,11 +391,6 @@ export default function RootNavigator() {
                         />
 
                         <Stack.Screen
-                            name="BrowseProducts"
-                            component={BrowseProductsScreen}
-                            options={{ title: 'Browse Products' }}
-                        />
-                        <Stack.Screen
                             name="Checkout"
                             component={CheckoutScreen}
                             options={{ title: 'Checkout', headerShown: false }}
@@ -305,6 +399,26 @@ export default function RootNavigator() {
                             name="OrderSuccess"
                             component={OrderSuccessScreen}
                             options={{ title: 'Success', headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="MyWallet"
+                            component={WalletScreen}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="PaymentDashboard"
+                            component={PaymentDashboardScreen}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="BulkImport"
+                            component={BulkImportScreen}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Store"
+                            component={StoreScreen}
+                            options={{ headerShown: false }}
                         />
 
                     </>
@@ -317,7 +431,9 @@ export default function RootNavigator() {
                 )}
 
             </Stack.Navigator>
+            {session ? <FloatingAssistant /> : null}
         </NavigationContainer>
+        </AssistantProvider>
     );
 }
 

@@ -6,11 +6,6 @@ export const getImageUrl = (path: string | null | undefined) => {
     // If it's already a full URL, return it
     if (path.startsWith('http')) return path;
 
-    // Handle local seed images
-    if (path.startsWith('seed/')) {
-        return `/${path}`;
-    }
-
     const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
     if (!supabaseUrl) return 'https://via.placeholder.com/400';
 

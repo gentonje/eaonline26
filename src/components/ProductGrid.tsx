@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { useColumns } from '../hooks/useColumns';
 
 interface ProductGridProps<T> {
     items: T[];
@@ -7,13 +8,13 @@ interface ProductGridProps<T> {
 }
 
 export default function ProductGrid<T extends { id: string | number }>({ items, renderItem }: ProductGridProps<T>) {
+    const numColumns = useColumns();
+    const itemWidth = `${(100 / numColumns).toFixed(4)}%` as any;
+
     return (
-        <View className="flex-row flex-wrap">
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {items.map((item) => (
-                <View
-                    key={item.id}
-                    className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 2xl:w-1/6 p-1"
-                >
+                <View key={item.id} style={{ width: itemWidth, padding: 4 }}>
                     {renderItem(item)}
                 </View>
             ))}

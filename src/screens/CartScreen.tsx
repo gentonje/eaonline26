@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Pressable, ActivityIndicator, Alert, Image } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { ShoppingCart, Trash2, Plus, Minus, Package, ChevronLeft } from 'lucide-react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useFeedback } from '../contexts/FeedbackContext';
 import ScreenHeader from '../components/ScreenHeader';
+import { CartSkeleton } from '../components/Skeleton';
+import { getImageUrl } from '../lib/image-utils';
 
 export default function CartScreen() {
     const [cartItems, setCartItems] = useState<any[]>([]);
@@ -123,8 +125,9 @@ export default function CartScreen() {
                 title="Your Cart" 
                 showBackButton={false}
                 showDrawerButton={true}
+                showCartBadge={false}
                 rightElement={
-                    <View className="bg-white/30 px-3 py-1 rounded-full">
+                    <View className="bg-white/30 px-3 py-1 rounded-full mr-1">
                         <Text className="text-black font-bold text-xs">{cartItems.length} Items</Text>
                     </View>
                 }
@@ -132,7 +135,7 @@ export default function CartScreen() {
 
 
             {loading ? (
-                <ActivityIndicator size="large" color="#2563eb" style={{ marginTop: 20 }} />
+                <CartSkeleton />
             ) : (
                 <ScrollView
                     className="flex-1 p-4"
@@ -151,11 +154,14 @@ export default function CartScreen() {
                                 <View className="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden">
                                     {item.products?.storage_path ? (
                                         <Image
-                                            source={{ uri: `${process.env.EXPO_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${item.products.storage_path}` }}
+                                            source={{ uri: getImageUrl(item.products.storage_path) }}
                                             className="w-full h-full"
+                                            resizeMode="cover"
                                         />
                                     ) : (
-                                        <Package size={24} color="#94a3b8" />
+                                        <View className="w-full h-full items-center justify-center">
+                                            <Package size={24} color="#94a3b8" />
+                                        </View>
                                     )}
                                 </View>
                                 <View className="flex-1 ml-3 justify-between">
@@ -166,7 +172,7 @@ export default function CartScreen() {
                                         </TouchableOpacity>
                                     </View>
                                     <View className="flex-row justify-between items-end">
-                                        <Text className="text-blue-600 font-bold text-lg">${item.products?.price}</Text>
+                                        <Text style={{ color: '#00A082' }} className="font-bold text-lg">KES {Number(item.products?.price).toLocaleString()}</Text>
                                         <View className="flex-row items-center bg-gray-100 rounded-lg">
                                             <TouchableOpacity onPress={() => handleUpdateQuantity(item.id, item.quantity - 1)} className="p-2">
                                                 <Minus size={16} color="#64748b" />
@@ -185,18 +191,23 @@ export default function CartScreen() {
             )}
 
             {cartItems.length > 0 && (
-                <View className="p-6 bg-white border-t border-gray-100 shadow-lg">
+                <View className="p-6 bg-white border-t border-gray-100" style={{ zIndex: 10 }}>
                     <View className="flex-row justify-between mb-4">
                         <Text className="text-gray-500 text-lg">Total Amount</Text>
-                        <Text className="text-orange-600 font-black text-2xl">${total.toFixed(2)}</Text>
+                        <Text style={{ color: '#00A082' }} className="font-black text-2xl">KES {total.toLocaleString('en-KE', { minimumFractionDigits: 2 })}</Text>
                     </View>
-                    <TouchableOpacity
+                    <Pressable
                         onPress={() => navigation.navigate('Checkout', { total })}
-                        className="bg-blue-600 p-4 rounded-2xl items-center shadow-md shadow-blue-100 active:scale-95 transition-all"
+                        style={({ pressed }) => ({
+                            backgroundColor: '#00A082',
+                            padding: 16,
+                            borderRadius: 16,
+                            alignItems: 'center',
+                            opacity: pressed ? 0.85 : 1,
+                        })}
                     >
-                        <Text className="text-white font-bold text-lg">Go to Checkout</Text>
-                    </TouchableOpacity>
-
+                        <Text style={{ color: 'white', fontWeight: '700', fontSize: 18 }}>Go to Checkout</Text>
+                    </Pressable>
                 </View>
             )}
         </View>

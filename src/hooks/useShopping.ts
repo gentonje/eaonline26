@@ -15,12 +15,17 @@ export function useShopping() {
             // Check if product exists and is available
             const { data: product, error: productError } = await supabase
                 .from('products')
-                .select('id, available_quantity, product_status')
+                .select('id, available_quantity, product_status, user_id')
                 .eq('id', productId)
                 .single();
 
             if (productError || !product) {
                 showToast('Product not found', 'error');
+                return false;
+            }
+
+            if (product.user_id === user.id) {
+                showToast("You can't add your own product to your cart", 'info');
                 return false;
             }
 
@@ -151,7 +156,8 @@ export function useShopping() {
 
 
 
-    const toggleWishlist = async (productId: string) => {
+    const toggleWishlist = async (productId: string, options: { silent?: boolean } = {}) => {
+        const { silent = false } = options;
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
@@ -169,12 +175,12 @@ export function useShopping() {
             if (existing) {
                 const { error } = await supabase.from('wishlist').delete().eq('id', existing.id);
                 if (error) throw error;
-                showToast('Removed from wishlist');
+                if (!silent) showToast('Removed from wishlist');
                 return { success: true, action: 'removed' };
             } else {
                 const { error } = await supabase.from('wishlist').insert({ user_id: user.id, product_id: productId });
                 if (error) throw error;
-                showToast('Added to wishlist!');
+                if (!silent) showToast('Added to wishlist!');
                 return { success: true, action: 'added' };
             }
         } catch (error: any) {
@@ -210,7 +216,7 @@ export function useShopping() {
             if (!user) throw new Error('User not authenticated');
 
             // 1. Get cart
-            const { data: cart } = await supabase.from('cart').select('id').eq('user_id', user.id).single();
+            const { data: cart } = await supabase.from('cart').select('id').eq('user_id', user.id).maybeSingle();
             if (!cart) throw new Error('Cart not found');
 
             // 2. Get cart items with product details for price persistence

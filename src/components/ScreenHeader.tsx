@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { ArrowLeft, ChevronLeft, Menu } from 'lucide-react-native';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
+import CartBadge from './CartBadge';
 
 interface ScreenHeaderProps {
     title: string;
@@ -9,7 +10,9 @@ interface ScreenHeaderProps {
     showBackButton?: boolean;
     showDrawerButton?: boolean;
     rightElement?: React.ReactNode;
+    showCartBadge?: boolean;
     backIconType?: 'arrow' | 'chevron';
+    onBack?: () => void;
 }
 
 export default function ScreenHeader({
@@ -18,7 +21,9 @@ export default function ScreenHeader({
     showBackButton = false,
     showDrawerButton = true,
     rightElement,
-    backIconType = 'arrow'
+    showCartBadge = true,
+    backIconType = 'arrow',
+    onBack
 }: ScreenHeaderProps) {
     const navigation = useNavigation();
 
@@ -28,7 +33,7 @@ export default function ScreenHeader({
                 <View className="flex-row items-center flex-1">
                     {showBackButton ? (
                         <TouchableOpacity 
-                            onPress={() => navigation.goBack()} 
+                            onPress={() => onBack ? onBack() : navigation.goBack()} 
                             className="mr-3 p-1 -ml-1"
                         >
                             {backIconType === 'arrow' ? (
@@ -54,11 +59,10 @@ export default function ScreenHeader({
                         )}
                     </View>
                 </View>
-                {rightElement && (
-                    <View className="ml-2">
-                        {rightElement}
-                    </View>
-                )}
+                <View className="ml-2 flex-row items-center">
+                    {rightElement}
+                    {showCartBadge && <CartBadge />}
+                </View>
             </View>
         </View>
     );

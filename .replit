@@ -1,10 +1,11 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
+modules = ["nodejs-20", "web", "python-3.11", "postgresql-16"]
 [agent]
 expertMode = true
+integrations = ["javascript_openai:1.0.0", "javascript_openai_ai_integrations:2.0.0"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["eas-cli"]
+packages = ["eas-cli", "u-root-cmds"]
 
 [workflows]
 runButton = "Project"
@@ -35,10 +36,22 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 5001
+localPort = 19006
 externalPort = 3000
 
+[[ports]]
+localPort = 19007
+externalPort = 3002
+
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build:web"]
 publicDir = "dist"
+run = ["bash", "-c", "NODE_ENV=production node server/index.js"]
+
+[userenv]
+
+[userenv.shared]
+MPESA_SHORTCODE = "174379"
+MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+MPESA_ENVIRONMENT = "sandbox"

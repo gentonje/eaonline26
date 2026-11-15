@@ -32,7 +32,7 @@ export default function ProfileScreen() {
                 .from('profiles')
                 .select('id, username, full_name, contact_email, phone_number, address')
                 .eq('id', user?.id)
-                .single();
+                .maybeSingle();
 
             if (error) throw error;
             if (data) {
@@ -79,11 +79,7 @@ export default function ProfileScreen() {
                 throw error;
             }
 
-            if (Platform.OS === 'web') {
-                window.alert('Profile updated successfully');
-            } else {
-                Alert.alert('Success', 'Profile updated successfully');
-            }
+            Alert.alert('Profile Updated', 'Profile updated successfully');
             console.log('Profile update feedback shown');
             navigation.goBack();
         } catch (error: any) {
@@ -202,7 +198,19 @@ export default function ProfileScreen() {
                     </View>
                 </View>
 
-                {/* Shop Details removed due to schema mismatch */}
+                <TouchableOpacity
+                    onPress={() => user?.id && (navigation as any).navigate('Store', { storeId: user.id })}
+                    className="bg-accent/10 p-4 rounded-2xl flex-row items-center mb-6 border border-accent/20"
+                >
+                    <View className="w-12 h-12 bg-accent rounded-2xl justify-center items-center">
+                        <Store size={22} color="white" />
+                    </View>
+                    <View className="ml-3" style={{ flex: 1 }}>
+                        <Text className="font-black text-black text-base">My Store</Text>
+                        <Text className="text-xs font-bold text-black/50">Edit your store name & description</Text>
+                    </View>
+                    <Text className="text-accent font-black text-lg">›</Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={handleSave}

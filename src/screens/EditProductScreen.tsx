@@ -7,8 +7,21 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getImageUrl } from '../lib/image-utils';
 import ScreenHeader from '../components/ScreenHeader';
+import { aiApi } from '../lib/api';
+import { CATEGORIES } from '../lib/categories';
 
-const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Other'];
+async function uriToBlob(uri: string): Promise<Blob> {
+    if (uri.startsWith('data:')) {
+        const [header, base64] = uri.split(',');
+        const mime = header.match(/:(.*?);/)?.[1] || 'image/jpeg';
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return new Blob([bytes], { type: mime });
+    }
+    const response = await fetch(uri);
+    return response.blob();
+}
 
 interface ImageItem {
     uri: string;
@@ -26,6 +39,7 @@ export default function EditProductScreen() {
     
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [optimizing, setOptimizing] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -102,7 +116,7 @@ export default function EditProductScreen() {
             return;
         }
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images'],
             allowsEditing: true,
             aspect: [4, 3],
             quality: 0.8,
@@ -145,8 +159,7 @@ export default function EditProductScreen() {
                 if (img.isExisting) {
                     uploadedImages.push({ path: img.existingPath!, isMain: img.isMain });
                 } else {
-                    const res = await fetch(img.uri);
-                    const blob = await res.blob();
+                    const blob = await uriToBlob(img.uri);
                     const path = `${user.id}/${Date.now()}-${i}.jpg`;
                     const { error: upErr } = await supabase.storage.from('images').upload(path, blob);
                     if (upErr) throw upErr;
@@ -155,9 +168,20 @@ export default function EditProductScreen() {
             }
 
             const mainPath = uploadedImages.find(i => i.isMain)?.path || uploadedImages[0].path;
-            const { error: prErr } = await supabase.from('products').update({
+
+            // SEO optimization on every edit so updated copy stays aligned
+            // with East Africa search trends.
+            setOptimizing(true);
+            const seo = await aiApi.optimizeListing({
                 title: formData.title,
                 description: formData.description,
+                category: formData.category,
+            });
+            setOptimizing(false);
+
+            const { error: prErr } = await supabase.from('products').update({
+                title: seo.title || formData.title,
+                description: seo.description || formData.description,
                 price: parseFloat(formData.price),
                 category: formData.category,
                 available_quantity: parseInt(formData.available_quantity),
@@ -167,12 +191,13 @@ export default function EditProductScreen() {
             if (prErr) throw prErr;
 
             await supabase.from('product_images').delete().eq('product_id', productId);
-            await supabase.from('product_images').insert(uploadedImages.map((img, i) => ({
+            const { error: imgErr } = await supabase.from('product_images').insert(uploadedImages.map((img, i) => ({
                 product_id: productId,
                 storage_path: img.path,
                 is_main: img.isMain,
                 display_order: i
             })));
+            if (imgErr) throw imgErr;
 
             Alert.alert('Success', 'Product updated!');
             navigation.goBack();
@@ -236,7 +261,16 @@ export default function EditProductScreen() {
 
             <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className="p-6 bg-white border-t border-gray-50">
                 <TouchableOpacity onPress={handleSubmit} disabled={saving} className="bg-black py-5 rounded-2xl items-center">
-                    {saving ? <ActivityIndicator color="white" /> : <Text className="text-white font-black text-xl uppercase tracking-widest">Update Product</Text>}
+                    {saving ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <ActivityIndicator color="white" />
+                            <Text className="text-white font-black text-base uppercase tracking-widest" style={{ marginLeft: 10 }}>
+                                {optimizing ? 'Optimizing for search…' : 'Updating…'}
+                            </Text>
+                        </View>
+                    ) : (
+                        <Text className="text-white font-black text-xl uppercase tracking-widest">Update Product</Text>
+                    )}
                 </TouchableOpacity>
             </View>
         </View>

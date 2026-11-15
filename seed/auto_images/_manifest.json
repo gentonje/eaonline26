@@ -1,0 +1,302 @@
+[
+  {
+    "key": "auto_toyota_premio_sedan_white",
+    "query": "Toyota Premio sedan white",
+    "ok": true,
+    "bytes": 19334
+  },
+  {
+    "key": "auto_toyota_crown_sedan",
+    "query": "Toyota Crown sedan",
+    "ok": true,
+    "bytes": 252599
+  },
+  {
+    "key": "auto_toyota_mark_x_sedan",
+    "query": "Toyota Mark X sedan",
+    "ok": false,
+    "reason": "HTTP 403"
+  },
+  {
+    "key": "auto_toyota_passo_hatchback",
+    "query": "Toyota Passo hatchback",
+    "ok": false,
+    "reason": "HTTP 403"
+  },
+  {
+    "key": "auto_toyota_land_cruiser_prado",
+    "query": "Toyota Land Cruiser Prado",
+    "ok": true,
+    "bytes": 46055
+  },
+  {
+    "key": "auto_toyota_wish_mpv",
+    "query": "Toyota Wish MPV",
+    "ok": true,
+    "bytes": 29262
+  },
+  {
+    "key": "auto_toyota_axio_sedan",
+    "query": "Toyota Axio sedan",
+    "ok": true,
+    "bytes": 23958
+  },
+  {
+    "key": "auto_toyota_hiace_van",
+    "query": "Toyota Hiace van",
+    "ok": true,
+    "bytes": 47321
+  },
+  {
+    "key": "auto_toyota_voxy_van",
+    "query": "Toyota Voxy van",
+    "ok": true,
+    "bytes": 26584
+  },
+  {
+    "key": "auto_toyota_vitz_hatchback",
+    "query": "Toyota Vitz hatchback",
+    "ok": true,
+    "bytes": 172152
+  },
+  {
+    "key": "auto_toyota_hilux_pickup_truck",
+    "query": "Toyota Hilux pickup truck",
+    "ok": true,
+    "bytes": 108698
+  },
+  {
+    "key": "auto_toyota_corolla_fielder_wagon",
+    "query": "Toyota Corolla Fielder wagon",
+    "ok": true,
+    "bytes": 129680
+  },
+  {
+    "key": "auto_toyota_harrier_suv",
+    "query": "Toyota Harrier SUV",
+    "ok": true,
+    "bytes": 37514
+  },
+  {
+    "key": "auto_subaru_impreza_sedan",
+    "query": "Subaru Impreza sedan",
+    "ok": true,
+    "bytes": 83805
+  },
+  {
+    "key": "auto_subaru_legacy_sedan",
+    "query": "Subaru Legacy sedan",
+    "ok": true,
+    "bytes": 44652
+  },
+  {
+    "key": "auto_toyota_rav4_suv",
+    "query": "Toyota RAV4 SUV",
+    "ok": true,
+    "bytes": 95314
+  },
+  {
+    "key": "auto_toyota_noah_mpv_van",
+    "query": "Toyota Noah MPV van",
+    "ok": true,
+    "bytes": 34000
+  },
+  {
+    "key": "auto_toyota_probox_station_wagon",
+    "query": "Toyota Probox station wagon",
+    "ok": true,
+    "bytes": 108144
+  },
+  {
+    "key": "auto_subaru_outback_wagon",
+    "query": "Subaru Outback wagon",
+    "ok": true,
+    "bytes": 1407631
+  },
+  {
+    "key": "auto_mazda_demio_hatchback",
+    "query": "Mazda Demio hatchback",
+    "ok": true,
+    "bytes": 19672
+  },
+  {
+    "key": "auto_mazda_cx_5_suv",
+    "query": "Mazda CX-5 SUV",
+    "ok": true,
+    "bytes": 299731
+  },
+  {
+    "key": "auto_nissan_note_hatchback",
+    "query": "Nissan Note hatchback",
+    "ok": true,
+    "bytes": 25460
+  },
+  {
+    "key": "auto_honda_stream_mpv",
+    "query": "Honda Stream MPV",
+    "ok": true,
+    "bytes": 35810
+  },
+  {
+    "key": "auto_nissan_caravan_van",
+    "query": "Nissan Caravan van",
+    "ok": true,
+    "bytes": 9384
+  },
+  {
+    "key": "auto_mitsubishi_outlander_suv",
+    "query": "Mitsubishi Outlander SUV",
+    "ok": true,
+    "bytes": 82777
+  },
+  {
+    "key": "auto_subaru_forester_suv",
+    "query": "Subaru Forester SUV",
+    "ok": true,
+    "bytes": 30810
+  },
+  {
+    "key": "auto_mazda_axela_sedan",
+    "query": "Mazda Axela sedan",
+    "ok": true,
+    "bytes": 25118
+  },
+  {
+    "key": "auto_isuzu_frr_truck",
+    "query": "Isuzu FRR truck",
+    "ok": true,
+    "bytes": 5978
+  },
+  {
+    "key": "auto_toyota_allion_sedan",
+    "query": "Toyota Allion sedan",
+    "ok": true,
+    "bytes": 190351
+  },
+  {
+    "key": "auto_toyota_coaster_bus",
+    "query": "Toyota Coaster bus",
+    "ok": true,
+    "bytes": 12767
+  },
+  {
+    "key": "auto_ford_ranger_pickup",
+    "query": "Ford Ranger pickup",
+    "ok": true,
+    "bytes": 39422
+  },
+  {
+    "key": "auto_isuzu_d_max_pickup",
+    "query": "Isuzu D-Max pickup",
+    "ok": true,
+    "bytes": 642857
+  },
+  {
+    "key": "auto_honda_vezel_crossover",
+    "query": "Honda Vezel crossover",
+    "ok": true,
+    "bytes": 15321
+  },
+  {
+    "key": "auto_nissan_x_trail_suv",
+    "query": "Nissan X-Trail SUV",
+    "ok": true,
+    "bytes": 433143
+  },
+  {
+    "key": "auto_isuzu_npr_truck",
+    "query": "Isuzu NPR truck",
+    "ok": true,
+    "bytes": 229890
+  },
+  {
+    "key": "auto_suzuki_escudo_suv",
+    "query": "Suzuki Escudo SUV",
+    "ok": true,
+    "bytes": 46992
+  },
+  {
+    "key": "auto_honda_cr_v_suv",
+    "query": "Honda CR-V SUV",
+    "ok": true,
+    "bytes": 25844
+  },
+  {
+    "key": "auto_hino_500_truck",
+    "query": "Hino 500 truck",
+    "ok": true,
+    "bytes": 8115
+  },
+  {
+    "key": "auto_honda_fit_hatchback",
+    "query": "Honda Fit hatchback",
+    "ok": true,
+    "bytes": 11012
+  },
+  {
+    "key": "auto_mitsubishi_canter_truck",
+    "query": "Mitsubishi Canter truck",
+    "ok": true,
+    "bytes": 13057
+  },
+  {
+    "key": "auto_mitsubishi_pajero_suv",
+    "query": "Mitsubishi Pajero SUV",
+    "ok": true,
+    "bytes": 134996
+  },
+  {
+    "key": "auto_suzuki_swift_hatchback",
+    "query": "Suzuki Swift hatchback",
+    "ok": true,
+    "bytes": 118256
+  },
+  {
+    "key": "auto_nissan_tiida_sedan",
+    "query": "Nissan Tiida sedan",
+    "ok": true,
+    "bytes": 30618
+  },
+  {
+    "key": "auto_mitsubishi_l200_pickup",
+    "query": "Mitsubishi L200 pickup",
+    "ok": true,
+    "bytes": 151212
+  },
+  {
+    "key": "auto_nissan_march_hatchback",
+    "query": "Nissan March hatchback",
+    "ok": true,
+    "bytes": 121836
+  },
+  {
+    "key": "auto_toyota_land_cruiser_v8",
+    "query": "Toyota Land Cruiser V8",
+    "ok": true,
+    "bytes": 184452
+  },
+  {
+    "key": "auto_mercedes_benz_actros_truck",
+    "query": "Mercedes-Benz Actros truck",
+    "ok": true,
+    "bytes": 141302
+  },
+  {
+    "key": "auto_hino_300_truck",
+    "query": "Hino 300 truck",
+    "ok": true,
+    "bytes": 193673
+  },
+  {
+    "key": "auto_nissan_navara_pickup",
+    "query": "Nissan Navara pickup",
+    "ok": true,
+    "bytes": 39757
+  },
+  {
+    "key": "auto_nissan_patrol_suv",
+    "query": "Nissan Patrol SUV",
+    "ok": true,
+    "bytes": 277482
+  }
+]

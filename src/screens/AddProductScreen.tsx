@@ -8,8 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
 import ConfettiCannon from 'react-native-confetti-cannon';
-
-const CATEGORIES = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Books', 'Toys', 'Food', 'Other'];
+import { aiApi } from '../lib/api';
+import { CATEGORIES } from '../lib/categories';
 
 interface ImageItem {
     uri: string;
@@ -29,12 +29,26 @@ interface District {
     country_id: number;
 }
 
+async function uriToBlob(uri: string): Promise<Blob> {
+    if (uri.startsWith('data:')) {
+        const [header, base64] = uri.split(',');
+        const mime = header.match(/:(.*?);/)?.[1] || 'image/jpeg';
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return new Blob([bytes], { type: mime });
+    }
+    const response = await fetch(uri);
+    return response.blob();
+}
+
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
     const confettiRef = useRef<any>(null);
     
     const [saving, setSaving] = useState(false);
+    const [optimizing, setOptimizing] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
@@ -173,7 +187,7 @@ export default function AddProductScreen() {
                 .from('profiles')
                 .select('account_type')
                 .eq('id', user.id)
-                .single();
+                .maybeSingle();
 
             const accountType = profile?.account_type || 'basic';
 
@@ -181,7 +195,7 @@ export default function AddProductScreen() {
                 .from('account_type_limits')
                 .select('max_products')
                 .eq('account_type', accountType)
-                .single();
+                .maybeSingle();
 
             const maxProducts = limitData?.max_products || 3;
 
@@ -203,8 +217,7 @@ export default function AddProductScreen() {
             
             for (let i = 0; i < images.length; i++) {
                 const img = images[i];
-                const response = await fetch(img.uri);
-                const blob = await response.blob();
+                const blob = await uriToBlob(img.uri);
                 const fileName = `${user.id}/${Date.now()}-${i}.jpg`;
                 
                 const { error: uploadError } = await supabase.storage
@@ -218,13 +231,27 @@ export default function AddProductScreen() {
             const mainImagePath = uploadedImages.find(img => img.isMain)?.path || uploadedImages[0].path;
 
             const selectedDistrict = districts.find(d => d.id.toString() === formData.district_id);
-            
+            const selectedCountryObj = countries.find(c => c.id === parseInt(formData.country_id));
+
+            // SEO optimization — rewrites title & description for East Africa
+            // search trends (M-Pesa, fast delivery, geo cues). Falls back to
+            // originals on any failure so the save flow never breaks.
+            setOptimizing(true);
+            const seo = await aiApi.optimizeListing({
+                title: formData.title.trim(),
+                description: formData.description.trim(),
+                category: formData.category,
+                country: selectedCountryObj?.name || '',
+                county: selectedDistrict?.name || '',
+            });
+            setOptimizing(false);
+
             const { data: product, error: productError } = await supabase
                 .from('products')
                 .insert({
                     user_id: user.id,
-                    title: formData.title.trim(),
-                    description: formData.description.trim(),
+                    title: seo.title || formData.title.trim(),
+                    description: seo.description || formData.description.trim(),
                     price: parseFloat(formData.price),
                     category: formData.category,
                     available_quantity: parseInt(formData.available_quantity) || 1,
@@ -238,11 +265,9 @@ export default function AddProductScreen() {
 
             if (productError) throw productError;
 
-            const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
             const imageRecords = uploadedImages.map((img, index) => ({
                 product_id: product.id,
                 storage_path: img.path,
-                image_url: supabaseUrl ? `${supabaseUrl}/storage/v1/object/public/images/${img.path}` : img.path,
                 is_main: img.isMain,
                 display_order: index,
             }));
@@ -261,7 +286,7 @@ export default function AddProductScreen() {
             }
             
             setTimeout(() => {
-                navigation.goBack();
+                navigation.navigate('MyProducts');
             }, 2500);
         } catch (error: any) {
             console.error('Error creating product:', error);
@@ -489,7 +514,9 @@ export default function AddProductScreen() {
                         {saving ? (
                             <View className="flex-row items-center">
                                 <ActivityIndicator color="white" size="small" />
-                                <Text className="text-white font-black text-xl uppercase tracking-widest ml-3">Listing...</Text>
+                                <Text className="text-white font-black text-xl uppercase tracking-widest ml-3">
+                                    {optimizing ? 'Optimizing for search…' : 'Listing…'}
+                                </Text>
                             </View>
                         ) : (
                             <Text className="text-white font-black text-xl uppercase tracking-widest">List Product</Text>
