@@ -128,17 +128,21 @@ export interface AssistantProduct {
 export interface AssistantReply {
   reply: string;
   products: AssistantProduct[];
+  filters?: Record<string, unknown>;
+  result_count?: number;
 }
 
 export const assistantApi = {
   chat: (
     messages: Array<{ role: 'user' | 'assistant'; content: string }>,
     country_code?: string,
-  ): Promise<AssistantReply> =>
-    apiCall('/api/ai/assistant', {
+  ): Promise<AssistantReply> => {
+    const latest = [...messages].reverse().find(m => m.role === 'user')?.content || '';
+    return apiCall('/api/ai/assistant', {
       method: 'POST',
-      body: JSON.stringify({ messages, country_code }),
-    }),
+      body: JSON.stringify({ message: latest, country_code }),
+    });
+  },
 };
 
 export interface QualityScanItem {
