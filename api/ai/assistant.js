@@ -174,6 +174,23 @@ async function searchProducts(filters) {
   return Array.isArray(rows) ? rows : [];
 }
 
+function describeSearch(filters) {
+  const parts = [];
+  if (filters.attributes?.color) parts.push(filters.attributes.color + ' ');
+  if (filters.query) parts.push(filters.query);
+  if (filters.condition) parts.push(filters.condition);
+  let description = parts.join(' ').replace(/\\s+/g, ' ').trim();
+  const currency = filters.country_code === 'KE' ? 'KSh' : filters.country_code === 'UG' ? 'UGX' :
+    filters.country_code === 'TZ' ? 'TSh' : filters.country_code === 'RW' ? 'RWF' :
+    filters.country_code === 'SS' ? 'SSP' : filters.country_code === 'ET' ? 'ETB' : '';
+  if (filters.min_price !== undefined) description += ' above ' + currency + ' ' + Number(filters.min_price).toLocaleString('en');
+  if (filters.max_price !== undefined) description += ' under ' + currency + ' ' + Number(filters.max_price).toLocaleString('en');
+  if (filters.county) description += ' in ' + filters.county;
+  const country = Object.keys(COUNTRIES).find(name => COUNTRIES[name] === filters.country_code);
+  if (country) description += ' in ' + country.replace(/\\b\\w/g, c => c.toUpperCase());
+  return description || filters.query || 'your search';
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const auth = req.headers.authorization || '';
@@ -195,9 +212,10 @@ module.exports = async function handler(req, res) {
     if (filters.intent === 'clarify' || !filters.query) return res.status(200).json({ reply: 'What product are you looking for?', products: [], filters });
 
     const products = await searchProducts(filters);
+    const searchDescription = describeSearch(filters);
     const reply = products.length
-      ? (filters.intent === 'trending' ? 'Here are recent listings.' : 'Found ' + products.length + ' matching products.')
-      : 'No exact matches. Try a nearby product type or a wider budget.';
+      ? (filters.intent === 'trending' ? 'Here are recent listings.' : 'Found ' + products.length + ': ' + searchDescription + '.')
+      : 'No matches for ' + searchDescription + '.';
     return res.status(200).json({ reply, products, filters, result_count: products.length });
   } catch (err) {
     console.error('[asha] request failed:', {
