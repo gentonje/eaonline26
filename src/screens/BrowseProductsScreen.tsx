@@ -89,7 +89,8 @@ export default function BrowseProductsScreen() {
     const [page, setPage] = useState(0);
     const isFetchingRef = useRef(false);
 
-    const [countries, setCountries] = useState<Country[]>([]);\n    const [taxonomyNodes, setTaxonomyNodes] = useState<any[]>([]);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [taxonomyNodes, setTaxonomyNodes] = useState<any[]>([]);
     const [districts, setDistricts] = useState<District[]>([]);
     const [selectedCountry, setSelectedCountry] = useState<number | null>(null);
     const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
