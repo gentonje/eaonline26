@@ -27,7 +27,7 @@ const SEARCH_SYNONYMS = {
   truck: ['truck','trucks','lorry','lorries','cargo truck','tipper truck','dump truck','refrigerated truck','tractor unit'],
   bus: ['bus','buses','coach','minibus','matatu','shuttle'],
   tractor: ['tractor','tractors','farm tractor'],
-  motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes','boda boda','scooter'],
+  motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes','boda boda','boda','scooter'],
   bicycle: ['bicycle','bicycles','bike','bikes','mountain bike'],
   phone: ['phone','phones','mobile','mobiles','smartphone','smartphones','cellphone','cell phone','handset'],
   laptop: ['laptop','laptops','notebook','notebooks'],
