@@ -29,7 +29,7 @@ interface PendingProduct {
 export default function ProductApprovalScreen() {
     const { isAdmin, isSuperAdmin } = useAuth();
     const navigation = useNavigation<any>();
-    const feedback = (() => { try { return useFeedback(); } catch { return null; } })();
+    const feedback = useFeedback();
     const [products, setProducts] = useState<PendingProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
@@ -120,10 +120,14 @@ export default function ProductApprovalScreen() {
         }
     };
 
-    const handleReject = async (productId: string) => {
+    const handleReject = async (productId: string, currentStatus: string) => {
+        const nextStatus = currentStatus === 'published' ? 'draft' : 'rejected';
+        const actionLabel = currentStatus === 'published' ? 'Unpublish Product' : 'Reject Product';
         Alert.alert(
-            'Unpublish / Reject Product',
-            'This will move the product back to draft status.',
+            actionLabel,
+            currentStatus === 'published'
+                ? 'This will remove the listing from the public marketplace and return it to draft.'
+                : 'This will reject the listing and remove it from the pending approval queue.',
             [
                 { text: 'Cancel', style: 'cancel' },
                 {
@@ -134,8 +138,10 @@ export default function ProductApprovalScreen() {
                             setUpdatingId(productId);
                             const { error } = await supabase
                                 .from('products')
-                                .update({ product_status: 'draft' })
-                                .eq('id', productId);
+                                .update({ product_status: nextStatus })
+                                .eq('id', productId)
+                                .select('id, product_status')
+                                .single();
 
                             if (error) {
                                 console.error('Reject/Unpublish error:', JSON.stringify(error));
@@ -143,7 +149,7 @@ export default function ProductApprovalScreen() {
                             }
 
                             setProducts(prev => prev.map(p =>
-                                p.id === productId ? { ...p, product_status: 'draft' } : p
+                                p.id === productId ? { ...p, product_status: nextStatus } : p
                             ));
                         } catch (error: any) {
                             console.error('Error rejecting product:', error);
@@ -389,7 +395,7 @@ export default function ProductApprovalScreen() {
                                                 )}
                                             </TouchableOpacity>
                                             <TouchableOpacity
-                                                onPress={() => handleReject(product.id)}
+                                                onPress={() => handleReject(product.id, product.product_status)}
                                                 disabled={updatingId === product.id}
                                                 className="flex-1 flex-row items-center justify-center py-3"
                                             >
