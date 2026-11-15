@@ -11,7 +11,7 @@ import { useShopping } from '../hooks/useShopping';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { getImageUrl } from '../lib/image-utils';
 import ProductCard from '../components/ProductCard';
-import CompareButton from '../components/CompareButton';
+import AutoCompareButton from '../components/AutoCompareButton';
 import { ProductDetailSkeleton } from '../components/Skeleton';
 import BubbleBurst from '../components/BubbleBurst';
 
@@ -386,7 +386,7 @@ export default function ProductDetailScreen() {
 
                         {/* Compare the current listing with alternatives */}
                         <View className="mb-6">
-                            <CompareButton product={product} />
+                            <AutoCompareButton product={product} />
                         </View>
 
                         {/* Seller card */}
@@ -432,7 +432,7 @@ export default function ProductDetailScreen() {
                                         <ProductCard
                                             product={p}
                                             onPress={() => navigation.push('ProductDetail', { productId: p.id })}
-                                            actions={<CompareButton product={p} />}
+                                            actions={<AutoCompareButton product={p} compact />}
                                         />
                                     </View>
                                 ))}
