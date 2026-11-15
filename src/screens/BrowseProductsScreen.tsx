@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ProductCard from '../components/ProductCard';
+import CompareButton from '../components/CompareButton';
 import ScreenHeader from '../components/ScreenHeader';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { MapPin, X, Building2, Tag, Store as StoreIcon, Search } from 'lucide-react-native';
@@ -212,7 +213,7 @@ export default function BrowseProductsScreen() {
 
     const renderProduct = useCallback(({ item }: { item: any }) => (
         <View style={{ width: `${(100 / numColumns).toFixed(4)}%` as any, padding: 4 }}>
-            <ProductCard product={item} />
+            <ProductCard product={item} actions={<CompareButton product={item} />} />
         </View>
     ), [numColumns]);
 
