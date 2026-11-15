@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, ScrollView, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { Camera, Plus, X, MapPin, Globe, ChevronDown, CheckCircle } from 'lucide-react-native';
@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
-import ConfettiCannon from 'react-native-confetti-cannon';
 import { aiApi } from '../lib/api';
 import TaxonomyListingFields from '../components/TaxonomyListingFields';
 
@@ -57,7 +56,6 @@ function formatProductAttributes(attributes: Record<string, unknown> | null | un
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
-    const confettiRef = useRef<any>(null);
     
     const [saving, setSaving] = useState(false);
     const [optimizing, setOptimizing] = useState(false);
@@ -309,13 +307,11 @@ export default function AddProductScreen() {
             setShowSuccess(true);
             setSaving(false);
             
-            if (confettiRef.current) {
-                confettiRef.current.start();
-            }
-            
+            // Keep the success state lightweight; the previous canvas confetti
+            // animation could stall the web screen on lower-powered phones.
             setTimeout(() => {
                 navigation.navigate('MyProducts');
-            }, 2500);
+            }, 1800);
         } catch (error: any) {
             console.error('Error creating product:', error);
             Alert.alert('Error', error.message || 'Failed to create product');
@@ -578,19 +574,9 @@ export default function AddProductScreen() {
                                 <CheckCircle size={48} color="#00A082" />
                             </View>
                             <Text className="text-2xl font-black text-black mb-2">Listed!</Text>
-                            <Text className="text-black/60 font-bold text-center">Your product is now live</Text>
+                            <Text className="text-black/60 font-bold text-center">Your listing has been submitted and is awaiting admin approval</Text>
                         </View>
                     </View>
-                    <ConfettiCannon
-                        ref={confettiRef}
-                        count={200}
-                        origin={{ x: Platform.OS === 'web' ? 200 : -10, y: 0 }}
-                        autoStart={true}
-                        fadeOut={true}
-                        fallSpeed={3000}
-                        explosionSpeed={350}
-                        colors={['#FFD147', '#FDB913', '#00A082', '#ffffff', '#000000']}
-                    />
                 </>
             )}
         </View>
