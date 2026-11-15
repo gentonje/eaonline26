@@ -25,7 +25,7 @@ export default function ProductComparisonScreen() {
     const { products, removeProduct, clearProducts } = useCompare();
     const [sellers, setSellers] = useState<Record<string, string>>({});
     const [loadingSellers, setLoadingSellers] = useState(false);
-    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];\n    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];
+    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];
 
     useEffect(() => {
         let active = true;
