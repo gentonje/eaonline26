@@ -37,7 +37,7 @@ The migration creates:
 ## Validation notes
 
 - The seed contains 713 taxonomy nodes and 576 product-type leaves; every leaf has at least one profile mapping.
-- The profile catalogue contains 80 attribute definitions and 18 profiles. Regulatory fields are now stored separately from ordinary seller attributes.
+- The profile catalogue contains 80 attribute definitions. The JSON blueprint defines 18 reusable profiles; the database adds a 19th `physical_offer` profile for physical-goods-only condition handling. Regulatory fields are now stored separately from ordinary seller attributes.
 - The common offer profile no longer makes condition mandatory for services and digital products; physical listings receive condition through the physical-product listing-kind profile.
 
 ## Important
