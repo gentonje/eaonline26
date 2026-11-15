@@ -14,6 +14,7 @@ const ALIASES: Record<string, string[]> = {
     trainers: ['trainer', 'sneaker', 'sneakers', 'shoe', 'shoes'],
     phone: ['mobile', 'smartphone', 'handset'],
     phones: ['mobile', 'smartphones', 'handsets'],
+    sportshoes: ['sports', 'sport', 'shoe', 'shoes', 'sneaker', 'sneakers', 'trainer', 'trainers', 'running', 'footwear'],
 };
 
 export function getAutoCompareTerms(query: string): string[] {
