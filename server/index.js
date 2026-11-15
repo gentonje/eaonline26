@@ -1057,24 +1057,23 @@ async function searchAshaProducts(filters) {
   params.set('select', 'id,title,price,category,county,country_id,attributes,countries(id,code,currency,name),product_images(storage_path,is_main)');
   params.set('limit', String(filters.limit || 4));
   params.set('order', filters.sort === 'price_asc' ? 'price.asc' : 'created_at.desc');
-  if (filters.min_price !== undefined) params.set('price', 'gte.' + filters.min_price);
-  if (filters.max_price !== undefined) params.set('price', 'lte.' + filters.max_price);
-  if (filters.county) params.set('county', 'ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
-  if (filters.category) params.set('category', 'ilike.*' + filters.category.replace(/[*%,]/g, '') + '*');
+  const conditions = [];
+  if (filters.min_price !== undefined) conditions.push('price.gte.' + filters.min_price);
+  if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
+  if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
+  if (filters.category) conditions.push('category.ilike.*' + filters.category.replace(/[*%,]/g, '') + '*');
   const countryId = await getCountryIdByCode(filters.country_code);
   if (countryId) params.set('country_id', 'eq.' + countryId);
+  if (filters.intent === 'new') params.set('created_at', 'gte.' + new Date(Date.now() - 7 * 86400000).toISOString());
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
   if (query) {
-    const terms = query.split(/\s+/).filter(Boolean).slice(0, 5);
-    // AND across terms, OR across title/description/category for each term.
-    const groups = terms.map(term =>
-      'or(title.ilike.*' + term + '*,description.ilike.*' + term + '*,category.ilike.*' + term + '*)'
-    );
-    params.set('and', '(' + groups.join(',') + ')');
+    const terms = query.split(/\\s+/).filter(Boolean).slice(0, 5);
+    conditions.push(...terms.map(term => 'or(title.ilike.*' + term + '*,description.ilike.*' + term + '*,category.ilike.*' + term + '*)'));
   }
   for (const [key, value] of Object.entries(filters.attributes || {})) {
-    if (ASHA_ALLOWED_ATTRIBUTES.has(key)) params.set('attributes->>' + key, 'ilike.*' + String(value).replace(/[*%,]/g, '') + '*');
+    if (ASHA_ALLOWED_ATTRIBUTES.has(key)) conditions.push('attributes->>' + key + '.ilike.*' + String(value).replace(/[*%,]/g, '') + '*');
   }
+  if (conditions.length) params.set('and', '(' + conditions.join(',') + ')');
   const rows = await supabaseQuery('products?' + params.toString());
   return Array.isArray(rows) ? rows : [];
 }
@@ -1092,8 +1091,8 @@ app.post('/api/ai/assistant', authenticateUser, async (req, res) => {
     }
     const products = await searchAshaProducts(filters);
     let reply;
-    if (products.length) reply = 'Found ' + products.length + ' matching products.';
-    else if (filters.intent === 'trending') reply = 'No trending products yet.';
+    if (products.length) reply = filters.intent === 'trending' ? 'Here are recent listings.' : 'Found ' + products.length + ' matching products.';
+    else if (filters.intent === 'trending') reply = 'No recent listings yet.';
     else reply = 'No matches. Broaden your search.';
     return res.json({ reply, products, filters, result_count: products.length });
   } catch (err) {
