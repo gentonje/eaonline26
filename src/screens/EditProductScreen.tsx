@@ -40,7 +40,7 @@ function parseProductAttributes(input: string): Record<string, string> {
 }
 
 function formatProductAttributes(attributes: Record<string, unknown> | null | undefined): string {
-    return Object.entries(attributes || {}).map(([key, value]) => \`${key}: ${String(value)}\`).join('\n');
+    return Object.entries(attributes || {}).map(([key, value]) => key + ': ' + String(value)).join('\n');
 }
 
 export default function EditProductScreen() {
