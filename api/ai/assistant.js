@@ -221,7 +221,7 @@ async function searchProducts(filters) {
   if (filters.min_price !== undefined) conditions.push('price.gte.' + filters.min_price);
   if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
-  if (filters.category) conditions.push('category.ilike.*' + filters.category.replace(/[*%,]/g, '') + '*');
+  if (filters.category) conditions.push('category.ilike.*' + filters.category.replace(/[*%,]/g, '') + '*');\n  if (filters.year_from !== undefined) conditions.push('attributes->>year.gte.' + filters.year_from);\n  if (filters.year_to !== undefined) conditions.push('attributes->>year.lte.' + filters.year_to);
 
   if (filters.country_code) {
     const countries = await publicQuery('countries?code=eq.' + encodeURIComponent(filters.country_code) + '&select=id&limit=1');
