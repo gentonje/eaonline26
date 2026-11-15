@@ -83,7 +83,7 @@ export default function ProductApprovalScreen() {
             const enriched: PendingProduct[] = (productsData || []).map(p => ({
                 ...p,
                 username: profileMap.get(p.user_id) || 'Unknown User',
-                country_name: countryMap.get(p.country_id) || null,
+                country_name: countryMap.get(p.country_id) || null,\n                quality_flag: null,\n                quality_reason: null,\n                quality_checked_at: null,
             }));
 
             setProducts(enriched);
