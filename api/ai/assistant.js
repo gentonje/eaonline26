@@ -10,29 +10,29 @@ const COUNTRIES = {
 
 function parseIntent(message) {
   const lower = String(message || '').trim().slice(0, 500).toLowerCase();
-  const out = { intent: /\\b(trending|popular|best sellers)\\b/.test(lower) ? 'trending' : /\\b(new arrivals|latest products)\\b/.test(lower) ? 'new' : 'search', query: '', attributes: {}, limit: 4, sort: 'newest' };
-  const max = lower.match(/\\b(?:under|below|less than|up to|max(?:imum)?)\\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\\s*([\\d,]+)/);
-  const min = lower.match(/\\b(?:above|over|more than)\\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\\s*([\\d,]+)/);
+  const out = { intent: /\b(trending|popular|best sellers)\b/.test(lower) ? 'trending' : /\b(new arrivals|latest products)\b/.test(lower) ? 'new' : 'search', query: '', attributes: {}, limit: 4, sort: 'newest' };
+  const max = lower.match(/\b(?:under|below|less than|up to|max(?:imum)?)\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\s*([\d,]+)/);
+  const min = lower.match(/\b(?:above|over|more than)\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\s*([\d,]+)/);
   if (max) out.max_price = Number(max[1].replace(/,/g, ''));
   if (min) out.min_price = Number(min[1].replace(/,/g, ''));
-  const color = ['white','black','red','blue','green','yellow','brown','pink','grey','gray'].find(c => new RegExp('\\\\b' + c + '\\\\b').test(lower));
+  const color = ['white','black','red','blue','green','yellow','brown','pink','grey','gray'].find(c => new RegExp('\\b' + c + '\\b').test(lower));
   if (color) out.attributes.color = color;
-  const condition = lower.match(/\\b(new|used|refurbished|second hand)\\b/);
+  const condition = lower.match(/\b(new|used|refurbished|second hand)\b/);
   if (condition) out.attributes.condition = condition[1] === 'second hand' ? 'used' : condition[1];
   for (const [name, code] of Object.entries(COUNTRIES)) {
-    if (new RegExp('\\\\b' + name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + '\\\\b').test(lower)) {
+    if (new RegExp('\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(lower)) {
       out.country_code = code;
       break;
     }
   }
-  const location = lower.match(/\\bin\\s+([a-z][a-z .'-]{1,35})(?:\\s*,|\\s+under\\b|\\s+below\\b|\\s+for\\b|$)/);
+  const location = lower.match(/\bin\s+([a-z][a-z .'-]{1,35})(?:\s*,|\s+under\b|\s+below\b|\s+for\b|$)/);
   if (location && !COUNTRIES[location[1].trim()]) out.county = location[1].trim();
   out.query = lower
-    .replace(/\\b(show me|find me|find|looking for|i need|i want|do you have|any|please|buy|search for)\\b/g, ' ')
-    .replace(/\\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than)\\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\\s*[\\d,]+/g, ' ')
-    .replace(/\\b(?:white|black|red|blue|green|yellow|brown|pink|grey|gray|new|used|refurbished|second hand)\\b/g, ' ')
-    .replace(/\\b(?:in|from)\\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\\b/g, ' ')
-    .replace(/[^a-z0-9 -]/g, ' ').replace(/\\s+/g, ' ').trim().slice(0, 100);
+    .replace(/\b(show me|find me|find|looking for|i need|i want|do you have|any|please|buy|search for)\b/g, ' ')
+    .replace(/\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than)\s*(?:ksh|kes|ugx|tzs|usd|ssp)?\s*[\d,]+/g, ' ')
+    .replace(/\b(?:white|black|red|blue|green|yellow|brown|pink|grey|gray|new|used|refurbished|second hand)\b/g, ' ')
+    .replace(/\b(?:in|from)\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\b/g, ' ')
+    .replace(/[^a-z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 100);
   return out;
 }
 
@@ -119,7 +119,7 @@ async function searchProducts(filters) {
   if (filters.intent === 'new') params.set('created_at', 'gte.' + new Date(Date.now() - 7 * 86400000).toISOString());
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
   if (query) {
-    const terms = query.split(/\\s+/).filter(Boolean).slice(0, 5);
+    const terms = query.split(/\s+/).filter(Boolean).slice(0, 5);
     conditions.push(...terms.map(term => 'or(title.ilike.*' + term + '*,description.ilike.*' + term + '*,category.ilike.*' + term + '*)'));
   }
   for (const [key, value] of Object.entries(filters.attributes || {})) {
