@@ -19,8 +19,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Check server JavaScript syntax
-        run: node --check server/index.js
+      - name: Check server and Asha API JavaScript syntax
+        run: node --check server/index.js && node --check api/ai/assistant.js
+      - name: Run Asha parser regression tests
+        run: node --test api/ai/assistant.test.js
       - name: TypeScript check
         run: npx tsc --noEmit
       - name: Export Expo web build
