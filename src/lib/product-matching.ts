@@ -20,6 +20,10 @@ export function getAutoCompareTerms(query: string): string[] {
     return [...new Set(query.toLowerCase().replace(/[^a-z0-9\\s]/g, ' ').split(/\\s+/).filter(term => term.length > 1))].slice(0, 6);
 }
 
+export function getAutoCompareSearchTerms(query: string): string[] {
+    return [...new Set(getAutoCompareTerms(query).flatMap(term => [term, ...(ALIASES[term] || [])]))].slice(0, 18);
+}
+
 function searchableText(product: any): { title: string; details: string } {
     const title = String(product?.title || '').toLowerCase();
     const attributes = product?.attributes && typeof product.attributes === 'object'
