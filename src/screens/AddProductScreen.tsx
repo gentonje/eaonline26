@@ -9,7 +9,6 @@ import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { aiApi } from '../lib/api';
-import { CATEGORIES } from '../lib/categories';
 import TaxonomyListingFields from '../components/TaxonomyListingFields';
 
 interface ImageItem {
@@ -190,6 +189,10 @@ export default function AddProductScreen() {
         }
         if (!formData.country_id) {
             Alert.alert('Required', 'Please select a country');
+            return;
+        }
+        if (!taxonomySelection.nodeId) {
+            Alert.alert('Required', 'Please choose a main category, subcategory and specific product or service type');
             return;
         }
 
