@@ -274,7 +274,7 @@ module.exports = async function handler(req, res) {
     if (!message) return res.status(400).json({ error: 'message required' });
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
-    const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);\n    const filters = await interpret(selectedSuggestion ? (message + ' ' + selectedSuggestion) : message);
+    const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);\n    const resolvedMessage = selectedSuggestion ? message.replace(/\\b(?:trak|truc|truk)\\b/gi, selectedSuggestion) : message;\n    const filters = await interpret(resolvedMessage);
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
