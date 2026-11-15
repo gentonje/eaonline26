@@ -99,12 +99,14 @@ export default function ProductApprovalScreen() {
     const handleApprove = async (productId: string) => {
         try {
             setUpdatingId(productId);
-            const { error } = await supabase
+            const { data: updatedProduct, error } = await supabase
                 .from('products')
                 .update({ product_status: 'published' })
-                .eq('id', productId);
+                .eq('id', productId)
+                .select('id, product_status')
+                .single();
 
-            if (error) {
+            if (error || !updatedProduct) {
                 console.error('Approve error:', JSON.stringify(error));
                 throw error;
             }
