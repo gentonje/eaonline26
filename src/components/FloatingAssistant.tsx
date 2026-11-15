@@ -24,8 +24,7 @@ const QUICK_PROMPTS = [
 
 const GREETING: Msg = {
   role: 'assistant',
-  content:
-    "Hi! I'm Asha, your shopping assistant. Ask me to find anything — or tap a suggestion below to get started.",
+  content: "What are you shopping for?",
 };
 
 export default function FloatingAssistant() {
@@ -60,7 +59,7 @@ export default function FloatingAssistant() {
         {
           role: 'assistant',
           content:
-            "Sorry, I'm having trouble right now. Try again in a moment, or browse products directly.",
+            "Search unavailable. Try browsing.",
         },
       ]);
     } finally {
@@ -223,6 +222,17 @@ export default function FloatingAssistant() {
               </View>
             )}
           </ScrollView>
+
+          <TouchableOpacity
+            onPress={() => {
+              setOpen(false);
+              navigation.navigate('App', { screen: 'BrowseProducts' });
+            }}
+            style={{ paddingVertical: 9, alignItems: 'center', borderTopWidth: 1, borderTopColor: '#e5e7eb', backgroundColor: '#f8fafc' }}
+            accessibilityLabel="Continue shopping manually"
+          >
+            <Text style={{ color: '#00866e', fontSize: 12, fontWeight: '800' }}>Browse manually</Text>
+          </TouchableOpacity>
 
           {/* Input */}
           <View style={{ flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: '#e5e7eb', backgroundColor: '#fff', padding: 8 }}>
