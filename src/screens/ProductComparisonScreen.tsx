@@ -20,6 +20,10 @@ const ROWS: { label: string; value: (product: any, sellers: Record<string, strin
     { label: 'Description', value: (p: any) => p.description || 'No description provided' },
 ];
 
+function hasComparisonDifference(values: string[]): boolean {
+    return new Set(values).size > 1;
+}
+
 export default function ProductComparisonScreen() {
     const navigation = useNavigation<any>();
     const { products, removeProduct, clearProducts } = useCompare();
@@ -106,7 +110,7 @@ export default function ProductComparisonScreen() {
                                         </View>
                                         {products.map((product: any) => (
                                             <View key={product.id} style={{ width: 205, padding: 10, borderLeftWidth: 1, borderColor: '#e5e7eb', justifyContent: 'center' }}>
-                                                <Text style={{ color: row.label === 'Price' ? '#00A082' : '#1f2937', fontWeight: row.label === 'Price' ? '900' : '600', fontSize: 12, lineHeight: 18 }}>
+                                                <Text style={{ color: row.label === 'Price' ? '#00A082' : hasComparisonDifference(products.map((p: any) => row.value(p, sellers))) ? '#b45309' : '#1f2937', fontWeight: row.label === 'Price' || hasComparisonDifference(products.map((p: any) => row.value(p, sellers))) ? '900' : '600', fontSize: 12, lineHeight: 18 }}>
                                                     {row.value(product, sellers)}
                                                 </Text>
                                             </View>
@@ -120,7 +124,7 @@ export default function ProductComparisonScreen() {
                                         </View>
                                         {products.map((product: any) => (
                                             <View key={product.id} style={{ width: 205, padding: 10, borderLeftWidth: 1, borderColor: '#e5e7eb', justifyContent: 'center' }}>
-                                                <Text style={{ color: '#1f2937', fontWeight: '600', fontSize: 12, lineHeight: 18 }}>{product.attributes?.[key] == null ? 'Not specified' : String(product.attributes[key])}</Text>
+                                                <Text style={{ color: hasComparisonDifference(products.map((p: any) => p.attributes?.[key] == null ? 'Not specified' : String(p.attributes[key])) ) ? '#b45309' : '#1f2937', fontWeight: hasComparisonDifference(products.map((p: any) => p.attributes?.[key] == null ? 'Not specified' : String(p.attributes[key]))) ? '900' : '600', fontSize: 12, lineHeight: 18 }}>{product.attributes?.[key] == null ? 'Not specified' : String(product.attributes[key])}</Text>
                                             </View>
                                         ))}
                                     </View>
