@@ -51,69 +51,86 @@
           "types": [
             {
               "code": "maize-grain",
-              "label": "Maize Grain"
+              "label": "Maize Grain",
+              "id": "agriculture-livestock.crops-produce.maize-grain"
             },
             {
               "code": "beans-pulses",
-              "label": "Beans Pulses"
+              "label": "Beans Pulses",
+              "id": "agriculture-livestock.crops-produce.beans-pulses"
             },
             {
               "code": "sorghum",
-              "label": "Sorghum"
+              "label": "Sorghum",
+              "id": "agriculture-livestock.crops-produce.sorghum"
             },
             {
               "code": "millet",
-              "label": "Millet"
+              "label": "Millet",
+              "id": "agriculture-livestock.crops-produce.millet"
             },
             {
               "code": "rice",
-              "label": "Rice"
+              "label": "Rice",
+              "id": "agriculture-livestock.crops-produce.rice"
             },
             {
               "code": "wheat",
-              "label": "Wheat"
+              "label": "Wheat",
+              "id": "agriculture-livestock.crops-produce.wheat"
             },
             {
               "code": "cassava",
-              "label": "Cassava"
+              "label": "Cassava",
+              "id": "agriculture-livestock.crops-produce.cassava"
             },
             {
               "code": "irish-potatoes",
-              "label": "Irish Potatoes"
+              "label": "Irish Potatoes",
+              "id": "agriculture-livestock.crops-produce.irish-potatoes"
             },
             {
               "code": "sweet-potatoes",
-              "label": "Sweet Potatoes"
+              "label": "Sweet Potatoes",
+              "id": "agriculture-livestock.crops-produce.sweet-potatoes"
             },
             {
               "code": "fresh-fruits",
-              "label": "Fresh Fruits"
+              "label": "Fresh Fruits",
+              "id": "agriculture-livestock.crops-produce.fresh-fruits"
             },
             {
               "code": "fresh-vegetables",
-              "label": "Fresh Vegetables"
+              "label": "Fresh Vegetables",
+              "id": "agriculture-livestock.crops-produce.fresh-vegetables"
             },
             {
               "code": "oilseeds",
-              "label": "Oilseeds"
+              "label": "Oilseeds",
+              "id": "agriculture-livestock.crops-produce.oilseeds"
             },
             {
               "code": "coffee",
-              "label": "Coffee"
+              "label": "Coffee",
+              "id": "agriculture-livestock.crops-produce.coffee"
             },
             {
               "code": "tea",
-              "label": "Tea"
+              "label": "Tea",
+              "id": "agriculture-livestock.crops-produce.tea"
             },
             {
               "code": "sugarcane",
-              "label": "Sugarcane"
+              "label": "Sugarcane",
+              "id": "agriculture-livestock.crops-produce.sugarcane"
             },
             {
               "code": "cotton",
-              "label": "Cotton"
+              "label": "Cotton",
+              "id": "agriculture-livestock.crops-produce.cotton"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.crops-produce"
         },
         {
           "code": "seeds-planting",
@@ -121,29 +138,36 @@
           "types": [
             {
               "code": "cereal-seeds",
-              "label": "Cereal Seeds"
+              "label": "Cereal Seeds",
+              "id": "agriculture-livestock.seeds-planting.cereal-seeds"
             },
             {
               "code": "legume-seeds",
-              "label": "Legume Seeds"
+              "label": "Legume Seeds",
+              "id": "agriculture-livestock.seeds-planting.legume-seeds"
             },
             {
               "code": "vegetable-seeds",
-              "label": "Vegetable Seeds"
+              "label": "Vegetable Seeds",
+              "id": "agriculture-livestock.seeds-planting.vegetable-seeds"
             },
             {
               "code": "fruit-seedlings",
-              "label": "Fruit Seedlings"
+              "label": "Fruit Seedlings",
+              "id": "agriculture-livestock.seeds-planting.fruit-seedlings"
             },
             {
               "code": "tree-seedlings",
-              "label": "Tree Seedlings"
+              "label": "Tree Seedlings",
+              "id": "agriculture-livestock.seeds-planting.tree-seedlings"
             },
             {
               "code": "planting-cuttings",
-              "label": "Planting Cuttings"
+              "label": "Planting Cuttings",
+              "id": "agriculture-livestock.seeds-planting.planting-cuttings"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.seeds-planting"
         },
         {
           "code": "livestock",
@@ -151,41 +175,51 @@
           "types": [
             {
               "code": "cattle",
-              "label": "Cattle"
+              "label": "Cattle",
+              "id": "agriculture-livestock.livestock.cattle"
             },
             {
               "code": "goats",
-              "label": "Goats"
+              "label": "Goats",
+              "id": "agriculture-livestock.livestock.goats"
             },
             {
               "code": "sheep",
-              "label": "Sheep"
+              "label": "Sheep",
+              "id": "agriculture-livestock.livestock.sheep"
             },
             {
               "code": "pigs",
-              "label": "Pigs"
+              "label": "Pigs",
+              "id": "agriculture-livestock.livestock.pigs"
             },
             {
               "code": "chickens",
-              "label": "Chickens"
+              "label": "Chickens",
+              "id": "agriculture-livestock.livestock.chickens"
             },
             {
               "code": "ducks",
-              "label": "Ducks"
+              "label": "Ducks",
+              "id": "agriculture-livestock.livestock.ducks"
             },
             {
               "code": "turkeys",
-              "label": "Turkeys"
+              "label": "Turkeys",
+              "id": "agriculture-livestock.livestock.turkeys"
             },
             {
               "code": "rabbits",
-              "label": "Rabbits"
+              "label": "Rabbits",
+              "id": "agriculture-livestock.livestock.rabbits"
             },
             {
               "code": "fish-fingerlings",
-              "label": "Fish Fingerlings"
+              "label": "Fish Fingerlings",
+              "id": "agriculture-livestock.livestock.fish-fingerlings"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.livestock"
         },
         {
           "code": "animal-products",
@@ -193,25 +227,31 @@
           "types": [
             {
               "code": "raw-milk",
-              "label": "Raw Milk"
+              "label": "Raw Milk",
+              "id": "agriculture-livestock.animal-products.raw-milk"
             },
             {
               "code": "eggs",
-              "label": "Eggs"
+              "label": "Eggs",
+              "id": "agriculture-livestock.animal-products.eggs"
             },
             {
               "code": "honey",
-              "label": "Honey"
+              "label": "Honey",
+              "id": "agriculture-livestock.animal-products.honey"
             },
             {
               "code": "hides-skins",
-              "label": "Hides Skins"
+              "label": "Hides Skins",
+              "id": "agriculture-livestock.animal-products.hides-skins"
             },
             {
               "code": "wool",
-              "label": "Wool"
+              "label": "Wool",
+              "id": "agriculture-livestock.animal-products.wool"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.animal-products"
         },
         {
           "code": "animal-feed",
@@ -219,29 +259,36 @@
           "types": [
             {
               "code": "hay-fodder",
-              "label": "Hay Fodder"
+              "label": "Hay Fodder",
+              "id": "agriculture-livestock.animal-feed.hay-fodder"
             },
             {
               "code": "silage",
-              "label": "Silage"
+              "label": "Silage",
+              "id": "agriculture-livestock.animal-feed.silage"
             },
             {
               "code": "poultry-feed",
-              "label": "Poultry Feed"
+              "label": "Poultry Feed",
+              "id": "agriculture-livestock.animal-feed.poultry-feed"
             },
             {
               "code": "dairy-feed",
-              "label": "Dairy Feed"
+              "label": "Dairy Feed",
+              "id": "agriculture-livestock.animal-feed.dairy-feed"
             },
             {
               "code": "livestock-concentrate",
-              "label": "Livestock Concentrate"
+              "label": "Livestock Concentrate",
+              "id": "agriculture-livestock.animal-feed.livestock-concentrate"
             },
             {
               "code": "fish-feed",
-              "label": "Fish Feed"
+              "label": "Fish Feed",
+              "id": "agriculture-livestock.animal-feed.fish-feed"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.animal-feed"
         },
         {
           "code": "farm-inputs",
@@ -249,33 +296,41 @@
           "types": [
             {
               "code": "fertiliser",
-              "label": "Fertiliser"
+              "label": "Fertiliser",
+              "id": "agriculture-livestock.farm-inputs.fertiliser"
             },
             {
               "code": "organic-manure",
-              "label": "Organic Manure"
+              "label": "Organic Manure",
+              "id": "agriculture-livestock.farm-inputs.organic-manure"
             },
             {
               "code": "pesticides",
-              "label": "Pesticides"
+              "label": "Pesticides",
+              "id": "agriculture-livestock.farm-inputs.pesticides"
             },
             {
               "code": "herbicides",
-              "label": "Herbicides"
+              "label": "Herbicides",
+              "id": "agriculture-livestock.farm-inputs.herbicides"
             },
             {
               "code": "fungicides",
-              "label": "Fungicides"
+              "label": "Fungicides",
+              "id": "agriculture-livestock.farm-inputs.fungicides"
             },
             {
               "code": "veterinary-medicines",
-              "label": "Veterinary Medicines"
+              "label": "Veterinary Medicines",
+              "id": "agriculture-livestock.farm-inputs.veterinary-medicines"
             },
             {
               "code": "soil-conditioners",
-              "label": "Soil Conditioners"
+              "label": "Soil Conditioners",
+              "id": "agriculture-livestock.farm-inputs.soil-conditioners"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.farm-inputs"
         },
         {
           "code": "farm-machinery",
@@ -283,45 +338,56 @@
           "types": [
             {
               "code": "tractor",
-              "label": "Tractor"
+              "label": "Tractor",
+              "id": "agriculture-livestock.farm-machinery.tractor"
             },
             {
               "code": "power-tiller",
-              "label": "Power Tiller"
+              "label": "Power Tiller",
+              "id": "agriculture-livestock.farm-machinery.power-tiller"
             },
             {
               "code": "planter-seeder",
-              "label": "Planter Seeder"
+              "label": "Planter Seeder",
+              "id": "agriculture-livestock.farm-machinery.planter-seeder"
             },
             {
               "code": "harvester",
-              "label": "Harvester"
+              "label": "Harvester",
+              "id": "agriculture-livestock.farm-machinery.harvester"
             },
             {
               "code": "thresher",
-              "label": "Thresher"
+              "label": "Thresher",
+              "id": "agriculture-livestock.farm-machinery.thresher"
             },
             {
               "code": "posho-mill",
-              "label": "Posho Mill"
+              "label": "Posho Mill",
+              "id": "agriculture-livestock.farm-machinery.posho-mill"
             },
             {
               "code": "irrigation-pump",
-              "label": "Irrigation Pump"
+              "label": "Irrigation Pump",
+              "id": "agriculture-livestock.farm-machinery.irrigation-pump"
             },
             {
               "code": "drip-irrigation-kit",
-              "label": "Drip Irrigation Kit"
+              "label": "Drip Irrigation Kit",
+              "id": "agriculture-livestock.farm-machinery.drip-irrigation-kit"
             },
             {
               "code": "sprayer",
-              "label": "Sprayer"
+              "label": "Sprayer",
+              "id": "agriculture-livestock.farm-machinery.sprayer"
             },
             {
               "code": "greenhouse-kit",
-              "label": "Greenhouse Kit"
+              "label": "Greenhouse Kit",
+              "id": "agriculture-livestock.farm-machinery.greenhouse-kit"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.farm-machinery"
         },
         {
           "code": "farm-tools",
@@ -329,25 +395,31 @@
           "types": [
             {
               "code": "hand-hoe-jembe",
-              "label": "Hand Hoe Jembe"
+              "label": "Hand Hoe Jembe",
+              "id": "agriculture-livestock.farm-tools.hand-hoe-jembe"
             },
             {
               "code": "panga-machete",
-              "label": "Panga Machete"
+              "label": "Panga Machete",
+              "id": "agriculture-livestock.farm-tools.panga-machete"
             },
             {
               "code": "pruning-tool",
-              "label": "Pruning Tool"
+              "label": "Pruning Tool",
+              "id": "agriculture-livestock.farm-tools.pruning-tool"
             },
             {
               "code": "wheelbarrow",
-              "label": "Wheelbarrow"
+              "label": "Wheelbarrow",
+              "id": "agriculture-livestock.farm-tools.wheelbarrow"
             },
             {
               "code": "knapsack-sprayer",
-              "label": "Knapsack Sprayer"
+              "label": "Knapsack Sprayer",
+              "id": "agriculture-livestock.farm-tools.knapsack-sprayer"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.farm-tools"
         },
         {
           "code": "agri-services",
@@ -355,39 +427,49 @@
           "types": [
             {
               "code": "ploughing-service",
-              "label": "Ploughing Service"
+              "label": "Ploughing Service",
+              "id": "agriculture-livestock.agri-services.ploughing-service"
             },
             {
               "code": "planting-service",
-              "label": "Planting Service"
+              "label": "Planting Service",
+              "id": "agriculture-livestock.agri-services.planting-service"
             },
             {
               "code": "spraying-service",
-              "label": "Spraying Service"
+              "label": "Spraying Service",
+              "id": "agriculture-livestock.agri-services.spraying-service"
             },
             {
               "code": "harvesting-service",
-              "label": "Harvesting Service"
+              "label": "Harvesting Service",
+              "id": "agriculture-livestock.agri-services.harvesting-service"
             },
             {
               "code": "soil-testing",
-              "label": "Soil Testing"
+              "label": "Soil Testing",
+              "id": "agriculture-livestock.agri-services.soil-testing"
             },
             {
               "code": "veterinary-service",
-              "label": "Veterinary Service"
+              "label": "Veterinary Service",
+              "id": "agriculture-livestock.agri-services.veterinary-service"
             },
             {
               "code": "farm-consultancy",
-              "label": "Farm Consultancy"
+              "label": "Farm Consultancy",
+              "id": "agriculture-livestock.agri-services.farm-consultancy"
             },
             {
               "code": "produce-aggregation",
-              "label": "Produce Aggregation"
+              "label": "Produce Aggregation",
+              "id": "agriculture-livestock.agri-services.produce-aggregation"
             }
-          ]
+          ],
+          "id": "agriculture-livestock.agri-services"
         }
-      ]
+      ],
+      "id": "agriculture-livestock"
     },
     {
       "code": "automotive-transport",
@@ -399,37 +481,46 @@
           "types": [
             {
               "code": "sedan",
-              "label": "Sedan"
+              "label": "Sedan",
+              "id": "automotive-transport.passenger-vehicles.sedan"
             },
             {
               "code": "hatchback",
-              "label": "Hatchback"
+              "label": "Hatchback",
+              "id": "automotive-transport.passenger-vehicles.hatchback"
             },
             {
               "code": "station-wagon",
-              "label": "Station Wagon"
+              "label": "Station Wagon",
+              "id": "automotive-transport.passenger-vehicles.station-wagon"
             },
             {
               "code": "suv",
-              "label": "Suv"
+              "label": "Suv",
+              "id": "automotive-transport.passenger-vehicles.suv"
             },
             {
               "code": "pickup",
-              "label": "Pickup"
+              "label": "Pickup",
+              "id": "automotive-transport.passenger-vehicles.pickup"
             },
             {
               "code": "coupe",
-              "label": "Coupe"
+              "label": "Coupe",
+              "id": "automotive-transport.passenger-vehicles.coupe"
             },
             {
               "code": "convertible",
-              "label": "Convertible"
+              "label": "Convertible",
+              "id": "automotive-transport.passenger-vehicles.convertible"
             },
             {
               "code": "van",
-              "label": "Van"
+              "label": "Van",
+              "id": "automotive-transport.passenger-vehicles.van"
             }
-          ]
+          ],
+          "id": "automotive-transport.passenger-vehicles"
         },
         {
           "code": "commercial-vehicles",
@@ -437,37 +528,46 @@
           "types": [
             {
               "code": "minibus-matatu",
-              "label": "Minibus Matatu"
+              "label": "Minibus Matatu",
+              "id": "automotive-transport.commercial-vehicles.minibus-matatu"
             },
             {
               "code": "bus",
-              "label": "Bus"
+              "label": "Bus",
+              "id": "automotive-transport.commercial-vehicles.bus"
             },
             {
               "code": "cargo-truck",
-              "label": "Cargo Truck"
+              "label": "Cargo Truck",
+              "id": "automotive-transport.commercial-vehicles.cargo-truck"
             },
             {
               "code": "tipper-truck",
-              "label": "Tipper Truck"
+              "label": "Tipper Truck",
+              "id": "automotive-transport.commercial-vehicles.tipper-truck"
             },
             {
               "code": "tractor-unit",
-              "label": "Tractor Unit"
+              "label": "Tractor Unit",
+              "id": "automotive-transport.commercial-vehicles.tractor-unit"
             },
             {
               "code": "refrigerated-truck",
-              "label": "Refrigerated Truck"
+              "label": "Refrigerated Truck",
+              "id": "automotive-transport.commercial-vehicles.refrigerated-truck"
             },
             {
               "code": "delivery-van",
-              "label": "Delivery Van"
+              "label": "Delivery Van",
+              "id": "automotive-transport.commercial-vehicles.delivery-van"
             },
             {
               "code": "trailer",
-              "label": "Trailer"
+              "label": "Trailer",
+              "id": "automotive-transport.commercial-vehicles.trailer"
             }
-          ]
+          ],
+          "id": "automotive-transport.commercial-vehicles"
         },
         {
           "code": "two-three-wheelers",
@@ -475,25 +575,31 @@
           "types": [
             {
               "code": "motorcycle",
-              "label": "Motorcycle"
+              "label": "Motorcycle",
+              "id": "automotive-transport.two-three-wheelers.motorcycle"
             },
             {
               "code": "scooter",
-              "label": "Scooter"
+              "label": "Scooter",
+              "id": "automotive-transport.two-three-wheelers.scooter"
             },
             {
               "code": "tuk-tuk",
-              "label": "Tuk Tuk"
+              "label": "Tuk Tuk",
+              "id": "automotive-transport.two-three-wheelers.tuk-tuk"
             },
             {
               "code": "bicycle",
-              "label": "Bicycle"
+              "label": "Bicycle",
+              "id": "automotive-transport.two-three-wheelers.bicycle"
             },
             {
               "code": "electric-bicycle",
-              "label": "Electric Bicycle"
+              "label": "Electric Bicycle",
+              "id": "automotive-transport.two-three-wheelers.electric-bicycle"
             }
-          ]
+          ],
+          "id": "automotive-transport.two-three-wheelers"
         },
         {
           "code": "vehicle-parts",
@@ -501,45 +607,56 @@
           "types": [
             {
               "code": "engine-parts",
-              "label": "Engine Parts"
+              "label": "Engine Parts",
+              "id": "automotive-transport.vehicle-parts.engine-parts"
             },
             {
               "code": "body-parts",
-              "label": "Body Parts"
+              "label": "Body Parts",
+              "id": "automotive-transport.vehicle-parts.body-parts"
             },
             {
               "code": "brake-parts",
-              "label": "Brake Parts"
+              "label": "Brake Parts",
+              "id": "automotive-transport.vehicle-parts.brake-parts"
             },
             {
               "code": "suspension-parts",
-              "label": "Suspension Parts"
+              "label": "Suspension Parts",
+              "id": "automotive-transport.vehicle-parts.suspension-parts"
             },
             {
               "code": "filters",
-              "label": "Filters"
+              "label": "Filters",
+              "id": "automotive-transport.vehicle-parts.filters"
             },
             {
               "code": "vehicle-battery",
-              "label": "Vehicle Battery"
+              "label": "Vehicle Battery",
+              "id": "automotive-transport.vehicle-parts.vehicle-battery"
             },
             {
               "code": "tyres",
-              "label": "Tyres"
+              "label": "Tyres",
+              "id": "automotive-transport.vehicle-parts.tyres"
             },
             {
               "code": "rims",
-              "label": "Rims"
+              "label": "Rims",
+              "id": "automotive-transport.vehicle-parts.rims"
             },
             {
               "code": "vehicle-lights",
-              "label": "Vehicle Lights"
+              "label": "Vehicle Lights",
+              "id": "automotive-transport.vehicle-parts.vehicle-lights"
             },
             {
               "code": "vehicle-electronics",
-              "label": "Vehicle Electronics"
+              "label": "Vehicle Electronics",
+              "id": "automotive-transport.vehicle-parts.vehicle-electronics"
             }
-          ]
+          ],
+          "id": "automotive-transport.vehicle-parts"
         },
         {
           "code": "garage-equipment",
@@ -547,25 +664,31 @@
           "types": [
             {
               "code": "vehicle-diagnostic-tool",
-              "label": "Vehicle Diagnostic Tool"
+              "label": "Vehicle Diagnostic Tool",
+              "id": "automotive-transport.garage-equipment.vehicle-diagnostic-tool"
             },
             {
               "code": "car-lift",
-              "label": "Car Lift"
+              "label": "Car Lift",
+              "id": "automotive-transport.garage-equipment.car-lift"
             },
             {
               "code": "tyre-changer",
-              "label": "Tyre Changer"
+              "label": "Tyre Changer",
+              "id": "automotive-transport.garage-equipment.tyre-changer"
             },
             {
               "code": "air-compressor",
-              "label": "Air Compressor"
+              "label": "Air Compressor",
+              "id": "automotive-transport.garage-equipment.air-compressor"
             },
             {
               "code": "welding-equipment",
-              "label": "Welding Equipment"
+              "label": "Welding Equipment",
+              "id": "automotive-transport.garage-equipment.welding-equipment"
             }
-          ]
+          ],
+          "id": "automotive-transport.garage-equipment"
         },
         {
           "code": "auto-services",
@@ -573,39 +696,49 @@
           "types": [
             {
               "code": "vehicle-repair",
-              "label": "Vehicle Repair"
+              "label": "Vehicle Repair",
+              "id": "automotive-transport.auto-services.vehicle-repair"
             },
             {
               "code": "vehicle-servicing",
-              "label": "Vehicle Servicing"
+              "label": "Vehicle Servicing",
+              "id": "automotive-transport.auto-services.vehicle-servicing"
             },
             {
               "code": "panel-beating",
-              "label": "Panel Beating"
+              "label": "Panel Beating",
+              "id": "automotive-transport.auto-services.panel-beating"
             },
             {
               "code": "vehicle-painting",
-              "label": "Vehicle Painting"
+              "label": "Vehicle Painting",
+              "id": "automotive-transport.auto-services.vehicle-painting"
             },
             {
               "code": "vehicle-inspection",
-              "label": "Vehicle Inspection"
+              "label": "Vehicle Inspection",
+              "id": "automotive-transport.auto-services.vehicle-inspection"
             },
             {
               "code": "vehicle-towing",
-              "label": "Vehicle Towing"
+              "label": "Vehicle Towing",
+              "id": "automotive-transport.auto-services.vehicle-towing"
             },
             {
               "code": "car-hire",
-              "label": "Car Hire"
+              "label": "Car Hire",
+              "id": "automotive-transport.auto-services.car-hire"
             },
             {
               "code": "driver-service",
-              "label": "Driver Service"
+              "label": "Driver Service",
+              "id": "automotive-transport.auto-services.driver-service"
             }
-          ]
+          ],
+          "id": "automotive-transport.auto-services"
         }
-      ]
+      ],
+      "id": "automotive-transport"
     },
     {
       "code": "building-construction",
@@ -617,49 +750,61 @@
           "types": [
             {
               "code": "cement",
-              "label": "Cement"
+              "label": "Cement",
+              "id": "building-construction.building-materials.cement"
             },
             {
               "code": "reinforcement-steel",
-              "label": "Reinforcement Steel"
+              "label": "Reinforcement Steel",
+              "id": "building-construction.building-materials.reinforcement-steel"
             },
             {
               "code": "structural-steel",
-              "label": "Structural Steel"
+              "label": "Structural Steel",
+              "id": "building-construction.building-materials.structural-steel"
             },
             {
               "code": "roofing-sheets",
-              "label": "Roofing Sheets"
+              "label": "Roofing Sheets",
+              "id": "building-construction.building-materials.roofing-sheets"
             },
             {
               "code": "timber-lumber",
-              "label": "Timber Lumber"
+              "label": "Timber Lumber",
+              "id": "building-construction.building-materials.timber-lumber"
             },
             {
               "code": "sand",
-              "label": "Sand"
+              "label": "Sand",
+              "id": "building-construction.building-materials.sand"
             },
             {
               "code": "ballast-aggregate",
-              "label": "Ballast Aggregate"
+              "label": "Ballast Aggregate",
+              "id": "building-construction.building-materials.ballast-aggregate"
             },
             {
               "code": "building-stones",
-              "label": "Building Stones"
+              "label": "Building Stones",
+              "id": "building-construction.building-materials.building-stones"
             },
             {
               "code": "bricks-blocks",
-              "label": "Bricks Blocks"
+              "label": "Bricks Blocks",
+              "id": "building-construction.building-materials.bricks-blocks"
             },
             {
               "code": "precast-products",
-              "label": "Precast Products"
+              "label": "Precast Products",
+              "id": "building-construction.building-materials.precast-products"
             },
             {
               "code": "glass",
-              "label": "Glass"
+              "label": "Glass",
+              "id": "building-construction.building-materials.glass"
             }
-          ]
+          ],
+          "id": "building-construction.building-materials"
         },
         {
           "code": "finishes",
@@ -667,37 +812,46 @@
           "types": [
             {
               "code": "ceramic-tiles",
-              "label": "Ceramic Tiles"
+              "label": "Ceramic Tiles",
+              "id": "building-construction.finishes.ceramic-tiles"
             },
             {
               "code": "flooring",
-              "label": "Flooring"
+              "label": "Flooring",
+              "id": "building-construction.finishes.flooring"
             },
             {
               "code": "paint-coatings",
-              "label": "Paint Coatings"
+              "label": "Paint Coatings",
+              "id": "building-construction.finishes.paint-coatings"
             },
             {
               "code": "ceiling-materials",
-              "label": "Ceiling Materials"
+              "label": "Ceiling Materials",
+              "id": "building-construction.finishes.ceiling-materials"
             },
             {
               "code": "doors",
-              "label": "Doors"
+              "label": "Doors",
+              "id": "building-construction.finishes.doors"
             },
             {
               "code": "windows",
-              "label": "Windows"
+              "label": "Windows",
+              "id": "building-construction.finishes.windows"
             },
             {
               "code": "locks-handles",
-              "label": "Locks Handles"
+              "label": "Locks Handles",
+              "id": "building-construction.finishes.locks-handles"
             },
             {
               "code": "sanitary-ware",
-              "label": "Sanitary Ware"
+              "label": "Sanitary Ware",
+              "id": "building-construction.finishes.sanitary-ware"
             }
-          ]
+          ],
+          "id": "building-construction.finishes"
         },
         {
           "code": "plumbing",
@@ -705,33 +859,41 @@
           "types": [
             {
               "code": "water-pipes",
-              "label": "Water Pipes"
+              "label": "Water Pipes",
+              "id": "building-construction.plumbing.water-pipes"
             },
             {
               "code": "pipe-fittings",
-              "label": "Pipe Fittings"
+              "label": "Pipe Fittings",
+              "id": "building-construction.plumbing.pipe-fittings"
             },
             {
               "code": "water-tanks",
-              "label": "Water Tanks"
+              "label": "Water Tanks",
+              "id": "building-construction.plumbing.water-tanks"
             },
             {
               "code": "water-pumps",
-              "label": "Water Pumps"
+              "label": "Water Pumps",
+              "id": "building-construction.plumbing.water-pumps"
             },
             {
               "code": "taps-valves",
-              "label": "Taps Valves"
+              "label": "Taps Valves",
+              "id": "building-construction.plumbing.taps-valves"
             },
             {
               "code": "toilets-basins",
-              "label": "Toilets Basins"
+              "label": "Toilets Basins",
+              "id": "building-construction.plumbing.toilets-basins"
             },
             {
               "code": "water-heaters",
-              "label": "Water Heaters"
+              "label": "Water Heaters",
+              "id": "building-construction.plumbing.water-heaters"
             }
-          ]
+          ],
+          "id": "building-construction.plumbing"
         },
         {
           "code": "electrical-building",
@@ -739,25 +901,31 @@
           "types": [
             {
               "code": "electrical-cables",
-              "label": "Electrical Cables"
+              "label": "Electrical Cables",
+              "id": "building-construction.electrical-building.electrical-cables"
             },
             {
               "code": "switches-sockets",
-              "label": "Switches Sockets"
+              "label": "Switches Sockets",
+              "id": "building-construction.electrical-building.switches-sockets"
             },
             {
               "code": "circuit-breakers",
-              "label": "Circuit Breakers"
+              "label": "Circuit Breakers",
+              "id": "building-construction.electrical-building.circuit-breakers"
             },
             {
               "code": "distribution-boards",
-              "label": "Distribution Boards"
+              "label": "Distribution Boards",
+              "id": "building-construction.electrical-building.distribution-boards"
             },
             {
               "code": "lighting-fixtures",
-              "label": "Lighting Fixtures"
+              "label": "Lighting Fixtures",
+              "id": "building-construction.electrical-building.lighting-fixtures"
             }
-          ]
+          ],
+          "id": "building-construction.electrical-building"
         },
         {
           "code": "construction-services",
@@ -765,47 +933,59 @@
           "types": [
             {
               "code": "building-contractor",
-              "label": "Building Contractor"
+              "label": "Building Contractor",
+              "id": "building-construction.construction-services.building-contractor"
             },
             {
               "code": "masonry",
-              "label": "Masonry"
+              "label": "Masonry",
+              "id": "building-construction.construction-services.masonry"
             },
             {
               "code": "carpentry-joinery",
-              "label": "Carpentry Joinery"
+              "label": "Carpentry Joinery",
+              "id": "building-construction.construction-services.carpentry-joinery"
             },
             {
               "code": "roofing-service",
-              "label": "Roofing Service"
+              "label": "Roofing Service",
+              "id": "building-construction.construction-services.roofing-service"
             },
             {
               "code": "plumbing-service",
-              "label": "Plumbing Service"
+              "label": "Plumbing Service",
+              "id": "building-construction.construction-services.plumbing-service"
             },
             {
               "code": "electrical-installation",
-              "label": "Electrical Installation"
+              "label": "Electrical Installation",
+              "id": "building-construction.construction-services.electrical-installation"
             },
             {
               "code": "painting-service",
-              "label": "Painting Service"
+              "label": "Painting Service",
+              "id": "building-construction.construction-services.painting-service"
             },
             {
               "code": "tiling-service",
-              "label": "Tiling Service"
+              "label": "Tiling Service",
+              "id": "building-construction.construction-services.tiling-service"
             },
             {
               "code": "welding-fabrication",
-              "label": "Welding Fabrication"
+              "label": "Welding Fabrication",
+              "id": "building-construction.construction-services.welding-fabrication"
             },
             {
               "code": "renovation-service",
-              "label": "Renovation Service"
+              "label": "Renovation Service",
+              "id": "building-construction.construction-services.renovation-service"
             }
-          ]
+          ],
+          "id": "building-construction.construction-services"
         }
-      ]
+      ],
+      "id": "building-construction"
     },
     {
       "code": "business-office-industrial",
@@ -817,25 +997,31 @@
           "types": [
             {
               "code": "paper",
-              "label": "Paper"
+              "label": "Paper",
+              "id": "business-office-industrial.office-supplies.paper"
             },
             {
               "code": "pens-pencils",
-              "label": "Pens Pencils"
+              "label": "Pens Pencils",
+              "id": "business-office-industrial.office-supplies.pens-pencils"
             },
             {
               "code": "folders-files",
-              "label": "Folders Files"
+              "label": "Folders Files",
+              "id": "business-office-industrial.office-supplies.folders-files"
             },
             {
               "code": "printer-ink-toner",
-              "label": "Printer Ink Toner"
+              "label": "Printer Ink Toner",
+              "id": "business-office-industrial.office-supplies.printer-ink-toner"
             },
             {
               "code": "office-stationery",
-              "label": "Office Stationery"
+              "label": "Office Stationery",
+              "id": "business-office-industrial.office-supplies.office-stationery"
             }
-          ]
+          ],
+          "id": "business-office-industrial.office-supplies"
         },
         {
           "code": "office-equipment",
@@ -843,25 +1029,31 @@
           "types": [
             {
               "code": "printer-scanner",
-              "label": "Printer Scanner"
+              "label": "Printer Scanner",
+              "id": "business-office-industrial.office-equipment.printer-scanner"
             },
             {
               "code": "photocopier",
-              "label": "Photocopier"
+              "label": "Photocopier",
+              "id": "business-office-industrial.office-equipment.photocopier"
             },
             {
               "code": "shredder",
-              "label": "Shredder"
+              "label": "Shredder",
+              "id": "business-office-industrial.office-equipment.shredder"
             },
             {
               "code": "projector",
-              "label": "Projector"
+              "label": "Projector",
+              "id": "business-office-industrial.office-equipment.projector"
             },
             {
               "code": "cash-register-pos",
-              "label": "Cash Register Pos"
+              "label": "Cash Register Pos",
+              "id": "business-office-industrial.office-equipment.cash-register-pos"
             }
-          ]
+          ],
+          "id": "business-office-industrial.office-equipment"
         },
         {
           "code": "office-furniture",
@@ -869,21 +1061,26 @@
           "types": [
             {
               "code": "office-desk",
-              "label": "Office Desk"
+              "label": "Office Desk",
+              "id": "business-office-industrial.office-furniture.office-desk"
             },
             {
               "code": "office-chair",
-              "label": "Office Chair"
+              "label": "Office Chair",
+              "id": "business-office-industrial.office-furniture.office-chair"
             },
             {
               "code": "filing-cabinet",
-              "label": "Filing Cabinet"
+              "label": "Filing Cabinet",
+              "id": "business-office-industrial.office-furniture.filing-cabinet"
             },
             {
               "code": "meeting-table",
-              "label": "Meeting Table"
+              "label": "Meeting Table",
+              "id": "business-office-industrial.office-furniture.meeting-table"
             }
-          ]
+          ],
+          "id": "business-office-industrial.office-furniture"
         },
         {
           "code": "industrial-supplies",
@@ -891,33 +1088,41 @@
           "types": [
             {
               "code": "bearings",
-              "label": "Bearings"
+              "label": "Bearings",
+              "id": "business-office-industrial.industrial-supplies.bearings"
             },
             {
               "code": "belts-hoses",
-              "label": "Belts Hoses"
+              "label": "Belts Hoses",
+              "id": "business-office-industrial.industrial-supplies.belts-hoses"
             },
             {
               "code": "fasteners",
-              "label": "Fasteners"
+              "label": "Fasteners",
+              "id": "business-office-industrial.industrial-supplies.fasteners"
             },
             {
               "code": "industrial-pumps",
-              "label": "Industrial Pumps"
+              "label": "Industrial Pumps",
+              "id": "business-office-industrial.industrial-supplies.industrial-pumps"
             },
             {
               "code": "compressors",
-              "label": "Compressors"
+              "label": "Compressors",
+              "id": "business-office-industrial.industrial-supplies.compressors"
             },
             {
               "code": "industrial-valves",
-              "label": "Industrial Valves"
+              "label": "Industrial Valves",
+              "id": "business-office-industrial.industrial-supplies.industrial-valves"
             },
             {
               "code": "safety-equipment-ppe",
-              "label": "Safety Equipment Ppe"
+              "label": "Safety Equipment Ppe",
+              "id": "business-office-industrial.industrial-supplies.safety-equipment-ppe"
             }
-          ]
+          ],
+          "id": "business-office-industrial.industrial-supplies"
         },
         {
           "code": "business-services",
@@ -925,27 +1130,34 @@
           "types": [
             {
               "code": "printing-service",
-              "label": "Printing Service"
+              "label": "Printing Service",
+              "id": "business-office-industrial.business-services.printing-service"
             },
             {
               "code": "photocopying-service",
-              "label": "Photocopying Service"
+              "label": "Photocopying Service",
+              "id": "business-office-industrial.business-services.photocopying-service"
             },
             {
               "code": "document-binding",
-              "label": "Document Binding"
+              "label": "Document Binding",
+              "id": "business-office-industrial.business-services.document-binding"
             },
             {
               "code": "secretarial-service",
-              "label": "Secretarial Service"
+              "label": "Secretarial Service",
+              "id": "business-office-industrial.business-services.secretarial-service"
             },
             {
               "code": "virtual-assistant",
-              "label": "Virtual Assistant"
+              "label": "Virtual Assistant",
+              "id": "business-office-industrial.business-services.virtual-assistant"
             }
-          ]
+          ],
+          "id": "business-office-industrial.business-services"
         }
-      ]
+      ],
+      "id": "business-office-industrial"
     },
     {
       "code": "cleaning-facility",
@@ -957,29 +1169,36 @@
           "types": [
             {
               "code": "detergent",
-              "label": "Detergent"
+              "label": "Detergent",
+              "id": "cleaning-facility.cleaning-products.detergent"
             },
             {
               "code": "disinfectant",
-              "label": "Disinfectant"
+              "label": "Disinfectant",
+              "id": "cleaning-facility.cleaning-products.disinfectant"
             },
             {
               "code": "bleach",
-              "label": "Bleach"
+              "label": "Bleach",
+              "id": "cleaning-facility.cleaning-products.bleach"
             },
             {
               "code": "soap-cleaner",
-              "label": "Soap Cleaner"
+              "label": "Soap Cleaner",
+              "id": "cleaning-facility.cleaning-products.soap-cleaner"
             },
             {
               "code": "cleaning-tools",
-              "label": "Cleaning Tools"
+              "label": "Cleaning Tools",
+              "id": "cleaning-facility.cleaning-products.cleaning-tools"
             },
             {
               "code": "waste-bags",
-              "label": "Waste Bags"
+              "label": "Waste Bags",
+              "id": "cleaning-facility.cleaning-products.waste-bags"
             }
-          ]
+          ],
+          "id": "cleaning-facility.cleaning-products"
         },
         {
           "code": "cleaning-equipment",
@@ -987,21 +1206,26 @@
           "types": [
             {
               "code": "vacuum-cleaner",
-              "label": "Vacuum Cleaner"
+              "label": "Vacuum Cleaner",
+              "id": "cleaning-facility.cleaning-equipment.vacuum-cleaner"
             },
             {
               "code": "floor-scrubber",
-              "label": "Floor Scrubber"
+              "label": "Floor Scrubber",
+              "id": "cleaning-facility.cleaning-equipment.floor-scrubber"
             },
             {
               "code": "pressure-washer",
-              "label": "Pressure Washer"
+              "label": "Pressure Washer",
+              "id": "cleaning-facility.cleaning-equipment.pressure-washer"
             },
             {
               "code": "carpet-cleaning-machine",
-              "label": "Carpet Cleaning Machine"
+              "label": "Carpet Cleaning Machine",
+              "id": "cleaning-facility.cleaning-equipment.carpet-cleaning-machine"
             }
-          ]
+          ],
+          "id": "cleaning-facility.cleaning-equipment"
         },
         {
           "code": "cleaning-services",
@@ -1009,39 +1233,49 @@
           "types": [
             {
               "code": "residential-cleaning",
-              "label": "Residential Cleaning"
+              "label": "Residential Cleaning",
+              "id": "cleaning-facility.cleaning-services.residential-cleaning"
             },
             {
               "code": "office-cleaning",
-              "label": "Office Cleaning"
+              "label": "Office Cleaning",
+              "id": "cleaning-facility.cleaning-services.office-cleaning"
             },
             {
               "code": "post-construction-cleaning",
-              "label": "Post Construction Cleaning"
+              "label": "Post Construction Cleaning",
+              "id": "cleaning-facility.cleaning-services.post-construction-cleaning"
             },
             {
               "code": "carpet-cleaning-service",
-              "label": "Carpet Cleaning Service"
+              "label": "Carpet Cleaning Service",
+              "id": "cleaning-facility.cleaning-services.carpet-cleaning-service"
             },
             {
               "code": "window-cleaning",
-              "label": "Window Cleaning"
+              "label": "Window Cleaning",
+              "id": "cleaning-facility.cleaning-services.window-cleaning"
             },
             {
               "code": "fumigation-pest-control",
-              "label": "Fumigation Pest Control"
+              "label": "Fumigation Pest Control",
+              "id": "cleaning-facility.cleaning-services.fumigation-pest-control"
             },
             {
               "code": "waste-collection",
-              "label": "Waste Collection"
+              "label": "Waste Collection",
+              "id": "cleaning-facility.cleaning-services.waste-collection"
             },
             {
               "code": "sanitation-service",
-              "label": "Sanitation Service"
+              "label": "Sanitation Service",
+              "id": "cleaning-facility.cleaning-services.sanitation-service"
             }
-          ]
+          ],
+          "id": "cleaning-facility.cleaning-services"
         }
-      ]
+      ],
+      "id": "cleaning-facility"
     },
     {
       "code": "education-learning",
@@ -1053,29 +1287,36 @@
           "types": [
             {
               "code": "textbook",
-              "label": "Textbook"
+              "label": "Textbook",
+              "id": "education-learning.learning-materials.textbook"
             },
             {
               "code": "revision-book",
-              "label": "Revision Book"
+              "label": "Revision Book",
+              "id": "education-learning.learning-materials.revision-book"
             },
             {
               "code": "exercise-book",
-              "label": "Exercise Book"
+              "label": "Exercise Book",
+              "id": "education-learning.learning-materials.exercise-book"
             },
             {
               "code": "stationery-school",
-              "label": "Stationery School"
+              "label": "Stationery School",
+              "id": "education-learning.learning-materials.stationery-school"
             },
             {
               "code": "teaching-aid",
-              "label": "Teaching Aid"
+              "label": "Teaching Aid",
+              "id": "education-learning.learning-materials.teaching-aid"
             },
             {
               "code": "educational-chart",
-              "label": "Educational Chart"
+              "label": "Educational Chart",
+              "id": "education-learning.learning-materials.educational-chart"
             }
-          ]
+          ],
+          "id": "education-learning.learning-materials"
         },
         {
           "code": "school-equipment",
@@ -1083,21 +1324,26 @@
           "types": [
             {
               "code": "school-desk",
-              "label": "School Desk"
+              "label": "School Desk",
+              "id": "education-learning.school-equipment.school-desk"
             },
             {
               "code": "laboratory-equipment",
-              "label": "Laboratory Equipment"
+              "label": "Laboratory Equipment",
+              "id": "education-learning.school-equipment.laboratory-equipment"
             },
             {
               "code": "school-uniform",
-              "label": "School Uniform"
+              "label": "School Uniform",
+              "id": "education-learning.school-equipment.school-uniform"
             },
             {
               "code": "sports-school-equipment",
-              "label": "Sports School Equipment"
+              "label": "Sports School Equipment",
+              "id": "education-learning.school-equipment.sports-school-equipment"
             }
-          ]
+          ],
+          "id": "education-learning.school-equipment"
         },
         {
           "code": "education-services",
@@ -1105,31 +1351,39 @@
           "types": [
             {
               "code": "private-tutoring",
-              "label": "Private Tutoring"
+              "label": "Private Tutoring",
+              "id": "education-learning.education-services.private-tutoring"
             },
             {
               "code": "exam-preparation",
-              "label": "Exam Preparation"
+              "label": "Exam Preparation",
+              "id": "education-learning.education-services.exam-preparation"
             },
             {
               "code": "language-lessons",
-              "label": "Language Lessons"
+              "label": "Language Lessons",
+              "id": "education-learning.education-services.language-lessons"
             },
             {
               "code": "vocational-training",
-              "label": "Vocational Training"
+              "label": "Vocational Training",
+              "id": "education-learning.education-services.vocational-training"
             },
             {
               "code": "school-admissions-support",
-              "label": "School Admissions Support"
+              "label": "School Admissions Support",
+              "id": "education-learning.education-services.school-admissions-support"
             },
             {
               "code": "educational-consultancy",
-              "label": "Educational Consultancy"
+              "label": "Educational Consultancy",
+              "id": "education-learning.education-services.educational-consultancy"
             }
-          ]
+          ],
+          "id": "education-learning.education-services"
         }
-      ]
+      ],
+      "id": "education-learning"
     },
     {
       "code": "electronics-technology",
@@ -1141,33 +1395,41 @@
           "types": [
             {
               "code": "smartphone",
-              "label": "Smartphone"
+              "label": "Smartphone",
+              "id": "electronics-technology.phones-computers.smartphone"
             },
             {
               "code": "mobile-phone",
-              "label": "Mobile Phone"
+              "label": "Mobile Phone",
+              "id": "electronics-technology.phones-computers.mobile-phone"
             },
             {
               "code": "tablet",
-              "label": "Tablet"
+              "label": "Tablet",
+              "id": "electronics-technology.phones-computers.tablet"
             },
             {
               "code": "laptop",
-              "label": "Laptop"
+              "label": "Laptop",
+              "id": "electronics-technology.phones-computers.laptop"
             },
             {
               "code": "desktop-computer",
-              "label": "Desktop Computer"
+              "label": "Desktop Computer",
+              "id": "electronics-technology.phones-computers.desktop-computer"
             },
             {
               "code": "computer-monitor",
-              "label": "Computer Monitor"
+              "label": "Computer Monitor",
+              "id": "electronics-technology.phones-computers.computer-monitor"
             },
             {
               "code": "computer-accessory",
-              "label": "Computer Accessory"
+              "label": "Computer Accessory",
+              "id": "electronics-technology.phones-computers.computer-accessory"
             }
-          ]
+          ],
+          "id": "electronics-technology.phones-computers"
         },
         {
           "code": "consumer-electronics",
@@ -1175,29 +1437,36 @@
           "types": [
             {
               "code": "television",
-              "label": "Television"
+              "label": "Television",
+              "id": "electronics-technology.consumer-electronics.television"
             },
             {
               "code": "radio",
-              "label": "Radio"
+              "label": "Radio",
+              "id": "electronics-technology.consumer-electronics.radio"
             },
             {
               "code": "speaker",
-              "label": "Speaker"
+              "label": "Speaker",
+              "id": "electronics-technology.consumer-electronics.speaker"
             },
             {
               "code": "headphones",
-              "label": "Headphones"
+              "label": "Headphones",
+              "id": "electronics-technology.consumer-electronics.headphones"
             },
             {
               "code": "camera",
-              "label": "Camera"
+              "label": "Camera",
+              "id": "electronics-technology.consumer-electronics.camera"
             },
             {
               "code": "gaming-console",
-              "label": "Gaming Console"
+              "label": "Gaming Console",
+              "id": "electronics-technology.consumer-electronics.gaming-console"
             }
-          ]
+          ],
+          "id": "electronics-technology.consumer-electronics"
         },
         {
           "code": "components",
@@ -1205,25 +1474,31 @@
           "types": [
             {
               "code": "memory-storage",
-              "label": "Memory Storage"
+              "label": "Memory Storage",
+              "id": "electronics-technology.components.memory-storage"
             },
             {
               "code": "computer-parts",
-              "label": "Computer Parts"
+              "label": "Computer Parts",
+              "id": "electronics-technology.components.computer-parts"
             },
             {
               "code": "networking-equipment",
-              "label": "Networking Equipment"
+              "label": "Networking Equipment",
+              "id": "electronics-technology.components.networking-equipment"
             },
             {
               "code": "cables-adapters",
-              "label": "Cables Adapters"
+              "label": "Cables Adapters",
+              "id": "electronics-technology.components.cables-adapters"
             },
             {
               "code": "electronic-components",
-              "label": "Electronic Components"
+              "label": "Electronic Components",
+              "id": "electronics-technology.components.electronic-components"
             }
-          ]
+          ],
+          "id": "electronics-technology.components"
         },
         {
           "code": "software-tech",
@@ -1231,25 +1506,31 @@
           "types": [
             {
               "code": "software-license",
-              "label": "Software License"
+              "label": "Software License",
+              "id": "electronics-technology.software-tech.software-license"
             },
             {
               "code": "business-software",
-              "label": "Business Software"
+              "label": "Business Software",
+              "id": "electronics-technology.software-tech.business-software"
             },
             {
               "code": "mobile-app",
-              "label": "Mobile App"
+              "label": "Mobile App",
+              "id": "electronics-technology.software-tech.mobile-app"
             },
             {
               "code": "website-template",
-              "label": "Website Template"
+              "label": "Website Template",
+              "id": "electronics-technology.software-tech.website-template"
             },
             {
               "code": "cloud-subscription",
-              "label": "Cloud Subscription"
+              "label": "Cloud Subscription",
+              "id": "electronics-technology.software-tech.cloud-subscription"
             }
-          ]
+          ],
+          "id": "electronics-technology.software-tech"
         },
         {
           "code": "tech-services",
@@ -1257,35 +1538,44 @@
           "types": [
             {
               "code": "computer-repair",
-              "label": "Computer Repair"
+              "label": "Computer Repair",
+              "id": "electronics-technology.tech-services.computer-repair"
             },
             {
               "code": "phone-repair",
-              "label": "Phone Repair"
+              "label": "Phone Repair",
+              "id": "electronics-technology.tech-services.phone-repair"
             },
             {
               "code": "software-development",
-              "label": "Software Development"
+              "label": "Software Development",
+              "id": "electronics-technology.tech-services.software-development"
             },
             {
               "code": "website-development",
-              "label": "Website Development"
+              "label": "Website Development",
+              "id": "electronics-technology.tech-services.website-development"
             },
             {
               "code": "it-support",
-              "label": "It Support"
+              "label": "It Support",
+              "id": "electronics-technology.tech-services.it-support"
             },
             {
               "code": "network-installation",
-              "label": "Network Installation"
+              "label": "Network Installation",
+              "id": "electronics-technology.tech-services.network-installation"
             },
             {
               "code": "data-recovery",
-              "label": "Data Recovery"
+              "label": "Data Recovery",
+              "id": "electronics-technology.tech-services.data-recovery"
             }
-          ]
+          ],
+          "id": "electronics-technology.tech-services"
         }
-      ]
+      ],
+      "id": "electronics-technology"
     },
     {
       "code": "energy-electrical",
@@ -1297,29 +1587,36 @@
           "types": [
             {
               "code": "solar-panel",
-              "label": "Solar Panel"
+              "label": "Solar Panel",
+              "id": "energy-electrical.solar.solar-panel"
             },
             {
               "code": "solar-inverter",
-              "label": "Solar Inverter"
+              "label": "Solar Inverter",
+              "id": "energy-electrical.solar.solar-inverter"
             },
             {
               "code": "solar-battery",
-              "label": "Solar Battery"
+              "label": "Solar Battery",
+              "id": "energy-electrical.solar.solar-battery"
             },
             {
               "code": "solar-home-system",
-              "label": "Solar Home System"
+              "label": "Solar Home System",
+              "id": "energy-electrical.solar.solar-home-system"
             },
             {
               "code": "solar-water-pump",
-              "label": "Solar Water Pump"
+              "label": "Solar Water Pump",
+              "id": "energy-electrical.solar.solar-water-pump"
             },
             {
               "code": "solar-light",
-              "label": "Solar Light"
+              "label": "Solar Light",
+              "id": "energy-electrical.solar.solar-light"
             }
-          ]
+          ],
+          "id": "energy-electrical.solar"
         },
         {
           "code": "power-backup",
@@ -1327,25 +1624,31 @@
           "types": [
             {
               "code": "generator",
-              "label": "Generator"
+              "label": "Generator",
+              "id": "energy-electrical.power-backup.generator"
             },
             {
               "code": "ups",
-              "label": "Ups"
+              "label": "Ups",
+              "id": "energy-electrical.power-backup.ups"
             },
             {
               "code": "inverter",
-              "label": "Inverter"
+              "label": "Inverter",
+              "id": "energy-electrical.power-backup.inverter"
             },
             {
               "code": "deep-cycle-battery",
-              "label": "Deep Cycle Battery"
+              "label": "Deep Cycle Battery",
+              "id": "energy-electrical.power-backup.deep-cycle-battery"
             },
             {
               "code": "lithium-battery",
-              "label": "Lithium Battery"
+              "label": "Lithium Battery",
+              "id": "energy-electrical.power-backup.lithium-battery"
             }
-          ]
+          ],
+          "id": "energy-electrical.power-backup"
         },
         {
           "code": "electrical",
@@ -1353,25 +1656,31 @@
           "types": [
             {
               "code": "electrical-wire",
-              "label": "Electrical Wire"
+              "label": "Electrical Wire",
+              "id": "energy-electrical.electrical.electrical-wire"
             },
             {
               "code": "switchgear",
-              "label": "Switchgear"
+              "label": "Switchgear",
+              "id": "energy-electrical.electrical.switchgear"
             },
             {
               "code": "circuit-protection",
-              "label": "Circuit Protection"
+              "label": "Circuit Protection",
+              "id": "energy-electrical.electrical.circuit-protection"
             },
             {
               "code": "lighting",
-              "label": "Lighting"
+              "label": "Lighting",
+              "id": "energy-electrical.electrical.lighting"
             },
             {
               "code": "extension-cable",
-              "label": "Extension Cable"
+              "label": "Extension Cable",
+              "id": "energy-electrical.electrical.extension-cable"
             }
-          ]
+          ],
+          "id": "energy-electrical.electrical"
         },
         {
           "code": "energy-services",
@@ -1379,23 +1688,29 @@
           "types": [
             {
               "code": "solar-installation",
-              "label": "Solar Installation"
+              "label": "Solar Installation",
+              "id": "energy-electrical.energy-services.solar-installation"
             },
             {
               "code": "solar-maintenance",
-              "label": "Solar Maintenance"
+              "label": "Solar Maintenance",
+              "id": "energy-electrical.energy-services.solar-maintenance"
             },
             {
-              "code": "electrical-repair",
-              "label": "Electrical Repair"
+              "code": "electrical-installation-repair",
+              "label": "Electrical Repair",
+              "id": "energy-electrical.energy-services.electrical-installation-repair"
             },
             {
               "code": "energy-audit",
-              "label": "Energy Audit"
+              "label": "Energy Audit",
+              "id": "energy-electrical.energy-services.energy-audit"
             }
-          ]
+          ],
+          "id": "energy-electrical.energy-services"
         }
-      ]
+      ],
+      "id": "energy-electrical"
     },
     {
       "code": "fashion-clothing",
@@ -1407,33 +1722,41 @@
           "types": [
             {
               "code": "t-shirt",
-              "label": "T Shirt"
+              "label": "T Shirt",
+              "id": "fashion-clothing.tops.t-shirt"
             },
             {
               "code": "polo-shirt",
-              "label": "Polo Shirt"
+              "label": "Polo Shirt",
+              "id": "fashion-clothing.tops.polo-shirt"
             },
             {
               "code": "formal-shirt",
-              "label": "Formal Shirt"
+              "label": "Formal Shirt",
+              "id": "fashion-clothing.tops.formal-shirt"
             },
             {
               "code": "blouse",
-              "label": "Blouse"
+              "label": "Blouse",
+              "id": "fashion-clothing.tops.blouse"
             },
             {
               "code": "sweater-pullover",
-              "label": "Sweater Pullover"
+              "label": "Sweater Pullover",
+              "id": "fashion-clothing.tops.sweater-pullover"
             },
             {
               "code": "hoodie",
-              "label": "Hoodie"
+              "label": "Hoodie",
+              "id": "fashion-clothing.tops.hoodie"
             },
             {
               "code": "vest-top",
-              "label": "Vest Top"
+              "label": "Vest Top",
+              "id": "fashion-clothing.tops.vest-top"
             }
-          ]
+          ],
+          "id": "fashion-clothing.tops"
         },
         {
           "code": "bottoms",
@@ -1441,25 +1764,31 @@
           "types": [
             {
               "code": "trousers",
-              "label": "Trousers"
+              "label": "Trousers",
+              "id": "fashion-clothing.bottoms.trousers"
             },
             {
               "code": "jeans",
-              "label": "Jeans"
+              "label": "Jeans",
+              "id": "fashion-clothing.bottoms.jeans"
             },
             {
               "code": "shorts",
-              "label": "Shorts"
+              "label": "Shorts",
+              "id": "fashion-clothing.bottoms.shorts"
             },
             {
               "code": "skirt",
-              "label": "Skirt"
+              "label": "Skirt",
+              "id": "fashion-clothing.bottoms.skirt"
             },
             {
               "code": "leggings",
-              "label": "Leggings"
+              "label": "Leggings",
+              "id": "fashion-clothing.bottoms.leggings"
             }
-          ]
+          ],
+          "id": "fashion-clothing.bottoms"
         },
         {
           "code": "dresses-outerwear",
@@ -1467,25 +1796,31 @@
           "types": [
             {
               "code": "dress",
-              "label": "Dress"
+              "label": "Dress",
+              "id": "fashion-clothing.dresses-outerwear.dress"
             },
             {
               "code": "jacket",
-              "label": "Jacket"
+              "label": "Jacket",
+              "id": "fashion-clothing.dresses-outerwear.jacket"
             },
             {
               "code": "coat",
-              "label": "Coat"
+              "label": "Coat",
+              "id": "fashion-clothing.dresses-outerwear.coat"
             },
             {
               "code": "suit",
-              "label": "Suit"
+              "label": "Suit",
+              "id": "fashion-clothing.dresses-outerwear.suit"
             },
             {
               "code": "traditional-wear",
-              "label": "Traditional Wear"
+              "label": "Traditional Wear",
+              "id": "fashion-clothing.dresses-outerwear.traditional-wear"
             }
-          ]
+          ],
+          "id": "fashion-clothing.dresses-outerwear"
         },
         {
           "code": "footwear",
@@ -1493,29 +1828,36 @@
           "types": [
             {
               "code": "sports-shoes",
-              "label": "Sports Shoes"
+              "label": "Sports Shoes",
+              "id": "fashion-clothing.footwear.sports-shoes"
             },
             {
               "code": "formal-shoes",
-              "label": "Formal Shoes"
+              "label": "Formal Shoes",
+              "id": "fashion-clothing.footwear.formal-shoes"
             },
             {
               "code": "sandals",
-              "label": "Sandals"
+              "label": "Sandals",
+              "id": "fashion-clothing.footwear.sandals"
             },
             {
               "code": "boots",
-              "label": "Boots"
+              "label": "Boots",
+              "id": "fashion-clothing.footwear.boots"
             },
             {
               "code": "school-shoes",
-              "label": "School Shoes"
+              "label": "School Shoes",
+              "id": "fashion-clothing.footwear.school-shoes"
             },
             {
               "code": "slippers",
-              "label": "Slippers"
+              "label": "Slippers",
+              "id": "fashion-clothing.footwear.slippers"
             }
-          ]
+          ],
+          "id": "fashion-clothing.footwear"
         },
         {
           "code": "accessories",
@@ -1523,33 +1865,41 @@
           "types": [
             {
               "code": "handbag",
-              "label": "Handbag"
+              "label": "Handbag",
+              "id": "fashion-clothing.accessories.handbag"
             },
             {
               "code": "backpack",
-              "label": "Backpack"
+              "label": "Backpack",
+              "id": "fashion-clothing.accessories.backpack"
             },
             {
               "code": "belt",
-              "label": "Belt"
+              "label": "Belt",
+              "id": "fashion-clothing.accessories.belt"
             },
             {
               "code": "hat-cap",
-              "label": "Hat Cap"
+              "label": "Hat Cap",
+              "id": "fashion-clothing.accessories.hat-cap"
             },
             {
               "code": "watch",
-              "label": "Watch"
+              "label": "Watch",
+              "id": "fashion-clothing.accessories.watch"
             },
             {
               "code": "jewellery",
-              "label": "Jewellery"
+              "label": "Jewellery",
+              "id": "fashion-clothing.accessories.jewellery"
             },
             {
               "code": "sunglasses",
-              "label": "Sunglasses"
+              "label": "Sunglasses",
+              "id": "fashion-clothing.accessories.sunglasses"
             }
-          ]
+          ],
+          "id": "fashion-clothing.accessories"
         },
         {
           "code": "fashion-services",
@@ -1557,23 +1907,29 @@
           "types": [
             {
               "code": "tailoring",
-              "label": "Tailoring"
+              "label": "Tailoring",
+              "id": "fashion-clothing.fashion-services.tailoring"
             },
             {
               "code": "clothing-alteration",
-              "label": "Clothing Alteration"
+              "label": "Clothing Alteration",
+              "id": "fashion-clothing.fashion-services.clothing-alteration"
             },
             {
               "code": "shoe-repair",
-              "label": "Shoe Repair"
+              "label": "Shoe Repair",
+              "id": "fashion-clothing.fashion-services.shoe-repair"
             },
             {
               "code": "fashion-design",
-              "label": "Fashion Design"
+              "label": "Fashion Design",
+              "id": "fashion-clothing.fashion-services.fashion-design"
             }
-          ]
+          ],
+          "id": "fashion-clothing.fashion-services"
         }
-      ]
+      ],
+      "id": "fashion-clothing"
     },
     {
       "code": "food-groceries",
@@ -1585,25 +1941,31 @@
           "types": [
             {
               "code": "fresh-fruit",
-              "label": "Fresh Fruit"
+              "label": "Fresh Fruit",
+              "id": "food-groceries.fresh-food.fresh-fruit"
             },
             {
               "code": "fresh-vegetable",
-              "label": "Fresh Vegetable"
+              "label": "Fresh Vegetable",
+              "id": "food-groceries.fresh-food.fresh-vegetable"
             },
             {
               "code": "fresh-meat",
-              "label": "Fresh Meat"
+              "label": "Fresh Meat",
+              "id": "food-groceries.fresh-food.fresh-meat"
             },
             {
               "code": "fresh-fish",
-              "label": "Fresh Fish"
+              "label": "Fresh Fish",
+              "id": "food-groceries.fresh-food.fresh-fish"
             },
             {
               "code": "dairy-products",
-              "label": "Dairy Products"
+              "label": "Dairy Products",
+              "id": "food-groceries.fresh-food.dairy-products"
             }
-          ]
+          ],
+          "id": "food-groceries.fresh-food"
         },
         {
           "code": "staples",
@@ -1611,37 +1973,46 @@
           "types": [
             {
               "code": "maize-flour",
-              "label": "Maize Flour"
+              "label": "Maize Flour",
+              "id": "food-groceries.staples.maize-flour"
             },
             {
               "code": "wheat-flour",
-              "label": "Wheat Flour"
+              "label": "Wheat Flour",
+              "id": "food-groceries.staples.wheat-flour"
             },
             {
               "code": "rice-food",
-              "label": "Rice Food"
+              "label": "Rice Food",
+              "id": "food-groceries.staples.rice-food"
             },
             {
               "code": "dried-beans",
-              "label": "Dried Beans"
+              "label": "Dried Beans",
+              "id": "food-groceries.staples.dried-beans"
             },
             {
               "code": "cooking-oil",
-              "label": "Cooking Oil"
+              "label": "Cooking Oil",
+              "id": "food-groceries.staples.cooking-oil"
             },
             {
               "code": "sugar",
-              "label": "Sugar"
+              "label": "Sugar",
+              "id": "food-groceries.staples.sugar"
             },
             {
               "code": "salt",
-              "label": "Salt"
+              "label": "Salt",
+              "id": "food-groceries.staples.salt"
             },
             {
               "code": "spices",
-              "label": "Spices"
+              "label": "Spices",
+              "id": "food-groceries.staples.spices"
             }
-          ]
+          ],
+          "id": "food-groceries.staples"
         },
         {
           "code": "packaged-food",
@@ -1649,21 +2020,26 @@
           "types": [
             {
               "code": "canned-food",
-              "label": "Canned Food"
+              "label": "Canned Food",
+              "id": "food-groceries.packaged-food.canned-food"
             },
             {
               "code": "snacks",
-              "label": "Snacks"
+              "label": "Snacks",
+              "id": "food-groceries.packaged-food.snacks"
             },
             {
               "code": "breakfast-cereal",
-              "label": "Breakfast Cereal"
+              "label": "Breakfast Cereal",
+              "id": "food-groceries.packaged-food.breakfast-cereal"
             },
             {
               "code": "baby-food",
-              "label": "Baby Food"
+              "label": "Baby Food",
+              "id": "food-groceries.packaged-food.baby-food"
             }
-          ]
+          ],
+          "id": "food-groceries.packaged-food"
         },
         {
           "code": "beverages",
@@ -1671,21 +2047,26 @@
           "types": [
             {
               "code": "bottled-water",
-              "label": "Bottled Water"
+              "label": "Bottled Water",
+              "id": "food-groceries.beverages.bottled-water"
             },
             {
               "code": "juice",
-              "label": "Juice"
+              "label": "Juice",
+              "id": "food-groceries.beverages.juice"
             },
             {
               "code": "tea-coffee",
-              "label": "Tea Coffee"
+              "label": "Tea Coffee",
+              "id": "food-groceries.beverages.tea-coffee"
             },
             {
               "code": "soft-drink",
-              "label": "Soft Drink"
+              "label": "Soft Drink",
+              "id": "food-groceries.beverages.soft-drink"
             }
-          ]
+          ],
+          "id": "food-groceries.beverages"
         },
         {
           "code": "food-services",
@@ -1693,23 +2074,29 @@
           "types": [
             {
               "code": "catering",
-              "label": "Catering"
+              "label": "Catering",
+              "id": "food-groceries.food-services.catering"
             },
             {
               "code": "food-delivery",
-              "label": "Food Delivery"
+              "label": "Food Delivery",
+              "id": "food-groceries.food-services.food-delivery"
             },
             {
               "code": "meal-preparation",
-              "label": "Meal Preparation"
+              "label": "Meal Preparation",
+              "id": "food-groceries.food-services.meal-preparation"
             },
             {
               "code": "bakery-service",
-              "label": "Bakery Service"
+              "label": "Bakery Service",
+              "id": "food-groceries.food-services.bakery-service"
             }
-          ]
+          ],
+          "id": "food-groceries.food-services"
         }
-      ]
+      ],
+      "id": "food-groceries"
     },
     {
       "code": "fitness-sports",
@@ -1721,29 +2108,36 @@
           "types": [
             {
               "code": "dumbbell",
-              "label": "Dumbbell"
+              "label": "Dumbbell",
+              "id": "fitness-sports.fitness-equipment.dumbbell"
             },
             {
               "code": "barbell-weight",
-              "label": "Barbell Weight"
+              "label": "Barbell Weight",
+              "id": "fitness-sports.fitness-equipment.barbell-weight"
             },
             {
               "code": "treadmill",
-              "label": "Treadmill"
+              "label": "Treadmill",
+              "id": "fitness-sports.fitness-equipment.treadmill"
             },
             {
               "code": "exercise-bike",
-              "label": "Exercise Bike"
+              "label": "Exercise Bike",
+              "id": "fitness-sports.fitness-equipment.exercise-bike"
             },
             {
               "code": "gym-bench",
-              "label": "Gym Bench"
+              "label": "Gym Bench",
+              "id": "fitness-sports.fitness-equipment.gym-bench"
             },
             {
               "code": "resistance-band",
-              "label": "Resistance Band"
+              "label": "Resistance Band",
+              "id": "fitness-sports.fitness-equipment.resistance-band"
             }
-          ]
+          ],
+          "id": "fitness-sports.fitness-equipment"
         },
         {
           "code": "sports-goods",
@@ -1751,29 +2145,36 @@
           "types": [
             {
               "code": "football",
-              "label": "Football"
+              "label": "Football",
+              "id": "fitness-sports.sports-goods.football"
             },
             {
               "code": "basketball",
-              "label": "Basketball"
+              "label": "Basketball",
+              "id": "fitness-sports.sports-goods.basketball"
             },
             {
               "code": "volleyball",
-              "label": "Volleyball"
+              "label": "Volleyball",
+              "id": "fitness-sports.sports-goods.volleyball"
             },
             {
               "code": "net-racket",
-              "label": "Net Racket"
+              "label": "Net Racket",
+              "id": "fitness-sports.sports-goods.net-racket"
             },
             {
               "code": "sports-protective-gear",
-              "label": "Sports Protective Gear"
+              "label": "Sports Protective Gear",
+              "id": "fitness-sports.sports-goods.sports-protective-gear"
             },
             {
               "code": "swimming-equipment",
-              "label": "Swimming Equipment"
+              "label": "Swimming Equipment",
+              "id": "fitness-sports.sports-goods.swimming-equipment"
             }
-          ]
+          ],
+          "id": "fitness-sports.sports-goods"
         },
         {
           "code": "sportswear",
@@ -1781,17 +2182,21 @@
           "types": [
             {
               "code": "sports-jersey",
-              "label": "Sports Jersey"
+              "label": "Sports Jersey",
+              "id": "fitness-sports.sportswear.sports-jersey"
             },
             {
               "code": "training-clothes",
-              "label": "Training Clothes"
+              "label": "Training Clothes",
+              "id": "fitness-sports.sportswear.training-clothes"
             },
             {
               "code": "sports-socks",
-              "label": "Sports Socks"
+              "label": "Sports Socks",
+              "id": "fitness-sports.sportswear.sports-socks"
             }
-          ]
+          ],
+          "id": "fitness-sports.sportswear"
         },
         {
           "code": "fitness-services",
@@ -1799,23 +2204,29 @@
           "types": [
             {
               "code": "personal-training",
-              "label": "Personal Training"
+              "label": "Personal Training",
+              "id": "fitness-sports.fitness-services.personal-training"
             },
             {
               "code": "gym-membership",
-              "label": "Gym Membership"
+              "label": "Gym Membership",
+              "id": "fitness-sports.fitness-services.gym-membership"
             },
             {
               "code": "group-fitness",
-              "label": "Group Fitness"
+              "label": "Group Fitness",
+              "id": "fitness-sports.fitness-services.group-fitness"
             },
             {
               "code": "sports-coaching",
-              "label": "Sports Coaching"
+              "label": "Sports Coaching",
+              "id": "fitness-sports.fitness-services.sports-coaching"
             }
-          ]
+          ],
+          "id": "fitness-sports.fitness-services"
         }
-      ]
+      ],
+      "id": "fitness-sports"
     },
     {
       "code": "home-household",
@@ -1827,29 +2238,36 @@
           "types": [
             {
               "code": "sofa",
-              "label": "Sofa"
+              "label": "Sofa",
+              "id": "home-household.furniture.sofa"
             },
             {
               "code": "bed",
-              "label": "Bed"
+              "label": "Bed",
+              "id": "home-household.furniture.bed"
             },
             {
               "code": "mattress",
-              "label": "Mattress"
+              "label": "Mattress",
+              "id": "home-household.furniture.mattress"
             },
             {
               "code": "dining-table",
-              "label": "Dining Table"
+              "label": "Dining Table",
+              "id": "home-household.furniture.dining-table"
             },
             {
               "code": "wardrobe",
-              "label": "Wardrobe"
+              "label": "Wardrobe",
+              "id": "home-household.furniture.wardrobe"
             },
             {
               "code": "shelf-storage",
-              "label": "Shelf Storage"
+              "label": "Shelf Storage",
+              "id": "home-household.furniture.shelf-storage"
             }
-          ]
+          ],
+          "id": "home-household.furniture"
         },
         {
           "code": "kitchenware",
@@ -1857,25 +2275,31 @@
           "types": [
             {
               "code": "cookware",
-              "label": "Cookware"
+              "label": "Cookware",
+              "id": "home-household.kitchenware.cookware"
             },
             {
               "code": "cooking-utensil",
-              "label": "Cooking Utensil"
+              "label": "Cooking Utensil",
+              "id": "home-household.kitchenware.cooking-utensil"
             },
             {
               "code": "tableware",
-              "label": "Tableware"
+              "label": "Tableware",
+              "id": "home-household.kitchenware.tableware"
             },
             {
               "code": "water-filter",
-              "label": "Water Filter"
+              "label": "Water Filter",
+              "id": "home-household.kitchenware.water-filter"
             },
             {
               "code": "kitchen-appliance",
-              "label": "Kitchen Appliance"
+              "label": "Kitchen Appliance",
+              "id": "home-household.kitchenware.kitchen-appliance"
             }
-          ]
+          ],
+          "id": "home-household.kitchenware"
         },
         {
           "code": "home-appliances",
@@ -1883,33 +2307,41 @@
           "types": [
             {
               "code": "refrigerator",
-              "label": "Refrigerator"
+              "label": "Refrigerator",
+              "id": "home-household.home-appliances.refrigerator"
             },
             {
               "code": "freezer",
-              "label": "Freezer"
+              "label": "Freezer",
+              "id": "home-household.home-appliances.freezer"
             },
             {
               "code": "washing-machine",
-              "label": "Washing Machine"
+              "label": "Washing Machine",
+              "id": "home-household.home-appliances.washing-machine"
             },
             {
               "code": "cooker",
-              "label": "Cooker"
+              "label": "Cooker",
+              "id": "home-household.home-appliances.cooker"
             },
             {
               "code": "microwave",
-              "label": "Microwave"
+              "label": "Microwave",
+              "id": "home-household.home-appliances.microwave"
             },
             {
               "code": "fan",
-              "label": "Fan"
+              "label": "Fan",
+              "id": "home-household.home-appliances.fan"
             },
             {
               "code": "air-conditioner",
-              "label": "Air Conditioner"
+              "label": "Air Conditioner",
+              "id": "home-household.home-appliances.air-conditioner"
             }
-          ]
+          ],
+          "id": "home-household.home-appliances"
         },
         {
           "code": "home-textiles",
@@ -1917,21 +2349,26 @@
           "types": [
             {
               "code": "bedding",
-              "label": "Bedding"
+              "label": "Bedding",
+              "id": "home-household.home-textiles.bedding"
             },
             {
               "code": "curtain",
-              "label": "Curtain"
+              "label": "Curtain",
+              "id": "home-household.home-textiles.curtain"
             },
             {
               "code": "towel",
-              "label": "Towel"
+              "label": "Towel",
+              "id": "home-household.home-textiles.towel"
             },
             {
               "code": "rug-carpet",
-              "label": "Rug Carpet"
+              "label": "Rug Carpet",
+              "id": "home-household.home-textiles.rug-carpet"
             }
-          ]
+          ],
+          "id": "home-household.home-textiles"
         },
         {
           "code": "home-decor",
@@ -1939,21 +2376,26 @@
           "types": [
             {
               "code": "wall-decor",
-              "label": "Wall Decor"
+              "label": "Wall Decor",
+              "id": "home-household.home-decor.wall-decor"
             },
             {
               "code": "lighting-decor",
-              "label": "Lighting Decor"
+              "label": "Lighting Decor",
+              "id": "home-household.home-decor.lighting-decor"
             },
             {
               "code": "ornament",
-              "label": "Ornament"
+              "label": "Ornament",
+              "id": "home-household.home-decor.ornament"
             },
             {
               "code": "indoor-plant",
-              "label": "Indoor Plant"
+              "label": "Indoor Plant",
+              "id": "home-household.home-decor.indoor-plant"
             }
-          ]
+          ],
+          "id": "home-household.home-decor"
         },
         {
           "code": "home-services",
@@ -1961,23 +2403,29 @@
           "types": [
             {
               "code": "furniture-assembly",
-              "label": "Furniture Assembly"
+              "label": "Furniture Assembly",
+              "id": "home-household.home-services.furniture-assembly"
             },
             {
               "code": "appliance-repair",
-              "label": "Appliance Repair"
+              "label": "Appliance Repair",
+              "id": "home-household.home-services.appliance-repair"
             },
             {
               "code": "home-maintenance",
-              "label": "Home Maintenance"
+              "label": "Home Maintenance",
+              "id": "home-household.home-services.home-maintenance"
             },
             {
               "code": "gardening-service",
-              "label": "Gardening Service"
+              "label": "Gardening Service",
+              "id": "home-household.home-services.gardening-service"
             }
-          ]
+          ],
+          "id": "home-household.home-services"
         }
-      ]
+      ],
+      "id": "home-household"
     },
     {
       "code": "beauty-personal-care",
@@ -1989,29 +2437,36 @@
           "types": [
             {
               "code": "skincare",
-              "label": "Skincare"
+              "label": "Skincare",
+              "id": "beauty-personal-care.beauty-products.skincare"
             },
             {
               "code": "makeup",
-              "label": "Makeup"
+              "label": "Makeup",
+              "id": "beauty-personal-care.beauty-products.makeup"
             },
             {
               "code": "haircare",
-              "label": "Haircare"
+              "label": "Haircare",
+              "id": "beauty-personal-care.beauty-products.haircare"
             },
             {
               "code": "fragrance",
-              "label": "Fragrance"
+              "label": "Fragrance",
+              "id": "beauty-personal-care.beauty-products.fragrance"
             },
             {
               "code": "nail-care",
-              "label": "Nail Care"
+              "label": "Nail Care",
+              "id": "beauty-personal-care.beauty-products.nail-care"
             },
             {
               "code": "shaving-grooming",
-              "label": "Shaving Grooming"
+              "label": "Shaving Grooming",
+              "id": "beauty-personal-care.beauty-products.shaving-grooming"
             }
-          ]
+          ],
+          "id": "beauty-personal-care.beauty-products"
         },
         {
           "code": "personal-hygiene",
@@ -2019,21 +2474,26 @@
           "types": [
             {
               "code": "sanitary-care",
-              "label": "Sanitary Care"
+              "label": "Sanitary Care",
+              "id": "beauty-personal-care.personal-hygiene.sanitary-care"
             },
             {
               "code": "oral-care",
-              "label": "Oral Care"
+              "label": "Oral Care",
+              "id": "beauty-personal-care.personal-hygiene.oral-care"
             },
             {
               "code": "body-care",
-              "label": "Body Care"
+              "label": "Body Care",
+              "id": "beauty-personal-care.personal-hygiene.body-care"
             },
             {
               "code": "baby-hygiene",
-              "label": "Baby Hygiene"
+              "label": "Baby Hygiene",
+              "id": "beauty-personal-care.personal-hygiene.baby-hygiene"
             }
-          ]
+          ],
+          "id": "beauty-personal-care.personal-hygiene"
         },
         {
           "code": "beauty-equipment",
@@ -2041,17 +2501,21 @@
           "types": [
             {
               "code": "hair-dryer",
-              "label": "Hair Dryer"
+              "label": "Hair Dryer",
+              "id": "beauty-personal-care.beauty-equipment.hair-dryer"
             },
             {
               "code": "hair-clipper",
-              "label": "Hair Clipper"
+              "label": "Hair Clipper",
+              "id": "beauty-personal-care.beauty-equipment.hair-clipper"
             },
             {
               "code": "salon-equipment",
-              "label": "Salon Equipment"
+              "label": "Salon Equipment",
+              "id": "beauty-personal-care.beauty-equipment.salon-equipment"
             }
-          ]
+          ],
+          "id": "beauty-personal-care.beauty-equipment"
         },
         {
           "code": "beauty-services",
@@ -2059,27 +2523,34 @@
           "types": [
             {
               "code": "hairdressing",
-              "label": "Hairdressing"
+              "label": "Hairdressing",
+              "id": "beauty-personal-care.beauty-services.hairdressing"
             },
             {
               "code": "barber-service",
-              "label": "Barber Service"
+              "label": "Barber Service",
+              "id": "beauty-personal-care.beauty-services.barber-service"
             },
             {
               "code": "manicure-pedicure",
-              "label": "Manicure Pedicure"
+              "label": "Manicure Pedicure",
+              "id": "beauty-personal-care.beauty-services.manicure-pedicure"
             },
             {
               "code": "makeup-service",
-              "label": "Makeup Service"
+              "label": "Makeup Service",
+              "id": "beauty-personal-care.beauty-services.makeup-service"
             },
             {
               "code": "beauty-treatment",
-              "label": "Beauty Treatment"
+              "label": "Beauty Treatment",
+              "id": "beauty-personal-care.beauty-services.beauty-treatment"
             }
-          ]
+          ],
+          "id": "beauty-personal-care.beauty-services"
         }
-      ]
+      ],
+      "id": "beauty-personal-care"
     },
     {
       "code": "pharma-healthcare",
@@ -2091,21 +2562,26 @@
           "types": [
             {
               "code": "prescription-medicine",
-              "label": "Prescription Medicine"
+              "label": "Prescription Medicine",
+              "id": "pharma-healthcare.medicines.prescription-medicine"
             },
             {
               "code": "otc-medicine",
-              "label": "Otc Medicine"
+              "label": "Otc Medicine",
+              "id": "pharma-healthcare.medicines.otc-medicine"
             },
             {
               "code": "vaccine-biological",
-              "label": "Vaccine Biological"
+              "label": "Vaccine Biological",
+              "id": "pharma-healthcare.medicines.vaccine-biological"
             },
             {
               "code": "herbal-medicine",
-              "label": "Herbal Medicine"
+              "label": "Herbal Medicine",
+              "id": "pharma-healthcare.medicines.herbal-medicine"
             }
-          ]
+          ],
+          "id": "pharma-healthcare.medicines"
         },
         {
           "code": "medical-devices",
@@ -2113,21 +2589,26 @@
           "types": [
             {
               "code": "diagnostic-device",
-              "label": "Diagnostic Device"
+              "label": "Diagnostic Device",
+              "id": "pharma-healthcare.medical-devices.diagnostic-device"
             },
             {
               "code": "medical-monitor",
-              "label": "Medical Monitor"
+              "label": "Medical Monitor",
+              "id": "pharma-healthcare.medical-devices.medical-monitor"
             },
             {
               "code": "mobility-aid",
-              "label": "Mobility Aid"
+              "label": "Mobility Aid",
+              "id": "pharma-healthcare.medical-devices.mobility-aid"
             },
             {
               "code": "medical-imaging-equipment",
-              "label": "Medical Imaging Equipment"
+              "label": "Medical Imaging Equipment",
+              "id": "pharma-healthcare.medical-devices.medical-imaging-equipment"
             }
-          ]
+          ],
+          "id": "pharma-healthcare.medical-devices"
         },
         {
           "code": "medical-consumables",
@@ -2135,25 +2616,31 @@
           "types": [
             {
               "code": "bandage-dressing",
-              "label": "Bandage Dressing"
+              "label": "Bandage Dressing",
+              "id": "pharma-healthcare.medical-consumables.bandage-dressing"
             },
             {
               "code": "syringe-needle",
-              "label": "Syringe Needle"
+              "label": "Syringe Needle",
+              "id": "pharma-healthcare.medical-consumables.syringe-needle"
             },
             {
               "code": "gloves-ppe-medical",
-              "label": "Gloves Ppe Medical"
+              "label": "Gloves Ppe Medical",
+              "id": "pharma-healthcare.medical-consumables.gloves-ppe-medical"
             },
             {
               "code": "test-kit",
-              "label": "Test Kit"
+              "label": "Test Kit",
+              "id": "pharma-healthcare.medical-consumables.test-kit"
             },
             {
               "code": "medical-disposable",
-              "label": "Medical Disposable"
+              "label": "Medical Disposable",
+              "id": "pharma-healthcare.medical-consumables.medical-disposable"
             }
-          ]
+          ],
+          "id": "pharma-healthcare.medical-consumables"
         },
         {
           "code": "health-products",
@@ -2161,17 +2648,21 @@
           "types": [
             {
               "code": "nutritional-supplement",
-              "label": "Nutritional Supplement"
+              "label": "Nutritional Supplement",
+              "id": "pharma-healthcare.health-products.nutritional-supplement"
             },
             {
               "code": "medical-nutrition",
-              "label": "Medical Nutrition"
+              "label": "Medical Nutrition",
+              "id": "pharma-healthcare.health-products.medical-nutrition"
             },
             {
               "code": "first-aid-kit",
-              "label": "First Aid Kit"
+              "label": "First Aid Kit",
+              "id": "pharma-healthcare.health-products.first-aid-kit"
             }
-          ]
+          ],
+          "id": "pharma-healthcare.health-products"
         },
         {
           "code": "health-services",
@@ -2179,23 +2670,29 @@
           "types": [
             {
               "code": "licensed-clinical-service",
-              "label": "Licensed Clinical Service"
+              "label": "Licensed Clinical Service",
+              "id": "pharma-healthcare.health-services.licensed-clinical-service"
             },
             {
               "code": "diagnostic-laboratory",
-              "label": "Diagnostic Laboratory"
+              "label": "Diagnostic Laboratory",
+              "id": "pharma-healthcare.health-services.diagnostic-laboratory"
             },
             {
               "code": "home-nursing",
-              "label": "Home Nursing"
+              "label": "Home Nursing",
+              "id": "pharma-healthcare.health-services.home-nursing"
             },
             {
               "code": "telehealth-consultation",
-              "label": "Telehealth Consultation"
+              "label": "Telehealth Consultation",
+              "id": "pharma-healthcare.health-services.telehealth-consultation"
             }
-          ]
+          ],
+          "id": "pharma-healthcare.health-services"
         }
-      ]
+      ],
+      "id": "pharma-healthcare"
     },
     {
       "code": "animals-veterinary",
@@ -2207,21 +2704,26 @@
           "types": [
             {
               "code": "dog",
-              "label": "Dog"
+              "label": "Dog",
+              "id": "animals-veterinary.pets.dog"
             },
             {
               "code": "cat",
-              "label": "Cat"
+              "label": "Cat",
+              "id": "animals-veterinary.pets.cat"
             },
             {
               "code": "ornamental-bird",
-              "label": "Ornamental Bird"
+              "label": "Ornamental Bird",
+              "id": "animals-veterinary.pets.ornamental-bird"
             },
             {
               "code": "aquarium-fish",
-              "label": "Aquarium Fish"
+              "label": "Aquarium Fish",
+              "id": "animals-veterinary.pets.aquarium-fish"
             }
-          ]
+          ],
+          "id": "animals-veterinary.pets"
         },
         {
           "code": "pet-products",
@@ -2229,21 +2731,26 @@
           "types": [
             {
               "code": "pet-food",
-              "label": "Pet Food"
+              "label": "Pet Food",
+              "id": "animals-veterinary.pet-products.pet-food"
             },
             {
               "code": "pet-accessory",
-              "label": "Pet Accessory"
+              "label": "Pet Accessory",
+              "id": "animals-veterinary.pet-products.pet-accessory"
             },
             {
               "code": "pet-housing",
-              "label": "Pet Housing"
+              "label": "Pet Housing",
+              "id": "animals-veterinary.pet-products.pet-housing"
             },
             {
               "code": "pet-grooming-product",
-              "label": "Pet Grooming Product"
+              "label": "Pet Grooming Product",
+              "id": "animals-veterinary.pet-products.pet-grooming-product"
             }
-          ]
+          ],
+          "id": "animals-veterinary.pet-products"
         },
         {
           "code": "veterinary",
@@ -2251,27 +2758,34 @@
           "types": [
             {
               "code": "veterinary-equipment",
-              "label": "Veterinary Equipment"
+              "label": "Veterinary Equipment",
+              "id": "animals-veterinary.veterinary.veterinary-equipment"
             },
             {
               "code": "animal-health-product",
-              "label": "Animal Health Product"
+              "label": "Animal Health Product",
+              "id": "animals-veterinary.veterinary.animal-health-product"
             },
             {
               "code": "veterinary-consultation",
-              "label": "Veterinary Consultation"
+              "label": "Veterinary Consultation",
+              "id": "animals-veterinary.veterinary.veterinary-consultation"
             },
             {
               "code": "animal-grooming",
-              "label": "Animal Grooming"
+              "label": "Animal Grooming",
+              "id": "animals-veterinary.veterinary.animal-grooming"
             },
             {
               "code": "animal-boarding",
-              "label": "Animal Boarding"
+              "label": "Animal Boarding",
+              "id": "animals-veterinary.veterinary.animal-boarding"
             }
-          ]
+          ],
+          "id": "animals-veterinary.veterinary"
         }
-      ]
+      ],
+      "id": "animals-veterinary"
     },
     {
       "code": "tools-machinery",
@@ -2283,29 +2797,36 @@
           "types": [
             {
               "code": "spanner-wrench",
-              "label": "Spanner Wrench"
+              "label": "Spanner Wrench",
+              "id": "tools-machinery.hand-tools.spanner-wrench"
             },
             {
               "code": "screwdriver",
-              "label": "Screwdriver"
+              "label": "Screwdriver",
+              "id": "tools-machinery.hand-tools.screwdriver"
             },
             {
               "code": "hammer",
-              "label": "Hammer"
+              "label": "Hammer",
+              "id": "tools-machinery.hand-tools.hammer"
             },
             {
               "code": "pliers",
-              "label": "Pliers"
+              "label": "Pliers",
+              "id": "tools-machinery.hand-tools.pliers"
             },
             {
               "code": "hand-saw",
-              "label": "Hand Saw"
+              "label": "Hand Saw",
+              "id": "tools-machinery.hand-tools.hand-saw"
             },
             {
               "code": "measuring-tool",
-              "label": "Measuring Tool"
+              "label": "Measuring Tool",
+              "id": "tools-machinery.hand-tools.measuring-tool"
             }
-          ]
+          ],
+          "id": "tools-machinery.hand-tools"
         },
         {
           "code": "power-tools",
@@ -2313,25 +2834,31 @@
           "types": [
             {
               "code": "drill",
-              "label": "Drill"
+              "label": "Drill",
+              "id": "tools-machinery.power-tools.drill"
             },
             {
               "code": "grinder",
-              "label": "Grinder"
+              "label": "Grinder",
+              "id": "tools-machinery.power-tools.grinder"
             },
             {
               "code": "circular-saw",
-              "label": "Circular Saw"
+              "label": "Circular Saw",
+              "id": "tools-machinery.power-tools.circular-saw"
             },
             {
               "code": "welder",
-              "label": "Welder"
+              "label": "Welder",
+              "id": "tools-machinery.power-tools.welder"
             },
             {
               "code": "impact-wrench",
-              "label": "Impact Wrench"
+              "label": "Impact Wrench",
+              "id": "tools-machinery.power-tools.impact-wrench"
             }
-          ]
+          ],
+          "id": "tools-machinery.power-tools"
         },
         {
           "code": "workshop-machinery",
@@ -2339,21 +2866,26 @@
           "types": [
             {
               "code": "lathe-machine",
-              "label": "Lathe Machine"
+              "label": "Lathe Machine",
+              "id": "tools-machinery.workshop-machinery.lathe-machine"
             },
             {
               "code": "milling-machine",
-              "label": "Milling Machine"
+              "label": "Milling Machine",
+              "id": "tools-machinery.workshop-machinery.milling-machine"
             },
             {
               "code": "compressor",
-              "label": "Compressor"
+              "label": "Compressor",
+              "id": "tools-machinery.workshop-machinery.compressor"
             },
             {
               "code": "industrial-generator",
-              "label": "Industrial Generator"
+              "label": "Industrial Generator",
+              "id": "tools-machinery.workshop-machinery.industrial-generator"
             }
-          ]
+          ],
+          "id": "tools-machinery.workshop-machinery"
         },
         {
           "code": "material-handling",
@@ -2361,21 +2893,26 @@
           "types": [
             {
               "code": "forklift",
-              "label": "Forklift"
+              "label": "Forklift",
+              "id": "tools-machinery.material-handling.forklift"
             },
             {
               "code": "pallet-truck",
-              "label": "Pallet Truck"
+              "label": "Pallet Truck",
+              "id": "tools-machinery.material-handling.pallet-truck"
             },
             {
               "code": "hoist",
-              "label": "Hoist"
+              "label": "Hoist",
+              "id": "tools-machinery.material-handling.hoist"
             },
             {
               "code": "warehouse-rack",
-              "label": "Warehouse Rack"
+              "label": "Warehouse Rack",
+              "id": "tools-machinery.material-handling.warehouse-rack"
             }
-          ]
+          ],
+          "id": "tools-machinery.material-handling"
         },
         {
           "code": "equipment-rental",
@@ -2383,23 +2920,29 @@
           "types": [
             {
               "code": "tool-hire",
-              "label": "Tool Hire"
+              "label": "Tool Hire",
+              "id": "tools-machinery.equipment-rental.tool-hire"
             },
             {
               "code": "construction-equipment-hire",
-              "label": "Construction Equipment Hire"
+              "label": "Construction Equipment Hire",
+              "id": "tools-machinery.equipment-rental.construction-equipment-hire"
             },
             {
               "code": "generator-hire",
-              "label": "Generator Hire"
+              "label": "Generator Hire",
+              "id": "tools-machinery.equipment-rental.generator-hire"
             },
             {
               "code": "agricultural-equipment-hire",
-              "label": "Agricultural Equipment Hire"
+              "label": "Agricultural Equipment Hire",
+              "id": "tools-machinery.equipment-rental.agricultural-equipment-hire"
             }
-          ]
+          ],
+          "id": "tools-machinery.equipment-rental"
         }
-      ]
+      ],
+      "id": "tools-machinery"
     },
     {
       "code": "raw-materials",
@@ -2411,21 +2954,26 @@
           "types": [
             {
               "code": "steel-stock",
-              "label": "Steel Stock"
+              "label": "Steel Stock",
+              "id": "raw-materials.metals.steel-stock"
             },
             {
               "code": "aluminium-stock",
-              "label": "Aluminium Stock"
+              "label": "Aluminium Stock",
+              "id": "raw-materials.metals.aluminium-stock"
             },
             {
               "code": "copper-stock",
-              "label": "Copper Stock"
+              "label": "Copper Stock",
+              "id": "raw-materials.metals.copper-stock"
             },
             {
               "code": "scrap-metal",
-              "label": "Scrap Metal"
+              "label": "Scrap Metal",
+              "id": "raw-materials.metals.scrap-metal"
             }
-          ]
+          ],
+          "id": "raw-materials.metals"
         },
         {
           "code": "timber-materials",
@@ -2433,21 +2981,26 @@
           "types": [
             {
               "code": "sawn-timber",
-              "label": "Sawn Timber"
+              "label": "Sawn Timber",
+              "id": "raw-materials.timber-materials.sawn-timber"
             },
             {
               "code": "plywood",
-              "label": "Plywood"
+              "label": "Plywood",
+              "id": "raw-materials.timber-materials.plywood"
             },
             {
               "code": "mdf-board",
-              "label": "Mdf Board"
+              "label": "Mdf Board",
+              "id": "raw-materials.timber-materials.mdf-board"
             },
             {
               "code": "wooden-pole",
-              "label": "Wooden Pole"
+              "label": "Wooden Pole",
+              "id": "raw-materials.timber-materials.wooden-pole"
             }
-          ]
+          ],
+          "id": "raw-materials.timber-materials"
         },
         {
           "code": "plastics-rubber",
@@ -2455,21 +3008,26 @@
           "types": [
             {
               "code": "plastic-resin",
-              "label": "Plastic Resin"
+              "label": "Plastic Resin",
+              "id": "raw-materials.plastics-rubber.plastic-resin"
             },
             {
               "code": "plastic-sheet",
-              "label": "Plastic Sheet"
+              "label": "Plastic Sheet",
+              "id": "raw-materials.plastics-rubber.plastic-sheet"
             },
             {
               "code": "rubber-sheet",
-              "label": "Rubber Sheet"
+              "label": "Rubber Sheet",
+              "id": "raw-materials.plastics-rubber.rubber-sheet"
             },
             {
               "code": "plastic-packaging",
-              "label": "Plastic Packaging"
+              "label": "Plastic Packaging",
+              "id": "raw-materials.plastics-rubber.plastic-packaging"
             }
-          ]
+          ],
+          "id": "raw-materials.plastics-rubber"
         },
         {
           "code": "textile-materials",
@@ -2477,17 +3035,21 @@
           "types": [
             {
               "code": "fabric-roll",
-              "label": "Fabric Roll"
+              "label": "Fabric Roll",
+              "id": "raw-materials.textile-materials.fabric-roll"
             },
             {
               "code": "yarn-thread",
-              "label": "Yarn Thread"
+              "label": "Yarn Thread",
+              "id": "raw-materials.textile-materials.yarn-thread"
             },
             {
               "code": "leather-hide",
-              "label": "Leather Hide"
+              "label": "Leather Hide",
+              "id": "raw-materials.textile-materials.leather-hide"
             }
-          ]
+          ],
+          "id": "raw-materials.textile-materials"
         },
         {
           "code": "chemicals",
@@ -2495,23 +3057,29 @@
           "types": [
             {
               "code": "industrial-chemical",
-              "label": "Industrial Chemical"
+              "label": "Industrial Chemical",
+              "id": "raw-materials.chemicals.industrial-chemical"
             },
             {
               "code": "adhesive-sealant",
-              "label": "Adhesive Sealant"
+              "label": "Adhesive Sealant",
+              "id": "raw-materials.chemicals.adhesive-sealant"
             },
             {
               "code": "lubricant-grease",
-              "label": "Lubricant Grease"
+              "label": "Lubricant Grease",
+              "id": "raw-materials.chemicals.lubricant-grease"
             },
             {
               "code": "water-treatment-chemical",
-              "label": "Water Treatment Chemical"
+              "label": "Water Treatment Chemical",
+              "id": "raw-materials.chemicals.water-treatment-chemical"
             }
-          ]
+          ],
+          "id": "raw-materials.chemicals"
         }
-      ]
+      ],
+      "id": "raw-materials"
     },
     {
       "code": "books-arts-entertainment",
@@ -2523,25 +3091,31 @@
           "types": [
             {
               "code": "fiction-book",
-              "label": "Fiction Book"
+              "label": "Fiction Book",
+              "id": "books-arts-entertainment.books-media.fiction-book"
             },
             {
               "code": "nonfiction-book",
-              "label": "Nonfiction Book"
+              "label": "Nonfiction Book",
+              "id": "books-arts-entertainment.books-media.nonfiction-book"
             },
             {
               "code": "religious-book",
-              "label": "Religious Book"
+              "label": "Religious Book",
+              "id": "books-arts-entertainment.books-media.religious-book"
             },
             {
               "code": "magazine",
-              "label": "Magazine"
+              "label": "Magazine",
+              "id": "books-arts-entertainment.books-media.magazine"
             },
             {
               "code": "music-media",
-              "label": "Music Media"
+              "label": "Music Media",
+              "id": "books-arts-entertainment.books-media.music-media"
             }
-          ]
+          ],
+          "id": "books-arts-entertainment.books-media"
         },
         {
           "code": "arts-crafts",
@@ -2549,21 +3123,26 @@
           "types": [
             {
               "code": "art-supplies",
-              "label": "Art Supplies"
+              "label": "Art Supplies",
+              "id": "books-arts-entertainment.arts-crafts.art-supplies"
             },
             {
               "code": "craft-material",
-              "label": "Craft Material"
+              "label": "Craft Material",
+              "id": "books-arts-entertainment.arts-crafts.craft-material"
             },
             {
               "code": "painting-canvas",
-              "label": "Painting Canvas"
+              "label": "Painting Canvas",
+              "id": "books-arts-entertainment.arts-crafts.painting-canvas"
             },
             {
               "code": "handmade-art",
-              "label": "Handmade Art"
+              "label": "Handmade Art",
+              "id": "books-arts-entertainment.arts-crafts.handmade-art"
             }
-          ]
+          ],
+          "id": "books-arts-entertainment.arts-crafts"
         },
         {
           "code": "musical-equipment",
@@ -2571,17 +3150,21 @@
           "types": [
             {
               "code": "musical-instrument",
-              "label": "Musical Instrument"
+              "label": "Musical Instrument",
+              "id": "books-arts-entertainment.musical-equipment.musical-instrument"
             },
             {
               "code": "sound-equipment",
-              "label": "Sound Equipment"
+              "label": "Sound Equipment",
+              "id": "books-arts-entertainment.musical-equipment.sound-equipment"
             },
             {
               "code": "recording-equipment",
-              "label": "Recording Equipment"
+              "label": "Recording Equipment",
+              "id": "books-arts-entertainment.musical-equipment.recording-equipment"
             }
-          ]
+          ],
+          "id": "books-arts-entertainment.musical-equipment"
         },
         {
           "code": "games-entertainment",
@@ -2589,19 +3172,24 @@
           "types": [
             {
               "code": "board-game",
-              "label": "Board Game"
+              "label": "Board Game",
+              "id": "books-arts-entertainment.games-entertainment.board-game"
             },
             {
               "code": "party-game",
-              "label": "Party Game"
+              "label": "Party Game",
+              "id": "books-arts-entertainment.games-entertainment.party-game"
             },
             {
               "code": "event-entertainment-equipment",
-              "label": "Event Entertainment Equipment"
+              "label": "Event Entertainment Equipment",
+              "id": "books-arts-entertainment.games-entertainment.event-entertainment-equipment"
             }
-          ]
+          ],
+          "id": "books-arts-entertainment.games-entertainment"
         }
-      ]
+      ],
+      "id": "books-arts-entertainment"
     },
     {
       "code": "baby-children-toys",
@@ -2613,29 +3201,36 @@
           "types": [
             {
               "code": "baby-clothing",
-              "label": "Baby Clothing"
+              "label": "Baby Clothing",
+              "id": "baby-children-toys.baby-care.baby-clothing"
             },
             {
               "code": "nappy-diaper",
-              "label": "Nappy Diaper"
+              "label": "Nappy Diaper",
+              "id": "baby-children-toys.baby-care.nappy-diaper"
             },
             {
               "code": "feeding-bottle",
-              "label": "Feeding Bottle"
+              "label": "Feeding Bottle",
+              "id": "baby-children-toys.baby-care.feeding-bottle"
             },
             {
               "code": "stroller-pram",
-              "label": "Stroller Pram"
+              "label": "Stroller Pram",
+              "id": "baby-children-toys.baby-care.stroller-pram"
             },
             {
               "code": "cot-crib",
-              "label": "Cot Crib"
+              "label": "Cot Crib",
+              "id": "baby-children-toys.baby-care.cot-crib"
             },
             {
               "code": "car-seat",
-              "label": "Car Seat"
+              "label": "Car Seat",
+              "id": "baby-children-toys.baby-care.car-seat"
             }
-          ]
+          ],
+          "id": "baby-children-toys.baby-care"
         },
         {
           "code": "children-products",
@@ -2643,17 +3238,21 @@
           "types": [
             {
               "code": "children-clothing",
-              "label": "Children Clothing"
+              "label": "Children Clothing",
+              "id": "baby-children-toys.children-products.children-clothing"
             },
             {
               "code": "children-footwear",
-              "label": "Children Footwear"
+              "label": "Children Footwear",
+              "id": "baby-children-toys.children-products.children-footwear"
             },
             {
               "code": "school-bag",
-              "label": "School Bag"
+              "label": "School Bag",
+              "id": "baby-children-toys.children-products.school-bag"
             }
-          ]
+          ],
+          "id": "baby-children-toys.children-products"
         },
         {
           "code": "toys",
@@ -2661,27 +3260,34 @@
           "types": [
             {
               "code": "educational-toy",
-              "label": "Educational Toy"
+              "label": "Educational Toy",
+              "id": "baby-children-toys.toys.educational-toy"
             },
             {
               "code": "building-toy",
-              "label": "Building Toy"
+              "label": "Building Toy",
+              "id": "baby-children-toys.toys.building-toy"
             },
             {
               "code": "doll-figure",
-              "label": "Doll Figure"
+              "label": "Doll Figure",
+              "id": "baby-children-toys.toys.doll-figure"
             },
             {
               "code": "outdoor-play-equipment",
-              "label": "Outdoor Play Equipment"
+              "label": "Outdoor Play Equipment",
+              "id": "baby-children-toys.toys.outdoor-play-equipment"
             },
             {
               "code": "ride-on-toy",
-              "label": "Ride On Toy"
+              "label": "Ride On Toy",
+              "id": "baby-children-toys.toys.ride-on-toy"
             }
-          ]
+          ],
+          "id": "baby-children-toys.toys"
         }
-      ]
+      ],
+      "id": "baby-children-toys"
     },
     {
       "code": "digital-products",
@@ -2693,21 +3299,26 @@
           "types": [
             {
               "code": "ebook-download",
-              "label": "Ebook Download"
+              "label": "Ebook Download",
+              "id": "digital-products.digital-content.ebook-download"
             },
             {
               "code": "digital-template",
-              "label": "Digital Template"
+              "label": "Digital Template",
+              "id": "digital-products.digital-content.digital-template"
             },
             {
               "code": "stock-media",
-              "label": "Stock Media"
+              "label": "Stock Media",
+              "id": "digital-products.digital-content.stock-media"
             },
             {
               "code": "online-course",
-              "label": "Online Course"
+              "label": "Online Course",
+              "id": "digital-products.digital-content.online-course"
             }
-          ]
+          ],
+          "id": "digital-products.digital-content"
         },
         {
           "code": "software-subscriptions",
@@ -2715,17 +3326,21 @@
           "types": [
             {
               "code": "saas-subscription",
-              "label": "Saas Subscription"
+              "label": "Saas Subscription",
+              "id": "digital-products.software-subscriptions.saas-subscription"
             },
             {
               "code": "mobile-app-license",
-              "label": "Mobile App License"
+              "label": "Mobile App License",
+              "id": "digital-products.software-subscriptions.mobile-app-license"
             },
             {
-              "code": "software-license",
-              "label": "Software License"
+              "code": "downloadable-software-license",
+              "label": "Software License",
+              "id": "digital-products.software-subscriptions.downloadable-software-license"
             }
-          ]
+          ],
+          "id": "digital-products.software-subscriptions"
         },
         {
           "code": "digital-services",
@@ -2733,19 +3348,24 @@
           "types": [
             {
               "code": "digital-design-delivery",
-              "label": "Digital Design Delivery"
+              "label": "Digital Design Delivery",
+              "id": "digital-products.digital-services.digital-design-delivery"
             },
             {
               "code": "online-research-service",
-              "label": "Online Research Service"
+              "label": "Online Research Service",
+              "id": "digital-products.digital-services.online-research-service"
             },
             {
               "code": "digital-marketing-service",
-              "label": "Digital Marketing Service"
+              "label": "Digital Marketing Service",
+              "id": "digital-products.digital-services.digital-marketing-service"
             }
-          ]
+          ],
+          "id": "digital-products.digital-services"
         }
-      ]
+      ],
+      "id": "digital-products"
     },
     {
       "code": "professional-services",
@@ -2757,29 +3377,36 @@
           "types": [
             {
               "code": "copywriting",
-              "label": "Copywriting"
+              "label": "Copywriting",
+              "id": "professional-services.creative-services.copywriting"
             },
             {
               "code": "translation",
-              "label": "Translation"
+              "label": "Translation",
+              "id": "professional-services.creative-services.translation"
             },
             {
               "code": "graphic-design",
-              "label": "Graphic Design"
+              "label": "Graphic Design",
+              "id": "professional-services.creative-services.graphic-design"
             },
             {
               "code": "photography",
-              "label": "Photography"
+              "label": "Photography",
+              "id": "professional-services.creative-services.photography"
             },
             {
               "code": "video-production",
-              "label": "Video Production"
+              "label": "Video Production",
+              "id": "professional-services.creative-services.video-production"
             },
             {
               "code": "content-editing",
-              "label": "Content Editing"
+              "label": "Content Editing",
+              "id": "professional-services.creative-services.content-editing"
             }
-          ]
+          ],
+          "id": "professional-services.creative-services"
         },
         {
           "code": "business-professional",
@@ -2787,29 +3414,36 @@
           "types": [
             {
               "code": "accounting-bookkeeping",
-              "label": "Accounting Bookkeeping"
+              "label": "Accounting Bookkeeping",
+              "id": "professional-services.business-professional.accounting-bookkeeping"
             },
             {
               "code": "tax-consultancy",
-              "label": "Tax Consultancy"
+              "label": "Tax Consultancy",
+              "id": "professional-services.business-professional.tax-consultancy"
             },
             {
               "code": "legal-consultancy",
-              "label": "Legal Consultancy"
+              "label": "Legal Consultancy",
+              "id": "professional-services.business-professional.legal-consultancy"
             },
             {
               "code": "business-consultancy",
-              "label": "Business Consultancy"
+              "label": "Business Consultancy",
+              "id": "professional-services.business-professional.business-consultancy"
             },
             {
               "code": "market-research",
-              "label": "Market Research"
+              "label": "Market Research",
+              "id": "professional-services.business-professional.market-research"
             },
             {
               "code": "hr-recruitment",
-              "label": "Hr Recruitment"
+              "label": "Hr Recruitment",
+              "id": "professional-services.business-professional.hr-recruitment"
             }
-          ]
+          ],
+          "id": "professional-services.business-professional"
         },
         {
           "code": "marketing-sales",
@@ -2817,21 +3451,26 @@
           "types": [
             {
               "code": "digital-marketing",
-              "label": "Digital Marketing"
+              "label": "Digital Marketing",
+              "id": "professional-services.marketing-sales.digital-marketing"
             },
             {
               "code": "social-media-management",
-              "label": "Social Media Management"
+              "label": "Social Media Management",
+              "id": "professional-services.marketing-sales.social-media-management"
             },
             {
               "code": "advertising-service",
-              "label": "Advertising Service"
+              "label": "Advertising Service",
+              "id": "professional-services.marketing-sales.advertising-service"
             },
             {
               "code": "lead-generation",
-              "label": "Lead Generation"
+              "label": "Lead Generation",
+              "id": "professional-services.marketing-sales.lead-generation"
             }
-          ]
+          ],
+          "id": "professional-services.marketing-sales"
         },
         {
           "code": "admin-support",
@@ -2839,23 +3478,29 @@
           "types": [
             {
               "code": "data-entry",
-              "label": "Data Entry"
+              "label": "Data Entry",
+              "id": "professional-services.admin-support.data-entry"
             },
             {
               "code": "virtual-assistance",
-              "label": "Virtual Assistance"
+              "label": "Virtual Assistance",
+              "id": "professional-services.admin-support.virtual-assistance"
             },
             {
               "code": "document-preparation",
-              "label": "Document Preparation"
+              "label": "Document Preparation",
+              "id": "professional-services.admin-support.document-preparation"
             },
             {
               "code": "transcription",
-              "label": "Transcription"
+              "label": "Transcription",
+              "id": "professional-services.admin-support.transcription"
             }
-          ]
+          ],
+          "id": "professional-services.admin-support"
         }
-      ]
+      ],
+      "id": "professional-services"
     },
     {
       "code": "home-property-services",
@@ -2867,21 +3512,26 @@
           "types": [
             {
               "code": "property-management",
-              "label": "Property Management"
+              "label": "Property Management",
+              "id": "home-property-services.property-services.property-management"
             },
             {
               "code": "real-estate-agency",
-              "label": "Real Estate Agency"
+              "label": "Real Estate Agency",
+              "id": "home-property-services.property-services.real-estate-agency"
             },
             {
               "code": "property-valuation",
-              "label": "Property Valuation"
+              "label": "Property Valuation",
+              "id": "home-property-services.property-services.property-valuation"
             },
             {
               "code": "property-inspection",
-              "label": "Property Inspection"
+              "label": "Property Inspection",
+              "id": "home-property-services.property-services.property-inspection"
             }
-          ]
+          ],
+          "id": "home-property-services.property-services"
         },
         {
           "code": "repair-maintenance",
@@ -2889,25 +3539,31 @@
           "types": [
             {
               "code": "plumbing-repair",
-              "label": "Plumbing Repair"
+              "label": "Plumbing Repair",
+              "id": "home-property-services.repair-maintenance.plumbing-repair"
             },
             {
               "code": "electrical-repair",
-              "label": "Electrical Repair"
+              "label": "Electrical Repair",
+              "id": "home-property-services.repair-maintenance.electrical-repair"
             },
             {
               "code": "roof-repair",
-              "label": "Roof Repair"
+              "label": "Roof Repair",
+              "id": "home-property-services.repair-maintenance.roof-repair"
             },
             {
               "code": "painting-repair",
-              "label": "Painting Repair"
+              "label": "Painting Repair",
+              "id": "home-property-services.repair-maintenance.painting-repair"
             },
             {
               "code": "pest-control",
-              "label": "Pest Control"
+              "label": "Pest Control",
+              "id": "home-property-services.repair-maintenance.pest-control"
             }
-          ]
+          ],
+          "id": "home-property-services.repair-maintenance"
         },
         {
           "code": "construction-projects",
@@ -2915,27 +3571,34 @@
           "types": [
             {
               "code": "residential-construction",
-              "label": "Residential Construction"
+              "label": "Residential Construction",
+              "id": "home-property-services.construction-projects.residential-construction"
             },
             {
               "code": "commercial-construction",
-              "label": "Commercial Construction"
+              "label": "Commercial Construction",
+              "id": "home-property-services.construction-projects.commercial-construction"
             },
             {
               "code": "renovation-project",
-              "label": "Renovation Project"
+              "label": "Renovation Project",
+              "id": "home-property-services.construction-projects.renovation-project"
             },
             {
               "code": "architectural-design",
-              "label": "Architectural Design"
+              "label": "Architectural Design",
+              "id": "home-property-services.construction-projects.architectural-design"
             },
             {
               "code": "quantity-surveying",
-              "label": "Quantity Surveying"
+              "label": "Quantity Surveying",
+              "id": "home-property-services.construction-projects.quantity-surveying"
             }
-          ]
+          ],
+          "id": "home-property-services.construction-projects"
         }
-      ]
+      ],
+      "id": "home-property-services"
     },
     {
       "code": "wellness-lifestyle",
@@ -2947,21 +3610,26 @@
           "types": [
             {
               "code": "massage-therapy",
-              "label": "Massage Therapy"
+              "label": "Massage Therapy",
+              "id": "wellness-lifestyle.wellness.massage-therapy"
             },
             {
               "code": "spa-treatment",
-              "label": "Spa Treatment"
+              "label": "Spa Treatment",
+              "id": "wellness-lifestyle.wellness.spa-treatment"
             },
             {
               "code": "yoga-instruction",
-              "label": "Yoga Instruction"
+              "label": "Yoga Instruction",
+              "id": "wellness-lifestyle.wellness.yoga-instruction"
             },
             {
               "code": "meditation-coaching",
-              "label": "Meditation Coaching"
+              "label": "Meditation Coaching",
+              "id": "wellness-lifestyle.wellness.meditation-coaching"
             }
-          ]
+          ],
+          "id": "wellness-lifestyle.wellness"
         },
         {
           "code": "personal-services",
@@ -2969,23 +3637,29 @@
           "types": [
             {
               "code": "personal-styling",
-              "label": "Personal Styling"
+              "label": "Personal Styling",
+              "id": "wellness-lifestyle.personal-services.personal-styling"
             },
             {
               "code": "personal-shopping",
-              "label": "Personal Shopping"
+              "label": "Personal Shopping",
+              "id": "wellness-lifestyle.personal-services.personal-shopping"
             },
             {
               "code": "life-coaching",
-              "label": "Life Coaching"
+              "label": "Life Coaching",
+              "id": "wellness-lifestyle.personal-services.life-coaching"
             },
             {
               "code": "non-clinical-wellness-coaching",
-              "label": "Non Clinical Wellness Coaching"
+              "label": "Non Clinical Wellness Coaching",
+              "id": "wellness-lifestyle.personal-services.non-clinical-wellness-coaching"
             }
-          ]
+          ],
+          "id": "wellness-lifestyle.personal-services"
         }
-      ]
+      ],
+      "id": "wellness-lifestyle"
     },
     {
       "code": "transport-logistics-services",
@@ -2997,21 +3671,26 @@
           "types": [
             {
               "code": "local-courier",
-              "label": "Local Courier"
+              "label": "Local Courier",
+              "id": "transport-logistics-services.delivery.local-courier"
             },
             {
               "code": "same-day-delivery",
-              "label": "Same Day Delivery"
+              "label": "Same Day Delivery",
+              "id": "transport-logistics-services.delivery.same-day-delivery"
             },
             {
               "code": "parcel-delivery",
-              "label": "Parcel Delivery"
+              "label": "Parcel Delivery",
+              "id": "transport-logistics-services.delivery.parcel-delivery"
             },
             {
               "code": "document-delivery",
-              "label": "Document Delivery"
+              "label": "Document Delivery",
+              "id": "transport-logistics-services.delivery.document-delivery"
             }
-          ]
+          ],
+          "id": "transport-logistics-services.delivery"
         },
         {
           "code": "freight",
@@ -3019,21 +3698,26 @@
           "types": [
             {
               "code": "truck-haulage",
-              "label": "Truck Haulage"
+              "label": "Truck Haulage",
+              "id": "transport-logistics-services.freight.truck-haulage"
             },
             {
               "code": "bulk-commodity-transport",
-              "label": "Bulk Commodity Transport"
+              "label": "Bulk Commodity Transport",
+              "id": "transport-logistics-services.freight.bulk-commodity-transport"
             },
             {
               "code": "container-transport",
-              "label": "Container Transport"
+              "label": "Container Transport",
+              "id": "transport-logistics-services.freight.container-transport"
             },
             {
               "code": "cold-chain-transport",
-              "label": "Cold Chain Transport"
+              "label": "Cold Chain Transport",
+              "id": "transport-logistics-services.freight.cold-chain-transport"
             }
-          ]
+          ],
+          "id": "transport-logistics-services.freight"
         },
         {
           "code": "moving-storage",
@@ -3041,23 +3725,29 @@
           "types": [
             {
               "code": "house-moving",
-              "label": "House Moving"
+              "label": "House Moving",
+              "id": "transport-logistics-services.moving-storage.house-moving"
             },
             {
               "code": "office-moving",
-              "label": "Office Moving"
+              "label": "Office Moving",
+              "id": "transport-logistics-services.moving-storage.office-moving"
             },
             {
               "code": "warehousing",
-              "label": "Warehousing"
+              "label": "Warehousing",
+              "id": "transport-logistics-services.moving-storage.warehousing"
             },
             {
               "code": "cold-storage",
-              "label": "Cold Storage"
+              "label": "Cold Storage",
+              "id": "transport-logistics-services.moving-storage.cold-storage"
             }
-          ]
+          ],
+          "id": "transport-logistics-services.moving-storage"
         }
-      ]
+      ],
+      "id": "transport-logistics-services"
     },
     {
       "code": "travel-events-experiences",
@@ -3069,25 +3759,31 @@
           "types": [
             {
               "code": "tour-guide",
-              "label": "Tour Guide"
+              "label": "Tour Guide",
+              "id": "travel-events-experiences.travel.tour-guide"
             },
             {
               "code": "safari-tour",
-              "label": "Safari Tour"
+              "label": "Safari Tour",
+              "id": "travel-events-experiences.travel.safari-tour"
             },
             {
               "code": "travel-agency",
-              "label": "Travel Agency"
+              "label": "Travel Agency",
+              "id": "travel-events-experiences.travel.travel-agency"
             },
             {
               "code": "accommodation-booking",
-              "label": "Accommodation Booking"
+              "label": "Accommodation Booking",
+              "id": "travel-events-experiences.travel.accommodation-booking"
             },
             {
               "code": "vehicle-tour-hire",
-              "label": "Vehicle Tour Hire"
+              "label": "Vehicle Tour Hire",
+              "id": "travel-events-experiences.travel.vehicle-tour-hire"
             }
-          ]
+          ],
+          "id": "travel-events-experiences.travel"
         },
         {
           "code": "events",
@@ -3095,25 +3791,31 @@
           "types": [
             {
               "code": "event-planning",
-              "label": "Event Planning"
+              "label": "Event Planning",
+              "id": "travel-events-experiences.events.event-planning"
             },
             {
               "code": "venue-hire",
-              "label": "Venue Hire"
+              "label": "Venue Hire",
+              "id": "travel-events-experiences.events.venue-hire"
             },
             {
               "code": "sound-light-hire",
-              "label": "Sound Light Hire"
+              "label": "Sound Light Hire",
+              "id": "travel-events-experiences.events.sound-light-hire"
             },
             {
               "code": "catering-event",
-              "label": "Catering Event"
+              "label": "Catering Event",
+              "id": "travel-events-experiences.events.catering-event"
             },
             {
               "code": "conference-services",
-              "label": "Conference Services"
+              "label": "Conference Services",
+              "id": "travel-events-experiences.events.conference-services"
             }
-          ]
+          ],
+          "id": "travel-events-experiences.events"
         },
         {
           "code": "experiences",
@@ -3121,19 +3823,24 @@
           "types": [
             {
               "code": "cultural-experience",
-              "label": "Cultural Experience"
+              "label": "Cultural Experience",
+              "id": "travel-events-experiences.experiences.cultural-experience"
             },
             {
               "code": "recreation-activity",
-              "label": "Recreation Activity"
+              "label": "Recreation Activity",
+              "id": "travel-events-experiences.experiences.recreation-activity"
             },
             {
               "code": "adventure-activity",
-              "label": "Adventure Activity"
+              "label": "Adventure Activity",
+              "id": "travel-events-experiences.experiences.adventure-activity"
             }
-          ]
+          ],
+          "id": "travel-events-experiences.experiences"
         }
-      ]
+      ],
+      "id": "travel-events-experiences"
     },
     {
       "code": "other-specialist",
@@ -3145,15 +3852,19 @@
           "types": [
             {
               "code": "other-product-review",
-              "label": "Other Product Review"
+              "label": "Other Product Review",
+              "id": "other-specialist.unclassified.other-product-review"
             },
             {
               "code": "other-service-review",
-              "label": "Other Service Review"
+              "label": "Other Service Review",
+              "id": "other-specialist.unclassified.other-service-review"
             }
-          ]
+          ],
+          "id": "other-specialist.unclassified"
         }
-      ]
+      ],
+      "id": "other-specialist"
     }
   ],
   "attribute_profiles": {
