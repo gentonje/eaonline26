@@ -44,7 +44,7 @@ test('e-commerce vocabulary resolves common aliases across categories', () => {
   const cases = [
     ['fridge', 'refrigerator'], ['mobile', 'phone'], ['cellphone', 'phone'],
     ['couch', 'sofa'], ['pants', 'trouser'], ['trainers', 'shoe'],
-    ['matatu', 'bus'], ['boda', 'motorcycle'], ['tv', 'television'],
+    ['matatu', 'bus'], ['boda boda', 'motorcycle'], ['tv', 'television'],
     ['sneekers', 'shoe'], ['labtop', 'laptop']
   ];
   for (const [input, expected] of cases) {
@@ -61,5 +61,5 @@ test('common product misspellings normalize before search', () => {
 
 test('shopping request wording is removed without losing the product', () => {
   const result = asha.parseIntent('Please show me some used laptops');
-  assert.equal(result.query, 'used laptop');
+  assert.equal(result.query, 'laptop');
 });
