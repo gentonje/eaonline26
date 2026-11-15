@@ -46,7 +46,7 @@ export default function ProductComparisonScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <ScreenHeader title="Compare Products" showBackButton />
-            <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 132 }}>
                 <View style={{ paddingHorizontal: 18, paddingTop: 18, paddingBottom: 12 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ flex: 1 }}>
