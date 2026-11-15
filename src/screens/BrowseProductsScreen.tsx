@@ -168,7 +168,8 @@ export default function BrowseProductsScreen() {
 
     // Re-fetch when filters change (search is handled by its own debounce above)
     useEffect(() => {
-        setProducts([]);
+        // Keep the current list mounted while filters refresh. Clearing it first
+        // switches to the skeleton screen and resets horizontal filter scroll.
         setPage(0);
         setHasMore(true);
         fetchProducts(0, true);
@@ -613,7 +614,7 @@ export default function BrowseProductsScreen() {
                 showsVerticalScrollIndicator={false}
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
-                ListHeaderComponent={renderHeader}
+                ListHeaderComponent={renderHeader()}
                 ListFooterComponent={renderFooter}
                 ListEmptyComponent={
                     <View className="flex-1 justify-center items-center py-20">
