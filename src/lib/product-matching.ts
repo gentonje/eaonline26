@@ -69,7 +69,9 @@ export function rankAutoCompareProducts(products: any[], query: string, limit = 
     const selected: any[] = [];
     const sellerIds = new Set<string>();
     for (const item of sameCategory) {
-        const sellerId = String(item.product?.store_id || item.product?.user_id || item.product?.id);
+        const rawSellerId = item.product?.store_id || item.product?.user_id;
+        if (!rawSellerId) continue;
+        const sellerId = String(rawSellerId);
         if (sellerIds.has(sellerId)) continue;
         selected.push(item.product);
         sellerIds.add(sellerId);
