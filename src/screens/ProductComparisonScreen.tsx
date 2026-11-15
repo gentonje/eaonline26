@@ -24,7 +24,8 @@ export default function ProductComparisonScreen() {
     const navigation = useNavigation<any>();
     const { products, removeProduct, clearProducts } = useCompare();
     const [sellers, setSellers] = useState<Record<string, string>>({});
-    const [loadingSellers, setLoadingSellers] = useState(false);\n    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];
+    const [loadingSellers, setLoadingSellers] = useState(false);
+    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];\n    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];
 
     useEffect(() => {
         let active = true;
@@ -108,6 +109,18 @@ export default function ProductComparisonScreen() {
                                                 <Text style={{ color: row.label === 'Price' ? '#00A082' : '#1f2937', fontWeight: row.label === 'Price' ? '900' : '600', fontSize: 12, lineHeight: 18 }}>
                                                     {row.value(product, sellers)}
                                                 </Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                ))}
+                                {attributeKeys.map((key, index) => (
+                                    <View key={key} style={{ flexDirection: 'row', backgroundColor: index % 2 === 0 ? '#f8fafc' : '#fff', borderTopWidth: 1, borderColor: '#e5e7eb' }}>
+                                        <View style={{ width: 112, padding: 10, justifyContent: 'center' }}>
+                                            <Text style={{ color: '#475569', fontWeight: '900', fontSize: 11 }}>{key}</Text>
+                                        </View>
+                                        {products.map((product: any) => (
+                                            <View key={product.id} style={{ width: 205, padding: 10, borderLeftWidth: 1, borderColor: '#e5e7eb', justifyContent: 'center' }}>
+                                                <Text style={{ color: '#1f2937', fontWeight: '600', fontSize: 12, lineHeight: 18 }}>{product.attributes?.[key] == null ? 'Not specified' : String(product.attributes[key])}</Text>
                                             </View>
                                         ))}
                                     </View>
