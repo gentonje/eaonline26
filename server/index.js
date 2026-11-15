@@ -1051,6 +1051,28 @@ function validateAshaIntent(input, fallback) {
   return out;
 }
 
+async function ashaPublicQuery(path) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error('Supabase public read credentials are not configured');
+  }
+  const response = await axios.get(`${SUPABASE_URL}/rest/v1/${path}`, {
+    // Published products and country metadata have explicit public SELECT RLS policies.
+    // Keep Asha on the publishable key; never require or expose the service-role key.
+    headers: { apikey: SUPABASE_ANON_KEY },
+    timeout: 10000,
+  });
+  return response.data;
+}
+
+async function getCountryIdByCode(code) {
+  if (!code) return null;
+  const upper = String(code).toUpperCase().slice(0, 2);
+  const rows = await ashaPublicQuery(
+    `countries?code=eq.${encodeURIComponent(upper)}&select=id&limit=1`
+  );
+  return rows?.[0]?.id || null;
+}
+
 async function searchAshaProducts(filters) {
   const params = new URLSearchParams();
   params.set('product_status', 'eq.published');
@@ -1074,7 +1096,7 @@ async function searchAshaProducts(filters) {
     if (ASHA_ALLOWED_ATTRIBUTES.has(key)) conditions.push('attributes->>' + key + '.ilike.*' + String(value).replace(/[*%,]/g, '') + '*');
   }
   if (conditions.length) params.set('and', '(' + conditions.join(',') + ')');
-  const rows = await supabaseQuery('products?' + params.toString());
+  const rows = await ashaPublicQuery('products?' + params.toString());
   return Array.isArray(rows) ? rows : [];
 }
 
