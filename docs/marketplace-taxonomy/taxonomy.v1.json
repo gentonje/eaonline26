@@ -41,1392 +41,3120 @@
     }
   ],
   "categories": [
-    [
-      "agriculture-livestock",
-      "Agriculture & Livestock",
-      [
-        [
-          "crops-produce",
-          "Crops & produce",
-          [
-            "maize-grain",
-            "beans-pulses",
-            "sorghum",
-            "millet",
-            "rice",
-            "wheat",
-            "cassava",
-            "irish-potatoes",
-            "sweet-potatoes",
-            "fresh-fruits",
-            "fresh-vegetables",
-            "oilseeds",
-            "coffee",
-            "tea",
-            "sugarcane",
-            "cotton"
+    {
+      "code": "agriculture-livestock",
+      "label": "Agriculture & Livestock",
+      "subcategories": [
+        {
+          "code": "crops-produce",
+          "label": "Crops & produce",
+          "types": [
+            {
+              "code": "maize-grain",
+              "label": "Maize Grain"
+            },
+            {
+              "code": "beans-pulses",
+              "label": "Beans Pulses"
+            },
+            {
+              "code": "sorghum",
+              "label": "Sorghum"
+            },
+            {
+              "code": "millet",
+              "label": "Millet"
+            },
+            {
+              "code": "rice",
+              "label": "Rice"
+            },
+            {
+              "code": "wheat",
+              "label": "Wheat"
+            },
+            {
+              "code": "cassava",
+              "label": "Cassava"
+            },
+            {
+              "code": "irish-potatoes",
+              "label": "Irish Potatoes"
+            },
+            {
+              "code": "sweet-potatoes",
+              "label": "Sweet Potatoes"
+            },
+            {
+              "code": "fresh-fruits",
+              "label": "Fresh Fruits"
+            },
+            {
+              "code": "fresh-vegetables",
+              "label": "Fresh Vegetables"
+            },
+            {
+              "code": "oilseeds",
+              "label": "Oilseeds"
+            },
+            {
+              "code": "coffee",
+              "label": "Coffee"
+            },
+            {
+              "code": "tea",
+              "label": "Tea"
+            },
+            {
+              "code": "sugarcane",
+              "label": "Sugarcane"
+            },
+            {
+              "code": "cotton",
+              "label": "Cotton"
+            }
           ]
-        ],
-        [
-          "seeds-planting",
-          "Seeds & planting materials",
-          [
-            "cereal-seeds",
-            "legume-seeds",
-            "vegetable-seeds",
-            "fruit-seedlings",
-            "tree-seedlings",
-            "planting-cuttings"
+        },
+        {
+          "code": "seeds-planting",
+          "label": "Seeds & planting materials",
+          "types": [
+            {
+              "code": "cereal-seeds",
+              "label": "Cereal Seeds"
+            },
+            {
+              "code": "legume-seeds",
+              "label": "Legume Seeds"
+            },
+            {
+              "code": "vegetable-seeds",
+              "label": "Vegetable Seeds"
+            },
+            {
+              "code": "fruit-seedlings",
+              "label": "Fruit Seedlings"
+            },
+            {
+              "code": "tree-seedlings",
+              "label": "Tree Seedlings"
+            },
+            {
+              "code": "planting-cuttings",
+              "label": "Planting Cuttings"
+            }
           ]
-        ],
-        [
-          "livestock",
-          "Livestock & poultry",
-          [
-            "cattle",
-            "goats",
-            "sheep",
-            "pigs",
-            "chickens",
-            "ducks",
-            "turkeys",
-            "rabbits",
-            "fish-fingerlings"
+        },
+        {
+          "code": "livestock",
+          "label": "Livestock & poultry",
+          "types": [
+            {
+              "code": "cattle",
+              "label": "Cattle"
+            },
+            {
+              "code": "goats",
+              "label": "Goats"
+            },
+            {
+              "code": "sheep",
+              "label": "Sheep"
+            },
+            {
+              "code": "pigs",
+              "label": "Pigs"
+            },
+            {
+              "code": "chickens",
+              "label": "Chickens"
+            },
+            {
+              "code": "ducks",
+              "label": "Ducks"
+            },
+            {
+              "code": "turkeys",
+              "label": "Turkeys"
+            },
+            {
+              "code": "rabbits",
+              "label": "Rabbits"
+            },
+            {
+              "code": "fish-fingerlings",
+              "label": "Fish Fingerlings"
+            }
           ]
-        ],
-        [
-          "animal-products",
-          "Animal products",
-          [
-            "raw-milk",
-            "eggs",
-            "honey",
-            "hides-skins",
-            "wool"
+        },
+        {
+          "code": "animal-products",
+          "label": "Animal products",
+          "types": [
+            {
+              "code": "raw-milk",
+              "label": "Raw Milk"
+            },
+            {
+              "code": "eggs",
+              "label": "Eggs"
+            },
+            {
+              "code": "honey",
+              "label": "Honey"
+            },
+            {
+              "code": "hides-skins",
+              "label": "Hides Skins"
+            },
+            {
+              "code": "wool",
+              "label": "Wool"
+            }
           ]
-        ],
-        [
-          "animal-feed",
-          "Animal feeds",
-          [
-            "hay-fodder",
-            "silage",
-            "poultry-feed",
-            "dairy-feed",
-            "livestock-concentrate",
-            "fish-feed"
+        },
+        {
+          "code": "animal-feed",
+          "label": "Animal feeds",
+          "types": [
+            {
+              "code": "hay-fodder",
+              "label": "Hay Fodder"
+            },
+            {
+              "code": "silage",
+              "label": "Silage"
+            },
+            {
+              "code": "poultry-feed",
+              "label": "Poultry Feed"
+            },
+            {
+              "code": "dairy-feed",
+              "label": "Dairy Feed"
+            },
+            {
+              "code": "livestock-concentrate",
+              "label": "Livestock Concentrate"
+            },
+            {
+              "code": "fish-feed",
+              "label": "Fish Feed"
+            }
           ]
-        ],
-        [
-          "farm-inputs",
-          "Farm inputs",
-          [
-            "fertiliser",
-            "organic-manure",
-            "pesticides",
-            "herbicides",
-            "fungicides",
-            "veterinary-medicines",
-            "soil-conditioners"
+        },
+        {
+          "code": "farm-inputs",
+          "label": "Farm inputs",
+          "types": [
+            {
+              "code": "fertiliser",
+              "label": "Fertiliser"
+            },
+            {
+              "code": "organic-manure",
+              "label": "Organic Manure"
+            },
+            {
+              "code": "pesticides",
+              "label": "Pesticides"
+            },
+            {
+              "code": "herbicides",
+              "label": "Herbicides"
+            },
+            {
+              "code": "fungicides",
+              "label": "Fungicides"
+            },
+            {
+              "code": "veterinary-medicines",
+              "label": "Veterinary Medicines"
+            },
+            {
+              "code": "soil-conditioners",
+              "label": "Soil Conditioners"
+            }
           ]
-        ],
-        [
-          "farm-machinery",
-          "Farm machinery & irrigation",
-          [
-            "tractor",
-            "power-tiller",
-            "planter-seeder",
-            "harvester",
-            "thresher",
-            "posho-mill",
-            "irrigation-pump",
-            "drip-irrigation-kit",
-            "sprayer",
-            "greenhouse-kit"
+        },
+        {
+          "code": "farm-machinery",
+          "label": "Farm machinery & irrigation",
+          "types": [
+            {
+              "code": "tractor",
+              "label": "Tractor"
+            },
+            {
+              "code": "power-tiller",
+              "label": "Power Tiller"
+            },
+            {
+              "code": "planter-seeder",
+              "label": "Planter Seeder"
+            },
+            {
+              "code": "harvester",
+              "label": "Harvester"
+            },
+            {
+              "code": "thresher",
+              "label": "Thresher"
+            },
+            {
+              "code": "posho-mill",
+              "label": "Posho Mill"
+            },
+            {
+              "code": "irrigation-pump",
+              "label": "Irrigation Pump"
+            },
+            {
+              "code": "drip-irrigation-kit",
+              "label": "Drip Irrigation Kit"
+            },
+            {
+              "code": "sprayer",
+              "label": "Sprayer"
+            },
+            {
+              "code": "greenhouse-kit",
+              "label": "Greenhouse Kit"
+            }
           ]
-        ],
-        [
-          "farm-tools",
-          "Agricultural tools",
-          [
-            "hand-hoe-jembe",
-            "panga-machete",
-            "pruning-tool",
-            "wheelbarrow",
-            "knapsack-sprayer"
+        },
+        {
+          "code": "farm-tools",
+          "label": "Agricultural tools",
+          "types": [
+            {
+              "code": "hand-hoe-jembe",
+              "label": "Hand Hoe Jembe"
+            },
+            {
+              "code": "panga-machete",
+              "label": "Panga Machete"
+            },
+            {
+              "code": "pruning-tool",
+              "label": "Pruning Tool"
+            },
+            {
+              "code": "wheelbarrow",
+              "label": "Wheelbarrow"
+            },
+            {
+              "code": "knapsack-sprayer",
+              "label": "Knapsack Sprayer"
+            }
           ]
-        ],
-        [
-          "agri-services",
-          "Agricultural services",
-          [
-            "ploughing-service",
-            "planting-service",
-            "spraying-service",
-            "harvesting-service",
-            "soil-testing",
-            "veterinary-service",
-            "farm-consultancy",
-            "produce-aggregation"
+        },
+        {
+          "code": "agri-services",
+          "label": "Agricultural services",
+          "types": [
+            {
+              "code": "ploughing-service",
+              "label": "Ploughing Service"
+            },
+            {
+              "code": "planting-service",
+              "label": "Planting Service"
+            },
+            {
+              "code": "spraying-service",
+              "label": "Spraying Service"
+            },
+            {
+              "code": "harvesting-service",
+              "label": "Harvesting Service"
+            },
+            {
+              "code": "soil-testing",
+              "label": "Soil Testing"
+            },
+            {
+              "code": "veterinary-service",
+              "label": "Veterinary Service"
+            },
+            {
+              "code": "farm-consultancy",
+              "label": "Farm Consultancy"
+            },
+            {
+              "code": "produce-aggregation",
+              "label": "Produce Aggregation"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "automotive-transport",
-      "Automotive & Transport",
-      [
-        [
-          "passenger-vehicles",
-          "Passenger vehicles",
-          [
-            "sedan",
-            "hatchback",
-            "station-wagon",
-            "suv",
-            "pickup",
-            "coupe",
-            "convertible",
-            "van"
+    },
+    {
+      "code": "automotive-transport",
+      "label": "Automotive & Transport",
+      "subcategories": [
+        {
+          "code": "passenger-vehicles",
+          "label": "Passenger vehicles",
+          "types": [
+            {
+              "code": "sedan",
+              "label": "Sedan"
+            },
+            {
+              "code": "hatchback",
+              "label": "Hatchback"
+            },
+            {
+              "code": "station-wagon",
+              "label": "Station Wagon"
+            },
+            {
+              "code": "suv",
+              "label": "Suv"
+            },
+            {
+              "code": "pickup",
+              "label": "Pickup"
+            },
+            {
+              "code": "coupe",
+              "label": "Coupe"
+            },
+            {
+              "code": "convertible",
+              "label": "Convertible"
+            },
+            {
+              "code": "van",
+              "label": "Van"
+            }
           ]
-        ],
-        [
-          "commercial-vehicles",
-          "Commercial vehicles",
-          [
-            "minibus-matatu",
-            "bus",
-            "cargo-truck",
-            "tipper-truck",
-            "tractor-unit",
-            "refrigerated-truck",
-            "delivery-van",
-            "trailer"
+        },
+        {
+          "code": "commercial-vehicles",
+          "label": "Commercial vehicles",
+          "types": [
+            {
+              "code": "minibus-matatu",
+              "label": "Minibus Matatu"
+            },
+            {
+              "code": "bus",
+              "label": "Bus"
+            },
+            {
+              "code": "cargo-truck",
+              "label": "Cargo Truck"
+            },
+            {
+              "code": "tipper-truck",
+              "label": "Tipper Truck"
+            },
+            {
+              "code": "tractor-unit",
+              "label": "Tractor Unit"
+            },
+            {
+              "code": "refrigerated-truck",
+              "label": "Refrigerated Truck"
+            },
+            {
+              "code": "delivery-van",
+              "label": "Delivery Van"
+            },
+            {
+              "code": "trailer",
+              "label": "Trailer"
+            }
           ]
-        ],
-        [
-          "two-three-wheelers",
-          "Two- and three-wheelers",
-          [
-            "motorcycle",
-            "scooter",
-            "tuk-tuk",
-            "bicycle",
-            "electric-bicycle"
+        },
+        {
+          "code": "two-three-wheelers",
+          "label": "Two- and three-wheelers",
+          "types": [
+            {
+              "code": "motorcycle",
+              "label": "Motorcycle"
+            },
+            {
+              "code": "scooter",
+              "label": "Scooter"
+            },
+            {
+              "code": "tuk-tuk",
+              "label": "Tuk Tuk"
+            },
+            {
+              "code": "bicycle",
+              "label": "Bicycle"
+            },
+            {
+              "code": "electric-bicycle",
+              "label": "Electric Bicycle"
+            }
           ]
-        ],
-        [
-          "vehicle-parts",
-          "Vehicle parts & accessories",
-          [
-            "engine-parts",
-            "body-parts",
-            "brake-parts",
-            "suspension-parts",
-            "filters",
-            "vehicle-battery",
-            "tyres",
-            "rims",
-            "vehicle-lights",
-            "vehicle-electronics"
+        },
+        {
+          "code": "vehicle-parts",
+          "label": "Vehicle parts & accessories",
+          "types": [
+            {
+              "code": "engine-parts",
+              "label": "Engine Parts"
+            },
+            {
+              "code": "body-parts",
+              "label": "Body Parts"
+            },
+            {
+              "code": "brake-parts",
+              "label": "Brake Parts"
+            },
+            {
+              "code": "suspension-parts",
+              "label": "Suspension Parts"
+            },
+            {
+              "code": "filters",
+              "label": "Filters"
+            },
+            {
+              "code": "vehicle-battery",
+              "label": "Vehicle Battery"
+            },
+            {
+              "code": "tyres",
+              "label": "Tyres"
+            },
+            {
+              "code": "rims",
+              "label": "Rims"
+            },
+            {
+              "code": "vehicle-lights",
+              "label": "Vehicle Lights"
+            },
+            {
+              "code": "vehicle-electronics",
+              "label": "Vehicle Electronics"
+            }
           ]
-        ],
-        [
-          "garage-equipment",
-          "Garage equipment",
-          [
-            "vehicle-diagnostic-tool",
-            "car-lift",
-            "tyre-changer",
-            "air-compressor",
-            "welding-equipment"
+        },
+        {
+          "code": "garage-equipment",
+          "label": "Garage equipment",
+          "types": [
+            {
+              "code": "vehicle-diagnostic-tool",
+              "label": "Vehicle Diagnostic Tool"
+            },
+            {
+              "code": "car-lift",
+              "label": "Car Lift"
+            },
+            {
+              "code": "tyre-changer",
+              "label": "Tyre Changer"
+            },
+            {
+              "code": "air-compressor",
+              "label": "Air Compressor"
+            },
+            {
+              "code": "welding-equipment",
+              "label": "Welding Equipment"
+            }
           ]
-        ],
-        [
-          "auto-services",
-          "Automotive services",
-          [
-            "vehicle-repair",
-            "vehicle-servicing",
-            "panel-beating",
-            "vehicle-painting",
-            "vehicle-inspection",
-            "vehicle-towing",
-            "car-hire",
-            "driver-service"
+        },
+        {
+          "code": "auto-services",
+          "label": "Automotive services",
+          "types": [
+            {
+              "code": "vehicle-repair",
+              "label": "Vehicle Repair"
+            },
+            {
+              "code": "vehicle-servicing",
+              "label": "Vehicle Servicing"
+            },
+            {
+              "code": "panel-beating",
+              "label": "Panel Beating"
+            },
+            {
+              "code": "vehicle-painting",
+              "label": "Vehicle Painting"
+            },
+            {
+              "code": "vehicle-inspection",
+              "label": "Vehicle Inspection"
+            },
+            {
+              "code": "vehicle-towing",
+              "label": "Vehicle Towing"
+            },
+            {
+              "code": "car-hire",
+              "label": "Car Hire"
+            },
+            {
+              "code": "driver-service",
+              "label": "Driver Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "building-construction",
-      "Building & Construction",
-      [
-        [
-          "building-materials",
-          "Building materials",
-          [
-            "cement",
-            "reinforcement-steel",
-            "structural-steel",
-            "roofing-sheets",
-            "timber-lumber",
-            "sand",
-            "ballast-aggregate",
-            "building-stones",
-            "bricks-blocks",
-            "precast-products",
-            "glass"
+    },
+    {
+      "code": "building-construction",
+      "label": "Building & Construction",
+      "subcategories": [
+        {
+          "code": "building-materials",
+          "label": "Building materials",
+          "types": [
+            {
+              "code": "cement",
+              "label": "Cement"
+            },
+            {
+              "code": "reinforcement-steel",
+              "label": "Reinforcement Steel"
+            },
+            {
+              "code": "structural-steel",
+              "label": "Structural Steel"
+            },
+            {
+              "code": "roofing-sheets",
+              "label": "Roofing Sheets"
+            },
+            {
+              "code": "timber-lumber",
+              "label": "Timber Lumber"
+            },
+            {
+              "code": "sand",
+              "label": "Sand"
+            },
+            {
+              "code": "ballast-aggregate",
+              "label": "Ballast Aggregate"
+            },
+            {
+              "code": "building-stones",
+              "label": "Building Stones"
+            },
+            {
+              "code": "bricks-blocks",
+              "label": "Bricks Blocks"
+            },
+            {
+              "code": "precast-products",
+              "label": "Precast Products"
+            },
+            {
+              "code": "glass",
+              "label": "Glass"
+            }
           ]
-        ],
-        [
-          "finishes",
-          "Finishes & interiors",
-          [
-            "ceramic-tiles",
-            "flooring",
-            "paint-coatings",
-            "ceiling-materials",
-            "doors",
-            "windows",
-            "locks-handles",
-            "sanitary-ware"
+        },
+        {
+          "code": "finishes",
+          "label": "Finishes & interiors",
+          "types": [
+            {
+              "code": "ceramic-tiles",
+              "label": "Ceramic Tiles"
+            },
+            {
+              "code": "flooring",
+              "label": "Flooring"
+            },
+            {
+              "code": "paint-coatings",
+              "label": "Paint Coatings"
+            },
+            {
+              "code": "ceiling-materials",
+              "label": "Ceiling Materials"
+            },
+            {
+              "code": "doors",
+              "label": "Doors"
+            },
+            {
+              "code": "windows",
+              "label": "Windows"
+            },
+            {
+              "code": "locks-handles",
+              "label": "Locks Handles"
+            },
+            {
+              "code": "sanitary-ware",
+              "label": "Sanitary Ware"
+            }
           ]
-        ],
-        [
-          "plumbing",
-          "Plumbing & water",
-          [
-            "water-pipes",
-            "pipe-fittings",
-            "water-tanks",
-            "water-pumps",
-            "taps-valves",
-            "toilets-basins",
-            "water-heaters"
+        },
+        {
+          "code": "plumbing",
+          "label": "Plumbing & water",
+          "types": [
+            {
+              "code": "water-pipes",
+              "label": "Water Pipes"
+            },
+            {
+              "code": "pipe-fittings",
+              "label": "Pipe Fittings"
+            },
+            {
+              "code": "water-tanks",
+              "label": "Water Tanks"
+            },
+            {
+              "code": "water-pumps",
+              "label": "Water Pumps"
+            },
+            {
+              "code": "taps-valves",
+              "label": "Taps Valves"
+            },
+            {
+              "code": "toilets-basins",
+              "label": "Toilets Basins"
+            },
+            {
+              "code": "water-heaters",
+              "label": "Water Heaters"
+            }
           ]
-        ],
-        [
-          "electrical-building",
-          "Building electrical",
-          [
-            "electrical-cables",
-            "switches-sockets",
-            "circuit-breakers",
-            "distribution-boards",
-            "lighting-fixtures"
+        },
+        {
+          "code": "electrical-building",
+          "label": "Building electrical",
+          "types": [
+            {
+              "code": "electrical-cables",
+              "label": "Electrical Cables"
+            },
+            {
+              "code": "switches-sockets",
+              "label": "Switches Sockets"
+            },
+            {
+              "code": "circuit-breakers",
+              "label": "Circuit Breakers"
+            },
+            {
+              "code": "distribution-boards",
+              "label": "Distribution Boards"
+            },
+            {
+              "code": "lighting-fixtures",
+              "label": "Lighting Fixtures"
+            }
           ]
-        ],
-        [
-          "construction-services",
-          "Construction & trade services",
-          [
-            "building-contractor",
-            "masonry",
-            "carpentry-joinery",
-            "roofing-service",
-            "plumbing-service",
-            "electrical-installation",
-            "painting-service",
-            "tiling-service",
-            "welding-fabrication",
-            "renovation-service"
+        },
+        {
+          "code": "construction-services",
+          "label": "Construction & trade services",
+          "types": [
+            {
+              "code": "building-contractor",
+              "label": "Building Contractor"
+            },
+            {
+              "code": "masonry",
+              "label": "Masonry"
+            },
+            {
+              "code": "carpentry-joinery",
+              "label": "Carpentry Joinery"
+            },
+            {
+              "code": "roofing-service",
+              "label": "Roofing Service"
+            },
+            {
+              "code": "plumbing-service",
+              "label": "Plumbing Service"
+            },
+            {
+              "code": "electrical-installation",
+              "label": "Electrical Installation"
+            },
+            {
+              "code": "painting-service",
+              "label": "Painting Service"
+            },
+            {
+              "code": "tiling-service",
+              "label": "Tiling Service"
+            },
+            {
+              "code": "welding-fabrication",
+              "label": "Welding Fabrication"
+            },
+            {
+              "code": "renovation-service",
+              "label": "Renovation Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "business-office-industrial",
-      "Business, Office & Industrial Supplies",
-      [
-        [
-          "office-supplies",
-          "Office supplies",
-          [
-            "paper",
-            "pens-pencils",
-            "folders-files",
-            "printer-ink-toner",
-            "office-stationery"
+    },
+    {
+      "code": "business-office-industrial",
+      "label": "Business, Office & Industrial Supplies",
+      "subcategories": [
+        {
+          "code": "office-supplies",
+          "label": "Office supplies",
+          "types": [
+            {
+              "code": "paper",
+              "label": "Paper"
+            },
+            {
+              "code": "pens-pencils",
+              "label": "Pens Pencils"
+            },
+            {
+              "code": "folders-files",
+              "label": "Folders Files"
+            },
+            {
+              "code": "printer-ink-toner",
+              "label": "Printer Ink Toner"
+            },
+            {
+              "code": "office-stationery",
+              "label": "Office Stationery"
+            }
           ]
-        ],
-        [
-          "office-equipment",
-          "Office equipment",
-          [
-            "printer-scanner",
-            "photocopier",
-            "shredder",
-            "projector",
-            "cash-register-pos"
+        },
+        {
+          "code": "office-equipment",
+          "label": "Office equipment",
+          "types": [
+            {
+              "code": "printer-scanner",
+              "label": "Printer Scanner"
+            },
+            {
+              "code": "photocopier",
+              "label": "Photocopier"
+            },
+            {
+              "code": "shredder",
+              "label": "Shredder"
+            },
+            {
+              "code": "projector",
+              "label": "Projector"
+            },
+            {
+              "code": "cash-register-pos",
+              "label": "Cash Register Pos"
+            }
           ]
-        ],
-        [
-          "office-furniture",
-          "Office furniture",
-          [
-            "office-desk",
-            "office-chair",
-            "filing-cabinet",
-            "meeting-table"
+        },
+        {
+          "code": "office-furniture",
+          "label": "Office furniture",
+          "types": [
+            {
+              "code": "office-desk",
+              "label": "Office Desk"
+            },
+            {
+              "code": "office-chair",
+              "label": "Office Chair"
+            },
+            {
+              "code": "filing-cabinet",
+              "label": "Filing Cabinet"
+            },
+            {
+              "code": "meeting-table",
+              "label": "Meeting Table"
+            }
           ]
-        ],
-        [
-          "industrial-supplies",
-          "Industrial supplies",
-          [
-            "bearings",
-            "belts-hoses",
-            "fasteners",
-            "industrial-pumps",
-            "compressors",
-            "industrial-valves",
-            "safety-equipment-ppe"
+        },
+        {
+          "code": "industrial-supplies",
+          "label": "Industrial supplies",
+          "types": [
+            {
+              "code": "bearings",
+              "label": "Bearings"
+            },
+            {
+              "code": "belts-hoses",
+              "label": "Belts Hoses"
+            },
+            {
+              "code": "fasteners",
+              "label": "Fasteners"
+            },
+            {
+              "code": "industrial-pumps",
+              "label": "Industrial Pumps"
+            },
+            {
+              "code": "compressors",
+              "label": "Compressors"
+            },
+            {
+              "code": "industrial-valves",
+              "label": "Industrial Valves"
+            },
+            {
+              "code": "safety-equipment-ppe",
+              "label": "Safety Equipment Ppe"
+            }
           ]
-        ],
-        [
-          "business-services",
-          "Business support services",
-          [
-            "printing-service",
-            "photocopying-service",
-            "document-binding",
-            "secretarial-service",
-            "virtual-assistant"
+        },
+        {
+          "code": "business-services",
+          "label": "Business support services",
+          "types": [
+            {
+              "code": "printing-service",
+              "label": "Printing Service"
+            },
+            {
+              "code": "photocopying-service",
+              "label": "Photocopying Service"
+            },
+            {
+              "code": "document-binding",
+              "label": "Document Binding"
+            },
+            {
+              "code": "secretarial-service",
+              "label": "Secretarial Service"
+            },
+            {
+              "code": "virtual-assistant",
+              "label": "Virtual Assistant"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "cleaning-facility",
-      "Cleaning & Facility Care",
-      [
-        [
-          "cleaning-products",
-          "Cleaning products",
-          [
-            "detergent",
-            "disinfectant",
-            "bleach",
-            "soap-cleaner",
-            "cleaning-tools",
-            "waste-bags"
+    },
+    {
+      "code": "cleaning-facility",
+      "label": "Cleaning & Facility Care",
+      "subcategories": [
+        {
+          "code": "cleaning-products",
+          "label": "Cleaning products",
+          "types": [
+            {
+              "code": "detergent",
+              "label": "Detergent"
+            },
+            {
+              "code": "disinfectant",
+              "label": "Disinfectant"
+            },
+            {
+              "code": "bleach",
+              "label": "Bleach"
+            },
+            {
+              "code": "soap-cleaner",
+              "label": "Soap Cleaner"
+            },
+            {
+              "code": "cleaning-tools",
+              "label": "Cleaning Tools"
+            },
+            {
+              "code": "waste-bags",
+              "label": "Waste Bags"
+            }
           ]
-        ],
-        [
-          "cleaning-equipment",
-          "Cleaning equipment",
-          [
-            "vacuum-cleaner",
-            "floor-scrubber",
-            "pressure-washer",
-            "carpet-cleaning-machine"
+        },
+        {
+          "code": "cleaning-equipment",
+          "label": "Cleaning equipment",
+          "types": [
+            {
+              "code": "vacuum-cleaner",
+              "label": "Vacuum Cleaner"
+            },
+            {
+              "code": "floor-scrubber",
+              "label": "Floor Scrubber"
+            },
+            {
+              "code": "pressure-washer",
+              "label": "Pressure Washer"
+            },
+            {
+              "code": "carpet-cleaning-machine",
+              "label": "Carpet Cleaning Machine"
+            }
           ]
-        ],
-        [
-          "cleaning-services",
-          "Cleaning services",
-          [
-            "residential-cleaning",
-            "office-cleaning",
-            "post-construction-cleaning",
-            "carpet-cleaning-service",
-            "window-cleaning",
-            "fumigation-pest-control",
-            "waste-collection",
-            "sanitation-service"
+        },
+        {
+          "code": "cleaning-services",
+          "label": "Cleaning services",
+          "types": [
+            {
+              "code": "residential-cleaning",
+              "label": "Residential Cleaning"
+            },
+            {
+              "code": "office-cleaning",
+              "label": "Office Cleaning"
+            },
+            {
+              "code": "post-construction-cleaning",
+              "label": "Post Construction Cleaning"
+            },
+            {
+              "code": "carpet-cleaning-service",
+              "label": "Carpet Cleaning Service"
+            },
+            {
+              "code": "window-cleaning",
+              "label": "Window Cleaning"
+            },
+            {
+              "code": "fumigation-pest-control",
+              "label": "Fumigation Pest Control"
+            },
+            {
+              "code": "waste-collection",
+              "label": "Waste Collection"
+            },
+            {
+              "code": "sanitation-service",
+              "label": "Sanitation Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "education-learning",
-      "Education & Learning",
-      [
-        [
-          "learning-materials",
-          "Learning materials",
-          [
-            "textbook",
-            "revision-book",
-            "exercise-book",
-            "stationery-school",
-            "teaching-aid",
-            "educational-chart"
+    },
+    {
+      "code": "education-learning",
+      "label": "Education & Learning",
+      "subcategories": [
+        {
+          "code": "learning-materials",
+          "label": "Learning materials",
+          "types": [
+            {
+              "code": "textbook",
+              "label": "Textbook"
+            },
+            {
+              "code": "revision-book",
+              "label": "Revision Book"
+            },
+            {
+              "code": "exercise-book",
+              "label": "Exercise Book"
+            },
+            {
+              "code": "stationery-school",
+              "label": "Stationery School"
+            },
+            {
+              "code": "teaching-aid",
+              "label": "Teaching Aid"
+            },
+            {
+              "code": "educational-chart",
+              "label": "Educational Chart"
+            }
           ]
-        ],
-        [
-          "school-equipment",
-          "School equipment",
-          [
-            "school-desk",
-            "laboratory-equipment",
-            "school-uniform",
-            "sports-school-equipment"
+        },
+        {
+          "code": "school-equipment",
+          "label": "School equipment",
+          "types": [
+            {
+              "code": "school-desk",
+              "label": "School Desk"
+            },
+            {
+              "code": "laboratory-equipment",
+              "label": "Laboratory Equipment"
+            },
+            {
+              "code": "school-uniform",
+              "label": "School Uniform"
+            },
+            {
+              "code": "sports-school-equipment",
+              "label": "Sports School Equipment"
+            }
           ]
-        ],
-        [
-          "education-services",
-          "Education services",
-          [
-            "private-tutoring",
-            "exam-preparation",
-            "language-lessons",
-            "vocational-training",
-            "school-admissions-support",
-            "educational-consultancy"
+        },
+        {
+          "code": "education-services",
+          "label": "Education services",
+          "types": [
+            {
+              "code": "private-tutoring",
+              "label": "Private Tutoring"
+            },
+            {
+              "code": "exam-preparation",
+              "label": "Exam Preparation"
+            },
+            {
+              "code": "language-lessons",
+              "label": "Language Lessons"
+            },
+            {
+              "code": "vocational-training",
+              "label": "Vocational Training"
+            },
+            {
+              "code": "school-admissions-support",
+              "label": "School Admissions Support"
+            },
+            {
+              "code": "educational-consultancy",
+              "label": "Educational Consultancy"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "electronics-technology",
-      "Electronics & Technology",
-      [
-        [
-          "phones-computers",
-          "Phones & computers",
-          [
-            "smartphone",
-            "mobile-phone",
-            "tablet",
-            "laptop",
-            "desktop-computer",
-            "computer-monitor",
-            "computer-accessory"
+    },
+    {
+      "code": "electronics-technology",
+      "label": "Electronics & Technology",
+      "subcategories": [
+        {
+          "code": "phones-computers",
+          "label": "Phones & computers",
+          "types": [
+            {
+              "code": "smartphone",
+              "label": "Smartphone"
+            },
+            {
+              "code": "mobile-phone",
+              "label": "Mobile Phone"
+            },
+            {
+              "code": "tablet",
+              "label": "Tablet"
+            },
+            {
+              "code": "laptop",
+              "label": "Laptop"
+            },
+            {
+              "code": "desktop-computer",
+              "label": "Desktop Computer"
+            },
+            {
+              "code": "computer-monitor",
+              "label": "Computer Monitor"
+            },
+            {
+              "code": "computer-accessory",
+              "label": "Computer Accessory"
+            }
           ]
-        ],
-        [
-          "consumer-electronics",
-          "Consumer electronics",
-          [
-            "television",
-            "radio",
-            "speaker",
-            "headphones",
-            "camera",
-            "gaming-console"
+        },
+        {
+          "code": "consumer-electronics",
+          "label": "Consumer electronics",
+          "types": [
+            {
+              "code": "television",
+              "label": "Television"
+            },
+            {
+              "code": "radio",
+              "label": "Radio"
+            },
+            {
+              "code": "speaker",
+              "label": "Speaker"
+            },
+            {
+              "code": "headphones",
+              "label": "Headphones"
+            },
+            {
+              "code": "camera",
+              "label": "Camera"
+            },
+            {
+              "code": "gaming-console",
+              "label": "Gaming Console"
+            }
           ]
-        ],
-        [
-          "components",
-          "Electronic components",
-          [
-            "memory-storage",
-            "computer-parts",
-            "networking-equipment",
-            "cables-adapters",
-            "electronic-components"
+        },
+        {
+          "code": "components",
+          "label": "Electronic components",
+          "types": [
+            {
+              "code": "memory-storage",
+              "label": "Memory Storage"
+            },
+            {
+              "code": "computer-parts",
+              "label": "Computer Parts"
+            },
+            {
+              "code": "networking-equipment",
+              "label": "Networking Equipment"
+            },
+            {
+              "code": "cables-adapters",
+              "label": "Cables Adapters"
+            },
+            {
+              "code": "electronic-components",
+              "label": "Electronic Components"
+            }
           ]
-        ],
-        [
-          "software-tech",
-          "Technology products",
-          [
-            "software-license",
-            "business-software",
-            "mobile-app",
-            "website-template",
-            "cloud-subscription"
+        },
+        {
+          "code": "software-tech",
+          "label": "Technology products",
+          "types": [
+            {
+              "code": "software-license",
+              "label": "Software License"
+            },
+            {
+              "code": "business-software",
+              "label": "Business Software"
+            },
+            {
+              "code": "mobile-app",
+              "label": "Mobile App"
+            },
+            {
+              "code": "website-template",
+              "label": "Website Template"
+            },
+            {
+              "code": "cloud-subscription",
+              "label": "Cloud Subscription"
+            }
           ]
-        ],
-        [
-          "tech-services",
-          "Technology services",
-          [
-            "computer-repair",
-            "phone-repair",
-            "software-development",
-            "website-development",
-            "it-support",
-            "network-installation",
-            "data-recovery"
+        },
+        {
+          "code": "tech-services",
+          "label": "Technology services",
+          "types": [
+            {
+              "code": "computer-repair",
+              "label": "Computer Repair"
+            },
+            {
+              "code": "phone-repair",
+              "label": "Phone Repair"
+            },
+            {
+              "code": "software-development",
+              "label": "Software Development"
+            },
+            {
+              "code": "website-development",
+              "label": "Website Development"
+            },
+            {
+              "code": "it-support",
+              "label": "It Support"
+            },
+            {
+              "code": "network-installation",
+              "label": "Network Installation"
+            },
+            {
+              "code": "data-recovery",
+              "label": "Data Recovery"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "energy-electrical",
-      "Energy, Solar & Electrical",
-      [
-        [
-          "solar",
-          "Solar products",
-          [
-            "solar-panel",
-            "solar-inverter",
-            "solar-battery",
-            "solar-home-system",
-            "solar-water-pump",
-            "solar-light"
+    },
+    {
+      "code": "energy-electrical",
+      "label": "Energy, Solar & Electrical",
+      "subcategories": [
+        {
+          "code": "solar",
+          "label": "Solar products",
+          "types": [
+            {
+              "code": "solar-panel",
+              "label": "Solar Panel"
+            },
+            {
+              "code": "solar-inverter",
+              "label": "Solar Inverter"
+            },
+            {
+              "code": "solar-battery",
+              "label": "Solar Battery"
+            },
+            {
+              "code": "solar-home-system",
+              "label": "Solar Home System"
+            },
+            {
+              "code": "solar-water-pump",
+              "label": "Solar Water Pump"
+            },
+            {
+              "code": "solar-light",
+              "label": "Solar Light"
+            }
           ]
-        ],
-        [
-          "power-backup",
-          "Power backup",
-          [
-            "generator",
-            "ups",
-            "inverter",
-            "deep-cycle-battery",
-            "lithium-battery"
+        },
+        {
+          "code": "power-backup",
+          "label": "Power backup",
+          "types": [
+            {
+              "code": "generator",
+              "label": "Generator"
+            },
+            {
+              "code": "ups",
+              "label": "Ups"
+            },
+            {
+              "code": "inverter",
+              "label": "Inverter"
+            },
+            {
+              "code": "deep-cycle-battery",
+              "label": "Deep Cycle Battery"
+            },
+            {
+              "code": "lithium-battery",
+              "label": "Lithium Battery"
+            }
           ]
-        ],
-        [
-          "electrical",
-          "Electrical products",
-          [
-            "electrical-wire",
-            "switchgear",
-            "circuit-protection",
-            "lighting",
-            "extension-cable"
+        },
+        {
+          "code": "electrical",
+          "label": "Electrical products",
+          "types": [
+            {
+              "code": "electrical-wire",
+              "label": "Electrical Wire"
+            },
+            {
+              "code": "switchgear",
+              "label": "Switchgear"
+            },
+            {
+              "code": "circuit-protection",
+              "label": "Circuit Protection"
+            },
+            {
+              "code": "lighting",
+              "label": "Lighting"
+            },
+            {
+              "code": "extension-cable",
+              "label": "Extension Cable"
+            }
           ]
-        ],
-        [
-          "energy-services",
-          "Energy services",
-          [
-            "solar-installation",
-            "solar-maintenance",
-            "electrical-repair",
-            "energy-audit"
+        },
+        {
+          "code": "energy-services",
+          "label": "Energy services",
+          "types": [
+            {
+              "code": "solar-installation",
+              "label": "Solar Installation"
+            },
+            {
+              "code": "solar-maintenance",
+              "label": "Solar Maintenance"
+            },
+            {
+              "code": "electrical-repair",
+              "label": "Electrical Repair"
+            },
+            {
+              "code": "energy-audit",
+              "label": "Energy Audit"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "fashion-clothing",
-      "Fashion & Clothing",
-      [
-        [
-          "tops",
-          "Tops",
-          [
-            "t-shirt",
-            "polo-shirt",
-            "formal-shirt",
-            "blouse",
-            "sweater-pullover",
-            "hoodie",
-            "vest-top"
+    },
+    {
+      "code": "fashion-clothing",
+      "label": "Fashion & Clothing",
+      "subcategories": [
+        {
+          "code": "tops",
+          "label": "Tops",
+          "types": [
+            {
+              "code": "t-shirt",
+              "label": "T Shirt"
+            },
+            {
+              "code": "polo-shirt",
+              "label": "Polo Shirt"
+            },
+            {
+              "code": "formal-shirt",
+              "label": "Formal Shirt"
+            },
+            {
+              "code": "blouse",
+              "label": "Blouse"
+            },
+            {
+              "code": "sweater-pullover",
+              "label": "Sweater Pullover"
+            },
+            {
+              "code": "hoodie",
+              "label": "Hoodie"
+            },
+            {
+              "code": "vest-top",
+              "label": "Vest Top"
+            }
           ]
-        ],
-        [
-          "bottoms",
-          "Bottoms",
-          [
-            "trousers",
-            "jeans",
-            "shorts",
-            "skirt",
-            "leggings"
+        },
+        {
+          "code": "bottoms",
+          "label": "Bottoms",
+          "types": [
+            {
+              "code": "trousers",
+              "label": "Trousers"
+            },
+            {
+              "code": "jeans",
+              "label": "Jeans"
+            },
+            {
+              "code": "shorts",
+              "label": "Shorts"
+            },
+            {
+              "code": "skirt",
+              "label": "Skirt"
+            },
+            {
+              "code": "leggings",
+              "label": "Leggings"
+            }
           ]
-        ],
-        [
-          "dresses-outerwear",
-          "Dresses & outerwear",
-          [
-            "dress",
-            "jacket",
-            "coat",
-            "suit",
-            "traditional-wear"
+        },
+        {
+          "code": "dresses-outerwear",
+          "label": "Dresses & outerwear",
+          "types": [
+            {
+              "code": "dress",
+              "label": "Dress"
+            },
+            {
+              "code": "jacket",
+              "label": "Jacket"
+            },
+            {
+              "code": "coat",
+              "label": "Coat"
+            },
+            {
+              "code": "suit",
+              "label": "Suit"
+            },
+            {
+              "code": "traditional-wear",
+              "label": "Traditional Wear"
+            }
           ]
-        ],
-        [
-          "footwear",
-          "Footwear",
-          [
-            "sports-shoes",
-            "formal-shoes",
-            "sandals",
-            "boots",
-            "school-shoes",
-            "slippers"
+        },
+        {
+          "code": "footwear",
+          "label": "Footwear",
+          "types": [
+            {
+              "code": "sports-shoes",
+              "label": "Sports Shoes"
+            },
+            {
+              "code": "formal-shoes",
+              "label": "Formal Shoes"
+            },
+            {
+              "code": "sandals",
+              "label": "Sandals"
+            },
+            {
+              "code": "boots",
+              "label": "Boots"
+            },
+            {
+              "code": "school-shoes",
+              "label": "School Shoes"
+            },
+            {
+              "code": "slippers",
+              "label": "Slippers"
+            }
           ]
-        ],
-        [
-          "accessories",
-          "Fashion accessories",
-          [
-            "handbag",
-            "backpack",
-            "belt",
-            "hat-cap",
-            "watch",
-            "jewellery",
-            "sunglasses"
+        },
+        {
+          "code": "accessories",
+          "label": "Fashion accessories",
+          "types": [
+            {
+              "code": "handbag",
+              "label": "Handbag"
+            },
+            {
+              "code": "backpack",
+              "label": "Backpack"
+            },
+            {
+              "code": "belt",
+              "label": "Belt"
+            },
+            {
+              "code": "hat-cap",
+              "label": "Hat Cap"
+            },
+            {
+              "code": "watch",
+              "label": "Watch"
+            },
+            {
+              "code": "jewellery",
+              "label": "Jewellery"
+            },
+            {
+              "code": "sunglasses",
+              "label": "Sunglasses"
+            }
           ]
-        ],
-        [
-          "fashion-services",
-          "Fashion services",
-          [
-            "tailoring",
-            "clothing-alteration",
-            "shoe-repair",
-            "fashion-design"
+        },
+        {
+          "code": "fashion-services",
+          "label": "Fashion services",
+          "types": [
+            {
+              "code": "tailoring",
+              "label": "Tailoring"
+            },
+            {
+              "code": "clothing-alteration",
+              "label": "Clothing Alteration"
+            },
+            {
+              "code": "shoe-repair",
+              "label": "Shoe Repair"
+            },
+            {
+              "code": "fashion-design",
+              "label": "Fashion Design"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "food-groceries",
-      "Food & Groceries",
-      [
-        [
-          "fresh-food",
-          "Fresh food",
-          [
-            "fresh-fruit",
-            "fresh-vegetable",
-            "fresh-meat",
-            "fresh-fish",
-            "dairy-products"
+    },
+    {
+      "code": "food-groceries",
+      "label": "Food & Groceries",
+      "subcategories": [
+        {
+          "code": "fresh-food",
+          "label": "Fresh food",
+          "types": [
+            {
+              "code": "fresh-fruit",
+              "label": "Fresh Fruit"
+            },
+            {
+              "code": "fresh-vegetable",
+              "label": "Fresh Vegetable"
+            },
+            {
+              "code": "fresh-meat",
+              "label": "Fresh Meat"
+            },
+            {
+              "code": "fresh-fish",
+              "label": "Fresh Fish"
+            },
+            {
+              "code": "dairy-products",
+              "label": "Dairy Products"
+            }
           ]
-        ],
-        [
-          "staples",
-          "Staples & dry foods",
-          [
-            "maize-flour",
-            "wheat-flour",
-            "rice-food",
-            "dried-beans",
-            "cooking-oil",
-            "sugar",
-            "salt",
-            "spices"
+        },
+        {
+          "code": "staples",
+          "label": "Staples & dry foods",
+          "types": [
+            {
+              "code": "maize-flour",
+              "label": "Maize Flour"
+            },
+            {
+              "code": "wheat-flour",
+              "label": "Wheat Flour"
+            },
+            {
+              "code": "rice-food",
+              "label": "Rice Food"
+            },
+            {
+              "code": "dried-beans",
+              "label": "Dried Beans"
+            },
+            {
+              "code": "cooking-oil",
+              "label": "Cooking Oil"
+            },
+            {
+              "code": "sugar",
+              "label": "Sugar"
+            },
+            {
+              "code": "salt",
+              "label": "Salt"
+            },
+            {
+              "code": "spices",
+              "label": "Spices"
+            }
           ]
-        ],
-        [
-          "packaged-food",
-          "Packaged food",
-          [
-            "canned-food",
-            "snacks",
-            "breakfast-cereal",
-            "baby-food"
+        },
+        {
+          "code": "packaged-food",
+          "label": "Packaged food",
+          "types": [
+            {
+              "code": "canned-food",
+              "label": "Canned Food"
+            },
+            {
+              "code": "snacks",
+              "label": "Snacks"
+            },
+            {
+              "code": "breakfast-cereal",
+              "label": "Breakfast Cereal"
+            },
+            {
+              "code": "baby-food",
+              "label": "Baby Food"
+            }
           ]
-        ],
-        [
-          "beverages",
-          "Beverages",
-          [
-            "bottled-water",
-            "juice",
-            "tea-coffee",
-            "soft-drink"
+        },
+        {
+          "code": "beverages",
+          "label": "Beverages",
+          "types": [
+            {
+              "code": "bottled-water",
+              "label": "Bottled Water"
+            },
+            {
+              "code": "juice",
+              "label": "Juice"
+            },
+            {
+              "code": "tea-coffee",
+              "label": "Tea Coffee"
+            },
+            {
+              "code": "soft-drink",
+              "label": "Soft Drink"
+            }
           ]
-        ],
-        [
-          "food-services",
-          "Food services",
-          [
-            "catering",
-            "food-delivery",
-            "meal-preparation",
-            "bakery-service"
+        },
+        {
+          "code": "food-services",
+          "label": "Food services",
+          "types": [
+            {
+              "code": "catering",
+              "label": "Catering"
+            },
+            {
+              "code": "food-delivery",
+              "label": "Food Delivery"
+            },
+            {
+              "code": "meal-preparation",
+              "label": "Meal Preparation"
+            },
+            {
+              "code": "bakery-service",
+              "label": "Bakery Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "fitness-sports",
-      "Fitness & Sports",
-      [
-        [
-          "fitness-equipment",
-          "Fitness equipment",
-          [
-            "dumbbell",
-            "barbell-weight",
-            "treadmill",
-            "exercise-bike",
-            "gym-bench",
-            "resistance-band"
+    },
+    {
+      "code": "fitness-sports",
+      "label": "Fitness & Sports",
+      "subcategories": [
+        {
+          "code": "fitness-equipment",
+          "label": "Fitness equipment",
+          "types": [
+            {
+              "code": "dumbbell",
+              "label": "Dumbbell"
+            },
+            {
+              "code": "barbell-weight",
+              "label": "Barbell Weight"
+            },
+            {
+              "code": "treadmill",
+              "label": "Treadmill"
+            },
+            {
+              "code": "exercise-bike",
+              "label": "Exercise Bike"
+            },
+            {
+              "code": "gym-bench",
+              "label": "Gym Bench"
+            },
+            {
+              "code": "resistance-band",
+              "label": "Resistance Band"
+            }
           ]
-        ],
-        [
-          "sports-goods",
-          "Sports goods",
-          [
-            "football",
-            "basketball",
-            "volleyball",
-            "net-racket",
-            "sports-protective-gear",
-            "swimming-equipment"
+        },
+        {
+          "code": "sports-goods",
+          "label": "Sports goods",
+          "types": [
+            {
+              "code": "football",
+              "label": "Football"
+            },
+            {
+              "code": "basketball",
+              "label": "Basketball"
+            },
+            {
+              "code": "volleyball",
+              "label": "Volleyball"
+            },
+            {
+              "code": "net-racket",
+              "label": "Net Racket"
+            },
+            {
+              "code": "sports-protective-gear",
+              "label": "Sports Protective Gear"
+            },
+            {
+              "code": "swimming-equipment",
+              "label": "Swimming Equipment"
+            }
           ]
-        ],
-        [
-          "sportswear",
-          "Sportswear",
-          [
-            "sports-jersey",
-            "training-clothes",
-            "sports-socks"
+        },
+        {
+          "code": "sportswear",
+          "label": "Sportswear",
+          "types": [
+            {
+              "code": "sports-jersey",
+              "label": "Sports Jersey"
+            },
+            {
+              "code": "training-clothes",
+              "label": "Training Clothes"
+            },
+            {
+              "code": "sports-socks",
+              "label": "Sports Socks"
+            }
           ]
-        ],
-        [
-          "fitness-services",
-          "Fitness services",
-          [
-            "personal-training",
-            "gym-membership",
-            "group-fitness",
-            "sports-coaching"
+        },
+        {
+          "code": "fitness-services",
+          "label": "Fitness services",
+          "types": [
+            {
+              "code": "personal-training",
+              "label": "Personal Training"
+            },
+            {
+              "code": "gym-membership",
+              "label": "Gym Membership"
+            },
+            {
+              "code": "group-fitness",
+              "label": "Group Fitness"
+            },
+            {
+              "code": "sports-coaching",
+              "label": "Sports Coaching"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "home-household",
-      "Home, Furniture & Household",
-      [
-        [
-          "furniture",
-          "Furniture",
-          [
-            "sofa",
-            "bed",
-            "mattress",
-            "dining-table",
-            "wardrobe",
-            "shelf-storage"
+    },
+    {
+      "code": "home-household",
+      "label": "Home, Furniture & Household",
+      "subcategories": [
+        {
+          "code": "furniture",
+          "label": "Furniture",
+          "types": [
+            {
+              "code": "sofa",
+              "label": "Sofa"
+            },
+            {
+              "code": "bed",
+              "label": "Bed"
+            },
+            {
+              "code": "mattress",
+              "label": "Mattress"
+            },
+            {
+              "code": "dining-table",
+              "label": "Dining Table"
+            },
+            {
+              "code": "wardrobe",
+              "label": "Wardrobe"
+            },
+            {
+              "code": "shelf-storage",
+              "label": "Shelf Storage"
+            }
           ]
-        ],
-        [
-          "kitchenware",
-          "Kitchen & dining",
-          [
-            "cookware",
-            "cooking-utensil",
-            "tableware",
-            "water-filter",
-            "kitchen-appliance"
+        },
+        {
+          "code": "kitchenware",
+          "label": "Kitchen & dining",
+          "types": [
+            {
+              "code": "cookware",
+              "label": "Cookware"
+            },
+            {
+              "code": "cooking-utensil",
+              "label": "Cooking Utensil"
+            },
+            {
+              "code": "tableware",
+              "label": "Tableware"
+            },
+            {
+              "code": "water-filter",
+              "label": "Water Filter"
+            },
+            {
+              "code": "kitchen-appliance",
+              "label": "Kitchen Appliance"
+            }
           ]
-        ],
-        [
-          "home-appliances",
-          "Home appliances",
-          [
-            "refrigerator",
-            "freezer",
-            "washing-machine",
-            "cooker",
-            "microwave",
-            "fan",
-            "air-conditioner"
+        },
+        {
+          "code": "home-appliances",
+          "label": "Home appliances",
+          "types": [
+            {
+              "code": "refrigerator",
+              "label": "Refrigerator"
+            },
+            {
+              "code": "freezer",
+              "label": "Freezer"
+            },
+            {
+              "code": "washing-machine",
+              "label": "Washing Machine"
+            },
+            {
+              "code": "cooker",
+              "label": "Cooker"
+            },
+            {
+              "code": "microwave",
+              "label": "Microwave"
+            },
+            {
+              "code": "fan",
+              "label": "Fan"
+            },
+            {
+              "code": "air-conditioner",
+              "label": "Air Conditioner"
+            }
           ]
-        ],
-        [
-          "home-textiles",
-          "Home textiles",
-          [
-            "bedding",
-            "curtain",
-            "towel",
-            "rug-carpet"
+        },
+        {
+          "code": "home-textiles",
+          "label": "Home textiles",
+          "types": [
+            {
+              "code": "bedding",
+              "label": "Bedding"
+            },
+            {
+              "code": "curtain",
+              "label": "Curtain"
+            },
+            {
+              "code": "towel",
+              "label": "Towel"
+            },
+            {
+              "code": "rug-carpet",
+              "label": "Rug Carpet"
+            }
           ]
-        ],
-        [
-          "home-decor",
-          "Home décor",
-          [
-            "wall-decor",
-            "lighting-decor",
-            "ornament",
-            "indoor-plant"
+        },
+        {
+          "code": "home-decor",
+          "label": "Home décor",
+          "types": [
+            {
+              "code": "wall-decor",
+              "label": "Wall Decor"
+            },
+            {
+              "code": "lighting-decor",
+              "label": "Lighting Decor"
+            },
+            {
+              "code": "ornament",
+              "label": "Ornament"
+            },
+            {
+              "code": "indoor-plant",
+              "label": "Indoor Plant"
+            }
           ]
-        ],
-        [
-          "home-services",
-          "Home services",
-          [
-            "furniture-assembly",
-            "appliance-repair",
-            "home-maintenance",
-            "gardening-service"
+        },
+        {
+          "code": "home-services",
+          "label": "Home services",
+          "types": [
+            {
+              "code": "furniture-assembly",
+              "label": "Furniture Assembly"
+            },
+            {
+              "code": "appliance-repair",
+              "label": "Appliance Repair"
+            },
+            {
+              "code": "home-maintenance",
+              "label": "Home Maintenance"
+            },
+            {
+              "code": "gardening-service",
+              "label": "Gardening Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "beauty-personal-care",
-      "Beauty & Personal Care",
-      [
-        [
-          "beauty-products",
-          "Beauty products",
-          [
-            "skincare",
-            "makeup",
-            "haircare",
-            "fragrance",
-            "nail-care",
-            "shaving-grooming"
+    },
+    {
+      "code": "beauty-personal-care",
+      "label": "Beauty & Personal Care",
+      "subcategories": [
+        {
+          "code": "beauty-products",
+          "label": "Beauty products",
+          "types": [
+            {
+              "code": "skincare",
+              "label": "Skincare"
+            },
+            {
+              "code": "makeup",
+              "label": "Makeup"
+            },
+            {
+              "code": "haircare",
+              "label": "Haircare"
+            },
+            {
+              "code": "fragrance",
+              "label": "Fragrance"
+            },
+            {
+              "code": "nail-care",
+              "label": "Nail Care"
+            },
+            {
+              "code": "shaving-grooming",
+              "label": "Shaving Grooming"
+            }
           ]
-        ],
-        [
-          "personal-hygiene",
-          "Personal hygiene",
-          [
-            "sanitary-care",
-            "oral-care",
-            "body-care",
-            "baby-hygiene"
+        },
+        {
+          "code": "personal-hygiene",
+          "label": "Personal hygiene",
+          "types": [
+            {
+              "code": "sanitary-care",
+              "label": "Sanitary Care"
+            },
+            {
+              "code": "oral-care",
+              "label": "Oral Care"
+            },
+            {
+              "code": "body-care",
+              "label": "Body Care"
+            },
+            {
+              "code": "baby-hygiene",
+              "label": "Baby Hygiene"
+            }
           ]
-        ],
-        [
-          "beauty-equipment",
-          "Beauty equipment",
-          [
-            "hair-dryer",
-            "hair-clipper",
-            "salon-equipment"
+        },
+        {
+          "code": "beauty-equipment",
+          "label": "Beauty equipment",
+          "types": [
+            {
+              "code": "hair-dryer",
+              "label": "Hair Dryer"
+            },
+            {
+              "code": "hair-clipper",
+              "label": "Hair Clipper"
+            },
+            {
+              "code": "salon-equipment",
+              "label": "Salon Equipment"
+            }
           ]
-        ],
-        [
-          "beauty-services",
-          "Beauty services",
-          [
-            "hairdressing",
-            "barber-service",
-            "manicure-pedicure",
-            "makeup-service",
-            "beauty-treatment"
+        },
+        {
+          "code": "beauty-services",
+          "label": "Beauty services",
+          "types": [
+            {
+              "code": "hairdressing",
+              "label": "Hairdressing"
+            },
+            {
+              "code": "barber-service",
+              "label": "Barber Service"
+            },
+            {
+              "code": "manicure-pedicure",
+              "label": "Manicure Pedicure"
+            },
+            {
+              "code": "makeup-service",
+              "label": "Makeup Service"
+            },
+            {
+              "code": "beauty-treatment",
+              "label": "Beauty Treatment"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "pharma-healthcare",
-      "Pharmaceuticals & Healthcare",
-      [
-        [
-          "medicines",
-          "Medicines",
-          [
-            "prescription-medicine",
-            "otc-medicine",
-            "vaccine-biological",
-            "herbal-medicine"
+    },
+    {
+      "code": "pharma-healthcare",
+      "label": "Pharmaceuticals & Healthcare",
+      "subcategories": [
+        {
+          "code": "medicines",
+          "label": "Medicines",
+          "types": [
+            {
+              "code": "prescription-medicine",
+              "label": "Prescription Medicine"
+            },
+            {
+              "code": "otc-medicine",
+              "label": "Otc Medicine"
+            },
+            {
+              "code": "vaccine-biological",
+              "label": "Vaccine Biological"
+            },
+            {
+              "code": "herbal-medicine",
+              "label": "Herbal Medicine"
+            }
           ]
-        ],
-        [
-          "medical-devices",
-          "Medical devices",
-          [
-            "diagnostic-device",
-            "medical-monitor",
-            "mobility-aid",
-            "medical-imaging-equipment"
+        },
+        {
+          "code": "medical-devices",
+          "label": "Medical devices",
+          "types": [
+            {
+              "code": "diagnostic-device",
+              "label": "Diagnostic Device"
+            },
+            {
+              "code": "medical-monitor",
+              "label": "Medical Monitor"
+            },
+            {
+              "code": "mobility-aid",
+              "label": "Mobility Aid"
+            },
+            {
+              "code": "medical-imaging-equipment",
+              "label": "Medical Imaging Equipment"
+            }
           ]
-        ],
-        [
-          "medical-consumables",
-          "Medical consumables",
-          [
-            "bandage-dressing",
-            "syringe-needle",
-            "gloves-ppe-medical",
-            "test-kit",
-            "medical-disposable"
+        },
+        {
+          "code": "medical-consumables",
+          "label": "Medical consumables",
+          "types": [
+            {
+              "code": "bandage-dressing",
+              "label": "Bandage Dressing"
+            },
+            {
+              "code": "syringe-needle",
+              "label": "Syringe Needle"
+            },
+            {
+              "code": "gloves-ppe-medical",
+              "label": "Gloves Ppe Medical"
+            },
+            {
+              "code": "test-kit",
+              "label": "Test Kit"
+            },
+            {
+              "code": "medical-disposable",
+              "label": "Medical Disposable"
+            }
           ]
-        ],
-        [
-          "health-products",
-          "Other health products",
-          [
-            "nutritional-supplement",
-            "medical-nutrition",
-            "first-aid-kit"
+        },
+        {
+          "code": "health-products",
+          "label": "Other health products",
+          "types": [
+            {
+              "code": "nutritional-supplement",
+              "label": "Nutritional Supplement"
+            },
+            {
+              "code": "medical-nutrition",
+              "label": "Medical Nutrition"
+            },
+            {
+              "code": "first-aid-kit",
+              "label": "First Aid Kit"
+            }
           ]
-        ],
-        [
-          "health-services",
-          "Healthcare services",
-          [
-            "licensed-clinical-service",
-            "diagnostic-laboratory",
-            "home-nursing",
-            "telehealth-consultation"
+        },
+        {
+          "code": "health-services",
+          "label": "Healthcare services",
+          "types": [
+            {
+              "code": "licensed-clinical-service",
+              "label": "Licensed Clinical Service"
+            },
+            {
+              "code": "diagnostic-laboratory",
+              "label": "Diagnostic Laboratory"
+            },
+            {
+              "code": "home-nursing",
+              "label": "Home Nursing"
+            },
+            {
+              "code": "telehealth-consultation",
+              "label": "Telehealth Consultation"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "animals-veterinary",
-      "Animals & Veterinary",
-      [
-        [
-          "pets",
-          "Pets",
-          [
-            "dog",
-            "cat",
-            "ornamental-bird",
-            "aquarium-fish"
+    },
+    {
+      "code": "animals-veterinary",
+      "label": "Animals & Veterinary",
+      "subcategories": [
+        {
+          "code": "pets",
+          "label": "Pets",
+          "types": [
+            {
+              "code": "dog",
+              "label": "Dog"
+            },
+            {
+              "code": "cat",
+              "label": "Cat"
+            },
+            {
+              "code": "ornamental-bird",
+              "label": "Ornamental Bird"
+            },
+            {
+              "code": "aquarium-fish",
+              "label": "Aquarium Fish"
+            }
           ]
-        ],
-        [
-          "pet-products",
-          "Pet supplies",
-          [
-            "pet-food",
-            "pet-accessory",
-            "pet-housing",
-            "pet-grooming-product"
+        },
+        {
+          "code": "pet-products",
+          "label": "Pet supplies",
+          "types": [
+            {
+              "code": "pet-food",
+              "label": "Pet Food"
+            },
+            {
+              "code": "pet-accessory",
+              "label": "Pet Accessory"
+            },
+            {
+              "code": "pet-housing",
+              "label": "Pet Housing"
+            },
+            {
+              "code": "pet-grooming-product",
+              "label": "Pet Grooming Product"
+            }
           ]
-        ],
-        [
-          "veterinary",
-          "Veterinary products & services",
-          [
-            "veterinary-equipment",
-            "animal-health-product",
-            "veterinary-consultation",
-            "animal-grooming",
-            "animal-boarding"
+        },
+        {
+          "code": "veterinary",
+          "label": "Veterinary products & services",
+          "types": [
+            {
+              "code": "veterinary-equipment",
+              "label": "Veterinary Equipment"
+            },
+            {
+              "code": "animal-health-product",
+              "label": "Animal Health Product"
+            },
+            {
+              "code": "veterinary-consultation",
+              "label": "Veterinary Consultation"
+            },
+            {
+              "code": "animal-grooming",
+              "label": "Animal Grooming"
+            },
+            {
+              "code": "animal-boarding",
+              "label": "Animal Boarding"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "tools-machinery",
-      "Tools, Machinery & Equipment",
-      [
-        [
-          "hand-tools",
-          "Hand tools",
-          [
-            "spanner-wrench",
-            "screwdriver",
-            "hammer",
-            "pliers",
-            "hand-saw",
-            "measuring-tool"
+    },
+    {
+      "code": "tools-machinery",
+      "label": "Tools, Machinery & Equipment",
+      "subcategories": [
+        {
+          "code": "hand-tools",
+          "label": "Hand tools",
+          "types": [
+            {
+              "code": "spanner-wrench",
+              "label": "Spanner Wrench"
+            },
+            {
+              "code": "screwdriver",
+              "label": "Screwdriver"
+            },
+            {
+              "code": "hammer",
+              "label": "Hammer"
+            },
+            {
+              "code": "pliers",
+              "label": "Pliers"
+            },
+            {
+              "code": "hand-saw",
+              "label": "Hand Saw"
+            },
+            {
+              "code": "measuring-tool",
+              "label": "Measuring Tool"
+            }
           ]
-        ],
-        [
-          "power-tools",
-          "Power tools",
-          [
-            "drill",
-            "grinder",
-            "circular-saw",
-            "welder",
-            "impact-wrench"
+        },
+        {
+          "code": "power-tools",
+          "label": "Power tools",
+          "types": [
+            {
+              "code": "drill",
+              "label": "Drill"
+            },
+            {
+              "code": "grinder",
+              "label": "Grinder"
+            },
+            {
+              "code": "circular-saw",
+              "label": "Circular Saw"
+            },
+            {
+              "code": "welder",
+              "label": "Welder"
+            },
+            {
+              "code": "impact-wrench",
+              "label": "Impact Wrench"
+            }
           ]
-        ],
-        [
-          "workshop-machinery",
-          "Workshop machinery",
-          [
-            "lathe-machine",
-            "milling-machine",
-            "compressor",
-            "industrial-generator"
+        },
+        {
+          "code": "workshop-machinery",
+          "label": "Workshop machinery",
+          "types": [
+            {
+              "code": "lathe-machine",
+              "label": "Lathe Machine"
+            },
+            {
+              "code": "milling-machine",
+              "label": "Milling Machine"
+            },
+            {
+              "code": "compressor",
+              "label": "Compressor"
+            },
+            {
+              "code": "industrial-generator",
+              "label": "Industrial Generator"
+            }
           ]
-        ],
-        [
-          "material-handling",
-          "Material handling",
-          [
-            "forklift",
-            "pallet-truck",
-            "hoist",
-            "warehouse-rack"
+        },
+        {
+          "code": "material-handling",
+          "label": "Material handling",
+          "types": [
+            {
+              "code": "forklift",
+              "label": "Forklift"
+            },
+            {
+              "code": "pallet-truck",
+              "label": "Pallet Truck"
+            },
+            {
+              "code": "hoist",
+              "label": "Hoist"
+            },
+            {
+              "code": "warehouse-rack",
+              "label": "Warehouse Rack"
+            }
           ]
-        ],
-        [
-          "equipment-rental",
-          "Equipment hire",
-          [
-            "tool-hire",
-            "construction-equipment-hire",
-            "generator-hire",
-            "agricultural-equipment-hire"
+        },
+        {
+          "code": "equipment-rental",
+          "label": "Equipment hire",
+          "types": [
+            {
+              "code": "tool-hire",
+              "label": "Tool Hire"
+            },
+            {
+              "code": "construction-equipment-hire",
+              "label": "Construction Equipment Hire"
+            },
+            {
+              "code": "generator-hire",
+              "label": "Generator Hire"
+            },
+            {
+              "code": "agricultural-equipment-hire",
+              "label": "Agricultural Equipment Hire"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "raw-materials",
-      "Raw Materials & Manufacturing",
-      [
-        [
-          "metals",
-          "Metals",
-          [
-            "steel-stock",
-            "aluminium-stock",
-            "copper-stock",
-            "scrap-metal"
+    },
+    {
+      "code": "raw-materials",
+      "label": "Raw Materials & Manufacturing",
+      "subcategories": [
+        {
+          "code": "metals",
+          "label": "Metals",
+          "types": [
+            {
+              "code": "steel-stock",
+              "label": "Steel Stock"
+            },
+            {
+              "code": "aluminium-stock",
+              "label": "Aluminium Stock"
+            },
+            {
+              "code": "copper-stock",
+              "label": "Copper Stock"
+            },
+            {
+              "code": "scrap-metal",
+              "label": "Scrap Metal"
+            }
           ]
-        ],
-        [
-          "timber-materials",
-          "Timber & boards",
-          [
-            "sawn-timber",
-            "plywood",
-            "mdf-board",
-            "wooden-pole"
+        },
+        {
+          "code": "timber-materials",
+          "label": "Timber & boards",
+          "types": [
+            {
+              "code": "sawn-timber",
+              "label": "Sawn Timber"
+            },
+            {
+              "code": "plywood",
+              "label": "Plywood"
+            },
+            {
+              "code": "mdf-board",
+              "label": "Mdf Board"
+            },
+            {
+              "code": "wooden-pole",
+              "label": "Wooden Pole"
+            }
           ]
-        ],
-        [
-          "plastics-rubber",
-          "Plastics & rubber",
-          [
-            "plastic-resin",
-            "plastic-sheet",
-            "rubber-sheet",
-            "plastic-packaging"
+        },
+        {
+          "code": "plastics-rubber",
+          "label": "Plastics & rubber",
+          "types": [
+            {
+              "code": "plastic-resin",
+              "label": "Plastic Resin"
+            },
+            {
+              "code": "plastic-sheet",
+              "label": "Plastic Sheet"
+            },
+            {
+              "code": "rubber-sheet",
+              "label": "Rubber Sheet"
+            },
+            {
+              "code": "plastic-packaging",
+              "label": "Plastic Packaging"
+            }
           ]
-        ],
-        [
-          "textile-materials",
-          "Textile materials",
-          [
-            "fabric-roll",
-            "yarn-thread",
-            "leather-hide"
+        },
+        {
+          "code": "textile-materials",
+          "label": "Textile materials",
+          "types": [
+            {
+              "code": "fabric-roll",
+              "label": "Fabric Roll"
+            },
+            {
+              "code": "yarn-thread",
+              "label": "Yarn Thread"
+            },
+            {
+              "code": "leather-hide",
+              "label": "Leather Hide"
+            }
           ]
-        ],
-        [
-          "chemicals",
-          "Industrial chemicals",
-          [
-            "industrial-chemical",
-            "adhesive-sealant",
-            "lubricant-grease",
-            "water-treatment-chemical"
+        },
+        {
+          "code": "chemicals",
+          "label": "Industrial chemicals",
+          "types": [
+            {
+              "code": "industrial-chemical",
+              "label": "Industrial Chemical"
+            },
+            {
+              "code": "adhesive-sealant",
+              "label": "Adhesive Sealant"
+            },
+            {
+              "code": "lubricant-grease",
+              "label": "Lubricant Grease"
+            },
+            {
+              "code": "water-treatment-chemical",
+              "label": "Water Treatment Chemical"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "books-arts-entertainment",
-      "Books, Arts & Entertainment",
-      [
-        [
-          "books-media",
-          "Books & media",
-          [
-            "fiction-book",
-            "nonfiction-book",
-            "religious-book",
-            "magazine",
-            "music-media"
+    },
+    {
+      "code": "books-arts-entertainment",
+      "label": "Books, Arts & Entertainment",
+      "subcategories": [
+        {
+          "code": "books-media",
+          "label": "Books & media",
+          "types": [
+            {
+              "code": "fiction-book",
+              "label": "Fiction Book"
+            },
+            {
+              "code": "nonfiction-book",
+              "label": "Nonfiction Book"
+            },
+            {
+              "code": "religious-book",
+              "label": "Religious Book"
+            },
+            {
+              "code": "magazine",
+              "label": "Magazine"
+            },
+            {
+              "code": "music-media",
+              "label": "Music Media"
+            }
           ]
-        ],
-        [
-          "arts-crafts",
-          "Arts & crafts",
-          [
-            "art-supplies",
-            "craft-material",
-            "painting-canvas",
-            "handmade-art"
+        },
+        {
+          "code": "arts-crafts",
+          "label": "Arts & crafts",
+          "types": [
+            {
+              "code": "art-supplies",
+              "label": "Art Supplies"
+            },
+            {
+              "code": "craft-material",
+              "label": "Craft Material"
+            },
+            {
+              "code": "painting-canvas",
+              "label": "Painting Canvas"
+            },
+            {
+              "code": "handmade-art",
+              "label": "Handmade Art"
+            }
           ]
-        ],
-        [
-          "musical-equipment",
-          "Music equipment",
-          [
-            "musical-instrument",
-            "sound-equipment",
-            "recording-equipment"
+        },
+        {
+          "code": "musical-equipment",
+          "label": "Music equipment",
+          "types": [
+            {
+              "code": "musical-instrument",
+              "label": "Musical Instrument"
+            },
+            {
+              "code": "sound-equipment",
+              "label": "Sound Equipment"
+            },
+            {
+              "code": "recording-equipment",
+              "label": "Recording Equipment"
+            }
           ]
-        ],
-        [
-          "games-entertainment",
-          "Games & entertainment",
-          [
-            "board-game",
-            "party-game",
-            "event-entertainment-equipment"
+        },
+        {
+          "code": "games-entertainment",
+          "label": "Games & entertainment",
+          "types": [
+            {
+              "code": "board-game",
+              "label": "Board Game"
+            },
+            {
+              "code": "party-game",
+              "label": "Party Game"
+            },
+            {
+              "code": "event-entertainment-equipment",
+              "label": "Event Entertainment Equipment"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "baby-children-toys",
-      "Baby, Children & Toys",
-      [
-        [
-          "baby-care",
-          "Baby care",
-          [
-            "baby-clothing",
-            "nappy-diaper",
-            "feeding-bottle",
-            "stroller-pram",
-            "cot-crib",
-            "car-seat"
+    },
+    {
+      "code": "baby-children-toys",
+      "label": "Baby, Children & Toys",
+      "subcategories": [
+        {
+          "code": "baby-care",
+          "label": "Baby care",
+          "types": [
+            {
+              "code": "baby-clothing",
+              "label": "Baby Clothing"
+            },
+            {
+              "code": "nappy-diaper",
+              "label": "Nappy Diaper"
+            },
+            {
+              "code": "feeding-bottle",
+              "label": "Feeding Bottle"
+            },
+            {
+              "code": "stroller-pram",
+              "label": "Stroller Pram"
+            },
+            {
+              "code": "cot-crib",
+              "label": "Cot Crib"
+            },
+            {
+              "code": "car-seat",
+              "label": "Car Seat"
+            }
           ]
-        ],
-        [
-          "children-products",
-          "Children's products",
-          [
-            "children-clothing",
-            "children-footwear",
-            "school-bag"
+        },
+        {
+          "code": "children-products",
+          "label": "Children's products",
+          "types": [
+            {
+              "code": "children-clothing",
+              "label": "Children Clothing"
+            },
+            {
+              "code": "children-footwear",
+              "label": "Children Footwear"
+            },
+            {
+              "code": "school-bag",
+              "label": "School Bag"
+            }
           ]
-        ],
-        [
-          "toys",
-          "Toys & play",
-          [
-            "educational-toy",
-            "building-toy",
-            "doll-figure",
-            "outdoor-play-equipment",
-            "ride-on-toy"
+        },
+        {
+          "code": "toys",
+          "label": "Toys & play",
+          "types": [
+            {
+              "code": "educational-toy",
+              "label": "Educational Toy"
+            },
+            {
+              "code": "building-toy",
+              "label": "Building Toy"
+            },
+            {
+              "code": "doll-figure",
+              "label": "Doll Figure"
+            },
+            {
+              "code": "outdoor-play-equipment",
+              "label": "Outdoor Play Equipment"
+            },
+            {
+              "code": "ride-on-toy",
+              "label": "Ride On Toy"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "digital-products",
-      "Digital Products & Software",
-      [
-        [
-          "digital-content",
-          "Digital content",
-          [
-            "ebook-download",
-            "digital-template",
-            "stock-media",
-            "online-course"
+    },
+    {
+      "code": "digital-products",
+      "label": "Digital Products & Software",
+      "subcategories": [
+        {
+          "code": "digital-content",
+          "label": "Digital content",
+          "types": [
+            {
+              "code": "ebook-download",
+              "label": "Ebook Download"
+            },
+            {
+              "code": "digital-template",
+              "label": "Digital Template"
+            },
+            {
+              "code": "stock-media",
+              "label": "Stock Media"
+            },
+            {
+              "code": "online-course",
+              "label": "Online Course"
+            }
           ]
-        ],
-        [
-          "software-subscriptions",
-          "Software & subscriptions",
-          [
-            "saas-subscription",
-            "mobile-app-license",
-            "software-license"
+        },
+        {
+          "code": "software-subscriptions",
+          "label": "Software & subscriptions",
+          "types": [
+            {
+              "code": "saas-subscription",
+              "label": "Saas Subscription"
+            },
+            {
+              "code": "mobile-app-license",
+              "label": "Mobile App License"
+            },
+            {
+              "code": "software-license",
+              "label": "Software License"
+            }
           ]
-        ],
-        [
-          "digital-services",
-          "Online digital services",
-          [
-            "digital-design-delivery",
-            "online-research-service",
-            "digital-marketing-service"
+        },
+        {
+          "code": "digital-services",
+          "label": "Online digital services",
+          "types": [
+            {
+              "code": "digital-design-delivery",
+              "label": "Digital Design Delivery"
+            },
+            {
+              "code": "online-research-service",
+              "label": "Online Research Service"
+            },
+            {
+              "code": "digital-marketing-service",
+              "label": "Digital Marketing Service"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "professional-services",
-      "Professional & Business Services",
-      [
-        [
-          "creative-services",
-          "Creative services",
-          [
-            "copywriting",
-            "translation",
-            "graphic-design",
-            "photography",
-            "video-production",
-            "content-editing"
+    },
+    {
+      "code": "professional-services",
+      "label": "Professional & Business Services",
+      "subcategories": [
+        {
+          "code": "creative-services",
+          "label": "Creative services",
+          "types": [
+            {
+              "code": "copywriting",
+              "label": "Copywriting"
+            },
+            {
+              "code": "translation",
+              "label": "Translation"
+            },
+            {
+              "code": "graphic-design",
+              "label": "Graphic Design"
+            },
+            {
+              "code": "photography",
+              "label": "Photography"
+            },
+            {
+              "code": "video-production",
+              "label": "Video Production"
+            },
+            {
+              "code": "content-editing",
+              "label": "Content Editing"
+            }
           ]
-        ],
-        [
-          "business-professional",
-          "Business professional services",
-          [
-            "accounting-bookkeeping",
-            "tax-consultancy",
-            "legal-consultancy",
-            "business-consultancy",
-            "market-research",
-            "hr-recruitment"
+        },
+        {
+          "code": "business-professional",
+          "label": "Business professional services",
+          "types": [
+            {
+              "code": "accounting-bookkeeping",
+              "label": "Accounting Bookkeeping"
+            },
+            {
+              "code": "tax-consultancy",
+              "label": "Tax Consultancy"
+            },
+            {
+              "code": "legal-consultancy",
+              "label": "Legal Consultancy"
+            },
+            {
+              "code": "business-consultancy",
+              "label": "Business Consultancy"
+            },
+            {
+              "code": "market-research",
+              "label": "Market Research"
+            },
+            {
+              "code": "hr-recruitment",
+              "label": "Hr Recruitment"
+            }
           ]
-        ],
-        [
-          "marketing-sales",
-          "Marketing & sales services",
-          [
-            "digital-marketing",
-            "social-media-management",
-            "advertising-service",
-            "lead-generation"
+        },
+        {
+          "code": "marketing-sales",
+          "label": "Marketing & sales services",
+          "types": [
+            {
+              "code": "digital-marketing",
+              "label": "Digital Marketing"
+            },
+            {
+              "code": "social-media-management",
+              "label": "Social Media Management"
+            },
+            {
+              "code": "advertising-service",
+              "label": "Advertising Service"
+            },
+            {
+              "code": "lead-generation",
+              "label": "Lead Generation"
+            }
           ]
-        ],
-        [
-          "admin-support",
-          "Administrative support",
-          [
-            "data-entry",
-            "virtual-assistance",
-            "document-preparation",
-            "transcription"
+        },
+        {
+          "code": "admin-support",
+          "label": "Administrative support",
+          "types": [
+            {
+              "code": "data-entry",
+              "label": "Data Entry"
+            },
+            {
+              "code": "virtual-assistance",
+              "label": "Virtual Assistance"
+            },
+            {
+              "code": "document-preparation",
+              "label": "Document Preparation"
+            },
+            {
+              "code": "transcription",
+              "label": "Transcription"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "home-property-services",
-      "Home & Property Services",
-      [
-        [
-          "property-services",
-          "Property services",
-          [
-            "property-management",
-            "real-estate-agency",
-            "property-valuation",
-            "property-inspection"
+    },
+    {
+      "code": "home-property-services",
+      "label": "Home & Property Services",
+      "subcategories": [
+        {
+          "code": "property-services",
+          "label": "Property services",
+          "types": [
+            {
+              "code": "property-management",
+              "label": "Property Management"
+            },
+            {
+              "code": "real-estate-agency",
+              "label": "Real Estate Agency"
+            },
+            {
+              "code": "property-valuation",
+              "label": "Property Valuation"
+            },
+            {
+              "code": "property-inspection",
+              "label": "Property Inspection"
+            }
           ]
-        ],
-        [
-          "repair-maintenance",
-          "Repair & maintenance",
-          [
-            "plumbing-repair",
-            "electrical-repair",
-            "roof-repair",
-            "painting-repair",
-            "pest-control"
+        },
+        {
+          "code": "repair-maintenance",
+          "label": "Repair & maintenance",
+          "types": [
+            {
+              "code": "plumbing-repair",
+              "label": "Plumbing Repair"
+            },
+            {
+              "code": "electrical-repair",
+              "label": "Electrical Repair"
+            },
+            {
+              "code": "roof-repair",
+              "label": "Roof Repair"
+            },
+            {
+              "code": "painting-repair",
+              "label": "Painting Repair"
+            },
+            {
+              "code": "pest-control",
+              "label": "Pest Control"
+            }
           ]
-        ],
-        [
-          "construction-projects",
-          "Building projects",
-          [
-            "residential-construction",
-            "commercial-construction",
-            "renovation-project",
-            "architectural-design",
-            "quantity-surveying"
+        },
+        {
+          "code": "construction-projects",
+          "label": "Building projects",
+          "types": [
+            {
+              "code": "residential-construction",
+              "label": "Residential Construction"
+            },
+            {
+              "code": "commercial-construction",
+              "label": "Commercial Construction"
+            },
+            {
+              "code": "renovation-project",
+              "label": "Renovation Project"
+            },
+            {
+              "code": "architectural-design",
+              "label": "Architectural Design"
+            },
+            {
+              "code": "quantity-surveying",
+              "label": "Quantity Surveying"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "wellness-lifestyle",
-      "Wellness & Lifestyle Services",
-      [
-        [
-          "wellness",
-          "Wellness services",
-          [
-            "massage-therapy",
-            "spa-treatment",
-            "yoga-instruction",
-            "meditation-coaching"
+    },
+    {
+      "code": "wellness-lifestyle",
+      "label": "Wellness & Lifestyle Services",
+      "subcategories": [
+        {
+          "code": "wellness",
+          "label": "Wellness services",
+          "types": [
+            {
+              "code": "massage-therapy",
+              "label": "Massage Therapy"
+            },
+            {
+              "code": "spa-treatment",
+              "label": "Spa Treatment"
+            },
+            {
+              "code": "yoga-instruction",
+              "label": "Yoga Instruction"
+            },
+            {
+              "code": "meditation-coaching",
+              "label": "Meditation Coaching"
+            }
           ]
-        ],
-        [
-          "personal-services",
-          "Personal services",
-          [
-            "personal-styling",
-            "personal-shopping",
-            "life-coaching",
-            "non-clinical-wellness-coaching"
+        },
+        {
+          "code": "personal-services",
+          "label": "Personal services",
+          "types": [
+            {
+              "code": "personal-styling",
+              "label": "Personal Styling"
+            },
+            {
+              "code": "personal-shopping",
+              "label": "Personal Shopping"
+            },
+            {
+              "code": "life-coaching",
+              "label": "Life Coaching"
+            },
+            {
+              "code": "non-clinical-wellness-coaching",
+              "label": "Non Clinical Wellness Coaching"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "transport-logistics-services",
-      "Transport & Logistics Services",
-      [
-        [
-          "delivery",
-          "Delivery & courier",
-          [
-            "local-courier",
-            "same-day-delivery",
-            "parcel-delivery",
-            "document-delivery"
+    },
+    {
+      "code": "transport-logistics-services",
+      "label": "Transport & Logistics Services",
+      "subcategories": [
+        {
+          "code": "delivery",
+          "label": "Delivery & courier",
+          "types": [
+            {
+              "code": "local-courier",
+              "label": "Local Courier"
+            },
+            {
+              "code": "same-day-delivery",
+              "label": "Same Day Delivery"
+            },
+            {
+              "code": "parcel-delivery",
+              "label": "Parcel Delivery"
+            },
+            {
+              "code": "document-delivery",
+              "label": "Document Delivery"
+            }
           ]
-        ],
-        [
-          "freight",
-          "Freight & haulage",
-          [
-            "truck-haulage",
-            "bulk-commodity-transport",
-            "container-transport",
-            "cold-chain-transport"
+        },
+        {
+          "code": "freight",
+          "label": "Freight & haulage",
+          "types": [
+            {
+              "code": "truck-haulage",
+              "label": "Truck Haulage"
+            },
+            {
+              "code": "bulk-commodity-transport",
+              "label": "Bulk Commodity Transport"
+            },
+            {
+              "code": "container-transport",
+              "label": "Container Transport"
+            },
+            {
+              "code": "cold-chain-transport",
+              "label": "Cold Chain Transport"
+            }
           ]
-        ],
-        [
-          "moving-storage",
-          "Moving & storage",
-          [
-            "house-moving",
-            "office-moving",
-            "warehousing",
-            "cold-storage"
+        },
+        {
+          "code": "moving-storage",
+          "label": "Moving & storage",
+          "types": [
+            {
+              "code": "house-moving",
+              "label": "House Moving"
+            },
+            {
+              "code": "office-moving",
+              "label": "Office Moving"
+            },
+            {
+              "code": "warehousing",
+              "label": "Warehousing"
+            },
+            {
+              "code": "cold-storage",
+              "label": "Cold Storage"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "travel-events-experiences",
-      "Travel, Events & Experiences",
-      [
-        [
-          "travel",
-          "Travel services",
-          [
-            "tour-guide",
-            "safari-tour",
-            "travel-agency",
-            "accommodation-booking",
-            "vehicle-tour-hire"
+    },
+    {
+      "code": "travel-events-experiences",
+      "label": "Travel, Events & Experiences",
+      "subcategories": [
+        {
+          "code": "travel",
+          "label": "Travel services",
+          "types": [
+            {
+              "code": "tour-guide",
+              "label": "Tour Guide"
+            },
+            {
+              "code": "safari-tour",
+              "label": "Safari Tour"
+            },
+            {
+              "code": "travel-agency",
+              "label": "Travel Agency"
+            },
+            {
+              "code": "accommodation-booking",
+              "label": "Accommodation Booking"
+            },
+            {
+              "code": "vehicle-tour-hire",
+              "label": "Vehicle Tour Hire"
+            }
           ]
-        ],
-        [
-          "events",
-          "Events",
-          [
-            "event-planning",
-            "venue-hire",
-            "sound-light-hire",
-            "catering-event",
-            "conference-services"
+        },
+        {
+          "code": "events",
+          "label": "Events",
+          "types": [
+            {
+              "code": "event-planning",
+              "label": "Event Planning"
+            },
+            {
+              "code": "venue-hire",
+              "label": "Venue Hire"
+            },
+            {
+              "code": "sound-light-hire",
+              "label": "Sound Light Hire"
+            },
+            {
+              "code": "catering-event",
+              "label": "Catering Event"
+            },
+            {
+              "code": "conference-services",
+              "label": "Conference Services"
+            }
           ]
-        ],
-        [
-          "experiences",
-          "Experiences",
-          [
-            "cultural-experience",
-            "recreation-activity",
-            "adventure-activity"
+        },
+        {
+          "code": "experiences",
+          "label": "Experiences",
+          "types": [
+            {
+              "code": "cultural-experience",
+              "label": "Cultural Experience"
+            },
+            {
+              "code": "recreation-activity",
+              "label": "Recreation Activity"
+            },
+            {
+              "code": "adventure-activity",
+              "label": "Adventure Activity"
+            }
           ]
-        ]
+        }
       ]
-    ],
-    [
-      "other-specialist",
-      "Other / Specialist",
-      [
-        [
-          "unclassified",
-          "Unclassified specialist listing",
-          [
-            "other-product-review",
-            "other-service-review"
+    },
+    {
+      "code": "other-specialist",
+      "label": "Other / Specialist",
+      "subcategories": [
+        {
+          "code": "unclassified",
+          "label": "Unclassified specialist listing",
+          "types": [
+            {
+              "code": "other-product-review",
+              "label": "Other Product Review"
+            },
+            {
+              "code": "other-service-review",
+              "label": "Other Service Review"
+            }
           ]
-        ]
+        }
       ]
-    ]
+    }
   ],
   "attribute_profiles": {
     "common_offer": [
@@ -1674,5 +3402,143 @@
     "Validate local terms and legal categories with sellers, buyers and country regulators.",
     "Attributes are reusable profiles; production implementation must assign individual attributes and requiredness to each leaf type.",
     "Never activate regulated listings solely because a taxonomy node exists."
-  ]
+  ],
+  "node_defaults": {
+    "listing_kind": "physical_product",
+    "attribute_profile": "common_offer",
+    "override_by_subcategory": {
+      "listing_kind": {
+        "agri-services": "service",
+        "auto-services": "service",
+        "construction-services": "service",
+        "business-services": "service",
+        "cleaning-services": "service",
+        "education-services": "service",
+        "tech-services": "service",
+        "energy-services": "service",
+        "fashion-services": "service",
+        "food-services": "service",
+        "fitness-services": "service",
+        "home-services": "service",
+        "beauty-services": "service",
+        "health-services": "service",
+        "veterinary": "service",
+        "equipment-rental": "rental",
+        "software-tech": "digital_product",
+        "digital-content": "digital_product",
+        "software-subscriptions": "digital_product",
+        "digital-services": "service",
+        "creative-services": "service",
+        "business-professional": "service",
+        "marketing-sales": "service",
+        "admin-support": "service",
+        "property-services": "service",
+        "repair-maintenance": "service",
+        "construction-projects": "service",
+        "wellness": "service",
+        "personal-services": "service",
+        "delivery": "service",
+        "freight": "service",
+        "moving-storage": "service",
+        "travel": "service",
+        "events": "service",
+        "experiences": "service",
+        "unclassified": "rfq"
+      },
+      "attribute_profile": {
+        "crops-produce": "produce",
+        "seeds-planting": "seed_input",
+        "livestock": "livestock",
+        "animal-products": "produce",
+        "animal-feed": "produce",
+        "farm-inputs": "seed_input",
+        "farm-machinery": "machinery",
+        "farm-tools": "machinery",
+        "passenger-vehicles": "vehicle",
+        "commercial-vehicles": "truck",
+        "two-three-wheelers": "vehicle",
+        "vehicle-parts": "electronics",
+        "garage-equipment": "machinery",
+        "building-materials": "building_material",
+        "finishes": "building_material",
+        "plumbing": "building_material",
+        "electrical-building": "electronics",
+        "office-supplies": "common_offer",
+        "office-equipment": "electronics",
+        "office-furniture": "common_offer",
+        "industrial-supplies": "machinery",
+        "cleaning-products": "common_offer",
+        "cleaning-equipment": "machinery",
+        "learning-materials": "common_offer",
+        "school-equipment": "common_offer",
+        "phones-computers": "electronics",
+        "consumer-electronics": "electronics",
+        "components": "electronics",
+        "solar": "electronics",
+        "power-backup": "electronics",
+        "electrical": "electronics",
+        "tops": "top_garment",
+        "bottoms": "clothing",
+        "dresses-outerwear": "clothing",
+        "footwear": "footwear",
+        "accessories": "clothing",
+        "fresh-food": "food_packaged",
+        "staples": "food_packaged",
+        "packaged-food": "food_packaged",
+        "beverages": "food_packaged",
+        "fitness-equipment": "machinery",
+        "sports-goods": "common_offer",
+        "sportswear": "clothing",
+        "furniture": "common_offer",
+        "kitchenware": "common_offer",
+        "home-appliances": "electronics",
+        "home-textiles": "clothing",
+        "beauty-products": "common_offer",
+        "personal-hygiene": "common_offer",
+        "beauty-equipment": "machinery",
+        "medicines": "medicine_regulated",
+        "medical-devices": "medical_device",
+        "medical-consumables": "medical_device",
+        "health-products": "medicine_regulated",
+        "pets": "livestock",
+        "pet-products": "produce",
+        "hand-tools": "machinery",
+        "power-tools": "machinery",
+        "workshop-machinery": "machinery",
+        "material-handling": "machinery",
+        "metals": "building_material",
+        "timber-materials": "building_material",
+        "plastics-rubber": "building_material",
+        "textile-materials": "clothing",
+        "chemicals": "seed_input",
+        "books-media": "common_offer",
+        "arts-crafts": "common_offer",
+        "musical-equipment": "electronics",
+        "games-entertainment": "common_offer",
+        "baby-care": "clothing",
+        "children-products": "clothing",
+        "toys": "common_offer",
+        "digital-content": "digital",
+        "software-subscriptions": "digital",
+        "digital-services": "service",
+        "creative-services": "service",
+        "business-professional": "service",
+        "marketing-sales": "service",
+        "admin-support": "service",
+        "property-services": "service",
+        "repair-maintenance": "service",
+        "construction-projects": "service",
+        "wellness": "service",
+        "personal-services": "service",
+        "delivery": "service",
+        "freight": "service",
+        "moving-storage": "service",
+        "travel": "service",
+        "events": "service",
+        "experiences": "service",
+        "equipment-rental": "rental"
+      }
+    },
+    "note": "A subcategory default is inherited by its leaf types unless a type-level override is added. Final production requiredness must be configured per leaf type."
+  }
 }
