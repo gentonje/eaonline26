@@ -6,6 +6,23 @@ const ALLOWED_ATTRIBUTES = new Set(['color', 'colour', 'size', 'brand', 'model',
 const COUNTRIES = { kenya: 'KE', uganda: 'UG', tanzania: 'TZ', ethiopia: 'ET', rwanda: 'RW', 'south sudan': 'SS', sudan: 'SD' };
 const GREETINGS = /^(hi|hello|hey|hiya|good morning|good afternoon|good evening|how are you)[!.?,\s]*$/i;
 const NOISE = /^[a-z0-9]{1,2}[!.?,\s]*$/i;
+const WORD_FIXES = { redd: 'red', reeed: 'red', blu: 'blue', blak: 'black', whte: 'white', wite: 'white', yelow: 'yellow', greay: 'grey', colur: 'color', colour: 'color', tshirt: 'shirt', motercycle: 'motorcycle', motocycle: 'motorcycle', refridgerator: 'refrigerator' };
+const COLOR_WORDS = { white: ['white','whte','wite'], black: ['black','blak','blk'], red: ['red','redd','reeed'], blue: ['blue','blu'], green: ['green'], yellow: ['yellow','yelow'], brown: ['brown'], pink: ['pink'], grey: ['grey','gray','greay'], orange: ['orange'], purple: ['purple'] };
+const SEARCH_SYNONYMS = { car: ['car','cars','automobile','automobiles'], truck: ['truck','trucks','lorry','lorries'], motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes'], bicycle: ['bicycle','bicycles','bike','bikes'], phone: ['phone','phones','mobile','mobiles','smartphone','smartphones'], shirt: ['shirt','shirts','t-shirt','t-shirts','tee'], shoe: ['shoe','shoes','footwear'], bed: ['bed','beds'], dress: ['dress','dresses'] };
+const STOP_WORDS = new Set(['a','an','the','some','any','me','for','please','show','find','get','looking','want','need','give','of','to','with','and']);
+function normalizeWord(word) {
+  let value = String(word || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  value = WORD_FIXES[value] || value;
+  if (value.endsWith('ies') && value.length > 4) value = value.slice(0, -3) + 'y';
+  else if (value.endsWith('es') && /(sh|ch|ss|x|z)es$/.test(value)) value = value.slice(0, -2);
+  else if (value.endsWith('s') && !/(ss|us|is)$/.test(value) && value.length > 3) value = value.slice(0, -1);
+  return value;
+}
+function searchGroups(query) {
+  return String(query || '').toLowerCase().split(/\s+/).filter(Boolean).map(normalizeWord)
+    .filter(word => word && !STOP_WORDS.has(word))
+    .map(word => SEARCH_SYNONYMS[word] || [word, word + 's']);
+}
 
 function parseIntent(message) {
   const original = String(message || '').trim().slice(0, 500);
@@ -30,8 +47,12 @@ function parseIntent(message) {
   if (maxPrice !== undefined) out.max_price = maxPrice;
   if (minPrice !== undefined) out.min_price = minPrice;
 
-  const color = ['white','black','red','blue','green','yellow','brown','pink','grey','gray','orange','purple'].find(c => new RegExp('\\b' + c + '\\b').test(lower));
-  if (color) out.attributes.color = color === 'gray' ? 'grey' : color;
+  for (const [canonical, variants] of Object.entries(COLOR_WORDS)) {
+    if (variants.some(word => new RegExp('\\\\b' + word + '\\\\b').test(lower))) {
+      out.attributes.color = canonical;
+      break;
+    }
+  }
   const condition = lower.match(/\b(new|used|refurbished|second hand)\b/);
   if (condition) out.condition = condition[1] === 'second hand' ? 'used' : condition[1];
 
@@ -46,12 +67,13 @@ function parseIntent(message) {
   if (location && !COUNTRIES[location[1].trim()]) out.county = location[1].trim();
 
   out.query = lower
-    .replace(/\b(show me|find me|find|looking for|i need|i want|do you have|any|please|buy|search for|can you get me|i am looking for)\b/g, ' ')
-    .replace(/\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than|from)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*[\d,.]+k?/g, ' ')
-    .replace(/\b(?:white|black|red|blue|green|yellow|brown|pink|grey|gray|orange|purple|new|used|refurbished|second hand)\b/g, ' ')
-    .replace(/\b(?:in|from)\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\b/g, ' ')
-    .replace(/\b(?:please|for me|within my budget)\b/g, ' ')
-    .replace(/[^a-z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 100);
+    .replace(/\\b(show me|find me|find|looking for|i need|i want|do you have|please|buy|search for|can you get me|i am looking for|i want to see|give me)\\b/g, ' ')
+    .replace(/\\b(some|a few|any kind of|kind of)\\b/g, ' ')
+    .replace(/\\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than|from)\\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\\s*[\\d,.]+k?/g, ' ')
+    .replace(/\\b(?:white|whte|wite|black|blak|blk|red|redd|reeed|blue|blu|green|yellow|yelow|brown|pink|grey|gray|greay|orange|purple|color|colour|new|used|refurbished|second hand)\\b/g, ' ')
+    .replace(/\\b(?:in|from)\\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\\b/g, ' ')
+    .replace(/\\b(?:for me|within my budget)\\b/g, ' ')
+    .replace(/[^a-z0-9 -]/g, ' ').replace(/\\s+/g, ' ').trim().split(' ').map(normalizeWord).filter(Boolean).join(' ').slice(0, 100);
   return out;
 }
 
@@ -155,9 +177,12 @@ async function searchProducts(filters) {
 
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
   if (query) {
-    for (const term of query.split(/\s+/).filter(Boolean).slice(0, 5)) {
-      const safe = term.replace(/[()[\]]/g, '');
-      conditions.push('or(title.ilike.*' + safe + '*,description.ilike.*' + safe + '*,category.ilike.*' + safe + '*,taxonomy_node_id.ilike.*' + safe + '*)');
+    for (const group of searchGroups(query).slice(0, 5)) {
+      const alternatives = group.flatMap(term => {
+        const safe = term.replace(/[()[\\]]/g, '');
+        return ['title.ilike.*' + safe + '*','description.ilike.*' + safe + '*','category.ilike.*' + safe + '*','taxonomy_node_id.ilike.*' + safe + '*'];
+      });
+      conditions.push('or(' + alternatives.join(',') + ')');
     }
   }
   for (const [key, value] of Object.entries(filters.attributes || {})) {
