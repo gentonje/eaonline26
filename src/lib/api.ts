@@ -130,12 +130,16 @@ export interface AssistantReply {
   products: AssistantProduct[];
   filters?: Record<string, unknown>;
   result_count?: number;
+  summary?: string | null;
+  suggestions?: Array<{ label: string; description: string; value: string }>;
 }
 
 export const assistantApi = {
   chat: (
     messages: Array<{ role: 'user' | 'assistant'; content: string }>,
     country_code?: string,
+    selected_suggestion?: string,
+    original_message?: string,
   ): Promise<AssistantReply> => {
     const latest = [...messages].reverse().find(m => m.role === 'user')?.content || '';
     return apiCall('/api/ai/assistant', {
