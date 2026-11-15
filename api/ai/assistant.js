@@ -79,7 +79,9 @@ function parseIntent(message) {
   const currencyMatch = lower.match(/\b(usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\b/);
   if (currencyMatch) out.currency = currencyMatch[1].toUpperCase();
   if (maxPrice !== undefined) out.max_price = maxPrice;
-  if (minPrice !== undefined) out.min_price = minPrice;\n  const rangePrice = lower.match(/\\b(?:price\\s+range\\s*)?(?:between|from)?\\s*([\\d,]+)\\s*(?:and|to|-)\\s*([\\d,]+)\\s*(?:usd|kes|ksh|ugx|tzs|ssp|rwf|etb)?\\b/);\n  if (rangePrice) { const a = Number(rangePrice[1].replace(/,/g, '')); const b = Number(rangePrice[2].replace(/,/g, '')); if (a < 1900 || a > 2100 || b < 1900 || b > 2100) { out.min_price = Math.min(a,b); out.max_price = Math.max(a,b); } }
+  if (minPrice !== undefined) out.min_price = minPrice;
+  const rangePrice = lower.match(/\b(?:price\s+range\s*)?(?:between|from)?\s*([\d,]+)\s*(?:and|to|-)\s*([\d,]+)\s*(?:usd|kes|ksh|ugx|tzs|ssp|rwf|etb)?\b/);
+  if (rangePrice) { const a = Number(rangePrice[1].replace(/,/g, '')); const b = Number(rangePrice[2].replace(/,/g, '')); if (a < 1900 || a > 2100 || b < 1900 || b > 2100) { out.min_price = Math.min(a,b); out.max_price = Math.max(a,b); } }
 
   for (const [canonical, variants] of Object.entries(COLOR_WORDS)) {
     if (variants.some(word => new RegExp('\\b' + word + '\\b').test(lower))) {
@@ -188,7 +190,10 @@ async function interpret(message) {
   if (fallback.country_code) merged.country_code = fallback.country_code;
   if (fallback.max_price !== undefined) merged.max_price = fallback.max_price;
   if (fallback.min_price !== undefined) merged.min_price = fallback.min_price;
-  if (fallback.condition) merged.condition = fallback.condition;\n  if (fallback.year_from !== undefined) merged.year_from = fallback.year_from;\n  if (fallback.year_to !== undefined) merged.year_to = fallback.year_to;\n  if (fallback.currency) merged.currency = fallback.currency;
+  if (fallback.condition) merged.condition = fallback.condition;
+  if (fallback.year_from !== undefined) merged.year_from = fallback.year_from;
+  if (fallback.year_to !== undefined) merged.year_to = fallback.year_to;
+  if (fallback.currency) merged.currency = fallback.currency;
   return merged;
 }
 
@@ -253,7 +258,8 @@ function describeSearch(filters) {
     filters.country_code === 'TZ' ? 'TSh' : filters.country_code === 'RW' ? 'RWF' :
     filters.country_code === 'SS' ? 'SSP' : filters.country_code === 'ET' ? 'ETB' : '';
   if (filters.min_price !== undefined) description += ' above ' + currency + ' ' + Number(filters.min_price).toLocaleString('en');
-  if (filters.max_price !== undefined) description += (filters.min_price !== undefined ? '–' : ' under ') + currency + ' ' + Number(filters.max_price).toLocaleString('en');\n  if (filters.year_from !== undefined || filters.year_to !== undefined) description += ' · ' + (filters.year_from || filters.year_to) + (filters.year_to && filters.year_from ? '–' + filters.year_to : '');
+  if (filters.max_price !== undefined) description += (filters.min_price !== undefined ? '–' : ' under ') + currency + ' ' + Number(filters.max_price).toLocaleString('en');
+  if (filters.year_from !== undefined || filters.year_to !== undefined) description += ' · ' + (filters.year_from || filters.year_to) + (filters.year_to && filters.year_from ? '–' + filters.year_to : '');
   if (filters.county) description += ' in ' + filters.county;
   const country = Object.keys(COUNTRIES).find(name => COUNTRIES[name] === filters.country_code);
   if (country) description += ' in ' + country.replace(/\b\w/g, c => c.toUpperCase());
@@ -274,7 +280,9 @@ module.exports = async function handler(req, res) {
     if (!message) return res.status(400).json({ error: 'message required' });
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
-    const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);\n    const resolvedMessage = selectedSuggestion ? message.replace(/\\b(?:trak|truc|truk)\\b/gi, selectedSuggestion) : message;\n    const filters = await interpret(resolvedMessage);
+    const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);
+    const resolvedMessage = selectedSuggestion ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion) : message;
+    const filters = await interpret(resolvedMessage);
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
@@ -295,7 +303,8 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports.parseIntent = parseIntent;\nmodule.exports.detectClarification = detectClarification;
+module.exports.parseIntent = parseIntent;
+module.exports.detectClarification = detectClarification;
 module.exports.normalizeWord = normalizeWord;
 module.exports.searchGroups = searchGroups;
 module.exports.validateIntent = validateIntent;
