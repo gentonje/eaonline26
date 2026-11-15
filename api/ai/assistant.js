@@ -179,7 +179,7 @@ function describeSearch(filters) {
   if (filters.attributes?.color) parts.push(filters.attributes.color + ' ');
   if (filters.query) parts.push(filters.query);
   if (filters.condition) parts.push(filters.condition);
-  let description = parts.join(' ').replace(/\\s+/g, ' ').trim();
+  let description = parts.join(' ').replace(/\s+/g, ' ').trim();
   const currency = filters.country_code === 'KE' ? 'KSh' : filters.country_code === 'UG' ? 'UGX' :
     filters.country_code === 'TZ' ? 'TSh' : filters.country_code === 'RW' ? 'RWF' :
     filters.country_code === 'SS' ? 'SSP' : filters.country_code === 'ET' ? 'ETB' : '';
@@ -187,7 +187,7 @@ function describeSearch(filters) {
   if (filters.max_price !== undefined) description += ' under ' + currency + ' ' + Number(filters.max_price).toLocaleString('en');
   if (filters.county) description += ' in ' + filters.county;
   const country = Object.keys(COUNTRIES).find(name => COUNTRIES[name] === filters.country_code);
-  if (country) description += ' in ' + country.replace(/\\b\\w/g, c => c.toUpperCase());
+  if (country) description += ' in ' + country.replace(/\b\w/g, c => c.toUpperCase());
   return description || filters.query || 'your search';
 }
 
