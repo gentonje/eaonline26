@@ -33,6 +33,9 @@ yarn-error.*
 # local env files
 .env*.local
 
+# chat reference material (screenshots/images pasted into Cursor chats)
+attached_assets/
+
 # typescript
 *.tsbuildinfo
 
