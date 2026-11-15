@@ -42,6 +42,18 @@ async function uriToBlob(uri: string): Promise<Blob> {
     return response.blob();
 }
 
+
+function parseProductAttributes(input: string): Record<string, string> {
+    return Object.fromEntries(input.split(/\\r?\\n/).map(line => {
+        const separator = line.indexOf(':');
+        return separator > 0 ? [line.slice(0, separator).trim(), line.slice(separator + 1).trim()] : ['', ''];
+    }).filter(([key, value]) => key && value));
+}
+
+function formatProductAttributes(attributes: Record<string, unknown> | null | undefined): string {
+    return Object.entries(attributes || {}).map(([key, value]) => `${key}: ${String(value)}`).join('\\n');
+}
+
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
@@ -58,6 +70,10 @@ export default function AddProductScreen() {
         available_quantity: '1',
         country_id: '',
         district_id: '',
+        condition: 'New',
+        warranty: '',
+        delivery_terms: '',
+        attributesText: '',
     });
     const [images, setImages] = useState<ImageItem[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
@@ -259,6 +275,10 @@ export default function AddProductScreen() {
                     product_status: 'draft',
                     country_id: parseInt(formData.country_id),
                     county: selectedDistrict?.name || null,
+                    condition: formData.condition || null,
+                    warranty: formData.warranty.trim() || null,
+                    delivery_terms: formData.delivery_terms.trim() || null,
+                    attributes: parseProductAttributes(formData.attributesText),
                 })
                 .select()
                 .single();
