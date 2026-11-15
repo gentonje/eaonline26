@@ -105,6 +105,9 @@ function parseIntent(message) {
   out.query = lower
     .replace(/\b(show me|find me|find|looking for|i need|i want|do you have|please|buy|search for|can you get me|i am looking for|i want to see|give me)\b/g, ' ')
     .replace(/\b(some|a few|any kind of|kind of)\b/g, ' ')
+    .replace(/\b(?:price\s+range\s*)?(?:between|from)?\s*[\d,]+\s*(?:and|to|-)\s*[\d,]+\s*(?:usd|kes|ksh|ugx|tzs|ssp|rwf|etb)?\b/g, ' ')
+    .replace(/\b(?:19|20)\d{2}\b/g, ' ')
+    .replace(/\b(?:usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\b/g, ' ')
     .replace(/\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than|from)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*[\d,.]+k?/g, ' ')
     .replace(/\b(?:white|whte|wite|black|blak|blk|red|redd|reeed|blue|blu|green|yellow|yelow|brown|pink|grey|gray|greay|orange|purple|color|colour|new|used|refurbished|second hand)\b/g, ' ')
     .replace(/\b(?:in|from)\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\b/g, ' ')
@@ -156,7 +159,7 @@ async function interpret(message) {
   const prompt = [
     'You interpret natural-language shopping requests for an East African marketplace.',
     'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters.',
-    'Be a forgiving shopping interpreter, not an exact-keyword matcher. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Map common synonyms (lorry=truck, motorbike=motorcycle, mobile=phone, tee=t-shirt). Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
+    'Be a forgiving shopping interpreter, not an exact-keyword matcher. Keep shopper-facing language warm, natural and extremely brief; avoid bot-like explanations and unnecessary acknowledgements. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Map common synonyms (lorry=truck, motorbike=motorcycle, mobile=phone, tee=t-shirt). Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
     'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, currency, year_from, year_to, condition, attributes, sort, limit, suggestions.',
     'Allowed attributes: color,size,brand,model,storage,gender,material. Country codes: KE, UG, TZ, RW, ET, SS.',
     'Never return SQL, code, explanations or extra keys. JSON only.',
