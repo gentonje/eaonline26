@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const asha = require('./assistant');
+const asha = require('../asha/core');
+const marketplaceAdapter = require('./assistant');
 
 test('ambiguous trak spelling returns compact vehicle suggestions', () => {
   const result = asha.detectClarification('I need a 2012 trak');
@@ -32,4 +33,9 @@ test('car search expands to vehicle body-type taxonomy terms', () => {
 test('singular and plural product words normalize consistently', () => {
   assert.equal(asha.normalizeWord('cars'), 'car');
   assert.equal(asha.normalizeWord('shirts'), 'shirt');
+});
+
+test('marketplace API keeps the shared Asha engine exports available', () => {
+  assert.equal(marketplaceAdapter.parseIntent, asha.parseIntent);
+  assert.equal(marketplaceAdapter.interpret, asha.interpret);
 });
