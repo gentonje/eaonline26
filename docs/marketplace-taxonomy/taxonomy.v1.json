@@ -1,0 +1,1678 @@
+{
+  "taxonomy_code": "ea-marketplace",
+  "version": "0.1.0",
+  "locale_default": "en",
+  "market_focus": [
+    "KE",
+    "UG",
+    "TZ",
+    "SS",
+    "RW",
+    "BI",
+    "ET"
+  ],
+  "status": "design-draft",
+  "principles": {
+    "customer_experience": "simple-first",
+    "data_model": "rich-structured",
+    "hierarchy": "variable-depth",
+    "primary_classification": "one-node-per-listing"
+  },
+  "listing_kinds": [
+    {
+      "code": "physical_product",
+      "label": "Physical product"
+    },
+    {
+      "code": "service",
+      "label": "Service"
+    },
+    {
+      "code": "digital_product",
+      "label": "Digital product"
+    },
+    {
+      "code": "rental",
+      "label": "Rental / hire"
+    },
+    {
+      "code": "rfq",
+      "label": "Request for quotation"
+    }
+  ],
+  "categories": [
+    [
+      "agriculture-livestock",
+      "Agriculture & Livestock",
+      [
+        [
+          "crops-produce",
+          "Crops & produce",
+          [
+            "maize-grain",
+            "beans-pulses",
+            "sorghum",
+            "millet",
+            "rice",
+            "wheat",
+            "cassava",
+            "irish-potatoes",
+            "sweet-potatoes",
+            "fresh-fruits",
+            "fresh-vegetables",
+            "oilseeds",
+            "coffee",
+            "tea",
+            "sugarcane",
+            "cotton"
+          ]
+        ],
+        [
+          "seeds-planting",
+          "Seeds & planting materials",
+          [
+            "cereal-seeds",
+            "legume-seeds",
+            "vegetable-seeds",
+            "fruit-seedlings",
+            "tree-seedlings",
+            "planting-cuttings"
+          ]
+        ],
+        [
+          "livestock",
+          "Livestock & poultry",
+          [
+            "cattle",
+            "goats",
+            "sheep",
+            "pigs",
+            "chickens",
+            "ducks",
+            "turkeys",
+            "rabbits",
+            "fish-fingerlings"
+          ]
+        ],
+        [
+          "animal-products",
+          "Animal products",
+          [
+            "raw-milk",
+            "eggs",
+            "honey",
+            "hides-skins",
+            "wool"
+          ]
+        ],
+        [
+          "animal-feed",
+          "Animal feeds",
+          [
+            "hay-fodder",
+            "silage",
+            "poultry-feed",
+            "dairy-feed",
+            "livestock-concentrate",
+            "fish-feed"
+          ]
+        ],
+        [
+          "farm-inputs",
+          "Farm inputs",
+          [
+            "fertiliser",
+            "organic-manure",
+            "pesticides",
+            "herbicides",
+            "fungicides",
+            "veterinary-medicines",
+            "soil-conditioners"
+          ]
+        ],
+        [
+          "farm-machinery",
+          "Farm machinery & irrigation",
+          [
+            "tractor",
+            "power-tiller",
+            "planter-seeder",
+            "harvester",
+            "thresher",
+            "posho-mill",
+            "irrigation-pump",
+            "drip-irrigation-kit",
+            "sprayer",
+            "greenhouse-kit"
+          ]
+        ],
+        [
+          "farm-tools",
+          "Agricultural tools",
+          [
+            "hand-hoe-jembe",
+            "panga-machete",
+            "pruning-tool",
+            "wheelbarrow",
+            "knapsack-sprayer"
+          ]
+        ],
+        [
+          "agri-services",
+          "Agricultural services",
+          [
+            "ploughing-service",
+            "planting-service",
+            "spraying-service",
+            "harvesting-service",
+            "soil-testing",
+            "veterinary-service",
+            "farm-consultancy",
+            "produce-aggregation"
+          ]
+        ]
+      ]
+    ],
+    [
+      "automotive-transport",
+      "Automotive & Transport",
+      [
+        [
+          "passenger-vehicles",
+          "Passenger vehicles",
+          [
+            "sedan",
+            "hatchback",
+            "station-wagon",
+            "suv",
+            "pickup",
+            "coupe",
+            "convertible",
+            "van"
+          ]
+        ],
+        [
+          "commercial-vehicles",
+          "Commercial vehicles",
+          [
+            "minibus-matatu",
+            "bus",
+            "cargo-truck",
+            "tipper-truck",
+            "tractor-unit",
+            "refrigerated-truck",
+            "delivery-van",
+            "trailer"
+          ]
+        ],
+        [
+          "two-three-wheelers",
+          "Two- and three-wheelers",
+          [
+            "motorcycle",
+            "scooter",
+            "tuk-tuk",
+            "bicycle",
+            "electric-bicycle"
+          ]
+        ],
+        [
+          "vehicle-parts",
+          "Vehicle parts & accessories",
+          [
+            "engine-parts",
+            "body-parts",
+            "brake-parts",
+            "suspension-parts",
+            "filters",
+            "vehicle-battery",
+            "tyres",
+            "rims",
+            "vehicle-lights",
+            "vehicle-electronics"
+          ]
+        ],
+        [
+          "garage-equipment",
+          "Garage equipment",
+          [
+            "vehicle-diagnostic-tool",
+            "car-lift",
+            "tyre-changer",
+            "air-compressor",
+            "welding-equipment"
+          ]
+        ],
+        [
+          "auto-services",
+          "Automotive services",
+          [
+            "vehicle-repair",
+            "vehicle-servicing",
+            "panel-beating",
+            "vehicle-painting",
+            "vehicle-inspection",
+            "vehicle-towing",
+            "car-hire",
+            "driver-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "building-construction",
+      "Building & Construction",
+      [
+        [
+          "building-materials",
+          "Building materials",
+          [
+            "cement",
+            "reinforcement-steel",
+            "structural-steel",
+            "roofing-sheets",
+            "timber-lumber",
+            "sand",
+            "ballast-aggregate",
+            "building-stones",
+            "bricks-blocks",
+            "precast-products",
+            "glass"
+          ]
+        ],
+        [
+          "finishes",
+          "Finishes & interiors",
+          [
+            "ceramic-tiles",
+            "flooring",
+            "paint-coatings",
+            "ceiling-materials",
+            "doors",
+            "windows",
+            "locks-handles",
+            "sanitary-ware"
+          ]
+        ],
+        [
+          "plumbing",
+          "Plumbing & water",
+          [
+            "water-pipes",
+            "pipe-fittings",
+            "water-tanks",
+            "water-pumps",
+            "taps-valves",
+            "toilets-basins",
+            "water-heaters"
+          ]
+        ],
+        [
+          "electrical-building",
+          "Building electrical",
+          [
+            "electrical-cables",
+            "switches-sockets",
+            "circuit-breakers",
+            "distribution-boards",
+            "lighting-fixtures"
+          ]
+        ],
+        [
+          "construction-services",
+          "Construction & trade services",
+          [
+            "building-contractor",
+            "masonry",
+            "carpentry-joinery",
+            "roofing-service",
+            "plumbing-service",
+            "electrical-installation",
+            "painting-service",
+            "tiling-service",
+            "welding-fabrication",
+            "renovation-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "business-office-industrial",
+      "Business, Office & Industrial Supplies",
+      [
+        [
+          "office-supplies",
+          "Office supplies",
+          [
+            "paper",
+            "pens-pencils",
+            "folders-files",
+            "printer-ink-toner",
+            "office-stationery"
+          ]
+        ],
+        [
+          "office-equipment",
+          "Office equipment",
+          [
+            "printer-scanner",
+            "photocopier",
+            "shredder",
+            "projector",
+            "cash-register-pos"
+          ]
+        ],
+        [
+          "office-furniture",
+          "Office furniture",
+          [
+            "office-desk",
+            "office-chair",
+            "filing-cabinet",
+            "meeting-table"
+          ]
+        ],
+        [
+          "industrial-supplies",
+          "Industrial supplies",
+          [
+            "bearings",
+            "belts-hoses",
+            "fasteners",
+            "industrial-pumps",
+            "compressors",
+            "industrial-valves",
+            "safety-equipment-ppe"
+          ]
+        ],
+        [
+          "business-services",
+          "Business support services",
+          [
+            "printing-service",
+            "photocopying-service",
+            "document-binding",
+            "secretarial-service",
+            "virtual-assistant"
+          ]
+        ]
+      ]
+    ],
+    [
+      "cleaning-facility",
+      "Cleaning & Facility Care",
+      [
+        [
+          "cleaning-products",
+          "Cleaning products",
+          [
+            "detergent",
+            "disinfectant",
+            "bleach",
+            "soap-cleaner",
+            "cleaning-tools",
+            "waste-bags"
+          ]
+        ],
+        [
+          "cleaning-equipment",
+          "Cleaning equipment",
+          [
+            "vacuum-cleaner",
+            "floor-scrubber",
+            "pressure-washer",
+            "carpet-cleaning-machine"
+          ]
+        ],
+        [
+          "cleaning-services",
+          "Cleaning services",
+          [
+            "residential-cleaning",
+            "office-cleaning",
+            "post-construction-cleaning",
+            "carpet-cleaning-service",
+            "window-cleaning",
+            "fumigation-pest-control",
+            "waste-collection",
+            "sanitation-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "education-learning",
+      "Education & Learning",
+      [
+        [
+          "learning-materials",
+          "Learning materials",
+          [
+            "textbook",
+            "revision-book",
+            "exercise-book",
+            "stationery-school",
+            "teaching-aid",
+            "educational-chart"
+          ]
+        ],
+        [
+          "school-equipment",
+          "School equipment",
+          [
+            "school-desk",
+            "laboratory-equipment",
+            "school-uniform",
+            "sports-school-equipment"
+          ]
+        ],
+        [
+          "education-services",
+          "Education services",
+          [
+            "private-tutoring",
+            "exam-preparation",
+            "language-lessons",
+            "vocational-training",
+            "school-admissions-support",
+            "educational-consultancy"
+          ]
+        ]
+      ]
+    ],
+    [
+      "electronics-technology",
+      "Electronics & Technology",
+      [
+        [
+          "phones-computers",
+          "Phones & computers",
+          [
+            "smartphone",
+            "mobile-phone",
+            "tablet",
+            "laptop",
+            "desktop-computer",
+            "computer-monitor",
+            "computer-accessory"
+          ]
+        ],
+        [
+          "consumer-electronics",
+          "Consumer electronics",
+          [
+            "television",
+            "radio",
+            "speaker",
+            "headphones",
+            "camera",
+            "gaming-console"
+          ]
+        ],
+        [
+          "components",
+          "Electronic components",
+          [
+            "memory-storage",
+            "computer-parts",
+            "networking-equipment",
+            "cables-adapters",
+            "electronic-components"
+          ]
+        ],
+        [
+          "software-tech",
+          "Technology products",
+          [
+            "software-license",
+            "business-software",
+            "mobile-app",
+            "website-template",
+            "cloud-subscription"
+          ]
+        ],
+        [
+          "tech-services",
+          "Technology services",
+          [
+            "computer-repair",
+            "phone-repair",
+            "software-development",
+            "website-development",
+            "it-support",
+            "network-installation",
+            "data-recovery"
+          ]
+        ]
+      ]
+    ],
+    [
+      "energy-electrical",
+      "Energy, Solar & Electrical",
+      [
+        [
+          "solar",
+          "Solar products",
+          [
+            "solar-panel",
+            "solar-inverter",
+            "solar-battery",
+            "solar-home-system",
+            "solar-water-pump",
+            "solar-light"
+          ]
+        ],
+        [
+          "power-backup",
+          "Power backup",
+          [
+            "generator",
+            "ups",
+            "inverter",
+            "deep-cycle-battery",
+            "lithium-battery"
+          ]
+        ],
+        [
+          "electrical",
+          "Electrical products",
+          [
+            "electrical-wire",
+            "switchgear",
+            "circuit-protection",
+            "lighting",
+            "extension-cable"
+          ]
+        ],
+        [
+          "energy-services",
+          "Energy services",
+          [
+            "solar-installation",
+            "solar-maintenance",
+            "electrical-repair",
+            "energy-audit"
+          ]
+        ]
+      ]
+    ],
+    [
+      "fashion-clothing",
+      "Fashion & Clothing",
+      [
+        [
+          "tops",
+          "Tops",
+          [
+            "t-shirt",
+            "polo-shirt",
+            "formal-shirt",
+            "blouse",
+            "sweater-pullover",
+            "hoodie",
+            "vest-top"
+          ]
+        ],
+        [
+          "bottoms",
+          "Bottoms",
+          [
+            "trousers",
+            "jeans",
+            "shorts",
+            "skirt",
+            "leggings"
+          ]
+        ],
+        [
+          "dresses-outerwear",
+          "Dresses & outerwear",
+          [
+            "dress",
+            "jacket",
+            "coat",
+            "suit",
+            "traditional-wear"
+          ]
+        ],
+        [
+          "footwear",
+          "Footwear",
+          [
+            "sports-shoes",
+            "formal-shoes",
+            "sandals",
+            "boots",
+            "school-shoes",
+            "slippers"
+          ]
+        ],
+        [
+          "accessories",
+          "Fashion accessories",
+          [
+            "handbag",
+            "backpack",
+            "belt",
+            "hat-cap",
+            "watch",
+            "jewellery",
+            "sunglasses"
+          ]
+        ],
+        [
+          "fashion-services",
+          "Fashion services",
+          [
+            "tailoring",
+            "clothing-alteration",
+            "shoe-repair",
+            "fashion-design"
+          ]
+        ]
+      ]
+    ],
+    [
+      "food-groceries",
+      "Food & Groceries",
+      [
+        [
+          "fresh-food",
+          "Fresh food",
+          [
+            "fresh-fruit",
+            "fresh-vegetable",
+            "fresh-meat",
+            "fresh-fish",
+            "dairy-products"
+          ]
+        ],
+        [
+          "staples",
+          "Staples & dry foods",
+          [
+            "maize-flour",
+            "wheat-flour",
+            "rice-food",
+            "dried-beans",
+            "cooking-oil",
+            "sugar",
+            "salt",
+            "spices"
+          ]
+        ],
+        [
+          "packaged-food",
+          "Packaged food",
+          [
+            "canned-food",
+            "snacks",
+            "breakfast-cereal",
+            "baby-food"
+          ]
+        ],
+        [
+          "beverages",
+          "Beverages",
+          [
+            "bottled-water",
+            "juice",
+            "tea-coffee",
+            "soft-drink"
+          ]
+        ],
+        [
+          "food-services",
+          "Food services",
+          [
+            "catering",
+            "food-delivery",
+            "meal-preparation",
+            "bakery-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "fitness-sports",
+      "Fitness & Sports",
+      [
+        [
+          "fitness-equipment",
+          "Fitness equipment",
+          [
+            "dumbbell",
+            "barbell-weight",
+            "treadmill",
+            "exercise-bike",
+            "gym-bench",
+            "resistance-band"
+          ]
+        ],
+        [
+          "sports-goods",
+          "Sports goods",
+          [
+            "football",
+            "basketball",
+            "volleyball",
+            "net-racket",
+            "sports-protective-gear",
+            "swimming-equipment"
+          ]
+        ],
+        [
+          "sportswear",
+          "Sportswear",
+          [
+            "sports-jersey",
+            "training-clothes",
+            "sports-socks"
+          ]
+        ],
+        [
+          "fitness-services",
+          "Fitness services",
+          [
+            "personal-training",
+            "gym-membership",
+            "group-fitness",
+            "sports-coaching"
+          ]
+        ]
+      ]
+    ],
+    [
+      "home-household",
+      "Home, Furniture & Household",
+      [
+        [
+          "furniture",
+          "Furniture",
+          [
+            "sofa",
+            "bed",
+            "mattress",
+            "dining-table",
+            "wardrobe",
+            "shelf-storage"
+          ]
+        ],
+        [
+          "kitchenware",
+          "Kitchen & dining",
+          [
+            "cookware",
+            "cooking-utensil",
+            "tableware",
+            "water-filter",
+            "kitchen-appliance"
+          ]
+        ],
+        [
+          "home-appliances",
+          "Home appliances",
+          [
+            "refrigerator",
+            "freezer",
+            "washing-machine",
+            "cooker",
+            "microwave",
+            "fan",
+            "air-conditioner"
+          ]
+        ],
+        [
+          "home-textiles",
+          "Home textiles",
+          [
+            "bedding",
+            "curtain",
+            "towel",
+            "rug-carpet"
+          ]
+        ],
+        [
+          "home-decor",
+          "Home décor",
+          [
+            "wall-decor",
+            "lighting-decor",
+            "ornament",
+            "indoor-plant"
+          ]
+        ],
+        [
+          "home-services",
+          "Home services",
+          [
+            "furniture-assembly",
+            "appliance-repair",
+            "home-maintenance",
+            "gardening-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "beauty-personal-care",
+      "Beauty & Personal Care",
+      [
+        [
+          "beauty-products",
+          "Beauty products",
+          [
+            "skincare",
+            "makeup",
+            "haircare",
+            "fragrance",
+            "nail-care",
+            "shaving-grooming"
+          ]
+        ],
+        [
+          "personal-hygiene",
+          "Personal hygiene",
+          [
+            "sanitary-care",
+            "oral-care",
+            "body-care",
+            "baby-hygiene"
+          ]
+        ],
+        [
+          "beauty-equipment",
+          "Beauty equipment",
+          [
+            "hair-dryer",
+            "hair-clipper",
+            "salon-equipment"
+          ]
+        ],
+        [
+          "beauty-services",
+          "Beauty services",
+          [
+            "hairdressing",
+            "barber-service",
+            "manicure-pedicure",
+            "makeup-service",
+            "beauty-treatment"
+          ]
+        ]
+      ]
+    ],
+    [
+      "pharma-healthcare",
+      "Pharmaceuticals & Healthcare",
+      [
+        [
+          "medicines",
+          "Medicines",
+          [
+            "prescription-medicine",
+            "otc-medicine",
+            "vaccine-biological",
+            "herbal-medicine"
+          ]
+        ],
+        [
+          "medical-devices",
+          "Medical devices",
+          [
+            "diagnostic-device",
+            "medical-monitor",
+            "mobility-aid",
+            "medical-imaging-equipment"
+          ]
+        ],
+        [
+          "medical-consumables",
+          "Medical consumables",
+          [
+            "bandage-dressing",
+            "syringe-needle",
+            "gloves-ppe-medical",
+            "test-kit",
+            "medical-disposable"
+          ]
+        ],
+        [
+          "health-products",
+          "Other health products",
+          [
+            "nutritional-supplement",
+            "medical-nutrition",
+            "first-aid-kit"
+          ]
+        ],
+        [
+          "health-services",
+          "Healthcare services",
+          [
+            "licensed-clinical-service",
+            "diagnostic-laboratory",
+            "home-nursing",
+            "telehealth-consultation"
+          ]
+        ]
+      ]
+    ],
+    [
+      "animals-veterinary",
+      "Animals & Veterinary",
+      [
+        [
+          "pets",
+          "Pets",
+          [
+            "dog",
+            "cat",
+            "ornamental-bird",
+            "aquarium-fish"
+          ]
+        ],
+        [
+          "pet-products",
+          "Pet supplies",
+          [
+            "pet-food",
+            "pet-accessory",
+            "pet-housing",
+            "pet-grooming-product"
+          ]
+        ],
+        [
+          "veterinary",
+          "Veterinary products & services",
+          [
+            "veterinary-equipment",
+            "animal-health-product",
+            "veterinary-consultation",
+            "animal-grooming",
+            "animal-boarding"
+          ]
+        ]
+      ]
+    ],
+    [
+      "tools-machinery",
+      "Tools, Machinery & Equipment",
+      [
+        [
+          "hand-tools",
+          "Hand tools",
+          [
+            "spanner-wrench",
+            "screwdriver",
+            "hammer",
+            "pliers",
+            "hand-saw",
+            "measuring-tool"
+          ]
+        ],
+        [
+          "power-tools",
+          "Power tools",
+          [
+            "drill",
+            "grinder",
+            "circular-saw",
+            "welder",
+            "impact-wrench"
+          ]
+        ],
+        [
+          "workshop-machinery",
+          "Workshop machinery",
+          [
+            "lathe-machine",
+            "milling-machine",
+            "compressor",
+            "industrial-generator"
+          ]
+        ],
+        [
+          "material-handling",
+          "Material handling",
+          [
+            "forklift",
+            "pallet-truck",
+            "hoist",
+            "warehouse-rack"
+          ]
+        ],
+        [
+          "equipment-rental",
+          "Equipment hire",
+          [
+            "tool-hire",
+            "construction-equipment-hire",
+            "generator-hire",
+            "agricultural-equipment-hire"
+          ]
+        ]
+      ]
+    ],
+    [
+      "raw-materials",
+      "Raw Materials & Manufacturing",
+      [
+        [
+          "metals",
+          "Metals",
+          [
+            "steel-stock",
+            "aluminium-stock",
+            "copper-stock",
+            "scrap-metal"
+          ]
+        ],
+        [
+          "timber-materials",
+          "Timber & boards",
+          [
+            "sawn-timber",
+            "plywood",
+            "mdf-board",
+            "wooden-pole"
+          ]
+        ],
+        [
+          "plastics-rubber",
+          "Plastics & rubber",
+          [
+            "plastic-resin",
+            "plastic-sheet",
+            "rubber-sheet",
+            "plastic-packaging"
+          ]
+        ],
+        [
+          "textile-materials",
+          "Textile materials",
+          [
+            "fabric-roll",
+            "yarn-thread",
+            "leather-hide"
+          ]
+        ],
+        [
+          "chemicals",
+          "Industrial chemicals",
+          [
+            "industrial-chemical",
+            "adhesive-sealant",
+            "lubricant-grease",
+            "water-treatment-chemical"
+          ]
+        ]
+      ]
+    ],
+    [
+      "books-arts-entertainment",
+      "Books, Arts & Entertainment",
+      [
+        [
+          "books-media",
+          "Books & media",
+          [
+            "fiction-book",
+            "nonfiction-book",
+            "religious-book",
+            "magazine",
+            "music-media"
+          ]
+        ],
+        [
+          "arts-crafts",
+          "Arts & crafts",
+          [
+            "art-supplies",
+            "craft-material",
+            "painting-canvas",
+            "handmade-art"
+          ]
+        ],
+        [
+          "musical-equipment",
+          "Music equipment",
+          [
+            "musical-instrument",
+            "sound-equipment",
+            "recording-equipment"
+          ]
+        ],
+        [
+          "games-entertainment",
+          "Games & entertainment",
+          [
+            "board-game",
+            "party-game",
+            "event-entertainment-equipment"
+          ]
+        ]
+      ]
+    ],
+    [
+      "baby-children-toys",
+      "Baby, Children & Toys",
+      [
+        [
+          "baby-care",
+          "Baby care",
+          [
+            "baby-clothing",
+            "nappy-diaper",
+            "feeding-bottle",
+            "stroller-pram",
+            "cot-crib",
+            "car-seat"
+          ]
+        ],
+        [
+          "children-products",
+          "Children's products",
+          [
+            "children-clothing",
+            "children-footwear",
+            "school-bag"
+          ]
+        ],
+        [
+          "toys",
+          "Toys & play",
+          [
+            "educational-toy",
+            "building-toy",
+            "doll-figure",
+            "outdoor-play-equipment",
+            "ride-on-toy"
+          ]
+        ]
+      ]
+    ],
+    [
+      "digital-products",
+      "Digital Products & Software",
+      [
+        [
+          "digital-content",
+          "Digital content",
+          [
+            "ebook-download",
+            "digital-template",
+            "stock-media",
+            "online-course"
+          ]
+        ],
+        [
+          "software-subscriptions",
+          "Software & subscriptions",
+          [
+            "saas-subscription",
+            "mobile-app-license",
+            "software-license"
+          ]
+        ],
+        [
+          "digital-services",
+          "Online digital services",
+          [
+            "digital-design-delivery",
+            "online-research-service",
+            "digital-marketing-service"
+          ]
+        ]
+      ]
+    ],
+    [
+      "professional-services",
+      "Professional & Business Services",
+      [
+        [
+          "creative-services",
+          "Creative services",
+          [
+            "copywriting",
+            "translation",
+            "graphic-design",
+            "photography",
+            "video-production",
+            "content-editing"
+          ]
+        ],
+        [
+          "business-professional",
+          "Business professional services",
+          [
+            "accounting-bookkeeping",
+            "tax-consultancy",
+            "legal-consultancy",
+            "business-consultancy",
+            "market-research",
+            "hr-recruitment"
+          ]
+        ],
+        [
+          "marketing-sales",
+          "Marketing & sales services",
+          [
+            "digital-marketing",
+            "social-media-management",
+            "advertising-service",
+            "lead-generation"
+          ]
+        ],
+        [
+          "admin-support",
+          "Administrative support",
+          [
+            "data-entry",
+            "virtual-assistance",
+            "document-preparation",
+            "transcription"
+          ]
+        ]
+      ]
+    ],
+    [
+      "home-property-services",
+      "Home & Property Services",
+      [
+        [
+          "property-services",
+          "Property services",
+          [
+            "property-management",
+            "real-estate-agency",
+            "property-valuation",
+            "property-inspection"
+          ]
+        ],
+        [
+          "repair-maintenance",
+          "Repair & maintenance",
+          [
+            "plumbing-repair",
+            "electrical-repair",
+            "roof-repair",
+            "painting-repair",
+            "pest-control"
+          ]
+        ],
+        [
+          "construction-projects",
+          "Building projects",
+          [
+            "residential-construction",
+            "commercial-construction",
+            "renovation-project",
+            "architectural-design",
+            "quantity-surveying"
+          ]
+        ]
+      ]
+    ],
+    [
+      "wellness-lifestyle",
+      "Wellness & Lifestyle Services",
+      [
+        [
+          "wellness",
+          "Wellness services",
+          [
+            "massage-therapy",
+            "spa-treatment",
+            "yoga-instruction",
+            "meditation-coaching"
+          ]
+        ],
+        [
+          "personal-services",
+          "Personal services",
+          [
+            "personal-styling",
+            "personal-shopping",
+            "life-coaching",
+            "non-clinical-wellness-coaching"
+          ]
+        ]
+      ]
+    ],
+    [
+      "transport-logistics-services",
+      "Transport & Logistics Services",
+      [
+        [
+          "delivery",
+          "Delivery & courier",
+          [
+            "local-courier",
+            "same-day-delivery",
+            "parcel-delivery",
+            "document-delivery"
+          ]
+        ],
+        [
+          "freight",
+          "Freight & haulage",
+          [
+            "truck-haulage",
+            "bulk-commodity-transport",
+            "container-transport",
+            "cold-chain-transport"
+          ]
+        ],
+        [
+          "moving-storage",
+          "Moving & storage",
+          [
+            "house-moving",
+            "office-moving",
+            "warehousing",
+            "cold-storage"
+          ]
+        ]
+      ]
+    ],
+    [
+      "travel-events-experiences",
+      "Travel, Events & Experiences",
+      [
+        [
+          "travel",
+          "Travel services",
+          [
+            "tour-guide",
+            "safari-tour",
+            "travel-agency",
+            "accommodation-booking",
+            "vehicle-tour-hire"
+          ]
+        ],
+        [
+          "events",
+          "Events",
+          [
+            "event-planning",
+            "venue-hire",
+            "sound-light-hire",
+            "catering-event",
+            "conference-services"
+          ]
+        ],
+        [
+          "experiences",
+          "Experiences",
+          [
+            "cultural-experience",
+            "recreation-activity",
+            "adventure-activity"
+          ]
+        ]
+      ]
+    ],
+    [
+      "other-specialist",
+      "Other / Specialist",
+      [
+        [
+          "unclassified",
+          "Unclassified specialist listing",
+          [
+            "other-product-review",
+            "other-service-review"
+          ]
+        ]
+      ]
+    ]
+  ],
+  "attribute_profiles": {
+    "common_offer": [
+      "price",
+      "currency",
+      "quantity_available",
+      "unit_of_sale",
+      "condition",
+      "location",
+      "delivery_or_collection"
+    ],
+    "produce": [
+      "variety",
+      "grade",
+      "quantity",
+      "unit",
+      "packaging",
+      "harvest_period",
+      "moisture_content"
+    ],
+    "livestock": [
+      "species",
+      "breed",
+      "sex",
+      "age",
+      "weight",
+      "health_status",
+      "vaccination_status"
+    ],
+    "vehicle": [
+      "make",
+      "model",
+      "year",
+      "condition",
+      "fuel_type",
+      "transmission",
+      "mileage",
+      "engine_capacity"
+    ],
+    "truck": [
+      "make",
+      "model",
+      "year",
+      "payload_capacity",
+      "gross_vehicle_weight",
+      "axle_configuration",
+      "body_type",
+      "fuel_type"
+    ],
+    "clothing": [
+      "size",
+      "colour",
+      "material",
+      "fit",
+      "gender_or_age_group"
+    ],
+    "top_garment": [
+      "sleeve_length",
+      "neckline",
+      "closure",
+      "fabric_composition"
+    ],
+    "footwear": [
+      "shoe_size",
+      "colour",
+      "material",
+      "sole_type",
+      "intended_use"
+    ],
+    "electronics": [
+      "brand",
+      "model",
+      "condition",
+      "key_specifications",
+      "warranty"
+    ],
+    "machinery": [
+      "brand",
+      "model",
+      "power_rating",
+      "capacity",
+      "fuel_or_power_source",
+      "condition",
+      "warranty"
+    ],
+    "building_material": [
+      "material",
+      "grade_or_standard",
+      "dimensions",
+      "unit_of_sale",
+      "manufacturer"
+    ],
+    "service": [
+      "service_scope",
+      "service_area",
+      "price_basis",
+      "duration_or_turnaround",
+      "availability",
+      "provider_qualifications_if_relevant"
+    ],
+    "digital": [
+      "format",
+      "delivery_method",
+      "licence_or_usage_terms",
+      "compatibility"
+    ],
+    "rental": [
+      "rental_period",
+      "deposit",
+      "availability_calendar",
+      "delivery_or_pickup",
+      "damage_terms"
+    ],
+    "medicine_regulated": [
+      "active_ingredient",
+      "strength",
+      "dosage_form",
+      "pack_size",
+      "manufacturer",
+      "registration_number",
+      "batch_number",
+      "expiry_date",
+      "storage_conditions",
+      "prescription_status"
+    ],
+    "medical_device": [
+      "device_type",
+      "manufacturer",
+      "model",
+      "registration_status",
+      "intended_use",
+      "warranty"
+    ],
+    "food_packaged": [
+      "ingredients",
+      "net_weight",
+      "packaging",
+      "manufacturer",
+      "expiry_date",
+      "storage_conditions"
+    ],
+    "seed_input": [
+      "crop_or_target",
+      "variety_or_active_ingredient",
+      "pack_size",
+      "manufacturer",
+      "registration_or_approval_if_required"
+    ]
+  },
+  "local_search_aliases": [
+    {
+      "term": "mahindi",
+      "language": "sw",
+      "maps_to": "agriculture-livestock.crops-produce.maize-grain"
+    },
+    {
+      "term": "corn",
+      "language": "en",
+      "maps_to": "agriculture-livestock.crops-produce.maize-grain"
+    },
+    {
+      "term": "maharagwe",
+      "language": "sw",
+      "maps_to": "agriculture-livestock.crops-produce.beans-pulses"
+    },
+    {
+      "term": "panga",
+      "language": "sw",
+      "maps_to": "agriculture-livestock.farm-tools.panga-machete"
+    },
+    {
+      "term": "jembe",
+      "language": "sw",
+      "maps_to": "agriculture-livestock.farm-tools.hand-hoe-jembe"
+    },
+    {
+      "term": "boda boda",
+      "language": "regional",
+      "maps_to": "automotive-transport.two-three-wheelers.motorcycle"
+    },
+    {
+      "term": "matatu",
+      "language": "sw",
+      "maps_to": "automotive-transport.commercial-vehicles.minibus-matatu"
+    },
+    {
+      "term": "posho mill",
+      "language": "en-ke",
+      "maps_to": "agriculture-livestock.farm-machinery.posho-mill"
+    }
+  ],
+  "measurement_families": {
+    "mass": [
+      "g",
+      "kg",
+      "tonne",
+      "50_kg_bag",
+      "90_kg_bag"
+    ],
+    "volume": [
+      "ml",
+      "l",
+      "m3",
+      "20_litre_jerrican"
+    ],
+    "length": [
+      "mm",
+      "cm",
+      "m",
+      "ft"
+    ],
+    "area": [
+      "m2",
+      "acre",
+      "hectare"
+    ],
+    "count": [
+      "piece",
+      "pair",
+      "dozen",
+      "carton",
+      "pack",
+      "sack",
+      "bale"
+    ],
+    "capacity": [
+      "litre",
+      "kg_per_hour",
+      "tonnes_per_hour",
+      "passengers",
+      "payload_kg"
+    ],
+    "time": [
+      "hour",
+      "day",
+      "week",
+      "month",
+      "year",
+      "per_visit",
+      "per_project"
+    ]
+  },
+  "notes": [
+    "Starter catalogue, not an exhaustive universe of SKUs.",
+    "Validate local terms and legal categories with sellers, buyers and country regulators.",
+    "Attributes are reusable profiles; production implementation must assign individual attributes and requiredness to each leaf type.",
+    "Never activate regulated listings solely because a taxonomy node exists."
+  ]
+}
