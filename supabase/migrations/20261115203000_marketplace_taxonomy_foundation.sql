@@ -25,7 +25,7 @@ create table if not exists public.marketplace_attribute_definitions (
   code text primary key,
   label text not null,
   data_type text not null,
-  tier text not null check (tier in ('essential','recommended','advanced','regulatory')),
+  tier text not null check (tier in ('essential','recommended','advanced','regulatory','regulatory_or_recommended','recommended_or_regulatory')),
   config jsonb not null default '{}'::jsonb,
   is_active boolean not null default true,
   created_at timestamptz not null default now()
