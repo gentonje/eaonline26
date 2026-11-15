@@ -88,11 +88,11 @@ async function interpret(message) {
   const prompt = [
     'You interpret natural-language shopping requests for an East African marketplace.',
     'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters.',
-    'Understand synonyms, spelling variants and conversational phrasing. Map sports shoes to Sports Shoes. Do not invent filters or products.',
+    'Be a forgiving shopping interpreter, not an exact-keyword matcher. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Map common synonyms (lorry=truck, motorbike=motorcycle, mobile=phone, tee=t-shirt). Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
     'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, condition, attributes, sort, limit.',
     'Allowed attributes: color,size,brand,model,storage,gender,material. Country codes: KE, UG, TZ, RW, ET, SS.',
     'Never return SQL, code, explanations or extra keys. JSON only.',
-    'Example: "Find me white sports shoes under KSh 5,000 in Kenya" => {"intent":"search","query":"sports shoes","country_code":"KE","max_price":5000,"attributes":{"color":"white"}}.',
+    'Examples: "Find me white sports shoes under KSh 5,000 in Kenya" => {"intent":"search","query":"sports shoes","country_code":"KE","max_price":5000,"attributes":{"color":"white"}}. "show me some cars" => {"intent":"search","query":"car"}. "I need redd shirts" => {"intent":"search","query":"shirt","attributes":{"color":"red"}}. "do you have beds?" => {"intent":"search","query":"bed"}. A broad product category is a valid search; do not ask for make/model.',
     'Example: "hi" => {"intent":"greeting","query":""}. Example: "c" => {"intent":"clarify","query":""}.',
     'Shopper message: ' + String(message || '').slice(0, 500)
   ].join(' ');
@@ -227,6 +227,8 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports.parseIntent = parseIntent;
+module.exports.normalizeWord = normalizeWord;
+module.exports.searchGroups = searchGroups;
 module.exports.validateIntent = validateIntent;
 module.exports.interpret = interpret;
 module.exports.searchProducts = searchProducts;
