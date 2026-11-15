@@ -9,7 +9,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { MapPin, X, Building2, Tag, Store as StoreIcon, Search } from 'lucide-react-native';
 import { useColumns } from '../hooks/useColumns';
-import { CATEGORIES as ALL_CATEGORIES } from '../lib/categories';
+
 
 
 type RootStackParamList = {
@@ -26,6 +26,42 @@ interface Country { id: number; name: string; code: string; }
 interface District { id: number; name: string; country_id: number; }
 
 const ITEMS_PER_PAGE = 12;
+
+// Map older listing categories into the canonical taxonomy for browsing.
+const LEGACY_CATEGORY_MAP: Record<string, string[]> = {
+    'Agriculture & Livestock': [],
+    'Automotive & Transport': ['Auto'],
+    'Building & Construction': [],
+    'Business, Office & Industrial Supplies': [],
+    'Cleaning & Facility Care': [],
+    'Education & Learning': ['Books'],
+    'Electronics & Technology': ['Electronics'],
+    'Energy, Solar & Electrical': ['Electronics'],
+    'Fashion & Clothing': ['Clothing', 'Fashion'],
+    'Food & Groceries': ['Food'],
+    'Fitness & Sports': ['Sports'],
+    'Home, Furniture & Household': ['Furniture', 'Home', 'Kitchen'],
+    'Beauty & Personal Care': ['Beauty'],
+    'Pharmaceuticals & Healthcare': [],
+    'Animals & Veterinary': [],
+    'Tools, Machinery & Equipment': [],
+    'Raw Materials & Manufacturing': [],
+    'Books, Arts & Entertainment': ['Art', 'Books', 'Handicrafts'],
+    'Baby, Children & Toys': ['Children', 'Toys'],
+    'Digital Products & Software': [],
+    'Professional & Business Services': [],
+    'Home & Property Services': [],
+    'Wellness & Lifestyle Services': ['Beauty'],
+    'Transport & Logistics Services': ['Auto'],
+    'Travel, Events & Experiences': [],
+    'Other / Specialist': ['Other'],
+};
+
+const normaliseCategory = (value: string | null | undefined): string | null => {
+    if (!value) return null;
+    if (LEGACY_CATEGORY_MAP[value]) return value;
+    return Object.entries(LEGACY_CATEGORY_MAP).find(([, legacy]) => legacy.includes(value))?.[0] || value;
+};
 
 // Split searches into useful words (brand, model, product type) and ignore
 // punctuation so a long listing title does not need to match the whole phrase.
@@ -53,12 +89,12 @@ export default function BrowseProductsScreen() {
     const [page, setPage] = useState(0);
     const isFetchingRef = useRef(false);
 
-    const [countries, setCountries] = useState<Country[]>([]);
+    const [countries, setCountries] = useState<Country[]>([]);\n    const [taxonomyNodes, setTaxonomyNodes] = useState<any[]>([]);
     const [districts, setDistricts] = useState<District[]>([]);
     const [selectedCountry, setSelectedCountry] = useState<number | null>(null);
     const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
-        route.params?.category ?? null
+        normaliseCategory(route.params?.category)
     );
 
     // Unified search — products + stores
@@ -74,12 +110,12 @@ export default function BrowseProductsScreen() {
     useEffect(() => {
         const incoming = route.params?.category;
         if (incoming !== undefined) {
-            setSelectedCategory(incoming ?? null);
+            setSelectedCategory(normaliseCategory(incoming));
             navigation.setParams({ category: undefined } as any);
         }
     }, [route.params?.category]);
 
-    useEffect(() => { fetchCountries(); }, []);
+    useEffect(() => { fetchCountries(); fetchTaxonomy(); }, []);
 
     useEffect(() => {
         if (selectedCountry !== null) {
@@ -143,6 +179,37 @@ export default function BrowseProductsScreen() {
         }, [selectedCountry, selectedDistrict, selectedCategory])
     );
 
+    async function fetchTaxonomy() {
+        try {
+            const { data, error } = await supabase
+                .from('marketplace_taxonomy_nodes')
+                .select('id, parent_id, label, node_kind, is_active, sort_order')
+                .eq('is_active', true)
+                .order('sort_order');
+            if (error) throw error;
+            setTaxonomyNodes(data || []);
+        } catch (e) {
+            console.error('Error fetching marketplace taxonomy:', e);
+        }
+    }
+
+    const getCategoryNodeIds = (mainCategoryLabel: string): string[] => {
+        const main = taxonomyNodes.find(n => n.node_kind === 'main_category' && n.label === mainCategoryLabel);
+        if (!main) return [];
+        const descendants = new Set<string>([main.id]);
+        let changed = true;
+        while (changed) {
+            changed = false;
+            taxonomyNodes.forEach(node => {
+                if (node.parent_id && descendants.has(node.parent_id) && !descendants.has(node.id)) {
+                    descendants.add(node.id);
+                    changed = true;
+                }
+            });
+        }
+        return Array.from(descendants);
+    };
+
     async function fetchCountries() {
         try {
             const { data, error } = await supabase
@@ -179,7 +246,20 @@ export default function BrowseProductsScreen() {
 
             if (selectedCountry !== null) query = query.eq('country_id', selectedCountry);
             if (selectedDistrict !== null) query = query.eq('county', selectedDistrict);
-            if (selectedCategory !== null) query = query.eq('category', selectedCategory);
+            if (selectedCategory !== null) {
+                const taxonomyIds = getCategoryNodeIds(selectedCategory);
+                const legacyCategories = Array.from(new Set([
+                    selectedCategory,
+                    ...(LEGACY_CATEGORY_MAP[selectedCategory] || []),
+                ]));
+                const categoryClauses: string[] = [];
+                if (taxonomyIds.length) categoryClauses.push(`taxonomy_node_id.in.(${taxonomyIds.join(',')})`);
+                if (legacyCategories.length) {
+                    const quoted = legacyCategories.map(value => `"${value.replace(/"/g, '\\"')}"`).join(',');
+                    categoryClauses.push(`category.in.(${quoted})`);
+                }
+                if (categoryClauses.length) query = query.or(categoryClauses.join(','));
+            }
 
             // Product search uses keywords, not the complete phrase. Every
             // keyword must occur in either title or description, in any order.
@@ -262,17 +342,17 @@ export default function BrowseProductsScreen() {
                                 selectedCategory === null ? 'text-white' : 'text-gray-600'
                             }`}>All</Text>
                         </TouchableOpacity>
-                        {ALL_CATEGORIES.map(cat => (
+                        {taxonomyNodes.filter(node => node.node_kind === 'main_category').map(cat => (
                             <TouchableOpacity
                                 key={cat}
                                 onPress={() => handleSelectCategory(cat)}
                                 className={`px-4 py-2.5 rounded-2xl border ${
-                                    selectedCategory === cat ? 'bg-accent border-accent' : 'bg-white border-gray-200'
+                                    selectedCategory === cat.label ? 'bg-accent border-accent' : 'bg-white border-gray-200'
                                 }`}
                             >
                                 <Text className={`text-sm font-black ${
-                                    selectedCategory === cat ? 'text-white' : 'text-gray-600'
-                                }`}>{cat}</Text>
+                                    selectedCategory === cat.label ? 'text-white' : 'text-gray-600'
+                                }`}>{cat.label}</Text>
                             </TouchableOpacity>
                         ))}
                     </View>
