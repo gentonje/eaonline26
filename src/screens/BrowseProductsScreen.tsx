@@ -4,14 +4,13 @@ import { supabase } from '../lib/supabase';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ProductCard from '../components/ProductCard';
-import CompareButton from '../components/CompareButton';
+import AutoCompareButton from '../components/AutoCompareButton';
 import ScreenHeader from '../components/ScreenHeader';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { MapPin, X, Building2, Tag, Store as StoreIcon, Search } from 'lucide-react-native';
 import { useColumns } from '../hooks/useColumns';
 import { CATEGORIES as ALL_CATEGORIES } from '../lib/categories';
-import { useCompare } from '../contexts/CompareContext';
-import { getAutoCompareSearchTerms, rankAutoCompareProducts } from '../lib/product-matching';
+
 
 type RootStackParamList = {
     Dashboard: undefined;
@@ -40,7 +39,6 @@ export default function BrowseProductsScreen() {
     const route = useRoute<any>();
     const navigation = useNavigation<NavigationProp>();
     const numColumns = useColumns();
-    const { replaceProducts } = useCompare();
 
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -61,7 +59,6 @@ export default function BrowseProductsScreen() {
     const [searchQuery, setSearchQuery] = useState('');
     const [storeResults, setStoreResults] = useState<{ id: string; name: string }[]>([]);
     const [searchingStores, setSearchingStores] = useState(false);
-    const [autoComparing, setAutoComparing] = useState(false);
     // debouncedSearch drives product filtering; stored in a ref so fetchProducts
     // can always read the latest value without stale-closure issues.
     const debouncedRef = useRef('');
@@ -212,47 +209,7 @@ export default function BrowseProductsScreen() {
         debouncedRef.current = '';
     };
 
-    const handleAutoCompare = async () => {
-        const terms = getAutoCompareSearchTerms(searchQuery);
-        if (!terms.length) return;
-        setAutoComparing(true);
-        try {
-            let query = supabase
-                .from('products')
-                .select('*, product_images(*), countries(id, name, currency)')
-                .eq('product_status', 'published')
-                .order('created_at', { ascending: false })
-                .limit(100);
 
-            if (selectedCountry !== null) query = query.eq('country_id', selectedCountry);
-            if (selectedDistrict !== null) query = query.eq('county', selectedDistrict);
-            if (selectedCategory !== null) query = query.eq('category', selectedCategory);
-
-            const searchFilter = terms.flatMap(term => [
-                `title.ilike.%${term}%`,
-                `description.ilike.%${term}%`,
-            ]).join(',');
-            const { data, error } = await query.or(searchFilter);
-            if (error) throw error;
-
-            const matches = rankAutoCompareProducts(data || [], searchQuery, 4);
-            if (matches.length < 2) {
-                Alert.alert(
-                    'Not enough similar listings',
-                    'We could not find at least two close matches from different sellers. Try a broader search or remove a filter.'
-                );
-                return;
-            }
-
-            replaceProducts(matches);
-            navigation.navigate('ProductComparison');
-        } catch (error) {
-            console.error('Auto Compare failed:', error);
-            Alert.alert('Auto Compare unavailable', 'We could not find matching products right now. Please try again.');
-        } finally {
-            setAutoComparing(false);
-        }
-    };
 
     const selectedCountryName = countries.find(c => c.id === selectedCountry)?.name;
     const hasActiveFilters = selectedCountry !== null || selectedDistrict !== null || selectedCategory !== null;
@@ -260,7 +217,7 @@ export default function BrowseProductsScreen() {
 
     const renderProduct = useCallback(({ item }: { item: any }) => (
         <View style={{ width: `${(100 / numColumns).toFixed(4)}%` as any, padding: 4 }}>
-            <ProductCard product={item} actions={<CompareButton product={item} />} />
+            <ProductCard product={item} actions={<AutoCompareButton product={item} compact />} />
         </View>
     ), [numColumns]);
 
@@ -527,37 +484,12 @@ export default function BrowseProductsScreen() {
                     {!searchingStores && searchQuery.trim().length >= 2 && storeResults.length === 0 && (
                         <View style={{ paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', alignItems: 'center' }}>
                             <StoreIcon size={12} color="#cbd5e1" />
-                            <Text style={{ fontSize: 12, fontWeight: '700', color: 'rgba(0,0,0,0.3)', marginLeft: 8 }}>No stores match "{searchQuery.trim()}"</Text>
+                            <Text style={{ fontSize: 12, fontWeight: '700', color: 'rgba(0,0,0,0.3)', marginLeft: 8 }}>No matching stores. Product listings are shown below.</Text>
                         </View>
                     )}
                 </View>
             )}
-            {hasSearch && (
-                <TouchableOpacity
-                    onPress={handleAutoCompare}
-                    disabled={autoComparing}
-                    accessibilityRole="button"
-                    accessibilityLabel="Automatically find similar products and compare them"
-                    style={{
-                        marginTop: 8,
-                        marginBottom: 6,
-                        paddingHorizontal: 14,
-                        paddingVertical: 12,
-                        borderRadius: 14,
-                        backgroundColor: autoComparing ? '#e2e8f0' : '#e8f7f3',
-                        borderWidth: 1,
-                        borderColor: '#b7e7da',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    {autoComparing ? <ActivityIndicator size="small" color="#00A082" /> : <Search size={15} color="#00856d" />}
-                    <Text style={{ marginLeft: 8, color: '#007d67', fontWeight: '900', fontSize: 13 }}>
-                        {autoComparing ? 'Finding similar offers…' : 'Auto Compare — find similar offers'}
-                    </Text>
-                </TouchableOpacity>
-            )}
+}
         </View>
     );
 
