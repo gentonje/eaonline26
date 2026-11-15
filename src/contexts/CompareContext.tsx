@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 type CompareContextValue = {
     products: any[];
     addProduct: (product: any) => void;
+    replaceProducts: (nextProducts: any[]) => void;
     removeProduct: (productId: string) => void;
     clearProducts: () => void;
     isCompared: (productId: string) => boolean;
@@ -24,6 +25,10 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         setProducts(current => current.some(item => item.id === product.id) ? current : [...current, product]);
     }, [products]);
 
+    const replaceProducts = useCallback((nextProducts: any[]) => {
+        setProducts((nextProducts || []).filter(product => product?.id).slice(0, MAX_COMPARE_PRODUCTS));
+    }, []);
+
     const removeProduct = useCallback((productId: string) => {
         setProducts(current => current.filter(item => item.id !== productId));
     }, []);
@@ -32,8 +37,8 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
     const isCompared = useCallback((productId: string) => products.some(item => item.id === productId), [products]);
 
     const value = useMemo(() => ({
-        products, addProduct, removeProduct, clearProducts, isCompared,
-    }), [products, addProduct, removeProduct, clearProducts, isCompared]);
+        products, addProduct, replaceProducts, removeProduct, clearProducts, isCompared,
+    }), [products, addProduct, replaceProducts, removeProduct, clearProducts, isCompared]);
 
     return <CompareContext.Provider value={value}>{children}</CompareContext.Provider>;
 }
