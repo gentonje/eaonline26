@@ -529,9 +529,7 @@ export default function AddProductScreen() {
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black mb-4" placeholder="e.g. 12 months, or No warranty" placeholderTextColor="#9ca3af" value={formData.warranty} onChangeText={text => setFormData(prev => ({ ...prev, warranty: text }))} />
                         <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Delivery terms</Text>
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black mb-4" placeholder="e.g. Nairobi same-day; nationwide at buyer's cost" placeholderTextColor="#9ca3af" value={formData.delivery_terms} onChangeText={text => setFormData(prev => ({ ...prev, delivery_terms: text }))} />
-                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Specifications</Text>
-                        <Text style={{ color: '#6b7280', fontSize: 11, marginBottom: 8 }}>Enter one specification per line in Name: Value format, e.g. RAM: 8GB</Text>
-                        <TextInput multiline numberOfLines={5} textAlignVertical="top" className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black" placeholder={"RAM: 8GB\nStorage: 256GB\nScreen: 6.5 inch"} placeholderTextColor="#9ca3af" value={formData.attributesText} onChangeText={text => setFormData(prev => ({ ...prev, attributesText: text }))} />
+
                     </View>
 
                     <TouchableOpacity 
