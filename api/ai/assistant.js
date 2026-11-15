@@ -48,7 +48,7 @@ function parseIntent(message) {
   if (minPrice !== undefined) out.min_price = minPrice;
 
   for (const [canonical, variants] of Object.entries(COLOR_WORDS)) {
-    if (variants.some(word => new RegExp('\\\\b' + word + '\\\\b').test(lower))) {
+    if (variants.some(word => new RegExp('\\b' + word + '\\b').test(lower))) {
       out.attributes.color = canonical;
       break;
     }
@@ -67,13 +67,13 @@ function parseIntent(message) {
   if (location && !COUNTRIES[location[1].trim()]) out.county = location[1].trim();
 
   out.query = lower
-    .replace(/\\b(show me|find me|find|looking for|i need|i want|do you have|please|buy|search for|can you get me|i am looking for|i want to see|give me)\\b/g, ' ')
-    .replace(/\\b(some|a few|any kind of|kind of)\\b/g, ' ')
-    .replace(/\\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than|from)\\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\\s*[\\d,.]+k?/g, ' ')
-    .replace(/\\b(?:white|whte|wite|black|blak|blk|red|redd|reeed|blue|blu|green|yellow|yelow|brown|pink|grey|gray|greay|orange|purple|color|colour|new|used|refurbished|second hand)\\b/g, ' ')
-    .replace(/\\b(?:in|from)\\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\\b/g, ' ')
-    .replace(/\\b(?:for me|within my budget)\\b/g, ' ')
-    .replace(/[^a-z0-9 -]/g, ' ').replace(/\\s+/g, ' ').trim().split(' ').map(normalizeWord).filter(Boolean).join(' ').slice(0, 100);
+    .replace(/\b(show me|find me|find|looking for|i need|i want|do you have|please|buy|search for|can you get me|i am looking for|i want to see|give me)\b/g, ' ')
+    .replace(/\b(some|a few|any kind of|kind of)\b/g, ' ')
+    .replace(/\b(?:under|below|less than|up to|max(?:imum)?|above|over|more than|from)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*[\d,.]+k?/g, ' ')
+    .replace(/\b(?:white|whte|wite|black|blak|blk|red|redd|reeed|blue|blu|green|yellow|yelow|brown|pink|grey|gray|greay|orange|purple|color|colour|new|used|refurbished|second hand)\b/g, ' ')
+    .replace(/\b(?:in|from)\s+(kenya|uganda|tanzania|ethiopia|rwanda|south sudan|sudan)\b/g, ' ')
+    .replace(/\b(?:for me|within my budget)\b/g, ' ')
+    .replace(/[^a-z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').map(normalizeWord).filter(Boolean).join(' ').slice(0, 100);
   return out;
 }
 
