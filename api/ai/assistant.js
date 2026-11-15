@@ -8,7 +8,7 @@ const GREETINGS = /^(hi|hello|hey|hiya|good morning|good afternoon|good evening|
 const NOISE = /^[a-z0-9]{1,2}[!.?,\s]*$/i;
 const WORD_FIXES = { redd: 'red', reeed: 'red', blu: 'blue', blak: 'black', whte: 'white', wite: 'white', yelow: 'yellow', greay: 'grey', colur: 'color', colour: 'color', tshirt: 'shirt', motercycle: 'motorcycle', motocycle: 'motorcycle', refridgerator: 'refrigerator' };
 const COLOR_WORDS = { white: ['white','whte','wite'], black: ['black','blak','blk'], red: ['red','redd','reeed'], blue: ['blue','blu'], green: ['green'], yellow: ['yellow','yelow'], brown: ['brown'], pink: ['pink'], grey: ['grey','gray','greay'], orange: ['orange'], purple: ['purple'] };
-const SEARCH_SYNONYMS = { car: ['car','cars','automobile','automobiles'], truck: ['truck','trucks','lorry','lorries'], motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes'], bicycle: ['bicycle','bicycles','bike','bikes'], phone: ['phone','phones','mobile','mobiles','smartphone','smartphones'], shirt: ['shirt','shirts','t-shirt','t-shirts','tee'], shoe: ['shoe','shoes','footwear'], bed: ['bed','beds'], dress: ['dress','dresses'] };
+const SEARCH_SYNONYMS = { car: ['car','cars','automobile','automobiles','sedan','sedans','suv','suvs','hatchback','hatchbacks','station wagon','station wagons','coupe','coupes','convertible','convertibles','pickup','pickups'], truck: ['truck','trucks','lorry','lorries','cargo truck','tipper truck','refrigerated truck','tractor unit'], motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes'], bicycle: ['bicycle','bicycles','bike','bikes'], phone: ['phone','phones','mobile','mobiles','smartphone','smartphones'], shirt: ['shirt','shirts','t-shirt','t-shirts','tee'], shoe: ['shoe','shoes','footwear'], bed: ['bed','beds'], dress: ['dress','dresses'] };
 const STOP_WORDS = new Set(['a','an','the','some','any','me','for','please','show','find','get','looking','want','need','give','of','to','with','and']);
 function normalizeWord(word) {
   let value = String(word || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
@@ -211,6 +211,44 @@ async function publicQuery(path) {
   return r.data;
 }
 
+let taxonomyIndexCache = { expiresAt: 0, idsByTerm: new Map() };
+
+function normalizeTaxonomyTerm(value) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\\s+/g, ' ');
+}
+
+async function getTaxonomyIds(terms) {
+  if (!taxonomyIndexCache.expiresAt || taxonomyIndexCache.expiresAt <= Date.now()) {
+    const [nodes, aliases] = await Promise.all([
+      publicQuery('marketplace_taxonomy_nodes?is_active=eq.true&node_kind=eq.product_type&select=id,label&limit=1000'),
+      publicQuery('marketplace_taxonomy_aliases?select=normalized_term,node_id&limit=1000')
+    ]);
+    const idsByTerm = new Map();
+    const add = (term, id) => {
+      const key = normalizeTaxonomyTerm(term);
+      if (!key || !id) return;
+      if (!idsByTerm.has(key)) idsByTerm.set(key, new Set());
+      idsByTerm.get(key).add(String(id));
+    };
+    for (const node of Array.isArray(nodes) ? nodes : []) add(node.label, node.id);
+    const activeNodeIds = new Set((Array.isArray(nodes) ? nodes : []).map(node => String(node.id)));
+    for (const alias of Array.isArray(aliases) ? aliases : []) {
+      if (activeNodeIds.has(String(alias.node_id))) add(alias.normalized_term, alias.node_id);
+    }
+    taxonomyIndexCache = {
+      expiresAt: Date.now() + 5 * 60 * 1000,
+      idsByTerm
+    };
+  }
+
+  const ids = new Set();
+  for (const term of terms || []) {
+    const matches = taxonomyIndexCache.idsByTerm.get(normalizeTaxonomyTerm(term));
+    if (matches) for (const id of matches) ids.add(id);
+  }
+  return Array.from(ids);
+}
+
 async function searchProducts(filters) {
   const params = new URLSearchParams();
   params.set('product_status', 'eq.published');
@@ -221,7 +259,14 @@ async function searchProducts(filters) {
   if (filters.min_price !== undefined) conditions.push('price.gte.' + filters.min_price);
   if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
-  if (filters.category) conditions.push('category.ilike.*' + filters.category.replace(/[*%,]/g, '') + '*');
+  if (filters.category) {
+    const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\\s+/g, ' ');
+    const categoryTerms = searchGroups(categoryText).flat();
+    const taxonomyIds = await getTaxonomyIds(categoryTerms);
+    const categoryAlternatives = ["category.fts(english)." + categoryText];
+    if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
+    conditions.push('or(' + categoryAlternatives.join(',') + ')');
+  }
   if (filters.year_from !== undefined) conditions.push('attributes->>year.gte.' + filters.year_from);
   if (filters.year_to !== undefined) conditions.push('attributes->>year.lte.' + filters.year_to);
 
@@ -235,17 +280,17 @@ async function searchProducts(filters) {
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
   if (query) {
     for (const group of searchGroups(query).slice(0, 5)) {
+      const taxonomyIds = await getTaxonomyIds(group);
       const alternatives = group.flatMap(term => {
-        const safe = term.replace(/[^a-z0-9-]/g, '');
-        // Token-based matching avoids substring collisions such as "car" in "skin care".
-        // Search the listing title, its assigned product category, and description as
-        // separate words rather than arbitrary character sequences.
+        const safe = String(term).replace(/[^a-z0-9 ]/g, ' ').trim().replace(/\\s+/g, ' ');
+        // Word-based search avoids substring collisions such as "car" in "skin care".
         return [
           'title.fts(english).' + safe,
           'category.fts(english).' + safe,
           'description.fts(english).' + safe
         ];
       });
+      if (taxonomyIds.length) alternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
       conditions.push('or(' + alternatives.join(',') + ')');
     }
   }
