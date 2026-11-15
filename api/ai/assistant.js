@@ -61,7 +61,7 @@ function parseIntent(message) {
   const max = lower.match(/\b(?:under|below|less than|up to|max(?:imum)?)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*([\d,]+(?:\.\d+)?k?)/);
   const min = lower.match(/\b(?:above|over|more than|from)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*([\d,]+(?:\.\d+)?k?)/);
   const maxPrice = parsePrice(max), minPrice = parsePrice(min);
-  const range = lower.match(/\\b(?:between|from)\\s*([\\d,]+)\\s*(?:and|to|-)\\s*([\\d,]+)\\b/);
+  const range = lower.match(/\b(?:between|from)\s*([\d,]+)\s*(?:and|to|-)\s*([\d,]+)\b/);
   if (range) {
     const first = Number(range[1].replace(/,/g, ''));
     const second = Number(range[2].replace(/,/g, ''));
@@ -76,10 +76,10 @@ function parseIntent(message) {
       }
     }
   }
-  const currencyMatch = lower.match(/\\b(usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\\b/);
+  const currencyMatch = lower.match(/\b(usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\b/);
   if (currencyMatch) out.currency = currencyMatch[1].toUpperCase();
   if (maxPrice !== undefined) out.max_price = maxPrice;
-  if (minPrice !== undefined) out.min_price = minPrice;
+  if (minPrice !== undefined) out.min_price = minPrice;\n  const rangePrice = lower.match(/\\b(?:price\\s+range\\s*)?(?:between|from)?\\s*([\\d,]+)\\s*(?:and|to|-)\\s*([\\d,]+)\\s*(?:usd|kes|ksh|ugx|tzs|ssp|rwf|etb)?\\b/);\n  if (rangePrice) { const a = Number(rangePrice[1].replace(/,/g, '')); const b = Number(rangePrice[2].replace(/,/g, '')); if (a < 1900 || a > 2100 || b < 1900 || b > 2100) { out.min_price = Math.min(a,b); out.max_price = Math.max(a,b); } }
 
   for (const [canonical, variants] of Object.entries(COLOR_WORDS)) {
     if (variants.some(word => new RegExp('\\b' + word + '\\b').test(lower))) {
