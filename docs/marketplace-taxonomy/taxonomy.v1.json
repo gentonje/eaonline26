@@ -2753,36 +2753,50 @@
           "id": "animals-veterinary.pet-products"
         },
         {
-          "code": "veterinary",
-          "label": "Veterinary products & services",
+          "code": "veterinary-equipment",
+          "id": "animals-veterinary.veterinary-equipment",
+          "label": "Veterinary equipment",
           "types": [
             {
               "code": "veterinary-equipment",
-              "label": "Veterinary Equipment",
-              "id": "animals-veterinary.veterinary.veterinary-equipment"
-            },
+              "id": "animals-veterinary.veterinary-equipment.veterinary-equipment",
+              "label": "Veterinary equipment"
+            }
+          ]
+        },
+        {
+          "code": "animal-health-products",
+          "id": "animals-veterinary.animal-health-products",
+          "label": "Animal health products",
+          "types": [
             {
               "code": "animal-health-product",
-              "label": "Animal Health Product",
-              "id": "animals-veterinary.veterinary.animal-health-product"
-            },
+              "id": "animals-veterinary.animal-health-products.animal-health-product",
+              "label": "Animal health product"
+            }
+          ]
+        },
+        {
+          "code": "veterinary-services",
+          "id": "animals-veterinary.veterinary-services",
+          "label": "Veterinary services",
+          "types": [
             {
               "code": "veterinary-consultation",
-              "label": "Veterinary Consultation",
-              "id": "animals-veterinary.veterinary.veterinary-consultation"
+              "id": "animals-veterinary.veterinary-services.veterinary-consultation",
+              "label": "Veterinary consultation"
             },
             {
               "code": "animal-grooming",
-              "label": "Animal Grooming",
-              "id": "animals-veterinary.veterinary.animal-grooming"
+              "id": "animals-veterinary.veterinary-services.animal-grooming",
+              "label": "Animal grooming"
             },
             {
               "code": "animal-boarding",
-              "label": "Animal Boarding",
-              "id": "animals-veterinary.veterinary.animal-boarding"
+              "id": "animals-veterinary.veterinary-services.animal-boarding",
+              "label": "Animal boarding"
             }
-          ],
-          "id": "animals-veterinary.veterinary"
+          ]
         }
       ],
       "id": "animals-veterinary"
@@ -4133,7 +4147,6 @@
         "home-services": "service",
         "beauty-services": "service",
         "health-services": "service",
-        "veterinary": "service",
         "equipment-rental": "rental",
         "software-tech": "digital_product",
         "digital-content": "digital_product",
@@ -4154,7 +4167,8 @@
         "travel": "service",
         "events": "service",
         "experiences": "service",
-        "unclassified": "rfq"
+        "unclassified": "rfq",
+        "veterinary-services": "service"
       },
       "attribute_profile": {
         "crops-produce": "produce",
@@ -4247,7 +4261,10 @@
         "travel": "service",
         "events": "service",
         "experiences": "service",
-        "equipment-rental": "rental"
+        "equipment-rental": "rental",
+        "veterinary-equipment": "medical_device",
+        "animal-health-products": "medicine_regulated",
+        "veterinary-services": "service"
       }
     },
     "note": "A subcategory default is inherited by its leaf types unless a type-level override is added. Final production requiredness must be configured per leaf type."
