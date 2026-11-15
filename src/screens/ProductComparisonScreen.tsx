@@ -12,6 +12,9 @@ const ROWS: { label: string; value: (product: any, sellers: Record<string, strin
     { label: 'Category', value: (p: any) => p.category || 'Not listed' },
     { label: 'Location', value: (p: any) => [p.county, p.countries?.name].filter(Boolean).join(', ') || 'Not listed' },
     { label: 'Availability', value: (p: any) => p.available_quantity == null ? 'Not listed' : p.available_quantity > 0 ? `${p.available_quantity} in stock` : 'Out of stock' },
+    { label: 'Condition', value: (p: any) => p.condition || 'Not specified' },
+    { label: 'Warranty', value: (p: any) => p.warranty || 'Not specified' },
+    { label: 'Delivery', value: (p: any) => p.delivery_terms || 'Not specified' },
     { label: 'Seller', value: (p: any, sellers: Record<string, string>) => sellers[p.user_id] || 'Seller details unavailable' },
     { label: 'Date listed', value: (p: any) => p.created_at ? new Date(p.created_at).toLocaleDateString() : 'Not listed' },
     { label: 'Description', value: (p: any) => p.description || 'No description provided' },
@@ -21,7 +24,7 @@ export default function ProductComparisonScreen() {
     const navigation = useNavigation<any>();
     const { products, removeProduct, clearProducts } = useCompare();
     const [sellers, setSellers] = useState<Record<string, string>>({});
-    const [loadingSellers, setLoadingSellers] = useState(false);
+    const [loadingSellers, setLoadingSellers] = useState(false);\n    const attributeKeys = [...new Set(products.flatMap((product: any) => Object.keys(product.attributes || {})))];
 
     useEffect(() => {
         let active = true;
@@ -112,11 +115,6 @@ export default function ProductComparisonScreen() {
                             </View>
                         </ScrollView>
                         {loadingSellers && <ActivityIndicator color="#00A082" style={{ marginTop: 12 }} />}
-                        <View style={{ margin: 18, padding: 14, backgroundColor: '#fffbeb', borderRadius: 14 }}>
-                            <Text style={{ color: '#92400e', fontSize: 12, lineHeight: 18 }}>
-                                Some details such as product condition, warranty, delivery terms and technical specifications are not currently stored in this app's product records. They will be added to comparisons when those fields are available.
-                            </Text>
-                        </View>
                         <TouchableOpacity onPress={() => navigation.navigate('App')} style={{ marginHorizontal: 18, marginTop: 4, padding: 15, backgroundColor: '#111827', borderRadius: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Plus size={17} color="#fff" />
                             <Text style={{ color: '#fff', fontWeight: '900', marginLeft: 8 }}>Add another product</Text>
