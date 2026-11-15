@@ -191,7 +191,7 @@ export default function FloatingAssistant() {
                   setOpen(false);
                   navigation.navigate('ProductDetail', { productId: id });
                 }}
-                onSuggestion={(value, label) => send(msg.originalQuery || '', { value, label, original: msg.originalQuery || '' })}
+                onSuggestion={(value, label) => send(m.originalQuery || '', { value, label, original: m.originalQuery || '' })}
               />
             ))}
 
