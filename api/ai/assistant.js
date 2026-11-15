@@ -236,8 +236,15 @@ async function searchProducts(filters) {
   if (query) {
     for (const group of searchGroups(query).slice(0, 5)) {
       const alternatives = group.flatMap(term => {
-        const safe = term.replace(/[()[\\]]/g, '');
-        return ['title.ilike.*' + safe + '*','description.ilike.*' + safe + '*','category.ilike.*' + safe + '*','taxonomy_node_id.ilike.*' + safe + '*'];
+        const safe = term.replace(/[^a-z0-9-]/g, '');
+        // Token-based matching avoids substring collisions such as "car" in "skin care".
+        // Search the listing title, its assigned product category, and description as
+        // separate words rather than arbitrary character sequences.
+        return [
+          'title.fts(english).' + safe,
+          'category.fts(english).' + safe,
+          'description.fts(english).' + safe
+        ];
       });
       conditions.push('or(' + alternatives.join(',') + ')');
     }
@@ -298,10 +305,16 @@ module.exports = async function handler(req, res) {
 
     const products = await searchProducts(filters);
     const searchDescription = describeSearch(filters);
+    const itemName = String(filters.query || filters.category || 'items').trim();
+    const pluralItem = /(?:s|x|z|ch|sh)$/.test(itemName)
+      ? itemName + 'es'
+      : /[^aeiou]y$/.test(itemName)
+        ? itemName.slice(0, -1) + 'ies'
+        : itemName + 's';
     const reply = products.length
-      ? (filters.intent === 'trending' ? 'Here are recent listings.' : 'Found ' + products.length + ': ' + searchDescription + '.')
-      : 'No matches for ' + searchDescription + '.';
-    return res.status(200).json({ reply: products.length ? 'Found ' + products.length + '. Take a look.' : 'No matches yet. Try changing a filter?', products, filters, summary: describeSearch(filters), result_count: products.length });
+      ? (filters.intent === 'trending' ? 'Here are some popular listings.' : 'Here are ' + products.length + ' ' + (products.length === 1 ? 'option' : 'options') + ' for ' + itemName + '.')
+      : "Sorry, we don't have any " + pluralItem + " in stock at the moment.";
+    return res.status(200).json({ reply, products, filters, summary: products.length ? describeSearch(filters) : null, result_count: products.length });
   } catch (err) {
     console.error('[asha] request failed:', {
       message: err.message, status: err.response?.status,
