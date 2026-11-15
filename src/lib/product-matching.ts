@@ -17,7 +17,7 @@ const ALIASES: Record<string, string[]> = {
 };
 
 export function getAutoCompareTerms(query: string): string[] {
-    return [...new Set(query.toLowerCase().replace(/[^a-z0-9\\s]/g, ' ').split(/\\s+/).filter(term => term.length > 1))].slice(0, 6);
+    return [...new Set(query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(term => term.length > 1))].slice(0, 6);
 }
 
 export function getAutoCompareSearchTerms(query: string): string[] {
@@ -42,7 +42,6 @@ export function rankAutoCompareProducts(products: any[], query: string, limit = 
 
     const ranked = products.map(product => {
         const { title, details } = searchableText(product);
-        const combined = `${title} ${details}`;
         let matched = 0;
         let score = 0;
         terms.forEach(term => {
@@ -53,7 +52,7 @@ export function rankAutoCompareProducts(products: any[], query: string, limit = 
             if (titleHit) score += 4;
             else if (detailHit) score += 2;
         });
-        return { product, matched, score, combined };
+        return { product, matched, score };
     }).filter(item => item.matched >= Math.min(2, terms.length));
 
     if (!ranked.length) return [];
@@ -76,14 +75,5 @@ export function rankAutoCompareProducts(products: any[], query: string, limit = 
         if (selected.length >= limit) break;
     }
 
-    // If the marketplace has too few sellers, fill remaining slots with the next
-    // best distinct listings rather than returning an incomplete comparison.
-    if (selected.length < limit) {
-        for (const item of sameCategory) {
-            if (selected.some(product => product.id === item.product.id)) continue;
-            selected.push(item.product);
-            if (selected.length >= limit) break;
-        }
-    }
     return selected;
 }
