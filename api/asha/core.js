@@ -8,7 +8,7 @@ const GREETINGS = /^(hi|hello|hey|hiya|good morning|good afternoon|good evening|
 const NOISE = /^[a-z0-9]{1,2}[!.?,\s]*$/i;
 const WORD_FIXES = {
   redd: 'red', reeed: 'red', blu: 'blue', blak: 'black', whte: 'white', wite: 'white', yelow: 'yellow', greay: 'grey',
-  colur: 'color', colour: 'color', tshirt: 'shirt', tshirts: 'shirt', tee shirt: 'shirt',
+  colur: 'color', colour: 'color', tshirt: 'shirt', tshirts: 'shirt', 'tee shirt': 'shirt',
   motercycle: 'motorcycle', motocycle: 'motorcycle', motorbike: 'motorcycle',
   refridgerator: 'refrigerator', refrigirator: 'refrigerator', refri: 'refrigerator',
   celphone: 'phone', cellphone: 'phone', handphone: 'phone', mobil: 'mobile',
