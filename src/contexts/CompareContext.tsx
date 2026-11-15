@@ -16,16 +16,13 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
     const [products, setProducts] = useState<any[]>([]);
 
     const addProduct = useCallback((product: any) => {
-        if (!product?.id) return;
-        setProducts(current => {
-            if (current.some(item => item.id === product.id)) return current;
-            if (current.length >= MAX_COMPARE_PRODUCTS) {
-                Alert.alert('Comparison limit reached', 'You can compare up to four products at a time.');
-                return current;
-            }
-            return [...current, product];
-        });
-    }, []);
+        if (!product?.id || products.some(item => item.id === product.id)) return;
+        if (products.length >= MAX_COMPARE_PRODUCTS) {
+            Alert.alert('Comparison limit reached', 'You can compare up to four products at a time.');
+            return;
+        }
+        setProducts(current => current.some(item => item.id === product.id) ? current : [...current, product]);
+    }, [products]);
 
     const removeProduct = useCallback((productId: string) => {
         setProducts(current => current.filter(item => item.id !== productId));
