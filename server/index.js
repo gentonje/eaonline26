@@ -955,7 +955,7 @@ function deterministicAshaIntent(message) {
   const size = lower.match(/\bsize\s*(?:no\.?\s*)?([a-z0-9.]+)/i);
   if (size) out.attributes.size = size[1];
   const colors = ['white','black','red','blue','green','yellow','brown','pink','grey','gray'];
-  const color = colors.find(c => new RegExp('\\\\b' + c + '\\\\b','i').test(lower));
+  const color = colors.find(c => new RegExp('\\b' + c + '\\b','i').test(lower));
   if (color) out.attributes.color = color;
   const condition = lower.match(/\b(new|used|refurbished|second hand)\b/);
   if (condition) out.attributes.condition = condition[1] === 'second hand' ? 'used' : condition[1];
