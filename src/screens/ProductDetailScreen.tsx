@@ -11,6 +11,7 @@ import { useShopping } from '../hooks/useShopping';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { getImageUrl } from '../lib/image-utils';
 import ProductCard from '../components/ProductCard';
+import AutoCompareButton from '../components/AutoCompareButton';
 import { ProductDetailSkeleton } from '../components/Skeleton';
 import BubbleBurst from '../components/BubbleBurst';
 
@@ -180,7 +181,7 @@ export default function ProductDetailScreen() {
                 supabase.from('profiles').select('id, username, full_name').eq('id', data.user_id).maybeSingle()
                     .then(({ data: profile }) => { if (profile) setSeller(profile); });
             }
-            fetchSimilarProducts(data.category);
+            fetchSimilarProducts(data);
         } catch (error: any) {
             console.error('Error fetching product details:', error);
             if (error?.code === 'PGRST116') {
@@ -201,17 +202,35 @@ export default function ProductDetailScreen() {
         } catch (error) { console.error('Error checking wishlist status:', error); }
     }
 
-    async function fetchSimilarProducts(category: string) {
+    async function fetchSimilarProducts(currentProduct: any) {
         try {
             let query = supabase
                 .from('products')
                 .select('*, product_images(*), countries(id, name, currency)')
                 .eq('product_status', 'published')
                 .neq('id', productId)
-                .limit(10);
-            if (category) query = query.eq('category', category);
-            const { data } = await query;
-            setSimilarProducts(data || []);
+                .order('created_at', { ascending: false })
+                .limit(30);
+            if (currentProduct?.category) query = query.eq('category', currentProduct.category);
+            const { data, error } = await query;
+            if (error) throw error;
+
+            const currentPrice = Number(currentProduct?.price || 0);
+            const ranked = (data || []).map((candidate: any) => {
+                let score = 0;
+                if (currentProduct?.category && candidate.category === currentProduct.category) score += 5;
+                if (currentProduct?.country_id && candidate.country_id === currentProduct.country_id) score += 2;
+                if (currentProduct?.county && candidate.county && candidate.county.toLowerCase() === currentProduct.county.toLowerCase()) score += 2;
+                if (currentPrice > 0 && Number(candidate.price) > 0) {
+                    const priceDistance = Math.abs(Number(candidate.price) - currentPrice) / currentPrice;
+                    score += Math.max(0, 3 * (1 - Math.min(priceDistance, 1)));
+                }
+                return { ...candidate, _similarityScore: score };
+            }).sort((a: any, b: any) =>
+                b._similarityScore - a._similarityScore ||
+                new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            );
+            setSimilarProducts(ranked.slice(0, 10));
         } catch (error) { console.error('Error fetching similar products:', error); }
     }
 
@@ -365,6 +384,11 @@ export default function ProductDetailScreen() {
                             )}
                         </View>
 
+                        {/* Compare the current listing with alternatives */}
+                        <View className="mb-6">
+                            <AutoCompareButton product={product} />
+                        </View>
+
                         {/* Seller card */}
                         <TouchableOpacity
                             onPress={() => product?.user_id && navigation.navigate('Store', { storeId: product.user_id })}
@@ -408,6 +432,7 @@ export default function ProductDetailScreen() {
                                         <ProductCard
                                             product={p}
                                             onPress={() => navigation.push('ProductDetail', { productId: p.id })}
+                                            actions={<AutoCompareButton product={p} compact />}
                                         />
                                     </View>
                                 ))}

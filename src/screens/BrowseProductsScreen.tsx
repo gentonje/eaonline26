@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ProductCard from '../components/ProductCard';
+import AutoCompareButton from '../components/AutoCompareButton';
 import ScreenHeader from '../components/ScreenHeader';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { MapPin, X, Building2, Tag, Store as StoreIcon, Search } from 'lucide-react-native';
 import { useColumns } from '../hooks/useColumns';
 import { CATEGORIES as ALL_CATEGORIES } from '../lib/categories';
 
+
 type RootStackParamList = {
     Dashboard: undefined;
     BrowseProducts: { category?: string } | undefined;
     ProductDetail: { productId: string };
     Store: { storeId: string };
+    ProductComparison: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -23,6 +26,12 @@ interface Country { id: number; name: string; code: string; }
 interface District { id: number; name: string; country_id: number; }
 
 const ITEMS_PER_PAGE = 12;
+
+// Split searches into useful words (brand, model, product type) and ignore
+// punctuation so a long listing title does not need to match the whole phrase.
+const getSearchKeywords = (value: string) =>
+    Array.from(new Set(value.toLowerCase().match(/[a-z0-9]+/g) || []))
+        .filter(word => word.length >= 2);
 
 const FLAG_MAP: Record<string, string> = {
     SS: '\u{1F1F8}\u{1F1F8}',
@@ -95,20 +104,25 @@ export default function BrowseProductsScreen() {
             setHasMore(true);
             fetchProducts(0, true);
 
-            // Search stores in parallel
-            if (q.length >= 2) {
+            // Store suggestions are a separate lookup from product search.
+            // Match any useful keyword in the store name (e.g. a brand/store term).
+            const keywords = getSearchKeywords(q);
+            setStoreResults([]);
+            if (keywords.length > 0) {
                 setSearchingStores(true);
+                const storeFilter = keywords
+                    .map(word => `name.ilike.%${word}%`)
+                    .join(',');
                 supabase
                     .from('stores')
                     .select('id, name')
-                    .ilike('name', `%${q}%`)
+                    .or(storeFilter)
                     .limit(8)
                     .then(({ data, error }) => {
                         if (!error) setStoreResults(data || []);
                         setSearchingStores(false);
                     }, () => setSearchingStores(false));
             } else {
-                setStoreResults([]);
                 setSearchingStores(false);
             }
         }, 300);
@@ -167,10 +181,14 @@ export default function BrowseProductsScreen() {
             if (selectedDistrict !== null) query = query.eq('county', selectedDistrict);
             if (selectedCategory !== null) query = query.eq('category', selectedCategory);
 
-            // Live product search: match title OR description
-            const q = debouncedRef.current;
-            if (q.length >= 1) {
-                query = query.or(`title.ilike.%${q}%,description.ilike.%${q}%`);
+            // Product search uses keywords, not the complete phrase. Every
+            // keyword must occur in either title or description, in any order.
+            const keywords = getSearchKeywords(debouncedRef.current);
+            if (keywords.length > 0) {
+                const keywordGroups = keywords.map(word =>
+                    `or(title.ilike.%${word}%,description.ilike.%${word}%)`
+                );
+                query = query.or(`and(${keywordGroups.join(',')})`);
             }
 
             const { data, error } = await query;
@@ -206,13 +224,15 @@ export default function BrowseProductsScreen() {
         debouncedRef.current = '';
     };
 
+
+
     const selectedCountryName = countries.find(c => c.id === selectedCountry)?.name;
     const hasActiveFilters = selectedCountry !== null || selectedDistrict !== null || selectedCategory !== null;
     const hasSearch = searchQuery.trim().length > 0;
 
     const renderProduct = useCallback(({ item }: { item: any }) => (
         <View style={{ width: `${(100 / numColumns).toFixed(4)}%` as any, padding: 4 }}>
-            <ProductCard product={item} />
+            <ProductCard product={item} actions={<AutoCompareButton product={item} compact />} />
         </View>
     ), [numColumns]);
 
@@ -435,7 +455,7 @@ export default function BrowseProductsScreen() {
             </View>
 
             {/* Store suggestions dropdown — sits below the bar, above the list */}
-            {(storeResults.length > 0 || (!searchingStores && searchQuery.trim().length >= 2 && storeResults.length === 0)) && (
+            {storeResults.length > 0 && (
                 <View
                     style={{
                         marginTop: 6,
@@ -476,12 +496,6 @@ export default function BrowseProductsScreen() {
                             <Text style={{ marginLeft: 10, fontWeight: '900', color: '#000', fontSize: 14, flex: 1 }} numberOfLines={1}>{s.name}</Text>
                         </TouchableOpacity>
                     ))}
-                    {!searchingStores && searchQuery.trim().length >= 2 && storeResults.length === 0 && (
-                        <View style={{ paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', alignItems: 'center' }}>
-                            <StoreIcon size={12} color="#cbd5e1" />
-                            <Text style={{ fontSize: 12, fontWeight: '700', color: 'rgba(0,0,0,0.3)', marginLeft: 8 }}>No stores match "{searchQuery.trim()}"</Text>
-                        </View>
-                    )}
                 </View>
             )}
         </View>
