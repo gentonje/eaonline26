@@ -76,6 +76,12 @@ function parseIntent(message) {
       }
     }
   }
+  // A single four-digit year in a vehicle search means that exact model year.
+  const singleYear = lower.match(/\b(?:19|20)\d{2}\b/);
+  if (singleYear && out.year_from === undefined) {
+    out.year_from = Number(singleYear[0]);
+    out.year_to = Number(singleYear[0]);
+  }
   const currencyMatch = lower.match(/\b(usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\b/);
   if (currencyMatch) out.currency = currencyMatch[1].toUpperCase();
   if (maxPrice !== undefined) out.max_price = maxPrice;
@@ -157,6 +163,8 @@ function validateIntent(input, fallback) {
 }
 
 async function interpret(message) {
+  const clarification = detectClarification(message);
+  if (clarification) return clarification;
   const fallback = parseIntent(message);
   if (fallback.intent === 'greeting' || fallback.intent === 'clarify') return fallback;
   const prompt = [
@@ -346,7 +354,13 @@ module.exports = async function handler(req, res) {
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
-    if (filters.intent === 'clarify' || !filters.query) return res.status(200).json({ reply: 'What product are you looking for?', products: [], filters });
+    if (filters.intent === 'clarify' || !filters.query) {
+      const suggestions = Array.isArray(filters.suggestions) ? filters.suggestions : [];
+      return res.status(200).json({
+        reply: suggestions.length ? 'Did you mean one of these?' : 'What product are you looking for?',
+        products: [], filters, suggestions
+      });
+    }
 
     const products = await searchProducts(filters);
     const searchDescription = describeSearch(filters);
