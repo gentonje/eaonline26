@@ -7,11 +7,11 @@ import { supabase } from '../lib/supabase';
 import { getProductMainImage } from '../lib/image-utils';
 import { X, Plus, Scale } from 'lucide-react-native';
 
-const ROWS = [
+const ROWS: { label: string; value: (product: any, sellers: Record<string, string>) => string }[] = [
     { label: 'Price', value: (p: any) => `${p.countries?.currency || 'KES'} ${Number(p.price || 0).toLocaleString()}` },
     { label: 'Category', value: (p: any) => p.category || 'Not listed' },
     { label: 'Location', value: (p: any) => [p.county, p.countries?.name].filter(Boolean).join(', ') || 'Not listed' },
-    { label: 'Availability', value: (p: any) => p.available_quantity > 0 ? `${p.available_quantity} in stock` : 'Out of stock' },
+    { label: 'Availability', value: (p: any) => p.available_quantity == null ? 'Not listed' : p.available_quantity > 0 ? `${p.available_quantity} in stock` : 'Out of stock' },
     { label: 'Seller', value: (p: any, sellers: Record<string, string>) => sellers[p.user_id] || 'Seller details unavailable' },
     { label: 'Date listed', value: (p: any) => p.created_at ? new Date(p.created_at).toLocaleDateString() : 'Not listed' },
     { label: 'Description', value: (p: any) => p.description || 'No description provided' },
