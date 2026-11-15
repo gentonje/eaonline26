@@ -33,14 +33,14 @@ interface ImageItem {
 
 
 function parseProductAttributes(input: string): Record<string, string> {
-    return Object.fromEntries(input.split(/\\r?\\n/).map(line => {
+    return Object.fromEntries(input.split(/\r?\n/).map(line => {
         const separator = line.indexOf(':');
         return separator > 0 ? [line.slice(0, separator).trim(), line.slice(separator + 1).trim()] : ['', ''];
     }).filter(([key, value]) => key && value));
 }
 
 function formatProductAttributes(attributes: Record<string, unknown> | null | undefined): string {
-    return Object.entries(attributes || {}).map(([key, value]) => `${key}: ${String(value)}`).join('\\n');
+    return Object.entries(attributes || {}).map(([key, value]) => \`${key}: ${String(value)}\`).join('\n');
 }
 
 export default function EditProductScreen() {
@@ -280,6 +280,26 @@ export default function EditProductScreen() {
                             <View className="flex-1"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Qty</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" keyboardType="number-pad" value={formData.available_quantity} onChangeText={t => setFormData(p => ({ ...p, available_quantity: t }))} /></View>
                         </View>
                     </View>
+                    <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
+                        <Text className="text-xl font-black text-black mb-2">Compare details</Text>
+                        <Text className="text-xs text-black/50 mb-5">Help buyers compare this listing with similar products.</Text>
+                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Condition</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 18 }}>
+                            {['New', 'Like new', 'Used', 'Refurbished'].map(value => (
+                                <TouchableOpacity key={value} onPress={() => setFormData(prev => ({ ...prev, condition: value }))} style={{ paddingHorizontal: 14, paddingVertical: 9, borderRadius: 20, backgroundColor: formData.condition === value ? '#111827' : '#fff', borderWidth: 1, borderColor: '#d1d5db' }}>
+                                    <Text style={{ color: formData.condition === value ? '#fff' : '#111827', fontWeight: '800', fontSize: 12 }}>{value}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Warranty</Text>
+                        <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold mb-4" placeholder="e.g. 12 months, or No warranty" value={formData.warranty} onChangeText={text => setFormData(prev => ({ ...prev, warranty: text }))} />
+                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Delivery terms</Text>
+                        <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold mb-4" placeholder="e.g. Nationwide delivery at buyer's cost" value={formData.delivery_terms} onChangeText={text => setFormData(prev => ({ ...prev, delivery_terms: text }))} />
+                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Specifications</Text>
+                        <Text style={{ color: '#6b7280', fontSize: 11, marginBottom: 8 }}>One per line in Name: Value format, e.g. RAM: 8GB</Text>
+                        <TextInput multiline numberOfLines={5} textAlignVertical="top" className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" placeholder={"RAM: 8GB\nStorage: 256GB"} value={formData.attributesText} onChangeText={text => setFormData(prev => ({ ...prev, attributesText: text }))} />
+                    </View>
+
                 </ScrollView>
             </KeyboardAvoidingView>
 
