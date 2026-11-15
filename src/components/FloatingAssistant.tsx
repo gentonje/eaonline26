@@ -13,6 +13,9 @@ type Msg = {
   role: 'user' | 'assistant';
   content: string;
   products?: AssistantProduct[];
+  summary?: string | null;
+  suggestions?: Array<{ label: string; description: string; value: string }>;
+  originalQuery?: string;
 };
 
 const QUICK_PROMPTS = [
@@ -51,8 +54,8 @@ export default function FloatingAssistant() {
     setSending(true);
     try {
       const apiHistory = next.map(m => ({ role: m.role, content: m.content }));
-      const { reply, products } = await assistantApi.chat(apiHistory);
-      setMessages(m => [...m, { role: 'assistant', content: reply, products }]);
+      const result = await assistantApi.chat(apiHistory, undefined, selection?.value, selection?.original);
+      setMessages(m => [...m, { role: 'assistant', content: result.reply, products: result.products, summary: result.summary, suggestions: result.suggestions, originalQuery: selection?.original || trimmed }]);
     } catch (err: any) {
       setMessages(m => [
         ...m,
