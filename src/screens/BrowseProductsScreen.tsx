@@ -489,7 +489,6 @@ export default function BrowseProductsScreen() {
                     )}
                 </View>
             )}
-}
         </View>
     );
 
