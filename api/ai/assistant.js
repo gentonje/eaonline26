@@ -27,7 +27,7 @@ function searchGroups(query) {
 function detectClarification(message) {
   const text = String(message || '').toLowerCase();
   // Only clarify genuinely ambiguous misspellings; valid broad categories search normally.
-  if (/\\b(?:trak|truc|truk)\\b/.test(text) && !/\\b(?:truck|lorry)\\b/.test(text)) {
+  if (/\b(?:trak|truc|truk)\b/.test(text) && !/\b(?:truck|lorry)\b/.test(text)) {
     return {
       intent: 'clarify', query: '', attributes: {},
       suggestions: [
