@@ -6,9 +6,58 @@ const ALLOWED_ATTRIBUTES = new Set(['color', 'colour', 'size', 'brand', 'model',
 const COUNTRIES = { kenya: 'KE', uganda: 'UG', tanzania: 'TZ', ethiopia: 'ET', rwanda: 'RW', 'south sudan': 'SS', sudan: 'SD' };
 const GREETINGS = /^(hi|hello|hey|hiya|good morning|good afternoon|good evening|how are you)[!.?,\s]*$/i;
 const NOISE = /^[a-z0-9]{1,2}[!.?,\s]*$/i;
-const WORD_FIXES = { redd: 'red', reeed: 'red', blu: 'blue', blak: 'black', whte: 'white', wite: 'white', yelow: 'yellow', greay: 'grey', colur: 'color', colour: 'color', tshirt: 'shirt', motercycle: 'motorcycle', motocycle: 'motorcycle', refridgerator: 'refrigerator' };
+const WORD_FIXES = {
+  redd: 'red', reeed: 'red', blu: 'blue', blak: 'black', whte: 'white', wite: 'white', yelow: 'yellow', greay: 'grey',
+  colur: 'color', colour: 'color', tshirt: 'shirt', tshirts: 'shirt', tee shirt: 'shirt',
+  motercycle: 'motorcycle', motocycle: 'motorcycle', motorbike: 'motorcycle',
+  refridgerator: 'refrigerator', refrigirator: 'refrigerator', refri: 'refrigerator',
+  celphone: 'phone', cellphone: 'phone', handphone: 'phone', mobil: 'mobile',
+  lapto: 'laptop', labtop: 'laptop', computor: 'computer', televsion: 'television',
+  furnitures: 'furniture', matress: 'mattress', matresses: 'mattress',
+  sneekers: 'sneakers', snickers: 'sneakers', trouser: 'trousers',
+  sunglass: 'sunglasses', sunshade: 'sunglasses', jewellry: 'jewellery',
+  accesory: 'accessory', accesories: 'accessories', accesories: 'accessories',
+  bagpack: 'backpack', backpak: 'backpack', lory: 'lorry', trak: 'truck', truc: 'truck', truk: 'truck'
+};
 const COLOR_WORDS = { white: ['white','whte','wite'], black: ['black','blak','blk'], red: ['red','redd','reeed'], blue: ['blue','blu'], green: ['green'], yellow: ['yellow','yelow'], brown: ['brown'], pink: ['pink'], grey: ['grey','gray','greay'], orange: ['orange'], purple: ['purple'] };
-const SEARCH_SYNONYMS = { car: ['car','cars','automobile','automobiles','sedan','sedans','suv','suvs','hatchback','hatchbacks','station wagon','station wagons','coupe','coupes','convertible','convertibles','pickup','pickups'], truck: ['truck','trucks','lorry','lorries','cargo truck','tipper truck','refrigerated truck','tractor unit'], motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes'], bicycle: ['bicycle','bicycles','bike','bikes'], phone: ['phone','phones','mobile','mobiles','smartphone','smartphones'], shirt: ['shirt','shirts','t-shirt','t-shirts','tee'], shoe: ['shoe','shoes','footwear'], bed: ['bed','beds'], dress: ['dress','dresses'] };
+// Canonical shopping vocabulary. Keep this broad and additive; live taxonomy aliases
+// provide the marketplace-specific extension without changing the interpreter.
+const SEARCH_SYNONYMS = {
+  car: ['car','cars','automobile','automobiles','motor vehicle','sedan','sedans','saloon','suv','suvs','hatchback','hatchbacks','station wagon','estate car','coupe','convertible','pickup','pickups'],
+  truck: ['truck','trucks','lorry','lorries','cargo truck','tipper truck','dump truck','refrigerated truck','tractor unit'],
+  bus: ['bus','buses','coach','minibus','matatu','shuttle'],
+  tractor: ['tractor','tractors','farm tractor'],
+  motorcycle: ['motorcycle','motorcycles','motorbike','motorbikes','boda boda','scooter'],
+  bicycle: ['bicycle','bicycles','bike','bikes','mountain bike'],
+  phone: ['phone','phones','mobile','mobiles','smartphone','smartphones','cellphone','cell phone','handset'],
+  laptop: ['laptop','laptops','notebook','notebooks'],
+  computer: ['computer','computers','desktop','desktops','pc'],
+  television: ['television','televisions','tv','tvs','smart tv'],
+  refrigerator: ['refrigerator','fridge','freezer','deep freezer'],
+  shirt: ['shirt','shirts','t-shirt','t-shirts','tee','tees','polo shirt'],
+  shoe: ['shoe','shoes','footwear','sneaker','sneakers','trainer','trainers','boots','sandals','heels','flats'],
+  dress: ['dress','dresses','gown','gowns'],
+  trouser: ['trouser','trousers','pants','jeans','slacks'],
+  skirt: ['skirt','skirts'],
+  jacket: ['jacket','jackets','coat','coats'],
+  bag: ['bag','bags','handbag','handbags','purse','purses'],
+  backpack: ['backpack','backpacks','rucksack','school bag'],
+  bed: ['bed','beds','bunk bed','bunk beds'],
+  mattress: ['mattress','mattresses'],
+  sofa: ['sofa','sofas','couch','couches','settee'],
+  chair: ['chair','chairs','stool','stools'],
+  table: ['table','tables','desk','desks'],
+  furniture: ['furniture','furnishing'],
+  watch: ['watch','watches','wristwatch','wristwatches'],
+  jewellery: ['jewellery','jewelry','necklace','necklaces','bracelet','bracelets','earring','earrings','ring','rings'],
+  cosmetic: ['cosmetic','cosmetics','makeup','make-up','beauty products','skincare','skin care'],
+  appliance: ['appliance','appliances','home appliance','kitchen appliance'],
+  camera: ['camera','cameras','photography camera'],
+  speaker: ['speaker','speakers','loudspeaker','sound system'],
+  tool: ['tool','tools','power tool','power tools'],
+  cement: ['cement','cement bags'],
+  food: ['food','groceries','grocery','foodstuff','foodstuffs']
+};
 const STOP_WORDS = new Set(['a','an','the','some','any','me','for','please','show','find','get','looking','want','need','give','of','to','with','and']);
 function normalizeWord(word) {
   let value = String(word || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
@@ -170,7 +219,7 @@ async function interpret(message) {
   const prompt = [
     'You interpret natural-language shopping requests for an East African marketplace.',
     'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters.',
-    'Be a forgiving shopping interpreter, not an exact-keyword matcher. Keep shopper-facing language warm, natural and extremely brief; avoid bot-like explanations and unnecessary acknowledgements. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Map common synonyms (lorry=truck, motorbike=motorcycle, mobile=phone, tee=t-shirt). Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
+    'Be a forgiving shopping interpreter, not an exact-keyword matcher. Keep shopper-facing language warm, natural and extremely brief; avoid bot-like explanations and unnecessary acknowledgements. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Use broad e-commerce vocabulary across vehicles, electronics, phones, computers, appliances, clothing, footwear, furniture, home goods, beauty, jewellery, groceries, tools, building materials and services. Understand regional East African terms (matatu, boda boda, mobile money, shamba, etc.) when relevant. Map common synonyms (lorry=truck, matatu=bus, motorbike=bicycle/motorcycle according to context, mobile=phone, fridge=refrigerator, TV=television, couch=sofa, pants=trousers, tee=t-shirt, trainers=sneakers). Understand common misspellings and phonetic spellings; preserve the intended product category. Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
     'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, currency, year_from, year_to, condition, attributes, sort, limit, suggestions.',
     'Allowed attributes: color,size,brand,model,storage,gender,material. Country codes: KE, UG, TZ, RW, ET, SS.',
     'Never return SQL, code, explanations or extra keys. JSON only.',
