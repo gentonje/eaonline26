@@ -24,6 +24,23 @@ function searchGroups(query) {
     .map(word => SEARCH_SYNONYMS[word] || [word, word + 's']);
 }
 
+function detectClarification(message) {
+  const text = String(message || '').toLowerCase();
+  // Only clarify genuinely ambiguous misspellings; valid broad categories search normally.
+  if (/\\b(?:trak|truc|truk)\\b/.test(text) && !/\\b(?:truck|lorry)\\b/.test(text)) {
+    return {
+      intent: 'clarify', query: '', attributes: {},
+      suggestions: [
+        { label: 'Truck', description: 'Goods and cargo vehicles', value: 'truck' },
+        { label: 'Bus', description: 'Passenger vehicles', value: 'bus' },
+        { label: 'Car', description: 'Personal vehicles', value: 'car' },
+        { label: 'Tractor', description: 'Farm and utility vehicles', value: 'tractor' }
+      ]
+    };
+  }
+  return null;
+}
+
 function parseIntent(message) {
   const original = String(message || '').trim().slice(0, 500);
   const lower = original.toLowerCase();
@@ -44,6 +61,23 @@ function parseIntent(message) {
   const max = lower.match(/\b(?:under|below|less than|up to|max(?:imum)?)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*([\d,]+(?:\.\d+)?k?)/);
   const min = lower.match(/\b(?:above|over|more than|from)\s*(?:kshs?|kes|ugx|tzs|usd|ssp|sh)?\s*([\d,]+(?:\.\d+)?k?)/);
   const maxPrice = parsePrice(max), minPrice = parsePrice(min);
+  const range = lower.match(/\\b(?:between|from)\\s*([\\d,]+)\\s*(?:and|to|-)\\s*([\\d,]+)\\b/);
+  if (range) {
+    const first = Number(range[1].replace(/,/g, ''));
+    const second = Number(range[2].replace(/,/g, ''));
+    if (Number.isFinite(first) && Number.isFinite(second)) {
+      // A 4-digit year pair is a year range; other ranges are price bounds.
+      if (first >= 1900 && first <= 2100 && second >= 1900 && second <= 2100) {
+        out.year_from = Math.min(first, second);
+        out.year_to = Math.max(first, second);
+      } else {
+        out.min_price = Math.min(first, second);
+        out.max_price = Math.max(first, second);
+      }
+    }
+  }
+  const currencyMatch = lower.match(/\\b(usd|kes|ksh|ugx|tzs|ssp|rwf|etb)\\b/);
+  if (currencyMatch) out.currency = currencyMatch[1].toUpperCase();
   if (maxPrice !== undefined) out.max_price = maxPrice;
   if (minPrice !== undefined) out.min_price = minPrice;
 
@@ -87,6 +121,16 @@ function validateIntent(input, fallback) {
     sort: input.sort === 'price_asc' ? 'price_asc' : 'newest'
   };
   if (typeof input.category === 'string') out.category = input.category.slice(0, 80);
+  for (const key of ['year_from', 'year_to']) {
+    const n = Number(input[key]);
+    if (Number.isInteger(n) && n >= 1900 && n <= 2100) out[key] = n;
+  }
+  if (typeof input.currency === 'string' && /^[A-Z]{3,4}$/.test(input.currency.toUpperCase())) out.currency = input.currency.toUpperCase();
+  if (Array.isArray(input.suggestions)) out.suggestions = input.suggestions.slice(0, 4).map(item => ({
+    label: String(item.label || '').slice(0, 30),
+    description: String(item.description || '').slice(0, 60),
+    value: String(item.value || item.label || '').slice(0, 30)
+  })).filter(item => item.label && item.value);
   if (typeof input.country_code === 'string' && /^[A-Z]{2}$/i.test(input.country_code)) out.country_code = input.country_code.toUpperCase();
   if (typeof input.county === 'string') out.county = input.county.slice(0, 80);
   for (const key of ['min_price', 'max_price']) {
@@ -111,7 +155,7 @@ async function interpret(message) {
     'You interpret natural-language shopping requests for an East African marketplace.',
     'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters.',
     'Be a forgiving shopping interpreter, not an exact-keyword matcher. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Map common synonyms (lorry=truck, motorbike=motorcycle, mobile=phone, tee=t-shirt). Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
-    'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, condition, attributes, sort, limit.',
+    'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, currency, year_from, year_to, condition, attributes, sort, limit, suggestions.',
     'Allowed attributes: color,size,brand,model,storage,gender,material. Country codes: KE, UG, TZ, RW, ET, SS.',
     'Never return SQL, code, explanations or extra keys. JSON only.',
     'Examples: "Find me white sports shoes under KSh 5,000 in Kenya" => {"intent":"search","query":"sports shoes","country_code":"KE","max_price":5000,"attributes":{"color":"white"}}. "show me some cars" => {"intent":"search","query":"car"}. "I need redd shirts" => {"intent":"search","query":"shirt","attributes":{"color":"red"}}. "do you have beds?" => {"intent":"search","query":"bed"}. A broad product category is a valid search; do not ask for make/model.',
@@ -144,7 +188,7 @@ async function interpret(message) {
   if (fallback.country_code) merged.country_code = fallback.country_code;
   if (fallback.max_price !== undefined) merged.max_price = fallback.max_price;
   if (fallback.min_price !== undefined) merged.min_price = fallback.min_price;
-  if (fallback.condition) merged.condition = fallback.condition;
+  if (fallback.condition) merged.condition = fallback.condition;\n  if (fallback.year_from !== undefined) merged.year_from = fallback.year_from;\n  if (fallback.year_to !== undefined) merged.year_to = fallback.year_to;\n  if (fallback.currency) merged.currency = fallback.currency;
   return merged;
 }
 
@@ -209,7 +253,7 @@ function describeSearch(filters) {
     filters.country_code === 'TZ' ? 'TSh' : filters.country_code === 'RW' ? 'RWF' :
     filters.country_code === 'SS' ? 'SSP' : filters.country_code === 'ET' ? 'ETB' : '';
   if (filters.min_price !== undefined) description += ' above ' + currency + ' ' + Number(filters.min_price).toLocaleString('en');
-  if (filters.max_price !== undefined) description += ' under ' + currency + ' ' + Number(filters.max_price).toLocaleString('en');
+  if (filters.max_price !== undefined) description += (filters.min_price !== undefined ? '–' : ' under ') + currency + ' ' + Number(filters.max_price).toLocaleString('en');\n  if (filters.year_from !== undefined || filters.year_to !== undefined) description += ' · ' + (filters.year_from || filters.year_to) + (filters.year_to && filters.year_from ? '–' + filters.year_to : '');
   if (filters.county) description += ' in ' + filters.county;
   const country = Object.keys(COUNTRIES).find(name => COUNTRIES[name] === filters.country_code);
   if (country) description += ' in ' + country.replace(/\b\w/g, c => c.toUpperCase());
@@ -230,7 +274,7 @@ module.exports = async function handler(req, res) {
     if (!message) return res.status(400).json({ error: 'message required' });
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
-    const filters = await interpret(message);
+    const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);\n    const filters = await interpret(selectedSuggestion ? (message + ' ' + selectedSuggestion) : message);
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
@@ -241,7 +285,7 @@ module.exports = async function handler(req, res) {
     const reply = products.length
       ? (filters.intent === 'trending' ? 'Here are recent listings.' : 'Found ' + products.length + ': ' + searchDescription + '.')
       : 'No matches for ' + searchDescription + '.';
-    return res.status(200).json({ reply, products, filters, result_count: products.length });
+    return res.status(200).json({ reply: products.length ? 'Found ' + products.length + '. Take a look.' : 'No matches yet. Try changing a filter?', products, filters, summary: describeSearch(filters), result_count: products.length });
   } catch (err) {
     console.error('[asha] request failed:', {
       message: err.message, status: err.response?.status,
@@ -251,7 +295,7 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports.parseIntent = parseIntent;
+module.exports.parseIntent = parseIntent;\nmodule.exports.detectClarification = detectClarification;
 module.exports.normalizeWord = normalizeWord;
 module.exports.searchGroups = searchGroups;
 module.exports.validateIntent = validateIntent;
