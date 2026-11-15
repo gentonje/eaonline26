@@ -98,7 +98,8 @@ export default function TaxonomyListingFields({ initialNodeId = null, initialLis
   );
   const renderFields = (codes: string[]) => codes.map(code => {
     const def = definitions[code]; if (!def) return null;
-    const values = Array.isArray(def.config?.values) ? def.config.values : null;
+    const isColorField = /^(color|colour)$/i.test(code) || /^(color|colour)$/i.test(def.label.trim());
+    const values = isColorField ? ['Black', 'White', 'Grey', 'Silver', 'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Brown', 'Pink', 'Purple', 'Gold', 'Beige', 'Multi-colour'] : (Array.isArray(def.config?.values) ? def.config.values : null);
     return <View key={code} style={{ marginTop: 12 }}>
       <Text style={{ fontSize: 12, fontWeight: '700', color: '#374151', marginBottom: 6 }}>{def.label}</Text>
       {values ? <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
