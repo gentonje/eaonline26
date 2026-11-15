@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, Image, ScrollView, Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { Camera, Plus, X, MapPin, Globe, ChevronDown, CheckCircle } from 'lucide-react-native';
@@ -7,9 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScreenHeader from '../components/ScreenHeader';
 import WebScrollView from '../components/WebScrollView';
-import ConfettiCannon from 'react-native-confetti-cannon';
 import { aiApi } from '../lib/api';
-import { CATEGORIES } from '../lib/categories';
+import TaxonomyListingFields from '../components/TaxonomyListingFields';
 
 interface ImageItem {
     uri: string;
@@ -57,7 +56,6 @@ function formatProductAttributes(attributes: Record<string, unknown> | null | un
 export default function AddProductScreen() {
     const navigation = useNavigation<any>();
     const insets = useSafeAreaInsets();
-    const confettiRef = useRef<any>(null);
     
     const [saving, setSaving] = useState(false);
     const [optimizing, setOptimizing] = useState(false);
@@ -80,6 +78,7 @@ export default function AddProductScreen() {
     const [districts, setDistricts] = useState<District[]>([]);
     const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
     const [selectedCurrency, setSelectedCurrency] = useState('USD');
+    const [taxonomySelection, setTaxonomySelection] = useState<{ nodeId: string | null; listingKind: string; category: string; attributes: Record<string, string> }>({ nodeId: null, listingKind: 'physical_product', category: '', attributes: {} });
 
     useEffect(() => {
         fetchLocations();
@@ -190,6 +189,10 @@ export default function AddProductScreen() {
             Alert.alert('Required', 'Please select a country');
             return;
         }
+        if (!taxonomySelection.nodeId) {
+            Alert.alert('Required', 'Please choose a main category, subcategory and specific product or service type');
+            return;
+        }
 
         try {
             setSaving(true);
@@ -256,7 +259,7 @@ export default function AddProductScreen() {
             const seo = await aiApi.optimizeListing({
                 title: formData.title.trim(),
                 description: formData.description.trim(),
-                category: formData.category,
+                category: taxonomySelection.category || formData.category,
                 country: selectedCountryObj?.name || '',
                 county: selectedDistrict?.name || '',
             });
@@ -269,7 +272,10 @@ export default function AddProductScreen() {
                     title: seo.title || formData.title.trim(),
                     description: seo.description || formData.description.trim(),
                     price: parseFloat(formData.price),
-                    category: formData.category,
+                    category: taxonomySelection.category || formData.category,
+                    taxonomy_node_id: taxonomySelection.nodeId,
+                    listing_kind: taxonomySelection.listingKind,
+                    classification_status: taxonomySelection.nodeId ? 'confirmed' : 'unclassified',
                     available_quantity: parseInt(formData.available_quantity) || 1,
                     storage_path: mainImagePath,
                     product_status: 'draft',
@@ -278,7 +284,7 @@ export default function AddProductScreen() {
                     condition: formData.condition || null,
                     warranty: formData.warranty.trim() || null,
                     delivery_terms: formData.delivery_terms.trim() || null,
-                    attributes: parseProductAttributes(formData.attributesText),
+                    attributes: { ...parseProductAttributes(formData.attributesText), ...Object.fromEntries(Object.entries(taxonomySelection.attributes).filter(([, value]) => value.trim())) },
                 })
                 .select()
                 .single();
@@ -301,13 +307,11 @@ export default function AddProductScreen() {
             setShowSuccess(true);
             setSaving(false);
             
-            if (confettiRef.current) {
-                confettiRef.current.start();
-            }
-            
+            // Keep the success state lightweight; the previous canvas confetti
+            // animation could stall the web screen on lower-powered phones.
             setTimeout(() => {
                 navigation.navigate('MyProducts');
-            }, 2500);
+            }, 1800);
         } catch (error: any) {
             console.error('Error creating product:', error);
             Alert.alert('Error', error.message || 'Failed to create product');
@@ -456,22 +460,7 @@ export default function AddProductScreen() {
                             />
                         </View>
 
-                        <View className="mb-5">
-                            <Text className="text-xs font-black text-black/40 uppercase mb-3 ml-1 tracking-widest">Category</Text>
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                                {CATEGORIES.map((cat) => (
-                                    <TouchableOpacity 
-                                        key={cat}
-                                        onPress={() => setFormData(prev => ({ ...prev, category: cat }))}
-                                        className={`px-4 py-2 rounded-full border ${formData.category === cat ? 'bg-black border-black' : 'bg-white border-secondary/20'}`}
-                                    >
-                                        <Text className={`font-black text-xs ${formData.category === cat ? 'text-white' : 'text-black'}`}>
-                                            {cat}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </View>
+                        <TaxonomyListingFields onChange={setTaxonomySelection} />
 
                         <View>
                             <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">Description</Text>
@@ -540,9 +529,7 @@ export default function AddProductScreen() {
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black mb-4" placeholder="e.g. 12 months, or No warranty" placeholderTextColor="#9ca3af" value={formData.warranty} onChangeText={text => setFormData(prev => ({ ...prev, warranty: text }))} />
                         <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Delivery terms</Text>
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black mb-4" placeholder="e.g. Nairobi same-day; nationwide at buyer's cost" placeholderTextColor="#9ca3af" value={formData.delivery_terms} onChangeText={text => setFormData(prev => ({ ...prev, delivery_terms: text }))} />
-                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Specifications</Text>
-                        <Text style={{ color: '#6b7280', fontSize: 11, marginBottom: 8 }}>Enter one specification per line in Name: Value format, e.g. RAM: 8GB</Text>
-                        <TextInput multiline numberOfLines={5} textAlignVertical="top" className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold text-black" placeholder={"RAM: 8GB\nStorage: 256GB\nScreen: 6.5 inch"} placeholderTextColor="#9ca3af" value={formData.attributesText} onChangeText={text => setFormData(prev => ({ ...prev, attributesText: text }))} />
+
                     </View>
 
                     <TouchableOpacity 
@@ -585,19 +572,9 @@ export default function AddProductScreen() {
                                 <CheckCircle size={48} color="#00A082" />
                             </View>
                             <Text className="text-2xl font-black text-black mb-2">Listed!</Text>
-                            <Text className="text-black/60 font-bold text-center">Your product is now live</Text>
+                            <Text className="text-black/60 font-bold text-center">Your listing has been submitted and is awaiting admin approval</Text>
                         </View>
                     </View>
-                    <ConfettiCannon
-                        ref={confettiRef}
-                        count={200}
-                        origin={{ x: Platform.OS === 'web' ? 200 : -10, y: 0 }}
-                        autoStart={true}
-                        fadeOut={true}
-                        fallSpeed={3000}
-                        explosionSpeed={350}
-                        colors={['#FFD147', '#FDB913', '#00A082', '#ffffff', '#000000']}
-                    />
                 </>
             )}
         </View>

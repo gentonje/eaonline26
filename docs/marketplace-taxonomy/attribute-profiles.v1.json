@@ -1,0 +1,897 @@
+{
+  "version": "0.1.0",
+  "status": "design-draft",
+  "form_policy": {
+    "default_view": "essential",
+    "show_recommended_on_expand": true,
+    "show_advanced_on_expand": true,
+    "regulatory_fields": "show_only_when_required_by_country_or_listing_type",
+    "rule": "Do not ask sellers to repeat common offer fields already collected by the listing form. Attribute profiles contain product/service characteristics, not price, seller, stock or delivery transaction fields."
+  },
+  "definitions": {
+    "brand": {
+      "label": "Brand",
+      "type": "text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "model": {
+      "label": "Model",
+      "type": "text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "year": {
+      "label": "Year",
+      "type": "integer",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true,
+      "min": 1900,
+      "max": "current_year_plus_2"
+    },
+    "condition": {
+      "label": "Condition",
+      "type": "enum",
+      "tier": "essential",
+      "values": [
+        "new",
+        "used",
+        "refurbished",
+        "reconditioned",
+        "open_box"
+      ],
+      "filterable": true,
+      "comparable": true
+    },
+    "location": {
+      "label": "Location",
+      "type": "location_reference",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": false
+    },
+    "quantity": {
+      "label": "Quantity",
+      "type": "measurement",
+      "unit_family": "mass_volume_count",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "unit": {
+      "label": "Unit of sale",
+      "type": "unit",
+      "tier": "essential",
+      "tier_note": "Use familiar units such as kg, tonne, bag, sack, piece, carton, litre, acre or hectare.",
+      "filterable": true,
+      "comparable": true
+    },
+    "variety": {
+      "label": "Variety",
+      "type": "text_or_enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "grade": {
+      "label": "Grade / quality",
+      "type": "text_or_enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "packaging": {
+      "label": "Packaging",
+      "type": "text_or_enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "harvest_period": {
+      "label": "Harvest period",
+      "type": "season_or_date_range",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": false
+    },
+    "moisture_content": {
+      "label": "Moisture content",
+      "type": "percentage",
+      "tier": "advanced",
+      "filterable": true,
+      "comparable": true,
+      "min": 0,
+      "max": 100
+    },
+    "species": {
+      "label": "Animal species",
+      "type": "enum",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "breed": {
+      "label": "Breed",
+      "type": "text_or_enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "sex": {
+      "label": "Sex",
+      "type": "enum",
+      "tier": "recommended",
+      "values": [
+        "male",
+        "female",
+        "unknown"
+      ],
+      "filterable": true,
+      "comparable": true
+    },
+    "age": {
+      "label": "Age",
+      "type": "measurement_or_range",
+      "unit": "month_or_year",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "weight": {
+      "label": "Weight",
+      "type": "measurement",
+      "unit_family": "mass",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "health_status": {
+      "label": "Health status",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": false
+    },
+    "vaccination_status": {
+      "label": "Vaccination status",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": false
+    },
+    "make": {
+      "label": "Make",
+      "type": "text_or_reference",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "fuel_type": {
+      "label": "Fuel type",
+      "type": "enum",
+      "values": [
+        "petrol",
+        "diesel",
+        "electric",
+        "hybrid",
+        "lpg",
+        "other"
+      ],
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "transmission": {
+      "label": "Transmission",
+      "type": "enum",
+      "values": [
+        "manual",
+        "automatic",
+        "semi_automatic",
+        "other"
+      ],
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "mileage": {
+      "label": "Mileage",
+      "type": "measurement",
+      "unit": "km",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "engine_capacity": {
+      "label": "Engine capacity",
+      "type": "measurement",
+      "unit": "cc",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "payload_capacity": {
+      "label": "Payload capacity",
+      "type": "measurement",
+      "unit": "kg_or_tonne",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "gross_vehicle_weight": {
+      "label": "Gross vehicle weight",
+      "type": "measurement",
+      "unit": "kg_or_tonne",
+      "tier": "advanced",
+      "filterable": true,
+      "comparable": true
+    },
+    "axle_configuration": {
+      "label": "Axle configuration",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "body_type": {
+      "label": "Body type",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "size": {
+      "label": "Size",
+      "type": "size_value_or_range",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "colour": {
+      "label": "Colour",
+      "type": "controlled_text",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "material": {
+      "label": "Material",
+      "type": "text_or_enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "fit": {
+      "label": "Fit",
+      "type": "enum",
+      "values": [
+        "slim",
+        "regular",
+        "relaxed",
+        "oversized",
+        "other"
+      ],
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "gender_or_age_group": {
+      "label": "Gender / age group",
+      "type": "enum",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "sleeve_length": {
+      "label": "Sleeve length",
+      "type": "enum",
+      "values": [
+        "sleeveless",
+        "short",
+        "three_quarter",
+        "long"
+      ],
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "neckline": {
+      "label": "Neckline",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "closure": {
+      "label": "Closure",
+      "type": "enum_or_text",
+      "tier": "advanced",
+      "filterable": true,
+      "comparable": true
+    },
+    "fabric_composition": {
+      "label": "Fabric composition",
+      "type": "text",
+      "tier": "advanced",
+      "filterable": true,
+      "comparable": true
+    },
+    "shoe_size": {
+      "label": "Shoe size",
+      "type": "size_with_system",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "sole_type": {
+      "label": "Sole type",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "intended_use": {
+      "label": "Intended use",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "key_specifications": {
+      "label": "Key specifications",
+      "type": "structured_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "warranty": {
+      "label": "Warranty",
+      "type": "text_or_duration",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "power_rating": {
+      "label": "Power rating",
+      "type": "measurement",
+      "unit": "W_or_kW_or_hp",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "capacity": {
+      "label": "Capacity",
+      "type": "measurement",
+      "unit_family": "capacity",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "fuel_or_power_source": {
+      "label": "Power source",
+      "type": "enum_or_text",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "grade_or_standard": {
+      "label": "Grade / standard",
+      "type": "text_or_reference",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "dimensions": {
+      "label": "Dimensions",
+      "type": "measurement_group",
+      "unit": "mm_cm_m",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "manufacturer": {
+      "label": "Manufacturer",
+      "type": "text_or_reference",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "service_scope": {
+      "label": "What is included?",
+      "type": "short_text",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "service_area": {
+      "label": "Areas served",
+      "type": "location_or_area_list",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": false
+    },
+    "price_basis": {
+      "label": "How is the service charged?",
+      "type": "enum",
+      "values": [
+        "per_hour",
+        "per_day",
+        "per_visit",
+        "per_item",
+        "per_word",
+        "per_page",
+        "per_project",
+        "quotation"
+      ],
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "duration_or_turnaround": {
+      "label": "Duration / delivery time",
+      "type": "duration",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "availability": {
+      "label": "Availability",
+      "type": "schedule",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": false
+    },
+    "provider_qualifications_if_relevant": {
+      "label": "Qualifications / licence",
+      "type": "text_or_reference",
+      "tier": "regulatory_or_recommended",
+      "filterable": false,
+      "comparable": false
+    },
+    "format": {
+      "label": "Format",
+      "type": "enum_or_text",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "delivery_method": {
+      "label": "How is it delivered?",
+      "type": "enum",
+      "values": [
+        "download",
+        "email",
+        "account_access",
+        "physical_media"
+      ],
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "licence_or_usage_terms": {
+      "label": "Licence / usage terms",
+      "type": "text_or_enum",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "compatibility": {
+      "label": "Compatibility",
+      "type": "text_or_list",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "rental_period": {
+      "label": "Hire period",
+      "type": "duration",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "deposit": {
+      "label": "Refundable deposit",
+      "type": "money",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": true
+    },
+    "availability_calendar": {
+      "label": "Available dates",
+      "type": "date_range_or_calendar",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": false
+    },
+    "delivery_or_pickup": {
+      "label": "Delivery / collection",
+      "type": "enum_or_text",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": false
+    },
+    "damage_terms": {
+      "label": "Damage / return terms",
+      "type": "short_text",
+      "tier": "essential",
+      "filterable": false,
+      "comparable": true
+    },
+    "active_ingredient": {
+      "label": "Active ingredient",
+      "type": "controlled_text",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "strength": {
+      "label": "Strength",
+      "type": "measurement_or_text",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "dosage_form": {
+      "label": "Dosage form",
+      "type": "enum",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "pack_size": {
+      "label": "Pack size",
+      "type": "measurement_or_count",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "registration_number": {
+      "label": "Product registration number",
+      "type": "text",
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    },
+    "batch_number": {
+      "label": "Batch / lot number",
+      "type": "text",
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    },
+    "expiry_date": {
+      "label": "Expiry date",
+      "type": "date",
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    },
+    "storage_conditions": {
+      "label": "Storage conditions",
+      "type": "enum_or_text",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "prescription_status": {
+      "label": "Prescription status",
+      "type": "enum",
+      "values": [
+        "prescription_only",
+        "over_the_counter",
+        "not_applicable"
+      ],
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    },
+    "registration_status": {
+      "label": "Regulatory registration status",
+      "type": "enum_or_reference",
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    },
+    "intended_use_device": {
+      "label": "Intended use",
+      "type": "text",
+      "tier": "regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "ingredients": {
+      "label": "Ingredients",
+      "type": "text_or_list",
+      "tier": "recommended",
+      "filterable": true,
+      "comparable": false
+    },
+    "net_weight": {
+      "label": "Net weight / volume",
+      "type": "measurement",
+      "unit_family": "mass_volume",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "crop_or_target": {
+      "label": "Crop / target",
+      "type": "text_or_enum",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "variety_or_active_ingredient": {
+      "label": "Variety / active ingredient",
+      "type": "text",
+      "tier": "recommended_or_regulatory",
+      "filterable": true,
+      "comparable": true
+    },
+    "pack_size_input": {
+      "label": "Pack size",
+      "type": "measurement_or_count",
+      "tier": "essential",
+      "filterable": true,
+      "comparable": true
+    },
+    "registration_or_approval_if_required": {
+      "label": "Registration / approval",
+      "type": "text_or_reference",
+      "tier": "regulatory",
+      "filterable": false,
+      "comparable": false
+    }
+  },
+  "profiles": {
+    "common_offer": {
+      "essential": [
+        "condition"
+      ],
+      "recommended": [
+        "brand",
+        "model",
+        "warranty"
+      ],
+      "advanced": []
+    },
+    "produce": {
+      "essential": [
+        "variety",
+        "quantity",
+        "unit"
+      ],
+      "recommended": [
+        "grade",
+        "packaging",
+        "harvest_period"
+      ],
+      "advanced": [
+        "moisture_content"
+      ]
+    },
+    "livestock": {
+      "essential": [
+        "species"
+      ],
+      "recommended": [
+        "breed",
+        "sex",
+        "age",
+        "weight",
+        "health_status",
+        "vaccination_status"
+      ],
+      "advanced": []
+    },
+    "vehicle": {
+      "essential": [
+        "make",
+        "model",
+        "year",
+        "condition"
+      ],
+      "recommended": [
+        "fuel_type",
+        "transmission",
+        "mileage",
+        "engine_capacity"
+      ],
+      "advanced": []
+    },
+    "truck": {
+      "essential": [
+        "make",
+        "model",
+        "year",
+        "payload_capacity"
+      ],
+      "recommended": [
+        "fuel_type",
+        "transmission",
+        "axle_configuration",
+        "body_type"
+      ],
+      "advanced": [
+        "gross_vehicle_weight"
+      ]
+    },
+    "clothing": {
+      "essential": [
+        "size",
+        "colour"
+      ],
+      "recommended": [
+        "material",
+        "fit",
+        "gender_or_age_group"
+      ],
+      "advanced": [
+        "fabric_composition"
+      ]
+    },
+    "top_garment": {
+      "essential": [
+        "size",
+        "colour"
+      ],
+      "recommended": [
+        "material",
+        "fit",
+        "sleeve_length",
+        "neckline"
+      ],
+      "advanced": [
+        "closure",
+        "fabric_composition"
+      ]
+    },
+    "footwear": {
+      "essential": [
+        "shoe_size",
+        "colour"
+      ],
+      "recommended": [
+        "material",
+        "sole_type",
+        "intended_use"
+      ],
+      "advanced": []
+    },
+    "electronics": {
+      "essential": [
+        "brand",
+        "model",
+        "condition"
+      ],
+      "recommended": [
+        "key_specifications",
+        "warranty"
+      ],
+      "advanced": []
+    },
+    "machinery": {
+      "essential": [
+        "condition"
+      ],
+      "recommended": [
+        "brand",
+        "model",
+        "power_rating",
+        "capacity",
+        "fuel_or_power_source",
+        "warranty"
+      ],
+      "advanced": []
+    },
+    "building_material": {
+      "essential": [
+        "material",
+        "unit"
+      ],
+      "recommended": [
+        "grade_or_standard",
+        "dimensions",
+        "manufacturer"
+      ],
+      "advanced": []
+    },
+    "service": {
+      "essential": [
+        "service_scope",
+        "service_area",
+        "price_basis"
+      ],
+      "recommended": [
+        "duration_or_turnaround",
+        "availability",
+        "provider_qualifications_if_relevant"
+      ],
+      "advanced": []
+    },
+    "digital": {
+      "essential": [
+        "format",
+        "delivery_method",
+        "licence_or_usage_terms"
+      ],
+      "recommended": [
+        "compatibility"
+      ],
+      "advanced": []
+    },
+    "rental": {
+      "essential": [
+        "rental_period",
+        "availability_calendar",
+        "delivery_or_pickup",
+        "damage_terms"
+      ],
+      "recommended": [
+        "deposit"
+      ],
+      "advanced": []
+    },
+    "medicine_regulated": {
+      "essential": [],
+      "recommended": [],
+      "advanced": [],
+      "regulatory": [
+        "active_ingredient",
+        "strength",
+        "dosage_form",
+        "pack_size",
+        "manufacturer",
+        "registration_number",
+        "batch_number",
+        "expiry_date",
+        "storage_conditions",
+        "prescription_status"
+      ]
+    },
+    "medical_device": {
+      "essential": [
+        "manufacturer"
+      ],
+      "recommended": [
+        "model",
+        "warranty"
+      ],
+      "advanced": [],
+      "regulatory": [
+        "registration_status",
+        "intended_use_device"
+      ]
+    },
+    "food_packaged": {
+      "essential": [
+        "ingredients",
+        "net_weight"
+      ],
+      "recommended": [
+        "manufacturer",
+        "expiry_date",
+        "storage_conditions"
+      ],
+      "advanced": []
+    },
+    "seed_input": {
+      "essential": [
+        "crop_or_target",
+        "pack_size_input"
+      ],
+      "recommended": [
+        "variety_or_active_ingredient",
+        "manufacturer"
+      ],
+      "advanced": [],
+      "regulatory": [
+        "registration_or_approval_if_required"
+      ]
+    }
+  },
+  "note": "Starter field catalogue. Requiredness must be reviewed per individual leaf type and country. Regulatory attributes are not substitutes for verifying licences, product registrations or legal permission to sell."
+}

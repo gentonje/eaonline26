@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getImageUrl } from '../lib/image-utils';
 import ScreenHeader from '../components/ScreenHeader';
 import { aiApi } from '../lib/api';
-import { CATEGORIES } from '../lib/categories';
+import TaxonomyListingFields from '../components/TaxonomyListingFields';
 
 async function uriToBlob(uri: string): Promise<Blob> {
     if (uri.startsWith('data:')) {
@@ -68,6 +68,7 @@ export default function EditProductScreen() {
     });
     const [images, setImages] = useState<ImageItem[]>([]);
     const [countries, setCountries] = useState<any[]>([]);
+    const [taxonomySelection, setTaxonomySelection] = useState<{ nodeId: string | null; listingKind: string; category: string; attributes: Record<string, string> }>({ nodeId: null, listingKind: 'physical_product', category: '', attributes: {} });
 
     useEffect(() => {
         fetchInitialData();
@@ -86,6 +87,13 @@ export default function EditProductScreen() {
                 .single();
 
             if (productError) throw productError;
+
+            setTaxonomySelection({
+                nodeId: product.taxonomy_node_id || null,
+                listingKind: product.listing_kind || 'physical_product',
+                category: product.category || '',
+                attributes: Object.fromEntries(Object.entries(product.attributes || {}).map(([key, value]) => [key, String(value ?? '')])),
+            });
 
             setFormData({
                 title: product.title || '',
@@ -195,7 +203,7 @@ export default function EditProductScreen() {
             const seo = await aiApi.optimizeListing({
                 title: formData.title,
                 description: formData.description,
-                category: formData.category,
+                category: taxonomySelection.category || formData.category,
             });
             setOptimizing(false);
 
@@ -203,13 +211,16 @@ export default function EditProductScreen() {
                 title: seo.title || formData.title,
                 description: seo.description || formData.description,
                 price: parseFloat(formData.price),
-                category: formData.category,
+                category: taxonomySelection.category || formData.category,
+                taxonomy_node_id: taxonomySelection.nodeId,
+                listing_kind: taxonomySelection.listingKind,
+                classification_status: taxonomySelection.nodeId ? 'confirmed' : 'unclassified',
                 available_quantity: parseInt(formData.available_quantity),
                 storage_path: mainPath,
                 condition: formData.condition || null,
                 warranty: formData.warranty.trim() || null,
                 delivery_terms: formData.delivery_terms.trim() || null,
-                attributes: parseProductAttributes(formData.attributesText),
+                attributes: { ...parseProductAttributes(formData.attributesText), ...Object.fromEntries(Object.entries(taxonomySelection.attributes).filter(([, value]) => value.trim())) },
             }).eq('id', productId);
 
             if (prErr) throw prErr;
@@ -269,7 +280,12 @@ export default function EditProductScreen() {
                     <View className="bg-surface rounded-[40px] p-6 mb-6 border border-secondary/10">
                         <Text className="text-xl font-black text-black mb-6">Info</Text>
                         <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Title</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" placeholder="Title" value={formData.title} onChangeText={t => setFormData(p => ({ ...p, title: t }))} /></View>
-                        <View className="mb-6"><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Category</Text><ScrollView horizontal showsHorizontalScrollIndicator={false}>{CATEGORIES.map(c => <TouchableOpacity key={c} onPress={() => setFormData(p => ({ ...p, category: c }))} className={`px-5 py-3 rounded-full border mr-3 ${formData.category === c ? 'bg-black' : 'bg-white'}`}><Text className={`font-black text-xs ${formData.category === c ? 'text-white' : 'text-black'}`}>{c}</Text></TouchableOpacity>)}</ScrollView></View>
+                        <TaxonomyListingFields
+                            initialNodeId={taxonomySelection.nodeId}
+                            initialListingKind={taxonomySelection.listingKind}
+                            initialAttributes={taxonomySelection.attributes}
+                            onChange={setTaxonomySelection}
+                        />
                         <View><Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Description</Text><TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold min-h-[120]" multiline placeholder="Description" value={formData.description} onChangeText={t => setFormData(p => ({ ...p, description: t }))} /></View>
                     </View>
 
@@ -295,9 +311,7 @@ export default function EditProductScreen() {
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold mb-4" placeholder="e.g. 12 months, or No warranty" value={formData.warranty} onChangeText={text => setFormData(prev => ({ ...prev, warranty: text }))} />
                         <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Delivery terms</Text>
                         <TextInput className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold mb-4" placeholder="e.g. Nationwide delivery at buyer's cost" value={formData.delivery_terms} onChangeText={text => setFormData(prev => ({ ...prev, delivery_terms: text }))} />
-                        <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1">Specifications</Text>
-                        <Text style={{ color: '#6b7280', fontSize: 11, marginBottom: 8 }}>One per line in Name: Value format, e.g. RAM: 8GB</Text>
-                        <TextInput multiline numberOfLines={5} textAlignVertical="top" className="bg-white rounded-2xl border border-secondary/20 p-4 font-bold" placeholder={"RAM: 8GB\nStorage: 256GB"} value={formData.attributesText} onChangeText={text => setFormData(prev => ({ ...prev, attributesText: text }))} />
+
                     </View>
 
                 </ScrollView>
