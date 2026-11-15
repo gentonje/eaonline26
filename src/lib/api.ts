@@ -140,7 +140,7 @@ export const assistantApi = {
     const latest = [...messages].reverse().find(m => m.role === 'user')?.content || '';
     return apiCall('/api/ai/assistant', {
       method: 'POST',
-      body: JSON.stringify({ message: latest, country_code }),
+      body: JSON.stringify({ message: latest, country_code, selected_suggestion, original_message }),
     });
   },
 };
