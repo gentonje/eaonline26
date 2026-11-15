@@ -42,11 +42,11 @@ export default function ProductApprovalScreen() {
             setScanning(true);
             const r = await adminApi.runQualityScan(25);
             const msg = `Scanned ${r.scanned} · ${r.flagged_blurry} blurry · ${r.flagged_harmful} harmful`;
-            feedback?.showToast?.(msg, 'success') ?? Alert.alert('Quality Scan', msg);
+            feedback.showToast(msg, 'success');
             await fetchProducts();
         } catch (err: any) {
             const msg = err?.message || 'Scan failed';
-            feedback?.showToast?.(msg, 'error') ?? Alert.alert('Quality Scan Failed', msg);
+            feedback.showToast(msg, 'error');
         } finally {
             setScanning(false);
         }
@@ -407,7 +407,7 @@ export default function ProductApprovalScreen() {
                                         </>
                                     ) : (
                                         <TouchableOpacity
-                                            onPress={() => handleReject(product.id)}
+                                            onPress={() => handleReject(product.id, product.product_status)}
                                             disabled={updatingId === product.id}
                                             className="flex-1 flex-row items-center justify-center py-3"
                                         >
