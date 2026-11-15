@@ -64,7 +64,7 @@ export default function ProductApprovalScreen() {
 
             const { data: productsData, error: productsError } = await supabase
                 .from('products')
-                .select('id, title, description, price, category, product_status, storage_path, created_at, user_id, country_id, quality_flag, quality_reason, quality_checked_at')
+                .select('id, title, description, price, category, product_status, storage_path, created_at, user_id, country_id')
                 .order('created_at', { ascending: false });
 
             if (productsError) throw productsError;
