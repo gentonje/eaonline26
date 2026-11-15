@@ -10,6 +10,7 @@ import WebScrollView from '../components/WebScrollView';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { aiApi } from '../lib/api';
 import { CATEGORIES } from '../lib/categories';
+import TaxonomyListingFields from '../components/TaxonomyListingFields';
 
 interface ImageItem {
     uri: string;
@@ -80,6 +81,7 @@ export default function AddProductScreen() {
     const [districts, setDistricts] = useState<District[]>([]);
     const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
     const [selectedCurrency, setSelectedCurrency] = useState('USD');
+    const [taxonomySelection, setTaxonomySelection] = useState<{ nodeId: string | null; listingKind: string; category: string; attributes: Record<string, string> }>({ nodeId: null, listingKind: 'physical_product', category: '', attributes: {} });
 
     useEffect(() => {
         fetchLocations();
@@ -256,7 +258,7 @@ export default function AddProductScreen() {
             const seo = await aiApi.optimizeListing({
                 title: formData.title.trim(),
                 description: formData.description.trim(),
-                category: formData.category,
+                category: taxonomySelection.category || formData.category,
                 country: selectedCountryObj?.name || '',
                 county: selectedDistrict?.name || '',
             });
@@ -269,7 +271,10 @@ export default function AddProductScreen() {
                     title: seo.title || formData.title.trim(),
                     description: seo.description || formData.description.trim(),
                     price: parseFloat(formData.price),
-                    category: formData.category,
+                    category: taxonomySelection.category || formData.category,
+                    taxonomy_node_id: taxonomySelection.nodeId,
+                    listing_kind: taxonomySelection.listingKind,
+                    classification_status: taxonomySelection.nodeId ? 'confirmed' : 'unclassified',
                     available_quantity: parseInt(formData.available_quantity) || 1,
                     storage_path: mainImagePath,
                     product_status: 'draft',
@@ -278,7 +283,7 @@ export default function AddProductScreen() {
                     condition: formData.condition || null,
                     warranty: formData.warranty.trim() || null,
                     delivery_terms: formData.delivery_terms.trim() || null,
-                    attributes: parseProductAttributes(formData.attributesText),
+                    attributes: { ...parseProductAttributes(formData.attributesText), ...Object.fromEntries(Object.entries(taxonomySelection.attributes).filter(([, value]) => value.trim())) },
                 })
                 .select()
                 .single();
@@ -456,22 +461,7 @@ export default function AddProductScreen() {
                             />
                         </View>
 
-                        <View className="mb-5">
-                            <Text className="text-xs font-black text-black/40 uppercase mb-3 ml-1 tracking-widest">Category</Text>
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                                {CATEGORIES.map((cat) => (
-                                    <TouchableOpacity 
-                                        key={cat}
-                                        onPress={() => setFormData(prev => ({ ...prev, category: cat }))}
-                                        className={`px-4 py-2 rounded-full border ${formData.category === cat ? 'bg-black border-black' : 'bg-white border-secondary/20'}`}
-                                    >
-                                        <Text className={`font-black text-xs ${formData.category === cat ? 'text-white' : 'text-black'}`}>
-                                            {cat}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </View>
+                        <TaxonomyListingFields onChange={setTaxonomySelection} />
 
                         <View>
                             <Text className="text-xs font-black text-black/40 uppercase mb-2 ml-1 tracking-widest">Description</Text>
