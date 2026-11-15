@@ -58,6 +58,7 @@ const SEARCH_SYNONYMS = {
   cement: ['cement','cement bags'],
   food: ['food','groceries','grocery','foodstuff','foodstuffs']
 };
+const SYNONYM_CANONICAL = new Map(Object.entries(SEARCH_SYNONYMS).flatMap(([canonical, variants]) => variants.map(variant => [normalizeWord(variant), canonical])));
 const STOP_WORDS = new Set(['a','an','the','some','any','me','for','please','show','find','get','looking','want','need','give','of','to','with','and']);
 function normalizeWord(word) {
   let value = String(word || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
@@ -70,7 +71,7 @@ function normalizeWord(word) {
 function searchGroups(query) {
   return String(query || '').toLowerCase().split(/\s+/).filter(Boolean).map(normalizeWord)
     .filter(word => word && !STOP_WORDS.has(word))
-    .map(word => SEARCH_SYNONYMS[word] || [word, word + 's']);
+    .map(word => SEARCH_SYNONYMS[word] || SEARCH_SYNONYMS[SYNONYM_CANONICAL.get(word)] || [word, word + 's']);
 }
 
 function detectClarification(message) {
