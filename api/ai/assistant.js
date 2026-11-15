@@ -214,7 +214,7 @@ async function publicQuery(path) {
 let taxonomyIndexCache = { expiresAt: 0, idsByTerm: new Map() };
 
 function normalizeTaxonomyTerm(value) {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\\s+/g, ' ');
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
 }
 
 async function getTaxonomyIds(terms) {
@@ -260,7 +260,7 @@ async function searchProducts(filters) {
   if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
   if (filters.category) {
-    const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\\s+/g, ' ');
+    const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\s+/g, ' ');
     const categoryTerms = searchGroups(categoryText).flat();
     const taxonomyIds = await getTaxonomyIds(categoryTerms);
     const categoryAlternatives = ["category.fts(english)." + categoryText];
@@ -282,7 +282,7 @@ async function searchProducts(filters) {
     for (const group of searchGroups(query).slice(0, 5)) {
       const taxonomyIds = await getTaxonomyIds(group);
       const alternatives = group.flatMap(term => {
-        const safe = String(term).replace(/[^a-z0-9 ]/g, ' ').trim().replace(/\\s+/g, ' ');
+        const safe = String(term).replace(/[^a-z0-9 ]/g, ' ').trim().replace(/\s+/g, ' ');
         // Word-based search avoids substring collisions such as "car" in "skin care".
         return [
           'title.fts(english).' + safe,
