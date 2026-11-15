@@ -64,7 +64,7 @@ export default function ProductApprovalScreen() {
 
             const { data: productsData, error: productsError } = await supabase
                 .from('products')
-                .select('id, title, description, price, category, product_status, storage_path, created_at, user_id, country_id')
+                .select('id, title, description, price, category, product_status, storage_path, created_at, user_id, country_id, quality_flag, quality_reason, quality_checked_at')
                 .order('created_at', { ascending: false });
 
             if (productsError) throw productsError;
@@ -84,9 +84,7 @@ export default function ProductApprovalScreen() {
                 ...p,
                 username: profileMap.get(p.user_id) || 'Unknown User',
                 country_name: countryMap.get(p.country_id) || null,
-                quality_flag: null,
-                quality_reason: null,
-                quality_checked_at: null,
+
             }));
 
             setProducts(enriched);
