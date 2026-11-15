@@ -270,7 +270,7 @@ module.exports = async function handler(req, res) {
       headers: { apikey: SUPABASE_KEY, Authorization: auth }, timeout: 10000
     });
     if (!user.data?.id) return res.status(401).json({ error: 'Invalid session' });
-    const message = String(req.body?.message || '').trim();
+    const message = String(req.body?.original_message || req.body?.message || '').trim();
     if (!message) return res.status(400).json({ error: 'message required' });
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
