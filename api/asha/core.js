@@ -69,7 +69,11 @@ function normalizeWord(word) {
   return value;
 }
 function searchGroups(query) {
-  return String(query || '').toLowerCase().split(/\s+/).filter(Boolean).map(normalizeWord)
+  const raw = String(query || '').toLowerCase().trim();
+  const phraseKey = normalizeWord(raw);
+  const phraseCanonical = SYNONYM_CANONICAL.get(phraseKey);
+  if (phraseCanonical && SEARCH_SYNONYMS[phraseCanonical]) return [SEARCH_SYNONYMS[phraseCanonical]];
+  return raw.split(/\s+/).filter(Boolean).map(normalizeWord)
     .filter(word => word && !STOP_WORDS.has(word))
     .map(word => SEARCH_SYNONYMS[word] || SEARCH_SYNONYMS[SYNONYM_CANONICAL.get(word)] || [word, word + 's']);
 }
