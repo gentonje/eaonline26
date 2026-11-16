@@ -100,7 +100,7 @@ async function searchProducts(filters) {
   if (filters.category) {
     const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\s+/g, ' ');
     const taxonomyIds = await getTaxonomyCategoryIds(filters.category);
-    const categoryAlternatives = ["category.fts(english)." + categoryText];
+    const categoryAlternatives = ["category.ilike.*" + categoryText + "*"];
     if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
     conditions.push('or(' + categoryAlternatives.join(',') + ')');
   }
