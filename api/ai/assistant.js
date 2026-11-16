@@ -214,8 +214,12 @@ module.exports = async function handler(req, res) {
     const liveSubcategories = taxonomyContext.subcategories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedSubcategory));
     if (requestedSubcategory && liveSubcategories.length) filters.subcategory = liveSubcategories[0].label;
     else if (requestedSubcategory) delete filters.subcategory;
+    if (filters.subcategory) {
+      const parentCategory = inferMainCategory(filters.subcategory, taxonomyIndex);
+      if (parentCategory) filters.category = parentCategory.label;
+    }
     if (!filters.category) {
-      const inferred = inferMainCategory(filters.subcategory || filters.query || resolvedMessage, taxonomyIndex);
+      const inferred = inferMainCategory(filters.query || resolvedMessage, taxonomyIndex);
       if (inferred) filters.category = inferred.label;
     }
 
@@ -235,9 +239,18 @@ module.exports = async function handler(req, res) {
     let broadenedToDepartment = filters.category_browse;
     let suggestions = (filters.category || filters.subcategory) ? await getRelatedListingSuggestions(filters, itemName) : [];
 
-    // If a specific search returns nothing, broaden to the shopper's department and
-    // show real published listings there as useful alternatives.
-    if (!products.length && (filters.category || filters.subcategory) && !filters.category_browse) {
+    // If the closest subdepartment has no listings, broaden one level to its
+    // parent department. If an exact product search fails, first browse its
+    // selected subdepartment. Every fallback remains grounded in published listings.
+    if (!products.length && filters.subcategory && filters.category) {
+      const broader = { ...filters, subcategory: undefined, query: '', category_browse: true, limit: 6 };
+      const relatedProducts = await searchProducts(broader);
+      if (relatedProducts.length) {
+        products = relatedProducts;
+        broadenedToDepartment = true;
+        suggestions = await getRelatedListingSuggestions(broader, itemName);
+      }
+    } else if (!products.length && filters.category && !filters.category_browse) {
       const broader = { ...filters, query: '', category_browse: true, limit: 6 };
       const relatedProducts = await searchProducts(broader);
       if (relatedProducts.length) {
