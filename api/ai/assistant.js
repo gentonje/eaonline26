@@ -98,8 +98,7 @@ async function searchProducts(filters) {
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
   if (filters.category) {
     const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\s+/g, ' ');
-    const categoryTerms = searchGroups(categoryText).flat();
-    const taxonomyIds = await getTaxonomyIds(categoryTerms);
+    const taxonomyIds = await getTaxonomyCategoryIds(filters.category);
     const categoryAlternatives = ["category.fts(english)." + categoryText];
     if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
     conditions.push('or(' + categoryAlternatives.join(',') + ')');
@@ -115,7 +114,7 @@ async function searchProducts(filters) {
   if (filters.intent === 'new') params.set('created_at', 'gte.' + new Date(Date.now() - 7 * 86400000).toISOString());
 
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
-  if (query) {
+  if (query && !filters.category_browse) {
     for (const group of searchGroups(query).slice(0, 5)) {
       const taxonomyIds = await getTaxonomyIds(group);
       const alternatives = group.flatMap(term => {
