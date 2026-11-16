@@ -226,8 +226,25 @@ module.exports = async function handler(req, res) {
       if (parentCategory) filters.category = parentCategory.label;
     }
     if (!browseAll && !filters.category) {
-      const inferred = inferMainCategory(filters.query || resolvedMessage, taxonomyIndex);
+      const inferred = inferMainCategory(resolvedMessage || filters.query, taxonomyIndex);
       if (inferred) filters.category = inferred.label;
+    }
+
+    // The shopper's original words take precedence over a model's ambiguous
+    // interpretation. This prevents "car" being mistaken for "care" and
+    // sending an automotive request into Beauty & Personal Care.
+    if (!browseAll) {
+      const inferredFromMessage = inferMainCategory(resolvedMessage, taxonomyIndex);
+      if (inferredFromMessage && normalizeTerm(filters.category) !== normalizeTerm(inferredFromMessage.label)) {
+        filters.category = inferredFromMessage.label;
+        if (filters.subcategory) {
+          const belongsToCategory = taxonomyContext.subcategories.some(item =>
+            normalizeTerm(item.label) === normalizeTerm(filters.subcategory) &&
+            item.parent_id === inferredFromMessage.id
+          );
+          if (!belongsToCategory) delete filters.subcategory;
+        }
+      }
     }
 
     if (!browseAll && (filters.intent === 'clarify' || !filters.query)) {
