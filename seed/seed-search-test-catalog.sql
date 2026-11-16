@@ -127,3 +127,51 @@ update public.products set
   taxonomy_node_id='education-learning.learning-materials.textbook',
   updated_at=now()
 where title='Pens Pencils - EAO Sample 030';
+
+
+-- Complete test coverage for the remaining marketplace departments. External
+-- image URLs are supported by src/lib/image-utils.ts and point to subject-matched
+-- product/service photography; local images remain in the Supabase images bucket.
+with seed(title,description,price,category,taxonomy_node_id,image_path,listing_kind,attributes) as (
+ values
+ ('EAO Test | Tea Coffee Pack','Sample tea and coffee grocery pack.',650,'Food & Groceries','food-groceries.beverages.tea-coffee','seed/food_coffee.jpg','physical_product','{"pack_size":"500g"}'::jsonb),
+ ('EAO Test | East African Spice Mix','Sample East African spice mix.',450,'Food & Groceries','food-groceries.staples.spices','seed/food_spices.jpg','physical_product','{"pack_size":"200g"}'::jsonb),
+ ('EAO Test | Dried Beans 2kg','Sample dried beans grocery listing.',380,'Food & Groceries','food-groceries.staples.dried-beans','seed/agriculture_seeds.jpg','physical_product','{"weight_kg":2}'::jsonb),
+ ('EAO Test | Laundry Detergent 1L','Sample liquid laundry detergent.',650,'Cleaning & Facility Care','cleaning-facility.cleaning-products.detergent','https://images.pexels.com/photos/5217898/pexels-photo-5217898.jpeg?cs=srgb&dl=pexels-shvetsa-5217898.jpg&fm=jpg','physical_product','{"volume_ml":1000,"type":"laundry detergent"}'::jsonb),
+ ('EAO Test | Residential Property Listing','Sample residential property and real estate service listing.',5000,'Home & Property Services','home-property-services.property-services.real-estate-agency','https://phimg.reapit.website/5e85c9b0aa955ee683fc96aa8ed32d4ebd26232a','service','{"location":"Nairobi","property_type":"residential"}'::jsonb),
+ ('EAO Test | Makonde Wood Sculpture','Sample hand-carved African wooden sculpture.',4800,'Other / Specialist','other-specialist.unclassified.other-product-review','https://i.ebayimg.com/00/s/MTYwMFgxNjAw/z/i8gAAOSwIF9lZ1w-/%24_12.JPG?set_id=880000500F','physical_product','{"material":"ebony wood","handmade":true}'::jsonb),
+ ('EAO Test | First Aid Kit 188-Piece','Sample 188-piece emergency first aid kit.',3200,'Pharmaceuticals & Healthcare','pharma-healthcare.health-products.first-aid-kit','https://media.diy.com/is/image/KingfisherDigital/188-piece-emergency-travel-first-aid-kit~5061107322391_01c_MP?%24MOB_PREV%24=&%24height=1200&%24width=1200','physical_product','{"piece_count":188,"type":"first aid kit"}'::jsonb),
+ ('EAO Test | Graphic Design Service','Sample graphic design and digital artwork service.',2500,'Professional & Business Services','professional-services.creative-services.graphic-design','https://images.pexels.com/photos/12902996/pexels-photo-12902996.jpeg?cs=srgb&dl=pexels-mizunokozuki-12902996.jpg&fm=jpg','service','{"service_type":"graphic design","delivery":"digital"}'::jsonb),
+ ('EAO Test | Kitenge Fabric Roll','Sample roll of East African printed textile fabric.',12000,'Raw Materials & Manufacturing','raw-materials.textile-materials.fabric-roll','seed/kitenge_fabric.jpg','physical_product','{"material":"cotton textile","form":"fabric roll"}'::jsonb)
+),
+resolved as (
+ select s.* from seed s
+ join public.marketplace_taxonomy_nodes n on n.id=s.taxonomy_node_id and n.node_kind='product_type' and n.is_active
+ where (s.image_path like 'http%' or exists(select 1 from storage.objects o where o.bucket_id='images' and o.name=s.image_path))
+),
+inserted as (
+ insert into public.products
+   (user_id,title,description,price,category,county,product_status,available_quantity,
+    listing_kind,taxonomy_node_id,classification_status,storage_path,attributes)
+ select
+   'ad9fee5e-1950-4a63-b7df-4215f96f8fc4'::uuid,
+   r.title,r.description,r.price,r.category,'Nairobi','published',
+   case when r.listing_kind='physical_product' then 4 else 1 end,
+   r.listing_kind,r.taxonomy_node_id,'approved',r.image_path,r.attributes
+ from resolved r
+ where not exists(select 1 from public.products p where p.title=r.title)
+ returning id,storage_path
+)
+insert into public.product_images(product_id,storage_path,is_main,display_order)
+select id,storage_path,true,0 from inserted;
+
+-- Replace the old generic beauty image with a real hair-oil product photograph.
+with updated as (
+ update public.products
+ set storage_path='https://images.pexels.com/photos/4408447/pexels-photo-4408447.jpeg?cs=srgb&dl=pexels-paula-francis-2878334-4408447.jpg&fm=jpg',
+     updated_at=now()
+ where title='Haircare - EAO Sample 019'
+ returning id,storage_path
+)
+update public.product_images pi set storage_path=u.storage_path
+from updated u where pi.product_id=u.id and pi.is_main=true;
