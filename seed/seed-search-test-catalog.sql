@@ -98,3 +98,31 @@ updated as (
 )
 update public.product_images pi set storage_path=u.storage_path
 from updated u where pi.product_id=u.id and pi.is_main=true;
+
+
+-- Align legacy sample titles and taxonomy with the category-specific images
+-- assigned above, so the displayed item name, taxonomy and image agree.
+update public.products set
+  title='Baby Clothing - EAO Sample 014',
+  taxonomy_node_id='baby-children-toys.baby-care.baby-clothing',
+  updated_at=now()
+where title='Nappy Diaper - EAO Sample 014';
+
+update public.products set
+  title='Chair - EAO Sample 070',
+  taxonomy_node_id='home-household.furniture.chair',
+  updated_at=now()
+where title='Bed - EAO Sample 070';
+
+update public.products set
+  title='Cement - EAO Sample 028',
+  taxonomy_node_id='building-construction.building-materials.cement',
+  updated_at=now()
+where title='Roofing Sheets - EAO Sample 028';
+
+update public.products set
+  title='School Textbook - EAO Sample 030',
+  category='Education & Learning',
+  taxonomy_node_id='education-learning.learning-materials.textbook',
+  updated_at=now()
+where title='Pens Pencils - EAO Sample 030';
