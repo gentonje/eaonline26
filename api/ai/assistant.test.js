@@ -129,3 +129,11 @@ test('related alternatives are generated from actual published listing taxonomy 
   assert.deepEqual(suggestions.map(item => item.label), ['Vehicle Repair', 'Sedan']);
   assert.equal(suggestions[0].description, '2 listings');
 });
+
+test('intent validation distinguishes service requests from physical products', () => {
+  const fallback = asha.parseIntent('find a chef');
+  const service = asha.validateIntent({ intent: 'search', query: 'chef', listing_kind: 'service' }, fallback);
+  assert.equal(service.listing_kind, 'service');
+  const invalid = asha.validateIntent({ intent: 'search', query: 'chef', listing_kind: 'people_stock' }, fallback);
+  assert.equal(invalid.listing_kind, undefined);
+});
