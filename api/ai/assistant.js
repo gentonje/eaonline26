@@ -79,7 +79,8 @@ async function getRelatedListingSuggestions(filters, query) {
   if (!filters.category) return [];
   const ids = await getTaxonomyCategoryIds(filters.category);
   if (!ids.length) return [];
-  const rows = await publicQuery('products?product_status=eq.published&taxonomy_node_id=in.(' +
+  const listingKindFilter = filters.listing_kind ? '&listing_kind=eq.' + encodeURIComponent(filters.listing_kind) : '';
+  const rows = await publicQuery('products?product_status=eq.published' + listingKindFilter + '&taxonomy_node_id=in.(' +
     ids.map(id => encodeURIComponent(id)).join(',') +
     ')&select=taxonomy_node_id,listing_kind&limit=500');
   const index = await getTaxonomyIndex();
@@ -112,6 +113,7 @@ async function searchProducts(filters) {
     else throw new Error('Country code is not configured: ' + filters.country_code);
   }
   if (filters.intent === 'new') params.set('created_at', 'gte.' + new Date(Date.now() - 7 * 86400000).toISOString());
+  if (filters.listing_kind) params.set('listing_kind', 'eq.' + filters.listing_kind);
 
   const query = String(filters.query || '').trim().replace(/[*%,]/g, ' ').slice(0, 80);
   if (query && !filters.category_browse) {
