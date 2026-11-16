@@ -12,6 +12,10 @@ const {
   validateIntent,
   interpret
 } = require('../asha/core');
+const {
+  buildTaxonomyIndex, inferMainCategory, descendantIds,
+  hasExactProductType, buildRelatedSuggestions, normalizeTerm
+} = require('../asha/discovery');
 
 async function publicQuery(path) {
   if (!SUPABASE_URL || !SUPABASE_KEY) throw new Error('Supabase public credentials are missing');
@@ -21,42 +25,65 @@ async function publicQuery(path) {
   return r.data;
 }
 
-let taxonomyIndexCache = { expiresAt: 0, idsByTerm: new Map() };
+let taxonomyIndexCache = { expiresAt: 0, index: null };
 
-function normalizeTaxonomyTerm(value) {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
+async function getTaxonomyIndex() {
+  if (!taxonomyIndexCache.expiresAt || taxonomyIndexCache.expiresAt <= Date.now()) {
+    const [nodes, aliases] = await Promise.all([
+      publicQuery('marketplace_taxonomy_nodes?is_active=eq.true&select=id,label,node_kind,parent_id&limit=2000'),
+      publicQuery('marketplace_taxonomy_aliases?select=normalized_term,node_id&limit=2000')
+    ]);
+    taxonomyIndexCache = {
+      expiresAt: Date.now() + 5 * 60 * 1000,
+      index: buildTaxonomyIndex(nodes, aliases)
+    };
+  }
+  return taxonomyIndexCache.index;
+}
+
+async function getTaxonomyContext() {
+  const index = await getTaxonomyIndex();
+  return Array.from(index.byId.values())
+    .filter(node => node.node_kind === 'main_category')
+    .map(node => ({ id: node.id, label: node.label }));
 }
 
 async function getTaxonomyIds(terms) {
-  if (!taxonomyIndexCache.expiresAt || taxonomyIndexCache.expiresAt <= Date.now()) {
-    const [nodes, aliases] = await Promise.all([
-      publicQuery('marketplace_taxonomy_nodes?is_active=eq.true&node_kind=eq.product_type&select=id,label&limit=1000'),
-      publicQuery('marketplace_taxonomy_aliases?select=normalized_term,node_id&limit=1000')
-    ]);
-    const idsByTerm = new Map();
-    const add = (term, id) => {
-      const key = normalizeTaxonomyTerm(term);
-      if (!key || !id) return;
-      if (!idsByTerm.has(key)) idsByTerm.set(key, new Set());
-      idsByTerm.get(key).add(String(id));
-    };
-    for (const node of Array.isArray(nodes) ? nodes : []) add(node.label, node.id);
-    const activeNodeIds = new Set((Array.isArray(nodes) ? nodes : []).map(node => String(node.id)));
-    for (const alias of Array.isArray(aliases) ? aliases : []) {
-      if (activeNodeIds.has(String(alias.node_id))) add(alias.normalized_term, alias.node_id);
-    }
-    taxonomyIndexCache = {
-      expiresAt: Date.now() + 5 * 60 * 1000,
-      idsByTerm
-    };
-  }
-
+  const index = await getTaxonomyIndex();
   const ids = new Set();
   for (const term of terms || []) {
-    const matches = taxonomyIndexCache.idsByTerm.get(normalizeTaxonomyTerm(term));
-    if (matches) for (const id of matches) ids.add(id);
+    const matches = index.terms.get(normalizeTerm(term));
+    if (!matches) continue;
+    for (const id of matches) {
+      if (index.byId.get(id)?.node_kind === 'product_type') ids.add(id);
+    }
   }
   return Array.from(ids);
+}
+
+async function getTaxonomyCategoryIds(category) {
+  if (!category) return [];
+  const index = await getTaxonomyIndex();
+  const key = normalizeTerm(category);
+  let node = index.byId.get(String(category));
+  if (!node) {
+    node = Array.from(index.byId.values()).find(item =>
+      item.node_kind === 'main_category' && normalizeTerm(item.label) === key
+    );
+  }
+  if (!node) return [];
+  return descendantIds(node.id, index).filter(id => index.byId.get(id)?.node_kind === 'product_type');
+}
+
+async function getRelatedListingSuggestions(filters, query) {
+  if (!filters.category) return [];
+  const ids = await getTaxonomyCategoryIds(filters.category);
+  if (!ids.length) return [];
+  const rows = await publicQuery('products?product_status=eq.published&taxonomy_node_id=in.(' +
+    ids.map(id => encodeURIComponent(id)).join(',') +
+    ')&select=taxonomy_node_id,listing_kind&limit=500');
+  const index = await getTaxonomyIndex();
+  return buildRelatedSuggestions(rows, index, query, 4);
 }
 
 async function searchProducts(filters) {
