@@ -225,7 +225,7 @@ module.exports = async function handler(req, res) {
       const parentCategory = inferMainCategory(filters.subcategory, taxonomyIndex);
       if (parentCategory) filters.category = parentCategory.label;
     }
-    if (!filters.category) {
+    if (!browseAll && !filters.category) {
       const inferred = inferMainCategory(filters.query || resolvedMessage, taxonomyIndex);
       if (inferred) filters.category = inferred.label;
     }
@@ -241,7 +241,7 @@ module.exports = async function handler(req, res) {
     const itemName = String(filters.query || filters.category || 'that item').trim();
     // Broad concepts without an exact product-type match browse the relevant live
     // department instead of failing because the exact word is absent from listings.
-    filters.category_browse = Boolean((filters.subcategory || filters.category) && !hasExactProductType(filters.query, taxonomyIndex));
+    filters.category_browse = !browseAll && Boolean((filters.subcategory || filters.category) && !hasExactProductType(filters.query, taxonomyIndex));
     let products = await searchProducts(filters);
     let broadenedToDepartment = filters.category_browse;
     let resultScope = filters.subcategory || filters.category;
