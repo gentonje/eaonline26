@@ -59,15 +59,6 @@ function normalizeWord(word) {
   else if (value.endsWith('s') && !/(ss|us|is)$/.test(value) && value.length > 3) value = value.slice(0, -1);
   return value;
 }
-function searchGroups(query) {
-  const raw = String(query || '').toLowerCase().trim();
-  const phraseKey = normalizeWord(raw);
-  const phraseCanonical = SYNONYM_CANONICAL.get(phraseKey);
-  if (phraseCanonical && SEARCH_SYNONYMS[phraseCanonical]) return [SEARCH_SYNONYMS[phraseCanonical]];
-  return raw.split(/\s+/).filter(Boolean).map(normalizeWord)
-    .filter(word => word && !STOP_WORDS.has(word))
-    .map(word => SEARCH_SYNONYMS[word] || SEARCH_SYNONYMS[SYNONYM_CANONICAL.get(word)] || [word, word + 's']);
-}
 const SYNONYM_CANONICAL = new Map(Object.entries(SEARCH_SYNONYMS).flatMap(([canonical, variants]) => variants.map(variant => [normalizeWord(variant), canonical])));
 
 function searchGroups(query) {
