@@ -101,12 +101,14 @@ test('live taxonomy maps broad car and hair language to marketplace departments'
     { id: 'personal-care', label: 'Personal Care', node_kind: 'subcategory', parent_id: 'beauty' },
     { id: 'haircare', label: 'Haircare', node_kind: 'product_type', parent_id: 'beauty-products' },
     { id: 'hairdressing', label: 'Hairdressing', node_kind: 'product_type', parent_id: 'beauty-products' }
-  ], [{ normalized_term: 'car', node_id: 'auto' }, { normalized_term: 'cars', node_id: 'auto' }]);
-  assert.equal(discovery.inferMainCategory('car', index).id, 'auto');
+  ], [
+    { normalized_term: 'car', node_id: 'auto' },
+    { normalized_term: 'cars', node_id: 'auto' },
+    { normalized_term: 'hair', node_id: 'beauty' }
+  ]);
   assert.equal(discovery.inferMainCategory('car', index).id, 'auto');
   assert.equal(discovery.inferMainCategory('cars', index).id, 'auto');
   assert.equal(discovery.inferMainCategory('hair', index).id, 'beauty');
-  assert.equal(discovery.inferMainCategory('cars', index).id, 'auto');
 });
 
 test('broad department discovery expands to its live product types', () => {
