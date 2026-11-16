@@ -43,9 +43,13 @@ async function getTaxonomyIndex() {
 
 async function getTaxonomyContext() {
   const index = await getTaxonomyIndex();
-  return Array.from(index.byId.values())
-    .filter(node => node.node_kind === 'main_category')
-    .map(node => ({ id: node.id, label: node.label }));
+  const nodes = Array.from(index.byId.values());
+  return {
+    categories: nodes.filter(node => node.node_kind === 'main_category')
+      .map(node => ({ id: node.id, label: node.label })),
+    subcategories: nodes.filter(node => node.node_kind === 'subcategory')
+      .map(node => ({ id: node.id, label: node.label, parent_id: node.parent_id }))
+  };
 }
 
 async function getTaxonomyIds(terms) {
@@ -61,23 +65,25 @@ async function getTaxonomyIds(terms) {
   return Array.from(ids);
 }
 
-async function getTaxonomyCategoryIds(category) {
-  if (!category) return [];
+async function getTaxonomyCategoryIds(category, subcategory) {
+  if (!category && !subcategory) return [];
   const index = await getTaxonomyIndex();
-  const key = normalizeTerm(category);
-  let node = index.byId.get(String(category));
-  if (!node) {
-    node = Array.from(index.byId.values()).find(item =>
-      item.node_kind === 'main_category' && normalizeTerm(item.label) === key
-    );
+  const nodes = Array.from(index.byId.values());
+  const subcategoryKey = normalizeTerm(subcategory);
+  let node = subcategory
+    ? nodes.find(item => item.node_kind === 'subcategory' && normalizeTerm(item.label) === subcategoryKey)
+    : null;
+  if (!node && category) {
+    const categoryKey = normalizeTerm(category);
+    node = nodes.find(item => item.node_kind === 'main_category' && normalizeTerm(item.label) === categoryKey);
   }
   if (!node) return [];
   return descendantIds(node.id, index).filter(id => index.byId.get(id)?.node_kind === 'product_type');
 }
 
 async function getRelatedListingSuggestions(filters, query) {
-  if (!filters.category) return [];
-  const ids = await getTaxonomyCategoryIds(filters.category);
+  if (!filters.category && !filters.subcategory) return [];
+  const ids = await getTaxonomyCategoryIds(filters.category, filters.subcategory);
   if (!ids.length) return [];
   const listingKindFilter = filters.listing_kind ? '&listing_kind=eq.' + encodeURIComponent(filters.listing_kind) : '';
   const rows = await publicQuery('products?product_status=eq.published' + listingKindFilter + '&taxonomy_node_id=in.(' +
@@ -99,9 +105,10 @@ async function searchProducts(filters) {
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
   if (filters.category) {
     const categoryText = String(filters.category).replace(/[*%,()]/g, '').trim();
-    const taxonomyIds = await getTaxonomyCategoryIds(filters.category);
-    const categoryAlternatives = ["category.ilike.*" + categoryText + "*"];
+    const taxonomyIds = await getTaxonomyCategoryIds(filters.category, filters.subcategory);
+    const categoryAlternatives = filters.subcategory ? [] : ["category.ilike.*" + categoryText + "*"];
     if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
+    if (!categoryAlternatives.length) categoryAlternatives.push("category.ilike.*" + categoryText + "*");
     conditions.push('or(' + categoryAlternatives.join(',') + ')');
   }
   if (filters.year_from !== undefined) conditions.push('attributes->>year.gte.' + filters.year_from);
@@ -191,8 +198,8 @@ module.exports = async function handler(req, res) {
         .map(item => ({ role: item.role, content: item.content.slice(0, 500) }))
       : [];
     const taxonomyIndex = await getTaxonomyIndex();
-    const categories = await getTaxonomyContext();
-    const filters = await interpret(resolvedMessage, { categories, messages: conversationMessages });
+    const taxonomyContext = await getTaxonomyContext();
+    const filters = await interpret(resolvedMessage, { ...taxonomyContext, messages: conversationMessages });
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
@@ -200,11 +207,15 @@ module.exports = async function handler(req, res) {
     // Prefer a valid live department returned by the model; otherwise infer one from
     // matching taxonomy labels and aliases already stored in the marketplace database.
     const requestedCategory = String(filters.category || '').trim();
-    const liveCategories = categories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedCategory));
+    const liveCategories = taxonomyContext.categories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedCategory));
     if (requestedCategory && liveCategories.length) filters.category = liveCategories[0].label;
     else if (requestedCategory) delete filters.category;
+    const requestedSubcategory = String(filters.subcategory || '').trim();
+    const liveSubcategories = taxonomyContext.subcategories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedSubcategory));
+    if (requestedSubcategory && liveSubcategories.length) filters.subcategory = liveSubcategories[0].label;
+    else if (requestedSubcategory) delete filters.subcategory;
     if (!filters.category) {
-      const inferred = inferMainCategory(filters.query || resolvedMessage, taxonomyIndex);
+      const inferred = inferMainCategory(filters.subcategory || filters.query || resolvedMessage, taxonomyIndex);
       if (inferred) filters.category = inferred.label;
     }
 
@@ -219,7 +230,7 @@ module.exports = async function handler(req, res) {
     const itemName = String(filters.query || filters.category || 'that item').trim();
     // Broad concepts without an exact product-type match browse the relevant live
     // department instead of failing because the exact word is absent from listings.
-    filters.category_browse = Boolean(filters.category && !hasExactProductType(filters.query, taxonomyIndex));
+    filters.category_browse = Boolean((filters.subcategory || filters.category) && !hasExactProductType(filters.query, taxonomyIndex));
     let products = await searchProducts(filters);
     let broadenedToDepartment = filters.category_browse;
     let suggestions = filters.category ? await getRelatedListingSuggestions(filters, itemName) : [];
