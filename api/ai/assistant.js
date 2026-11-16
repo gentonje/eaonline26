@@ -237,6 +237,7 @@ module.exports = async function handler(req, res) {
     filters.category_browse = Boolean((filters.subcategory || filters.category) && !hasExactProductType(filters.query, taxonomyIndex));
     let products = await searchProducts(filters);
     let broadenedToDepartment = filters.category_browse;
+    let resultScope = filters.subcategory || filters.category;
     let suggestions = (filters.category || filters.subcategory) ? await getRelatedListingSuggestions(filters, itemName) : [];
 
     // If the closest subdepartment has no listings, broaden one level to its
@@ -248,6 +249,7 @@ module.exports = async function handler(req, res) {
       if (relatedProducts.length) {
         products = relatedProducts;
         broadenedToDepartment = true;
+        resultScope = filters.category;
         suggestions = await getRelatedListingSuggestions(broader, itemName);
       }
     } else if (!products.length && filters.category && !filters.category_browse) {
@@ -262,7 +264,7 @@ module.exports = async function handler(req, res) {
 
     let reply;
     if (products.length && broadenedToDepartment) {
-      reply = 'I couldn’t find ' + itemName + ' exactly, but here are some related options from ' + (filters.subcategory || filters.category) + '. Would you like to explore one?';
+      reply = 'I couldn’t find ' + itemName + ' exactly, but here are some related options from ' + resultScope + '. Would you like to explore one?';
     } else if (products.length) {
       reply = filters.intent === 'trending'
         ? 'Here are some popular listings.'
