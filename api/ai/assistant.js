@@ -187,7 +187,8 @@ module.exports = async function handler(req, res) {
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
     const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);
-    const resolvedMessage = selectedSuggestion
+    const browseAll = selectedSuggestion === '__browse_all__';
+    const resolvedMessage = selectedSuggestion && !browseAll
       ? (/\b(?:trak|truc|truk)\b/i.test(message)
         ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion)
         : message + ' ' + selectedSuggestion)
@@ -200,7 +201,9 @@ module.exports = async function handler(req, res) {
       : [];
     const taxonomyIndex = await getTaxonomyIndex();
     const taxonomyContext = await getTaxonomyContext();
-    const filters = await interpret(resolvedMessage, { ...taxonomyContext, messages: conversationMessages });
+    const filters = browseAll
+      ? { intent: 'trending', query: '', limit: 6, attributes: {} }
+      : await interpret(resolvedMessage, { ...taxonomyContext, messages: conversationMessages });
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
@@ -227,7 +230,7 @@ module.exports = async function handler(req, res) {
       if (inferred) filters.category = inferred.label;
     }
 
-    if (filters.intent === 'clarify' || !filters.query) {
+    if (!browseAll && (filters.intent === 'clarify' || !filters.query)) {
       const suggestions = Array.isArray(filters.suggestions) ? filters.suggestions : [];
       return res.status(200).json({
         reply: suggestions.length ? 'Did you mean one of these?' : 'What would you like to find? You can describe it in your own words.',
@@ -276,7 +279,12 @@ module.exports = async function handler(req, res) {
     } else if (suggestions.length) {
       reply = 'I couldn’t find ' + itemName + ' listed at the moment. Would you like to explore one of these related options?';
     } else {
-      reply = 'I couldn’t find ' + itemName + ' listed at the moment. Could you describe what you need another way?';
+      reply = 'I couldn’t find ' + itemName + ' listed at the moment. Would you like to browse other available listings instead?';
+      suggestions = [{
+        label: 'Browse available listings',
+        value: '__browse_all__',
+        description: 'Explore current products and services'
+      }];
     }
     return res.status(200).json({
       reply, products, filters, suggestions,
