@@ -1,7 +1,7 @@
 // Database-driven taxonomy discovery helpers for Asha.
 // No product vocabulary is hardcoded here: labels and aliases come from the marketplace taxonomy.
 function normalizeTerm(value) {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\\s+/g, ' ');
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
 }
 
 function tokens(value) {
