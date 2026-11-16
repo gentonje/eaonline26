@@ -13,7 +13,7 @@ Asha is being separated from East Africa Online so the same conversation intelli
 
 The engine accepts a shopper message and returns a validated intent object:
 
-- `interpret(message, context)` → intent, query, category, filters, and optional clarification suggestions. Context includes recent chat turns and live department names. The model can also distinguish physical products, services, digital products, rentals, and requests for quotations.
+- `interpret(message, context)` → intent, query, category, filters, and optional clarification suggestions. Context includes recent chat turns and live department and subdepartment names. The model can also distinguish physical products, services, digital products, rentals, and requests for quotations.
 - `discovery.js` resolves broad concepts against taxonomy labels and aliases, searches category descendants, and proposes alternatives only from published listing types, respecting whether the shopper is looking for a service or a physical product.
 - `parseIntent(message)` → deterministic local interpretation, useful when no model provider is configured.
 - `validateIntent(modelOutput, fallback)` → allowlisted structured output; model output is never SQL.
