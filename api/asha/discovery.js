@@ -5,7 +5,12 @@ function normalizeTerm(value) {
 }
 
 function tokens(value) {
-  return normalizeTerm(value).split(' ').filter(token => token.length >= 3);
+  return normalizeTerm(value).split(' ').filter(token => token.length >= 3).map(token => {
+    // Normalize ordinary plurals, but keep words such as care distinct from car.
+    if (token.endsWith('ies') && token.length > 4) return token.slice(0, -3) + 'y';
+    if (token.endsWith('s') && !/(ss|us|is)$/.test(token) && token.length > 3) return token.slice(0, -1);
+    return token;
+  });
 }
 
 function buildTaxonomyIndex(nodes, aliases) {
@@ -47,8 +52,10 @@ function inferMainCategory(query, index) {
     let score = 0;
     for (const q of queryTokens) {
       for (const t of termTokens) {
-        if (q === t) score = Math.max(score, 3);
-        else if (q.length >= 3 && (t.startsWith(q) || q.startsWith(t))) score = Math.max(score, 2);
+        if (q === t) score = Math.max(score, 4);
+        // Fuzzy prefixes are useful for longer misspellings, but unsafe for short
+        // words: "car" must never match "care" or "carpet".
+        else if (Math.min(q.length, t.length) >= 5 && (t.startsWith(q) || q.startsWith(t))) score = Math.max(score, 2);
       }
     }
     if (!score) continue;
