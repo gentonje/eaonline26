@@ -10,7 +10,7 @@ const WORD_FIXES = {
   furnitures: 'furniture', matress: 'mattress', matresses: 'mattress',
   sneekers: 'sneakers', snickers: 'sneakers', trouser: 'trousers',
   sunglass: 'sunglasses', sunshade: 'sunglasses', jewellry: 'jewellery',
-  accesory: 'accessory', accesories: 'accessories', accesories: 'accessories',
+  accesory: 'accessory', accesories: 'accessories',
   bagpack: 'backpack', backpak: 'backpack', lory: 'lorry', trak: 'truck', truc: 'truck', truk: 'truck'
 };
 const COLOR_WORDS = { white: ['white','whte','wite'], black: ['black','blak','blk'], red: ['red','redd','reeed'], blue: ['blue','blu'], green: ['green'], yellow: ['yellow','yelow'], brown: ['brown'], pink: ['pink'], grey: ['grey','gray','greay'], orange: ['orange'], purple: ['purple'] };
@@ -66,7 +66,7 @@ function searchGroups(query) {
   const phraseKey = normalizeWord(raw);
   const phraseCanonical = SYNONYM_CANONICAL.get(phraseKey);
   if (phraseCanonical && SEARCH_SYNONYMS[phraseCanonical]) return [SEARCH_SYNONYMS[phraseCanonical]];
-  return raw.split(/\\s+/).filter(Boolean).map(normalizeWord)
+  return raw.split(/\s+/).filter(Boolean).map(normalizeWord)
     .filter(word => word && !STOP_WORDS.has(word))
     .map(word => SEARCH_SYNONYMS[word] || SEARCH_SYNONYMS[SYNONYM_CANONICAL.get(word)] || [word, word + 's']);
 }
