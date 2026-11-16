@@ -55,7 +55,7 @@ function inferMainCategory(query, index) {
         if (q === t) score = Math.max(score, 4);
         // Fuzzy prefixes are useful for longer misspellings, but unsafe for short
         // words: "car" must never match "care" or "carpet".
-        else if (Math.min(q.length, t.length) >= 5 && (t.startsWith(q) || q.startsWith(t))) score = Math.max(score, 2);
+        else if (Math.min(q.length, t.length) >= 4 && (t.startsWith(q) || q.startsWith(t))) score = Math.max(score, 2);
       }
     }
     if (!score) continue;
