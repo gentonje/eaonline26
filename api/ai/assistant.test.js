@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const asha = require('../asha/core');
 const marketplaceAdapter = require('./assistant');
+const discovery = require('../asha/discovery');
 
 test('ambiguous trak spelling returns compact vehicle suggestions', () => {
   const result = asha.detectClarification('I need a 2012 trak');
@@ -86,4 +87,45 @@ test('multi-word aliases are matched as a single product concept', () => {
     assert.equal(groups.length, 1, input + ' should be treated as one phrase');
     assert.ok(groups[0].includes(expected));
   }
+});
+
+test('live taxonomy maps broad car and hair language to marketplace departments', () => {
+  const index = discovery.buildTaxonomyIndex([
+    { id: 'auto', label: 'Automotive & Transport', node_kind: 'main_category', parent_id: null },
+    { id: 'auto-services', label: 'Automotive services', node_kind: 'subcategory', parent_id: 'auto' },
+    { id: 'car-hire', label: 'Car Hire', node_kind: 'product_type', parent_id: 'auto-services' },
+    { id: 'beauty', label: 'Beauty & Personal Care', node_kind: 'main_category', parent_id: null },
+    { id: 'beauty-products', label: 'Beauty products', node_kind: 'subcategory', parent_id: 'beauty' },
+    { id: 'haircare', label: 'Haircare', node_kind: 'product_type', parent_id: 'beauty-products' },
+    { id: 'hairdressing', label: 'Hairdressing', node_kind: 'product_type', parent_id: 'beauty-products' }
+  ], []);
+  assert.equal(discovery.inferMainCategory('car', index).id, 'auto');
+  assert.equal(discovery.inferMainCategory('hair', index).id, 'beauty');
+});
+
+test('broad department discovery expands to its live product types', () => {
+  const index = discovery.buildTaxonomyIndex([
+    { id: 'auto', label: 'Automotive & Transport', node_kind: 'main_category', parent_id: null },
+    { id: 'vehicles', label: 'Passenger vehicles', node_kind: 'subcategory', parent_id: 'auto' },
+    { id: 'sedan', label: 'Sedan', node_kind: 'product_type', parent_id: 'vehicles' },
+    { id: 'suv', label: 'SUV', node_kind: 'product_type', parent_id: 'vehicles' }
+  ], []);
+  assert.deepEqual(discovery.descendantIds('auto', index).sort(), ['auto', 'sedan', 'suv', 'vehicles']);
+  assert.equal(discovery.hasExactProductType('sedan', index), true);
+  assert.equal(discovery.hasExactProductType('car', index), false);
+});
+
+test('related alternatives are generated from actual published listing taxonomy ids', () => {
+  const index = discovery.buildTaxonomyIndex([
+    { id: 'auto', label: 'Automotive & Transport', node_kind: 'main_category', parent_id: null },
+    { id: 'sedan', label: 'Sedan', node_kind: 'product_type', parent_id: 'auto' },
+    { id: 'vehicle-repair', label: 'Vehicle Repair', node_kind: 'product_type', parent_id: 'auto' }
+  ], []);
+  const suggestions = discovery.buildRelatedSuggestions([
+    { taxonomy_node_id: 'sedan', listing_kind: 'physical_product' },
+    { taxonomy_node_id: 'vehicle-repair', listing_kind: 'service' },
+    { taxonomy_node_id: 'vehicle-repair', listing_kind: 'service' }
+  ], index, 'car');
+  assert.deepEqual(suggestions.map(item => item.label), ['Vehicle Repair', 'Sedan']);
+  assert.equal(suggestions[0].description, '2 listings');
 });
