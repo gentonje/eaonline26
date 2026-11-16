@@ -145,15 +145,18 @@ function validateIntent(input, fallback) {
   return out;
 }
 
-async function interpret(message) {
+async function interpret(message, context = {}) {
   const clarification = detectClarification(message);
   if (clarification) return clarification;
   const fallback = parseIntent(message);
   if (fallback.intent === 'greeting' || fallback.intent === 'clarify') return fallback;
+  const categoryContext = Array.isArray(context.categories) ? context.categories.map(item => String(item.label || item).trim()).filter(Boolean).slice(0, 80) : [];
   const prompt = [
     'You interpret natural-language shopping requests for an East African marketplace.',
-    'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters.',
+    'Return one compact JSON object. Extract product type as query; colour, size, brand, model, condition, price bounds, country and county as filters. When a shopper uses a broad or informal term, choose the closest available marketplace department in category, even if the exact product word is not in the taxonomy. Keep query as the shopper intended item or concept.',
     'Be a forgiving shopping interpreter, not an exact-keyword matcher. Keep shopper-facing language warm, natural and extremely brief; avoid bot-like explanations and unnecessary acknowledgements. Correct likely typos (redd=red, whte=white), normalize singular/plural (bed/beds, shirt/shirts, car/cars, truck/trucks), understand everyday descriptions and broad requests. "show me some cars" means search the car category even without a make/model. Use broad e-commerce vocabulary across vehicles, electronics, phones, computers, appliances, clothing, footwear, furniture, home goods, beauty, jewellery, groceries, tools, building materials and services. Understand regional East African terms (matatu, boda boda, mobile money, shamba, etc.) when relevant. Map common synonyms (lorry=truck, matatu=bus, motorbike=bicycle/motorcycle according to context, mobile=phone, fridge=refrigerator, TV=television, couch=sofa, pants=trousers, tee=t-shirt, trainers=sneakers). Understand common misspellings and phonetic spellings; preserve the intended product category. Map sports shoes to Sports Shoes. Return the broad product type when no model is given; never demand an exact model. Do not invent filters or products.',
+    'Available marketplace departments: ' + (categoryContext.length ? categoryContext.join('; ') : 'Use the closest natural department without inventing one.') + '.',
+    'If a broad query such as a department or general concept maps to one of the available departments, return its exact label in category. Do not set category for a specific product when that would make search unnecessarily broad.',
     'Allowed keys: intent(search|trending|new|clarify), query, category, country_code, county, min_price, max_price, currency, year_from, year_to, condition, attributes, sort, limit, suggestions.',
     'Allowed attributes: color,size,brand,model,storage,gender,material. Country codes: KE, UG, TZ, RW, ET, SS.',
     'Never return SQL, code, explanations or extra keys. JSON only.',
