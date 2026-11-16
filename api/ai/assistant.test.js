@@ -132,8 +132,9 @@ test('related alternatives are generated from actual published listing taxonomy 
 
 test('intent validation distinguishes service requests from physical products', () => {
   const fallback = asha.parseIntent('find a chef');
-  const service = asha.validateIntent({ intent: 'search', query: 'chef', listing_kind: 'service' }, fallback);
+  const service = asha.validateIntent({ intent: 'search', query: 'chef', listing_kind: 'service', category: 'Food & Groceries', subcategory: 'Food services' }, fallback);
   assert.equal(service.listing_kind, 'service');
+  assert.equal(service.subcategory, 'Food services');
   const invalid = asha.validateIntent({ intent: 'search', query: 'chef', listing_kind: 'people_stock' }, fallback);
   assert.equal(invalid.listing_kind, undefined);
 });
