@@ -138,9 +138,9 @@ with seed(title,description,price,category,taxonomy_node_id,image_path,listing_k
  ('EAO Test | East African Spice Mix','Sample East African spice mix.',450,'Food & Groceries','food-groceries.staples.spices','seed/food_spices.jpg','physical_product','{"pack_size":"200g"}'::jsonb),
  ('EAO Test | Dried Beans 2kg','Sample dried beans grocery listing.',380,'Food & Groceries','food-groceries.staples.dried-beans','seed/agriculture_seeds.jpg','physical_product','{"weight_kg":2}'::jsonb),
  ('EAO Test | Laundry Detergent 1L','Sample liquid laundry detergent.',650,'Cleaning & Facility Care','cleaning-facility.cleaning-products.detergent','https://images.pexels.com/photos/5217898/pexels-photo-5217898.jpeg?cs=srgb&dl=pexels-shvetsa-5217898.jpg&fm=jpg','physical_product','{"volume_ml":1000,"type":"laundry detergent"}'::jsonb),
- ('EAO Test | Residential Property Listing','Sample residential property and real estate service listing.',5000,'Home & Property Services','home-property-services.property-services.real-estate-agency','https://phimg.reapit.website/5e85c9b0aa955ee683fc96aa8ed32d4ebd26232a','service','{"location":"Nairobi","property_type":"residential"}'::jsonb),
- ('EAO Test | Makonde Wood Sculpture','Sample hand-carved African wooden sculpture.',4800,'Other / Specialist','other-specialist.unclassified.other-product-review','https://i.ebayimg.com/00/s/MTYwMFgxNjAw/z/i8gAAOSwIF9lZ1w-/%24_12.JPG?set_id=880000500F','physical_product','{"material":"ebony wood","handmade":true}'::jsonb),
- ('EAO Test | Telehealth Consultation','Sample remote medical consultation service.',1200,'Pharmaceuticals & Healthcare','pharma-healthcare.health-services.telehealth-consultation','https://static.wixstatic.com/media/fc789b_4bce0902d1e74a1381bd2c5185d20131~mv2.jpg/v1/fill/w_980%2Ch_654%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/fc789b_4bce0902d1e74a1381bd2c5185d20131~mv2.jpg','service','{"service_type":"telehealth consultation","format":"video"}'::jsonb),
+ ('EAO Test | Residential Property Listing','Sample residential property and real estate service listing.',5000,'Home & Property Services','home-property-services.property-services.real-estate-agency','https://images.pexels.com/photos/9976121/pexels-photo-9976121.jpeg?cs=srgb&dl=pexels-jonathanborba-9976121.jpg&fm=jpg','service','{"location":"Nairobi","property_type":"residential"}'::jsonb),
+ ('EAO Test | Makonde Wood Sculpture','Sample hand-carved African wooden sculpture.',4800,'Other / Specialist','other-specialist.unclassified.other-product-review','seed/wooden_carving.jpg','physical_product','{"material":"ebony wood","handmade":true}'::jsonb),
+ ('EAO Test | Telehealth Consultation','Sample remote medical consultation service.',1200,'Pharmaceuticals & Healthcare','pharma-healthcare.health-services.telehealth-consultation','https://images.pexels.com/photos/8376239/pexels-photo-8376239.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-8376239.jpg&fm=jpg','service','{"service_type":"telehealth consultation","format":"video"}'::jsonb),
  ('EAO Test | Graphic Design Service','Sample graphic design and digital artwork service.',2500,'Professional & Business Services','professional-services.creative-services.graphic-design','https://images.pexels.com/photos/12902996/pexels-photo-12902996.jpeg?cs=srgb&dl=pexels-mizunokozuki-12902996.jpg&fm=jpg','service','{"service_type":"graphic design","delivery":"digital"}'::jsonb),
  ('EAO Test | Kitenge Fabric Roll','Sample roll of East African printed textile fabric.',12000,'Raw Materials & Manufacturing','raw-materials.textile-materials.fabric-roll','seed/kitenge_fabric.jpg','physical_product','{"material":"cotton textile","form":"fabric roll"}'::jsonb)
 ),
@@ -172,6 +172,22 @@ with updated as (
      updated_at=now()
  where title='Haircare - EAO Sample 019'
  returning id,storage_path
+)
+update public.product_images pi set storage_path=u.storage_path
+from updated u where pi.product_id=u.id and pi.is_main=true;
+
+
+-- Keep demo image URLs on free-to-use Pexels assets and local catalogue imagery.
+with image_updates(title,image_path) as (
+ values
+ ('EAO Test | Residential Property Listing','https://images.pexels.com/photos/9976121/pexels-photo-9976121.jpeg?cs=srgb&dl=pexels-jonathanborba-9976121.jpg&fm=jpg'),
+ ('EAO Test | Makonde Wood Sculpture','seed/wooden_carving.jpg'),
+ ('EAO Test | Telehealth Consultation','https://images.pexels.com/photos/8376239/pexels-photo-8376239.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-8376239.jpg&fm=jpg')
+),
+updated as (
+ update public.products p set storage_path=u.image_path,updated_at=now()
+ from image_updates u where p.title=u.title
+ returning p.id,p.storage_path
 )
 update public.product_images pi set storage_path=u.storage_path
 from updated u where pi.product_id=u.id and pi.is_main=true;
