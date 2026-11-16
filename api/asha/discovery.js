@@ -44,18 +44,37 @@ function getMainCategory(nodeId, index) {
 }
 
 function inferMainCategory(query, index) {
+  const normalizedQuery = normalizeTerm(query);
   const queryTokens = tokens(query);
   if (!queryTokens.length) return null;
+
+  // Exact database labels/aliases must outrank words that merely occur inside
+  // longer phrases. This prevents "car" matching "car care" in Beauty.
+  const exactIds = index.terms.get(normalizedQuery);
+  if (exactIds?.size) {
+    const exactCategories = new Map();
+    for (const id of exactIds) {
+      const category = getMainCategory(id, index);
+      if (category) exactCategories.set(category.id, category);
+    }
+    if (exactCategories.size === 1) return exactCategories.values().next().value;
+  }
+
   const scores = new Map();
   for (const [term, ids] of index.terms.entries()) {
     const termTokens = tokens(term);
     let score = 0;
-    for (const q of queryTokens) {
-      for (const t of termTokens) {
-        if (q === t) score = Math.max(score, 4);
-        // Fuzzy prefixes are useful for longer misspellings, but unsafe for short
-        // words: "car" must never match "care" or "carpet".
-        else if (Math.min(q.length, t.length) >= 4 && (t.startsWith(q) || q.startsWith(t))) score = Math.max(score, 2);
+    if (termTokens.length === 1 && queryTokens.length === 1 && termTokens[0] === queryTokens[0]) {
+      score = 8;
+    } else {
+      for (const q of queryTokens) {
+        for (const token of termTokens) {
+          if (q === token) score = Math.max(score, 1);
+          // Fuzzy matching is reserved for longer terms to avoid car/care collisions.
+          else if (Math.min(q.length, token.length) >= 5 && (token.startsWith(q) || q.startsWith(token))) {
+            score = Math.max(score, 2);
+          }
+        }
       }
     }
     if (!score) continue;
@@ -65,7 +84,7 @@ function inferMainCategory(query, index) {
     }
   }
   const ranked = Array.from(scores.entries()).sort((a, b) => b[1] - a[1]);
-  if (!ranked.length || (ranked.length > 1 && ranked[0][1] < ranked[1][1] * 1.15)) return null;
+  if (!ranked.length || (ranked.length > 1 && ranked[0][1] < ranked[1][1] * 1.5)) return null;
   return index.byId.get(ranked[0][0]) || null;
 }
 
