@@ -280,24 +280,15 @@ app.post('/api/mpesa/stk-push', authenticateUser, async (req, res) => {
 
     const paymentId = paymentRecord[0]?.id;
 
+    // Sandbox checkout must fail closed: never report a simulated payment as a real STK push.
     if (!CONSUMER_KEY || !CONSUMER_SECRET) {
-      console.log('M-Pesa credentials not configured - simulating STK push');
-      
-      if (paymentId) {
-        await supabaseQuery(`payments?id=eq.${paymentId}`, 'PATCH', {
-          status: 'pending',
-          mpesa_checkout_id: `SIM_${Date.now()}`,
-          updated_at: new Date().toISOString()
-        });
-      }
-
-      return res.json({
-        success: true,
-        message: 'STK Push sent to your phone. Enter your M-Pesa PIN to complete.',
-        paymentId,
-        checkoutRequestId: `SIM_${Date.now()}`,
-        simulated: true
-      });
+      return res.status(503).json({ error: 'M-Pesa Sandbox credentials are not configured' });
+    }
+    if (process.env.MPESA_ENVIRONMENT === 'production') {
+      return res.status(403).json({ error: 'This checkout branch is restricted to the Daraja Sandbox' });
+    }
+    if (!CALLBACK_URL || !CALLBACK_URL.startsWith('https://')) {
+      return res.status(503).json({ error: 'A public HTTPS M-Pesa callback URL must be configured' });
     }
 
     const token = await getAccessToken();
@@ -308,7 +299,7 @@ app.post('/api/mpesa/stk-push', authenticateUser, async (req, res) => {
         BusinessShortCode: SHORTCODE,
         Password: password,
         Timestamp: timestamp,
-        TransactionType: 'CustomerPayBuyGoodsOnline',
+        TransactionType: 'CustomerPayBillOnline', // Daraja Sandbox test shortcode 174379
         Amount: Math.ceil(amount),
         PartyA: formattedPhone,
         PartyB: SHORTCODE,
