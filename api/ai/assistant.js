@@ -178,30 +178,67 @@ module.exports = async function handler(req, res) {
 
     const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);
     const resolvedMessage = selectedSuggestion ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion) : message;
-    const filters = await interpret(resolvedMessage);
+    const taxonomyIndex = await getTaxonomyIndex();
+    const categories = await getTaxonomyContext();
+    const filters = await interpret(resolvedMessage, { categories });
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
+
+    // Prefer a valid live department returned by the model; otherwise infer one from
+    // matching taxonomy labels and aliases already stored in the marketplace database.
+    const requestedCategory = String(filters.category || '').trim();
+    const liveCategories = categories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedCategory));
+    if (requestedCategory && liveCategories.length) filters.category = liveCategories[0].label;
+    else if (requestedCategory) delete filters.category;
+    if (!filters.category) {
+      const inferred = inferMainCategory(filters.query || resolvedMessage, taxonomyIndex);
+      if (inferred) filters.category = inferred.label;
+    }
+
     if (filters.intent === 'clarify' || !filters.query) {
       const suggestions = Array.isArray(filters.suggestions) ? filters.suggestions : [];
       return res.status(200).json({
-        reply: suggestions.length ? 'Did you mean one of these?' : 'What product are you looking for?',
+        reply: suggestions.length ? 'Did you mean one of these?' : 'What would you like to find? You can describe it in your own words.',
         products: [], filters, suggestions
       });
     }
 
-    const products = await searchProducts(filters);
-    const searchDescription = describeSearch(filters);
-    const itemName = String(filters.query || filters.category || 'items').trim();
-    const pluralItem = /(?:s|x|z|ch|sh)$/.test(itemName)
-      ? itemName + 'es'
-      : /[^aeiou]y$/.test(itemName)
-        ? itemName.slice(0, -1) + 'ies'
-        : itemName + 's';
-    const reply = products.length
-      ? (filters.intent === 'trending' ? 'Here are some popular listings.' : 'Here are ' + products.length + ' ' + (products.length === 1 ? 'option' : 'options') + ' for ' + itemName + '.')
-      : "Sorry, we don't have any " + pluralItem + " in stock at the moment.";
-    return res.status(200).json({ reply, products, filters, summary: products.length ? describeSearch(filters) : null, result_count: products.length });
+    const itemName = String(filters.query || filters.category || 'that item').trim();
+    // Broad concepts without an exact product-type match browse the relevant live
+    // department instead of failing because the exact word is absent from listings.
+    filters.category_browse = Boolean(filters.category && !hasExactProductType(filters.query, taxonomyIndex));
+    let products = await searchProducts(filters);
+    let suggestions = filters.category ? await getRelatedListingSuggestions(filters, itemName) : [];
+
+    // If a specific search returns nothing, broaden to the shopper's department and
+    // show real published listings there as useful alternatives.
+    if (!products.length && filters.category && !filters.category_browse) {
+      const broader = { ...filters, query: '', category_browse: true, limit: 6 };
+      const relatedProducts = await searchProducts(broader);
+      if (relatedProducts.length) {
+        products = relatedProducts;
+        suggestions = await getRelatedListingSuggestions(filters, itemName);
+      }
+    }
+
+    let reply;
+    if (products.length && filters.category_browse) {
+      reply = 'Here are some options from ' + filters.category + '. You can choose one or tell me what you had in mind.';
+    } else if (products.length) {
+      reply = filters.intent === 'trending'
+        ? 'Here are some popular listings.'
+        : 'Here are ' + products.length + ' ' + (products.length === 1 ? 'option' : 'options') + ' for ' + itemName + '.';
+    } else if (suggestions.length) {
+      reply = 'I couldn’t find ' + itemName + ' listed at the moment. Would you like to explore one of these related options?';
+    } else {
+      reply = 'I couldn’t find ' + itemName + ' listed at the moment. Could you describe what you need another way?';
+    }
+    return res.status(200).json({
+      reply, products, filters, suggestions,
+      summary: products.length ? describeSearch(filters) : null,
+      result_count: products.length
+    });
   } catch (err) {
     console.error('[asha] request failed:', {
       message: err.message, status: err.response?.status,
