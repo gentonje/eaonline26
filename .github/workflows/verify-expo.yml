@@ -4,7 +4,8 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [feature/product-comparison]
+    branches: [feature/asha-shopping-assistant-v1, feature/product-comparison]
+  workflow_dispatch:
 
 jobs:
   verify:
