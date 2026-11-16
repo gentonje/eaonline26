@@ -94,6 +94,7 @@ test('live taxonomy maps broad car and hair language to marketplace departments'
     { id: 'auto', label: 'Automotive & Transport', node_kind: 'main_category', parent_id: null },
     { id: 'auto-services', label: 'Automotive services', node_kind: 'subcategory', parent_id: 'auto' },
     { id: 'car-hire', label: 'Car Hire', node_kind: 'product_type', parent_id: 'auto-services' },
+    { id: 'car-care', label: 'Car Care Products', node_kind: 'product_type', parent_id: 'beauty-products' },
     { id: 'beauty', label: 'Beauty & Personal Care', node_kind: 'main_category', parent_id: null },
     { id: 'beauty-products', label: 'Beauty products', node_kind: 'subcategory', parent_id: 'beauty' },
     { id: 'personal-care', label: 'Personal Care', node_kind: 'subcategory', parent_id: 'beauty' },
@@ -101,8 +102,10 @@ test('live taxonomy maps broad car and hair language to marketplace departments'
     { id: 'hairdressing', label: 'Hairdressing', node_kind: 'product_type', parent_id: 'beauty-products' }
   ], []);
   assert.equal(discovery.inferMainCategory('car', index).id, 'auto');
+  assert.equal(discovery.inferMainCategory('car', index).id, 'auto');
   assert.equal(discovery.inferMainCategory('cars', index).id, 'auto');
   assert.equal(discovery.inferMainCategory('hair', index).id, 'beauty');
+  assert.equal(discovery.inferMainCategory('cars', index).id, 'auto');
 });
 
 test('broad department discovery expands to its live product types', () => {
