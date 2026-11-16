@@ -63,3 +63,27 @@ test('shopping request wording is removed without losing the product', () => {
   const result = asha.parseIntent('Please show me some used laptops');
   assert.equal(result.query, 'laptop');
 });
+
+test('shared vocabulary covers major everyday shopping departments', () => {
+  const cases = [
+    ['sedans', 'car'], ['lorry', 'truck'], ['matatu', 'bus'], ['boda boda', 'motorcycle'],
+    ['smartphone', 'phone'], ['desktop', 'computer'], ['smart tv', 'television'],
+    ['deep freezer', 'refrigerator'], ['trainers', 'shoe'], ['gown', 'dress'],
+    ['jeans', 'trouser'], ['rucksack', 'backpack'], ['bunk bed', 'bed'],
+    ['couch', 'sofa'], ['desk', 'table'], ['jewelry', 'jewellery'],
+    ['makeup', 'cosmetic'], ['sound system', 'speaker'], ['power tools', 'tool'],
+    ['cement bags', 'cement'], ['groceries', 'food']
+  ];
+  for (const [input, expected] of cases) {
+    const groups = asha.searchGroups(input);
+    assert.ok(groups.some(group => group.includes(expected)), input + ' should resolve to ' + expected);
+  }
+});
+
+test('multi-word aliases are matched as a single product concept', () => {
+  for (const [input, expected] of [['boda boda', 'motorcycle'], ['school bag', 'backpack'], ['beauty products', 'cosmetic'], ['station wagon', 'car']]) {
+    const groups = asha.searchGroups(input);
+    assert.equal(groups.length, 1, input + ' should be treated as one phrase');
+    assert.ok(groups[0].includes(expected));
+  }
+});
