@@ -48,7 +48,7 @@ async function getTaxonomyContext() {
     categories: nodes.filter(node => node.node_kind === 'main_category')
       .map(node => ({ id: node.id, label: node.label })),
     subcategories: nodes.filter(node => node.node_kind === 'subcategory')
-      .map(node => ({ id: node.id, label: node.label, parent_id: node.parent_id }))
+      .map(node => ({ id: node.id, label: node.label, parent_id: node.parent_id, parent_label: index.byId.get(node.parent_id)?.label || '' }))
   };
 }
 
@@ -69,14 +69,15 @@ async function getTaxonomyCategoryIds(category, subcategory) {
   if (!category && !subcategory) return [];
   const index = await getTaxonomyIndex();
   const nodes = Array.from(index.byId.values());
+  const categoryKey = normalizeTerm(category);
+  const categoryNode = category ? nodes.find(item => item.node_kind === 'main_category' && normalizeTerm(item.label) === categoryKey) : null;
   const subcategoryKey = normalizeTerm(subcategory);
   let node = subcategory
-    ? nodes.find(item => item.node_kind === 'subcategory' && normalizeTerm(item.label) === subcategoryKey)
+    ? nodes.find(item => item.node_kind === 'subcategory' &&
+      normalizeTerm(item.label) === subcategoryKey &&
+      (!categoryNode || item.parent_id === categoryNode.id))
     : null;
-  if (!node && category) {
-    const categoryKey = normalizeTerm(category);
-    node = nodes.find(item => item.node_kind === 'main_category' && normalizeTerm(item.label) === categoryKey);
-  }
+  if (!node) node = categoryNode;
   if (!node) return [];
   return descendantIds(node.id, index).filter(id => index.byId.get(id)?.node_kind === 'product_type');
 }
@@ -211,7 +212,10 @@ module.exports = async function handler(req, res) {
     if (requestedCategory && liveCategories.length) filters.category = liveCategories[0].label;
     else if (requestedCategory) delete filters.category;
     const requestedSubcategory = String(filters.subcategory || '').trim();
-    const liveSubcategories = taxonomyContext.subcategories.filter(item => normalizeTerm(item.label) === normalizeTerm(requestedSubcategory));
+    const liveSubcategories = taxonomyContext.subcategories.filter(item =>
+      normalizeTerm(item.label) === normalizeTerm(requestedSubcategory) &&
+      (!filters.category || normalizeTerm(item.parent_label) === normalizeTerm(filters.category))
+    );
     if (requestedSubcategory && liveSubcategories.length) filters.subcategory = liveSubcategories[0].label;
     else if (requestedSubcategory) delete filters.subcategory;
     if (filters.subcategory) {
