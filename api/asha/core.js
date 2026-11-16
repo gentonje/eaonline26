@@ -153,7 +153,7 @@ async function interpret(message, context = {}) {
   const fallback = parseIntent(message);
   if (fallback.intent === 'greeting' || fallback.intent === 'clarify') return fallback;
   const categoryContext = Array.isArray(context.categories) ? context.categories.map(item => String(item.label || item).trim()).filter(Boolean).slice(0, 80) : [];
-  const subcategoryContext = Array.isArray(context.subcategories) ? context.subcategories.map(item => String(item.label || item).trim()).filter(Boolean).slice(0, 160) : [];
+  const subcategoryContext = Array.isArray(context.subcategories) ? context.subcategories.map(item => item && typeof item === 'object' ? (String(item.label || '').trim() + (item.parent_label ? ' (under ' + item.parent_label + ')' : '')) : String(item).trim()).filter(Boolean).slice(0, 160) : [];
   const recentConversation = Array.isArray(context.messages) ? context.messages
     .filter(item => item && ['user', 'assistant'].includes(item.role) && typeof item.content === 'string')
     .slice(-10).map(item => ({ role: item.role, content: item.content.slice(0, 500) })) : [];
