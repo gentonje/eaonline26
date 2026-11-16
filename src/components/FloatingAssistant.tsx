@@ -13,6 +13,9 @@ type Msg = {
   role: 'user' | 'assistant';
   content: string;
   products?: AssistantProduct[];
+  summary?: string | null;
+  suggestions?: Array<{ label: string; description: string; value: string }>;
+  originalQuery?: string;
 };
 
 const QUICK_PROMPTS = [
@@ -24,8 +27,7 @@ const QUICK_PROMPTS = [
 
 const GREETING: Msg = {
   role: 'assistant',
-  content:
-    "Hi! I'm Asha, your shopping assistant. Ask me to find anything — or tap a suggestion below to get started.",
+  content: "What are you shopping for?",
 };
 
 export default function FloatingAssistant() {
@@ -43,24 +45,24 @@ export default function FloatingAssistant() {
 
   useEffect(() => { if (open) scrollToEnd(); }, [messages, open, scrollToEnd]);
 
-  const send = useCallback(async (text: string) => {
+  const send = useCallback(async (text: string, selection?: { value: string; original: string; label: string }) => {
     const trimmed = text.trim();
     if (!trimmed || sending) return;
     setInput('');
-    const next: Msg[] = [...messages, { role: 'user', content: trimmed }];
+    const next: Msg[] = [...messages, { role: 'user', content: selection ? selection.label : trimmed }];
     setMessages(next);
     setSending(true);
     try {
       const apiHistory = next.map(m => ({ role: m.role, content: m.content }));
-      const { reply, products } = await assistantApi.chat(apiHistory);
-      setMessages(m => [...m, { role: 'assistant', content: reply, products }]);
+      const result = await assistantApi.chat(apiHistory, undefined, selection?.value, selection?.original);
+      setMessages(m => [...m, { role: 'assistant', content: result.reply, products: result.products, summary: result.summary, suggestions: result.suggestions, originalQuery: selection?.original || trimmed }]);
     } catch (err: any) {
       setMessages(m => [
         ...m,
         {
           role: 'assistant',
           content:
-            "Sorry, I'm having trouble right now. Try again in a moment, or browse products directly.",
+            "Search unavailable. Try browsing.",
         },
       ]);
     } finally {
@@ -189,6 +191,7 @@ export default function FloatingAssistant() {
                   setOpen(false);
                   navigation.navigate('ProductDetail', { productId: id });
                 }}
+                onSuggestion={(value, label) => send(m.originalQuery || '', { value, label, original: m.originalQuery || '' })}
               />
             ))}
 
@@ -223,6 +226,17 @@ export default function FloatingAssistant() {
               </View>
             )}
           </ScrollView>
+
+          <TouchableOpacity
+            onPress={() => {
+              setOpen(false);
+              navigation.navigate('App', { screen: 'BrowseProducts' });
+            }}
+            style={{ paddingVertical: 9, alignItems: 'center', borderTopWidth: 1, borderTopColor: '#e5e7eb', backgroundColor: '#f8fafc' }}
+            accessibilityLabel="Continue shopping manually"
+          >
+            <Text style={{ color: '#00866e', fontSize: 12, fontWeight: '800' }}>Browse manually</Text>
+          </TouchableOpacity>
 
           {/* Input */}
           <View style={{ flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: '#e5e7eb', backgroundColor: '#fff', padding: 8 }}>
@@ -259,7 +273,7 @@ export default function FloatingAssistant() {
   );
 }
 
-function Bubble({ msg, onProductPress }: { msg: Msg; onProductPress: (id: string) => void }) {
+function Bubble({ msg, onProductPress, onSuggestion }: { msg: Msg; onProductPress: (id: string) => void; onSuggestion: (value: string, label: string) => void }) {
   const isUser = msg.role === 'user';
   return (
     <View style={{ alignItems: isUser ? 'flex-end' : 'flex-start', marginBottom: 10 }}>
@@ -279,6 +293,37 @@ function Bubble({ msg, onProductPress }: { msg: Msg; onProductPress: (id: string
           {msg.content}
         </Text>
       </View>
+
+      {!isUser && msg.summary && (
+        <View style={{ alignSelf: 'flex-start', maxWidth: '94%', marginTop: 7, paddingHorizontal: 10, paddingVertical: 8, backgroundColor: '#eef8f5', borderRadius: 12, borderWidth: 1, borderColor: '#cce9df' }}>
+          <Text style={{ color: '#527267', fontSize: 10, fontWeight: '800', marginBottom: 3 }}>LOOKING FOR</Text>
+          <Text style={{ color: '#174f42', fontSize: 12, fontWeight: '700', lineHeight: 17 }}>{msg.summary}</Text>
+        </View>
+      )}
+
+      {!isUser && msg.suggestions && msg.suggestions.length > 0 && (
+        <View style={{ alignSelf: 'flex-start', maxWidth: '96%', marginTop: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            {msg.suggestions.map((item, index) => (
+              <TouchableOpacity
+                key={item.value}
+                onPress={() => onSuggestion(item.value, item.label)}
+                activeOpacity={0.75}
+                style={{
+                  minWidth: '43%', marginRight: 6, marginBottom: 6,
+                  paddingHorizontal: 12, paddingVertical: 9, borderRadius: 12,
+                  backgroundColor: index === 0 ? '#e8f5f1' : '#fff',
+                  borderWidth: 1, borderColor: index === 0 ? '#8bcbb8' : '#e2e8f0',
+                }}
+              >
+                <Text style={{ color: '#174f42', fontSize: 13, fontWeight: '800' }}>{item.label}</Text>
+                <Text numberOfLines={1} style={{ color: '#64748b', fontSize: 10, marginTop: 2 }}>{item.description}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <Text style={{ color: '#64748b', fontSize: 11, marginLeft: 2 }}>Or tell me what you meant.</Text>
+        </View>
+      )}
 
       {!isUser && msg.products && msg.products.length > 0 && (
         <ScrollView

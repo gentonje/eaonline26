@@ -29,15 +29,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         // Get initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            if (session?.user) {
-                checkUserRoles(session.user.id);
-            } else {
+        // Never leave the whole app on the splash screen if browser storage or
+        // session restoration fails. Treat a failed restore as signed out.
+        supabase.auth.getSession()
+            .then(({ data: { session } }) => {
+                setSession(session);
+                setUser(session?.user ?? null);
+                if (session?.user) {
+                    checkUserRoles(session.user.id);
+                } else {
+                    setIsLoading(false);
+                }
+            })
+            .catch((error) => {
+                console.error('Unable to restore auth session:', error);
+                setSession(null);
+                setUser(null);
+                setIsAdmin(false);
+                setIsSuperAdmin(false);
                 setIsLoading(false);
-            }
-        });
+            });
 
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

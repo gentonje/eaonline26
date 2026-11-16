@@ -128,17 +128,29 @@ export interface AssistantProduct {
 export interface AssistantReply {
   reply: string;
   products: AssistantProduct[];
+  filters?: Record<string, unknown>;
+  result_count?: number;
+  summary?: string | null;
+  suggestions?: Array<{ label: string; description: string; value: string }>;
 }
 
 export const assistantApi = {
   chat: (
     messages: Array<{ role: 'user' | 'assistant'; content: string }>,
     country_code?: string,
-  ): Promise<AssistantReply> =>
-    apiCall('/api/ai/assistant', {
+    selected_suggestion?: string,
+    original_message?: string,
+  ): Promise<AssistantReply> => {
+    const latest = [...messages].reverse().find(m => m.role === 'user')?.content || '';
+    const recentMessages = messages.slice(-10).map(item => ({
+      role: item.role,
+      content: String(item.content || '').slice(0, 500),
+    }));
+    return apiCall('/api/ai/assistant', {
       method: 'POST',
-      body: JSON.stringify({ messages, country_code }),
-    }),
+      body: JSON.stringify({ message: latest, messages: recentMessages, country_code, selected_suggestion, original_message }),
+    });
+  },
 };
 
 export interface QualityScanItem {
