@@ -103,8 +103,8 @@ async function searchProducts(filters) {
   if (filters.min_price !== undefined) conditions.push('price.gte.' + filters.min_price);
   if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
-  if (filters.category) {
-    const categoryText = String(filters.category).replace(/[*%,()]/g, '').trim();
+  if (filters.category || filters.subcategory) {
+    const categoryText = String(filters.subcategory || filters.category).replace(/[*%,()]/g, '').trim();
     const taxonomyIds = await getTaxonomyCategoryIds(filters.category, filters.subcategory);
     const categoryAlternatives = filters.subcategory ? [] : ["category.ilike.*" + categoryText + "*"];
     if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
@@ -233,11 +233,11 @@ module.exports = async function handler(req, res) {
     filters.category_browse = Boolean((filters.subcategory || filters.category) && !hasExactProductType(filters.query, taxonomyIndex));
     let products = await searchProducts(filters);
     let broadenedToDepartment = filters.category_browse;
-    let suggestions = filters.category ? await getRelatedListingSuggestions(filters, itemName) : [];
+    let suggestions = (filters.category || filters.subcategory) ? await getRelatedListingSuggestions(filters, itemName) : [];
 
     // If a specific search returns nothing, broaden to the shopper's department and
     // show real published listings there as useful alternatives.
-    if (!products.length && filters.category && !filters.category_browse) {
+    if (!products.length && (filters.category || filters.subcategory) && !filters.category_browse) {
       const broader = { ...filters, query: '', category_browse: true, limit: 6 };
       const relatedProducts = await searchProducts(broader);
       if (relatedProducts.length) {
@@ -249,7 +249,7 @@ module.exports = async function handler(req, res) {
 
     let reply;
     if (products.length && broadenedToDepartment) {
-      reply = 'I couldn’t find ' + itemName + ' exactly, but here are some related options from ' + filters.category + '. Would you like to explore one?';
+      reply = 'I couldn’t find ' + itemName + ' exactly, but here are some related options from ' + (filters.subcategory || filters.category) + '. Would you like to explore one?';
     } else if (products.length) {
       reply = filters.intent === 'trending'
         ? 'Here are some popular listings.'
