@@ -109,8 +109,9 @@ update public.products set
 where title='Nappy Diaper - EAO Sample 014';
 
 update public.products set
-  title='Chair - EAO Sample 070',
-  taxonomy_node_id='home-household.furniture.chair',
+  title='Office Chair - EAO Sample 070',
+  category='Business, Office & Industrial Supplies',
+  taxonomy_node_id='business-office-industrial.office-furniture.office-chair',
   updated_at=now()
 where title='Bed - EAO Sample 070';
 
