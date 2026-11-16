@@ -98,7 +98,7 @@ async function searchProducts(filters) {
   if (filters.max_price !== undefined) conditions.push('price.lte.' + filters.max_price);
   if (filters.county) conditions.push('county.ilike.*' + filters.county.replace(/[*%,]/g, '') + '*');
   if (filters.category) {
-    const categoryText = String(filters.category).replace(/[^a-z0-9 ]/gi, ' ').trim().replace(/\s+/g, ' ');
+    const categoryText = String(filters.category).replace(/[*%,()]/g, '').trim();
     const taxonomyIds = await getTaxonomyCategoryIds(filters.category);
     const categoryAlternatives = ["category.ilike.*" + categoryText + "*"];
     if (taxonomyIds.length) categoryAlternatives.push('taxonomy_node_id.in.(' + taxonomyIds.join(',') + ')');
