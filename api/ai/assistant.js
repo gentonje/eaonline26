@@ -182,9 +182,15 @@ module.exports = async function handler(req, res) {
         ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion)
         : message + ' ' + selectedSuggestion)
       : message;
+    const conversationMessages = Array.isArray(req.body?.messages)
+      ? req.body.messages
+        .filter(item => item && ['user', 'assistant'].includes(item.role) && typeof item.content === 'string')
+        .slice(-10)
+        .map(item => ({ role: item.role, content: item.content.slice(0, 500) }))
+      : [];
     const taxonomyIndex = await getTaxonomyIndex();
     const categories = await getTaxonomyContext();
-    const filters = await interpret(resolvedMessage, { categories });
+    const filters = await interpret(resolvedMessage, { categories, messages: conversationMessages });
     const countryCode = req.body?.country_code;
     if (countryCode && /^[A-Z]{2}$/i.test(countryCode) && !filters.country_code) filters.country_code = countryCode.toUpperCase();
     if (filters.intent === 'greeting') return res.status(200).json({ reply: 'Hi! What are you looking for?', products: [], filters });
