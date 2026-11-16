@@ -177,7 +177,11 @@ module.exports = async function handler(req, res) {
     if (message.length > 500) return res.status(400).json({ error: 'Message too long' });
 
     const selectedSuggestion = String(req.body?.selected_suggestion || '').trim().slice(0, 40);
-    const resolvedMessage = selectedSuggestion ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion) : message;
+    const resolvedMessage = selectedSuggestion
+      ? (/\b(?:trak|truc|truk)\b/i.test(message)
+        ? message.replace(/\b(?:trak|truc|truk)\b/gi, selectedSuggestion)
+        : message + ' ' + selectedSuggestion)
+      : message;
     const taxonomyIndex = await getTaxonomyIndex();
     const categories = await getTaxonomyContext();
     const filters = await interpret(resolvedMessage, { categories });
