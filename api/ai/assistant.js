@@ -209,6 +209,7 @@ module.exports = async function handler(req, res) {
     // department instead of failing because the exact word is absent from listings.
     filters.category_browse = Boolean(filters.category && !hasExactProductType(filters.query, taxonomyIndex));
     let products = await searchProducts(filters);
+    let broadenedToDepartment = filters.category_browse;
     let suggestions = filters.category ? await getRelatedListingSuggestions(filters, itemName) : [];
 
     // If a specific search returns nothing, broaden to the shopper's department and
@@ -218,13 +219,14 @@ module.exports = async function handler(req, res) {
       const relatedProducts = await searchProducts(broader);
       if (relatedProducts.length) {
         products = relatedProducts;
+        broadenedToDepartment = true;
         suggestions = await getRelatedListingSuggestions(filters, itemName);
       }
     }
 
     let reply;
-    if (products.length && filters.category_browse) {
-      reply = 'Here are some options from ' + filters.category + '. You can choose one or tell me what you had in mind.';
+    if (products.length && broadenedToDepartment) {
+      reply = 'I couldn’t find ' + itemName + ' exactly, but here are some related options from ' + filters.category + '. Would you like to explore one?';
     } else if (products.length) {
       reply = filters.intent === 'trending'
         ? 'Here are some popular listings.'
